@@ -104,6 +104,16 @@ input.txt,select.txt{width:100%;border:1.5px solid var(--line);border-radius:10p
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1c2430;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:60;opacity:0;transition:.25s;pointer-events:none}
 .toast.show{opacity:1}
 .hide{display:none!important}
+.modeseg{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:12px;background:rgba(255,255,255,.1);border-radius:12px;padding:4px}
+.modeseg button{border:0;border-radius:9px;padding:9px 4px;background:none;color:#fff;font-family:Cairo;font-weight:700;font-size:15px;cursor:pointer}
+.modeseg button.on{background:#fff;color:var(--navy)}
+.tabs.secs{display:flex;overflow-x:auto;gap:6px;scrollbar-width:none}
+.tabs.secs button{flex:none;padding:10px 14px;white-space:nowrap}
+.grid td.namecol.over{color:var(--bad)}
+td.notes.cnt{font-size:15px;color:var(--navy)}
+td.notes.overc{background:var(--badbg);color:var(--bad)}
+.settabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
+.settabs button{border:0;border-radius:10px;padding:8px 10px;font-family:Cairo;font-weight:700;cursor:pointer;font-size:13px}
 #printArea{display:none}
 #printArea>div:last-child{page-break-after:auto!important}
 @media print{
@@ -118,9 +128,10 @@ input.txt,select.txt{width:100%;border:1.5px solid var(--line);border-radius:10p
 <header class="top">
   <div class="brand">
     <div class="bolt"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="#0f2a44"/></svg></div>
-    <div><h1>موقف المناوبين</h1><small id="stationName"></small></div>
+    <div><h1 id="appTitle">موقف المناوبين</h1><small id="stationName"></small></div>
     <button class="gear" id="btnSettings" aria-label="الإعدادات">⚙︎ الإعدادات</button>
   </div>
+  <div class="modeseg" id="modeSeg"><button data-mode="duty">المناوبين</button><button data-mode="day">الدوام الصباحي</button></div>
   <div class="monthbar">
     <button id="prevM" aria-label="الشهر السابق">›</button>
     <b id="monthLbl"></b>
@@ -139,8 +150,9 @@ input.txt,select.txt{width:100%;border:1.5px solid var(--line);border-radius:10p
     <span><i style="background:var(--okbg);border:1px solid var(--ok)"></i>داوم</span>
     <span><i style="background:var(--badbg);border:1px solid var(--bad)"></i>غياب</span>
     <span><i style="background:var(--lvbg);border:1px solid var(--lv)"></i>إجازة</span>
-    <span>ص / م / ل = صباحي / مسائي / ليلي (أرقام أيام الإجازة أو الغياب)</span>
+    <span id="legendParts">ص / م / ل = صباحي / مسائي / ليلي (أرقام أيام الإجازة أو الغياب)</span>
   </div>
+  <p class="hint hide" id="limitNote" style="margin-top:10px;color:var(--bad)"></p>
   <div class="card" style="margin-top:12px">
     <h2 class="sec">ملخص الأيام</h2>
     <div id="daySummary"></div>
@@ -155,11 +167,12 @@ input.txt,select.txt{width:100%;border:1.5px solid var(--line);border-radius:10p
     <div class="lbl">السطر الثالث</div><input class="txt" id="h3">
     <div class="lbl">توقيع يمين الورقة</div><input class="txt" id="sigR">
     <div class="lbl">توقيع يسار الورقة</div><input class="txt" id="sigL">
+    <div class="lbl">تنبيه أسفل أوراق الدوام الصباحي</div><input class="txt" id="note">
   </div>
   <div class="card">
-    <h2 class="sec">أسماء الوجبات</h2>
+    <h2 class="sec">الأسماء (الوجبات والشُعب)</h2>
     <p class="hint">صحّحي أي اسم بالكتابة عليه. السهم ينقل الاسم فوق أو جوّه، والقائمة تنقله لوجبة ثانية، و✕ تحذفه.</p>
-    <div class="tabs" id="setTabs" style="margin:0 0 8px"></div>
+    <div class="settabs" id="setTabs"></div>
     <div id="empList"></div>
     <div style="display:flex;gap:6px;margin-top:10px">
       <input class="txt" id="newEmp" placeholder="اسم منتسب جديد">
@@ -205,78 +218,132 @@ const PARTS=['ص','م','ل'];
 const PART_NAME={'ص':'صباحي','م':'مسائي','ل':'ليلي'};
 const TYPES=['اعتيادية','مرضية','زمنية','حالة وفاة','أمومة','إرسال','أخرى'];
 const KEY='mawqif_v1';
-
-/* الأسماء المأخوذة من أوراق تشرين الثاني 2026 */
-const SEED=[[],[],[],[]];
+const DEF_SECS=[
+ {id:'s1',name:'إدارة القسم السيطرة الذاتية',short:'الإدارة'},
+ {id:'s2',name:'الورشة',short:'الورشة'},
+ {id:'s3',name:'شعبة السيطرة والنظم',short:'السيطرة والنظم'},
+ {id:'s4',name:'شعبة الاتصالات والحاسبات',short:'الاتصالات'},
+ {id:'s5',name:'المختبر',short:'المختبر'}];
+const DEF_NOTE='تنبيه: حسب توجيهات مقر الشركة، المنتسب الذي تجاوز الإجازة (ثلاثة أيام) في الشهر، الإجازة الرابعة تقدم بمذكرة خطية بطلب المنتسب إلى إدارة قسمنا';
+const LEAVE_LIMIT=3;
 
 function freshState(){
-  const emps=[];let n=1;
-  SEED.forEach((list,i)=>list.forEach(name=>emps.push({id:'e'+(n++),name,shift:i+1})));
-  return {v:1,anchor:'2026-11-01',anchorShift:1,
+  return {v:2,anchor:'2026-11-01',anchorShift:1,
     h1:'وزارة الكهرباء',h2:'الشركة العامة لإنتاج الطاقة الكهربائية / الشمالية',h3:'محطة كهرباء الموصل الغازية',
-    sigR:'منظم الموقف',sigL:'مدير القسم',emps,nextId:n,rec:{}};
+    sigR:'منظم الموقف',sigL:'مدير القسم',note:DEF_NOTE,sections:JSON.parse(JSON.stringify(DEF_SECS)),emps:[],nextId:1,rec:{}};
+}
+function normalize(s){
+  const f=freshState();
+  for(const k in f) if(s[k]===undefined) s[k]=f[k];
+  if(!Array.isArray(s.sections)||!s.sections.length) s.sections=f.sections;
+  s.v=2; return s;
 }
 let S;
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
-if(!S||!S.emps)S=freshState();
+S=normalize(S&&S.emps?S:freshState());
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('تعذّر الحفظ على هذا الجهاز')}}
 
 const today=new Date();
-let Y=today.getFullYear(),M=today.getMonth(),SH=shiftOf(ymd(today)),SET_SH=1;
+let MODE='duty';
+try{MODE=localStorage.getItem(KEY+'_mode')||'duty'}catch(e){}
+let Y=today.getFullYear(),M=today.getMonth(),SH,SET_SH=1,SET_SEC=null;
+let WK=sundayOf(today),SEC=S.sections[0].id;
 
 function pad(n){return String(n).padStart(2,'0')}
 function ymd(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
 function utc(s){const [a,b,c]=s.split('-').map(Number);return Date.UTC(a,b-1,c)}
+function sundayOf(d){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()-x.getDay());return x}
 function shiftOf(s){const diff=Math.round((utc(s)-utc(S.anchor))/864e5);return (((S.anchorShift-1+diff)%4)+4)%4+1}
-function dutyDays(y,m,sh){const out=[];const last=new Date(y,m+1,0).getDate();for(let d=1;d<=last;d++){const s=y+'-'+pad(m+1)+'-'+pad(d);if(shiftOf(s)===sh)out.push({s,d,w:new Date(y,m,d).getDay()})}return out}
+SH=shiftOf(ymd(today));
+function dutyDays(y,m,sh){const out=[];const last=new Date(y,m+1,0).getDate();for(let d=1;d<=last;d++){const s=y+'-'+pad(m+1)+'-'+pad(d);if(shiftOf(s)===sh)out.push({s,d,m,y,w:new Date(y,m,d).getDay()})}return out}
+function weekDays(){const out=[];for(let i=0;i<5;i++){const x=new Date(WK);x.setDate(x.getDate()+i);out.push({s:ymd(x),d:x.getDate(),m:x.getMonth(),y:x.getFullYear(),w:x.getDay()})}return out}
 function empsOf(sh){return S.emps.filter(e=>e.shift===sh)}
+function empsSec(id){return S.emps.filter(e=>e.sec===id)}
+function curEmps(){return MODE==='duty'?empsOf(SH):empsSec(SEC)}
+function secById(id){return S.sections.find(x=>x.id===id)||{name:'',short:''}}
 function rk(s,id){return s+'|'+id}
 function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function $(id){return document.getElementById(id)}
-function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2200)}
-
+function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2400)}
 function partsLabel(p){if(!p||p.length===3)return 'يوم كامل';return p.map(x=>PART_NAME[x]).join(' و')}
-function cellText(r){
+function dateLbl(dd){return dd.y+'/'+pad(dd.m+1)+'/'+pad(dd.d)}
+
+function cellShort(r){
   if(!r)return '';
   if(r.st==='p')return 'داوم';
-  if(r.st==='a')return 'غياب'+(r.parts&&r.parts.length<3?'<br><small>'+partsLabel(r.parts)+'</small>':'');
-  return 'إجازة '+esc(r.type||'')+'<br><small>'+partsLabel(r.parts)+'</small>';
+  const part=(MODE==='duty'&&r.parts&&r.parts.length<3)?'<br><small>'+partsLabel(r.parts)+'</small>':'';
+  if(r.st==='a')return 'غياب'+part;
+  return 'إجازة '+esc(r.type||'')+(MODE==='duty'?'<br><small>'+partsLabel(r.parts)+'</small>':'');
 }
 function notesOf(emp,days){
   const o={'ص':[],'م':[],'ل':[]};
   days.forEach(dd=>{const r=S.rec[rk(dd.s,emp.id)];if(r&&r.st!=='p'){(r.parts||PARTS).forEach(p=>o[p].push(dd.d))}});
   return o;
 }
+/* عدد أيام الإجازة بالشهر (لحد نهاية الأسبوع المعروض إذا كان الأسبوع داخل الشهر) */
+function monthLeaves(emp,y,m,uptoStr){
+  let n=0;const pre=y+'-'+pad(m+1)+'-';
+  for(const k in S.rec){const i=k.indexOf('|');const ds=k.slice(0,i);if(k.slice(i+1)!==emp.id||!ds.startsWith(pre))continue;
+    if(uptoStr&&ds>uptoStr)continue;const r=S.rec[k];if(r&&r.st==='l')n++}
+  return n;
+}
+function cellInfo(r){
+  if(!r)return {t:'',c:'000000'};
+  let t,c;
+  if(r.st==='p'){t='داوم';c='1A7A3F'}
+  else if(r.st==='a'){t='غياب'+(MODE==='duty'&&r.parts.length<3?' '+partsLabel(r.parts):'');c='B30000'}
+  else{t='إجازة '+r.type+(MODE==='duty'&&r.parts.length<3?' '+partsLabel(r.parts):'');c='B35F00'}
+  if(r.note)t+=' ('+r.note+')';
+  return {t,c};
+}
+function curDays(){return MODE==='duty'?dutyDays(Y,M,SH):weekDays()}
 
 /* ---------- main render ---------- */
 function render(){
   $('stationName').textContent=S.h3;
-  $('monthLbl').textContent=MONTHS[M]+' '+Y;
-  $('tabs').innerHTML=[1,2,3,4].map(i=>`<button class="${i===SH?'on':''}" data-sh="${i}">${SHIFT[i]}</button>`).join('');
-  const days=dutyDays(Y,M,SH),emps=empsOf(SH);
+  document.querySelectorAll('#modeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.mode===MODE));
+  $('appTitle').textContent=MODE==='duty'?'موقف المناوبين':'الدوام الصباحي';
+  if(MODE==='duty'){
+    $('monthLbl').textContent=MONTHS[M]+' '+Y;
+    $('tabs').className='tabs';
+    $('tabs').innerHTML=[1,2,3,4].map(i=>`<button class="${i===SH?'on':''}" data-sh="${i}">${SHIFT[i]}</button>`).join('');
+  }else{
+    const d=weekDays(),a=d[0],b=d[4];
+    $('monthLbl').textContent=a.m===b.m?`${a.d} – ${b.d} ${MONTHS[a.m]} ${a.y}`:`${a.d} ${MONTHS[a.m]} – ${b.d} ${MONTHS[b.m]} ${b.y}`;
+    $('tabs').className='tabs secs';
+    $('tabs').innerHTML=S.sections.map(s=>`<button class="${s.id===SEC?'on':''}" data-sec="${s.id}">${esc(s.short||s.name)}</button>`).join('');
+  }
+  $('legendParts').classList.toggle('hide',MODE!=='duty');
+  $('limitNote').classList.toggle('hide',MODE==='duty');
+  $('limitNote').textContent=S.note;
+  const days=curDays(),emps=curEmps();
   let h='<thead><tr><th class="namecol">الاسم</th>';
-  days.forEach(dd=>{h+=`<th class="daycell">${DAYS[dd.w]}<span class="dn">${dd.d}/${M+1}</span><button class="allok" data-all="${dd.s}">الكل داوم</button></th>`});
-  h+='<th>ص</th><th>م</th><th>ل</th></tr></thead><tbody>';
+  days.forEach(dd=>{h+=`<th class="daycell">${DAYS[dd.w]}<span class="dn">${dd.d}/${dd.m+1}</span><button class="allok" data-all="${dd.s}">الكل داوم</button></th>`});
+  h+=MODE==='duty'?'<th>ص</th><th>م</th><th>ل</th>':'<th>عدد<br>الإجازات</th>';
+  h+='</tr></thead><tbody>';
   if(!emps.length)h+=`<tr><td class="namecol" colspan="${days.length+4}" style="white-space:normal">ما بيها أسماء بعد.<br><button class="btn amb sm" style="margin-top:8px" onclick="document.getElementById('restoreFile').click()">📂 فتح ملف الأسماء</button><br><span style="font-weight:400;font-size:13px;color:var(--muted)">أو أضيفيها من الإعدادات</span></td></tr>`;
+  const upto=MODE==='day'?days[4].s:null;
   emps.forEach((e,i)=>{
-    h+=`<tr><td class="namecol"><span class="no">${i+1}</span>${esc(e.name)}</td>`;
-    days.forEach(dd=>{const r=S.rec[rk(dd.s,e.id)];const cls=r?r.st:'e';h+=`<td class="c ${cls}" data-d="${dd.s}" data-e="${e.id}">${r?cellText(r):'—'}</td>`});
-    const n=notesOf(e,days);PARTS.forEach(p=>h+=`<td class="notes">${n[p].join('، ')}</td>`);
+    let cnt=0;
+    if(MODE==='day')cnt=monthLeaves(e,days[0].y,days[0].m,days[0].m===days[4].m?upto:null);
+    const over=MODE==='day'&&cnt>LEAVE_LIMIT;
+    h+=`<tr><td class="namecol${over?' over':''}"><span class="no">${i+1}</span>${esc(e.name)}</td>`;
+    days.forEach(dd=>{const r=S.rec[rk(dd.s,e.id)];const cls=r?r.st:'e';h+=`<td class="c ${cls}" data-d="${dd.s}" data-e="${e.id}">${r?cellShort(r):'—'}</td>`});
+    if(MODE==='duty'){const n=notesOf(e,days);PARTS.forEach(p=>h+=`<td class="notes">${n[p].join('، ')}</td>`)}
+    else h+=`<td class="notes cnt${over?' overc':''}">${cnt||''}</td>`;
     h+='</tr>';
   });
   $('grid').innerHTML=h+'</tbody>';
-  // stats
   let p=0,a=0,l=0,e0=0;
   days.forEach(dd=>emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(!r)e0++;else if(r.st==='p')p++;else if(r.st==='a')a++;else l++}));
   $('stats').innerHTML=`<div class="stat" style="background:var(--okbg);color:var(--ok)"><b>${p}</b><span>داوم</span></div><div class="stat" style="background:var(--badbg);color:var(--bad)"><b>${a}</b><span>غياب</span></div><div class="stat" style="background:var(--lvbg);color:var(--lv)"><b>${l}</b><span>إجازة</span></div><div class="stat" style="background:#eef2f7;color:var(--muted)"><b>${e0}</b><span>غير مؤشّر</span></div>`;
-  // day summary
   let s='';
   days.forEach(dd=>{
     const items=[];let done=0;
-    emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(r)done++;if(r&&r.st!=='p')items.push(`<span class="tag ${r.st}">${esc(e.name)} — ${r.st==='a'?'غياب':'إجازة '+esc(r.type)} (${partsLabel(r.parts)})</span>`)});
-    s+=`<div class="daysum"><b>${DAYS[dd.w]} ${dd.d}/${M+1}</b> — ${done===0?'<span style="color:var(--muted)">لم يُؤشَّر بعد</span>':(items.length?items.join(''):'<span style="color:var(--ok)">الكل داوم</span>')}${done&&done<emps.length?` <span style="color:var(--muted);font-size:12px">(باقي ${emps.length-done} غير مؤشّر)</span>`:''}</div>`;
+    emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(r)done++;if(r&&r.st!=='p')items.push(`<span class="tag ${r.st}">${esc(e.name)} — ${r.st==='a'?'غياب':'إجازة '+esc(r.type)}${MODE==='duty'?' ('+partsLabel(r.parts)+')':''}</span>`)});
+    s+=`<div class="daysum"><b>${DAYS[dd.w]} ${dd.d}/${dd.m+1}</b> — ${done===0?'<span style="color:var(--muted)">لم يُؤشَّر بعد</span>':(items.length?items.join(''):'<span style="color:var(--ok)">الكل داوم</span>')}${done&&done<emps.length?` <span style="color:var(--muted);font-size:12px">(باقي ${emps.length-done} غير مؤشّر)</span>`:''}</div>`;
   });
-  $('daySummary').innerHTML=s||'<div class="hint">ماكو أيام لهاي الوجبة بهذا الشهر</div>';
+  $('daySummary').innerHTML=s||'<div class="hint">ماكو أيام</div>';
 }
 
 /* ---------- cell editor ---------- */
@@ -285,7 +352,8 @@ function openCell(ds,eid){
   const e=S.emps.find(x=>x.id===eid);const r=S.rec[rk(ds,eid)];
   edit={ds,eid,st:r?r.st:'p',parts:r&&r.parts?r.parts.slice():PARTS.slice(),type:r&&r.type?r.type:'اعتيادية',note:r&&r.note||''};
   const d=new Date(utc(ds));
-  edit.title=esc(e.name);edit.sub=DAYS[d.getUTCDay()]+' '+d.getUTCDate()+' '+MONTHS[d.getUTCMonth()]+' — الوجبة '+SHIFT[shiftOf(ds)];
+  edit.title=esc(e.name);
+  edit.sub=DAYS[d.getUTCDay()]+' '+d.getUTCDate()+' '+MONTHS[d.getUTCMonth()]+' — '+(MODE==='duty'?'الوجبة '+SHIFT[shiftOf(ds)]:esc(secById(e.sec).name));
   drawSheet();$('ov').classList.add('show');
 }
 function drawSheet(){
@@ -293,7 +361,7 @@ function drawSheet(){
   let h=`<h3>${E.title}</h3><div class="sub">${E.sub}</div>
   <div class="seg">${[['p','داوم'],['a','غياب'],['l','إجازة']].map(([k,t])=>`<button data-st="${k}" class="${k} ${E.st===k?'on':''}">${t}</button>`).join('')}</div>`;
   if(E.st!=='p'){
-    h+=`<div class="lbl">أي جزء من المناوبة؟</div><div class="chips">${PARTS.map(p=>`<button data-part="${p}" class="${E.parts.includes(p)?'on':''}">${PART_NAME[p]} (${p})</button>`).join('')}<button data-part="all">يوم كامل</button></div>`;
+    if(MODE==='duty')h+=`<div class="lbl">أي جزء من المناوبة؟</div><div class="chips">${PARTS.map(p=>`<button data-part="${p}" class="${E.parts.includes(p)?'on':''}">${PART_NAME[p]} (${p})</button>`).join('')}<button data-part="all">يوم كامل</button></div>`;
     if(E.st==='l')h+=`<div class="lbl">نوع الإجازة</div><div class="chips">${TYPES.map(t=>`<button data-type="${t}" class="${E.type===t?'on':''}">${t}</button>`).join('')}</div>`;
     h+=`<input class="txt" id="noteIn" placeholder="ملاحظة (اختياري)" value="${esc(E.note)}">`;
   }
@@ -309,7 +377,7 @@ $('sheet').addEventListener('click',ev=>{
   const k=rk(E.ds,E.eid);
   if(b.dataset.act==='save'){
     if(E.st!=='p'&&!E.parts.length){toast('اختاري جزء واحد على الأقل');return}
-    S.rec[k]=E.st==='p'?{st:'p'}:{st:E.st,parts:E.parts,type:E.st==='l'?E.type:'',note:E.note.trim()};
+    S.rec[k]=E.st==='p'?{st:'p'}:{st:E.st,parts:MODE==='duty'?E.parts:PARTS.slice(),type:E.st==='l'?E.type:'',note:E.note.trim()};
     save();closeSheet();render();
   }else if(b.dataset.act==='clear'){delete S.rec[k];save();closeSheet();render()}
   else if(b.dataset.act==='close')closeSheet();
@@ -317,104 +385,126 @@ $('sheet').addEventListener('click',ev=>{
 function closeSheet(){$('ov').classList.remove('show')}
 $('ov').addEventListener('click',ev=>{if(ev.target.id==='ov')closeSheet()});
 
-/* ---------- grid events ---------- */
+/* ---------- grid / nav events ---------- */
 $('grid').addEventListener('click',ev=>{
   const all=ev.target.closest('[data-all]');
-  if(all){let c=0;empsOf(SH).forEach(e=>{const k=rk(all.dataset.all,e.id);if(!S.rec[k]){S.rec[k]={st:'p'};c++}});save();render();toast(c?'تم تأشير '+c+' حاضر':'كل الأسماء مؤشّرة مسبقاً');return}
+  if(all){let c=0;curEmps().forEach(e=>{const k=rk(all.dataset.all,e.id);if(!S.rec[k]){S.rec[k]={st:'p'};c++}});save();render();toast(c?'تم تأشير '+c+' حاضر':'كل الأسماء مؤشّرة مسبقاً');return}
   const td=ev.target.closest('td.c');if(td)openCell(td.dataset.d,td.dataset.e);
 });
-$('tabs').addEventListener('click',ev=>{const b=ev.target.closest('[data-sh]');if(b){SH=+b.dataset.sh;render()}});
-$('prevM').onclick=()=>{M--;if(M<0){M=11;Y--}render()};
-$('nextM').onclick=()=>{M++;if(M>11){M=0;Y++}render()};
+$('tabs').addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b)return;if(b.dataset.sh)SH=+b.dataset.sh;if(b.dataset.sec)SEC=b.dataset.sec;render()});
+$('modeSeg').addEventListener('click',ev=>{const b=ev.target.closest('[data-mode]');if(!b)return;MODE=b.dataset.mode;try{localStorage.setItem(KEY+'_mode',MODE)}catch(e){}render()});
+function step(n){if(MODE==='duty'){M+=n;if(M<0){M=11;Y--}if(M>11){M=0;Y++}}else{WK=new Date(WK);WK.setDate(WK.getDate()+7*n)}render()}
+$('prevM').onclick=()=>step(-1);
+$('nextM').onclick=()=>step(1);
 
-/* ---------- report (print + word) ---------- */
-function sheetHTML(sh,forWord){
+/* ---------- report spec (shared by print & word) ---------- */
+function specDuty(sh){
   const days=dutyDays(Y,M,sh),emps=empsOf(sh);
+  return {title:'موقف الوجبة '+SHIFT[sh]+' لشهر '+MONTHS[M]+' '+Y,
+    heads:days.map(dd=>DAYS[dd.w]+' /'+dd.d),tail:PARTS.slice(),note:'',
+    rows:emps.map(e=>{const n=notesOf(e,days);return {name:e.name,cells:days.map(dd=>cellInfo(S.rec[rk(dd.s,e.id)])),tail:PARTS.map(p=>n[p].join('، '))}})};
+}
+function specDay(secId){
+  const days=weekDays(),emps=empsSec(secId),sec=secById(secId);
+  const upto=days[0].m===days[4].m?days[4].s:null;
+  return {title:'أسماء منتسبي '+sec.name,
+    heads:days.map(dd=>DAYS[dd.w]+'\n'+dateLbl(dd)),tail:['عدد الإجازات'],note:S.note,
+    rows:emps.map(e=>{const c=monthLeaves(e,days[0].y,days[0].m,upto);return {name:e.name,cells:days.map(dd=>cellInfo(S.rec[rk(dd.s,e.id)])),tail:[c?String(c):''],over:c>LEAVE_LIMIT}})};
+}
+function sheetHTML(sp,forWord){
   const bd='border:1px solid #333;';
+  const dt=pad(today.getDate())+'/'+pad(today.getMonth()+1)+'/'+today.getFullYear();
   let t=`<div style="font-family:Cairo,Arial;direction:rtl;${forWord?'':'page-break-after:always;'}">
-  <table style="width:100%;border:0;margin-bottom:4px"><tr><td style="text-align:right;font-weight:700;font-size:13pt;line-height:1.6;border:0;white-space:nowrap">${esc(S.h1)}<br>${esc(S.h2)}<br>${esc(S.h3)}</td><td style="text-align:left;font-size:10pt;vertical-align:bottom;border:0">التاريخ: ${pad(today.getDate())}/${pad(today.getMonth()+1)}/${today.getFullYear()}</td></tr></table>
-  <div style="text-align:center;font-weight:800;font-size:15pt;margin:4px 0 8px">موقف الوجبة ${SHIFT[sh]} لشهر ${MONTHS[M]} ${Y}</div>
+  <table style="width:100%;border:0;margin-bottom:4px"><tr><td style="text-align:right;font-weight:700;font-size:13pt;line-height:1.6;border:0;white-space:nowrap">${esc(S.h1)}<br>${esc(S.h2)}<br>${esc(S.h3)}</td><td style="text-align:left;font-size:10pt;vertical-align:bottom;border:0">التاريخ: ${dt}</td></tr></table>
+  <div style="text-align:center;font-weight:800;font-size:15pt;margin:4px 0 8px;text-decoration:underline">${esc(sp.title)}</div>
   <table style="width:100%;border-collapse:collapse;font-size:10pt;text-align:center">
   <tr style="background:#e6e6e6"><th style="${bd}padding:4px;width:22px">ت</th><th style="${bd}padding:4px;width:170pt;white-space:nowrap">الاسم</th>`;
-  days.forEach(dd=>t+=`<th style="${bd}padding:4px;white-space:nowrap">${DAYS[dd.w]} /${dd.d}</th>`);
-  t+=`<th style="${bd}padding:4px;width:26pt">ص</th><th style="${bd}padding:4px;width:26pt">م</th><th style="${bd}padding:4px;width:26pt">ل</th></tr>`;
-  emps.forEach((e,i)=>{
-    t+=`<tr style="${i%2?'background:#f2f2f2;':''}"><td style="${bd}padding:5px">${i+1}</td><td style="${bd}padding:5px 8px;text-align:right;white-space:nowrap;font-size:11.5pt;font-weight:700">${esc(e.name)}</td>`;
-    days.forEach(dd=>{const r=S.rec[rk(dd.s,e.id)];let c='',col='#000';
-      if(r){if(r.st==='p'){c='داوم';col='#1a7a3f'}else if(r.st==='a'){c='غياب'+(r.parts.length<3?' '+partsLabel(r.parts):'');col='#b30000'}else{c='إجازة '+r.type+(r.parts.length<3?' '+partsLabel(r.parts):'');col='#b35f00'}if(r.note)c+=' ('+r.note+')'}
-      t+=`<td style="${bd}padding:5px;color:${col};font-size:9pt">${esc(c)}</td>`});
-    const n=notesOf(e,days);PARTS.forEach(p=>t+=`<td style="${bd}padding:5px">${n[p].join('، ')}</td>`);
+  sp.heads.forEach(x=>t+=`<th style="${bd}padding:4px;white-space:nowrap">${esc(x).replace('\n','<br>')}</th>`);
+  sp.tail.forEach(x=>t+=`<th style="${bd}padding:4px;width:${x.length>2?'48pt':'26pt'}">${esc(x)}</th>`);
+  t+='</tr>';
+  sp.rows.forEach((r,i)=>{
+    t+=`<tr style="${i%2?'background:#f2f2f2;':''}"><td style="${bd}padding:5px">${i+1}</td><td style="${bd}padding:5px 8px;text-align:right;white-space:nowrap;font-size:11.5pt;font-weight:700">${esc(r.name)}</td>`;
+    r.cells.forEach(c=>t+=`<td style="${bd}padding:5px;color:#${c.c};font-size:9pt">${esc(c.t)}</td>`);
+    r.tail.forEach(x=>t+=`<td style="${bd}padding:5px;font-weight:700;${r.over?'color:#b30000;':''}">${esc(x)}</td>`);
     t+='</tr>';
   });
-  t+=`</table><table style="width:100%;margin-top:28px;border:0;font-size:11pt"><tr><td style="text-align:center;border:0;width:50%;white-space:nowrap">${esc(S.sigR)}<br><br>التوقيع: ..........................</td><td style="text-align:center;border:0;width:50%;white-space:nowrap">${esc(S.sigL)}<br><br>التوقيع: ..........................</td></tr></table></div>`;
+  t+='</table>';
+  if(sp.note)t+=`<div style="margin-top:8px;font-size:9.5pt;font-weight:700">*${esc(sp.note)}</div>`;
+  t+=`<table style="width:100%;margin-top:26px;border:0;font-size:11pt"><tr><td style="text-align:center;border:0;width:50%;white-space:nowrap">${esc(S.sigR)}<br><br>التوقيع: ..........................</td><td style="text-align:center;border:0;width:50%;white-space:nowrap">${esc(S.sigL)}<br><br>التوقيع: ..........................</td></tr></table></div>`;
   return t;
+}
+function curSpecs(all){
+  if(MODE==='duty')return (all?[1,2,3,4]:[SH]).map(specDuty);
+  return (all?S.sections.map(s=>s.id):[SEC]).filter(id=>all?empsSec(id).length:true).map(specDay);
+}
+function scopeName(all){
+  if(MODE==='duty')return all?'الوجبات':'الوجبة '+SHIFT[SH];
+  return all?'الشعب':secById(SEC).name;
+}
+function periodName(){
+  if(MODE==='duty')return MONTHS[M]+' '+Y;
+  const d=weekDays();return 'أسبوع '+d[0].d+'-'+(d[0].m+1)+' '+d[0].y;
 }
 function chooseScope(cb){
   edit=null;
-  $('sheet').innerHTML=`<h3>شنو تريدين تطلعين؟</h3><div class="sub">${MONTHS[M]} ${Y}</div>
-  <button class="btn pri" style="width:100%;margin-bottom:8px" data-scope="one">الوجبة ${SHIFT[SH]} فقط</button>
-  <button class="btn amb" style="width:100%;margin-bottom:8px" data-scope="all">الوجبات الأربع (كل وجبة بصفحة)</button>
+  const one=MODE==='duty'?'الوجبة '+SHIFT[SH]+' فقط':esc(secById(SEC).name)+' فقط';
+  const all=MODE==='duty'?'الوجبات الأربع (كل وجبة بصفحة)':'كل الشُعب (كل شعبة بصفحة)';
+  $('sheet').innerHTML=`<h3>شنو تريدين تطلعين؟</h3><div class="sub">${periodName()}</div>
+  <button class="btn pri" style="width:100%;margin-bottom:8px" data-scope="one">${one}</button>
+  <button class="btn amb" style="width:100%;margin-bottom:8px" data-scope="all">${all}</button>
   <button class="btn gh" style="width:100%" data-scope="x">إلغاء</button>`;
   $('ov').classList.add('show');
-  $('sheet').onclick=ev=>{const b=ev.target.closest('[data-scope]');if(!b)return;$('sheet').onclick=null;closeSheet();if(b.dataset.scope!=='x')cb(b.dataset.scope==='all'?[1,2,3,4]:[SH])};
+  $('sheet').onclick=ev=>{const b=ev.target.closest('[data-scope]');if(!b)return;$('sheet').onclick=null;closeSheet();if(b.dataset.scope!=='x')cb(b.dataset.scope==='all')};
 }
-$('btnPrint').onclick=()=>chooseScope(list=>{
-  $('printArea').innerHTML=list.map(sh=>sheetHTML(sh,false)).join('');
+$('btnPrint').onclick=()=>chooseScope(all=>{
+  $('printArea').innerHTML=curSpecs(all).map(sp=>sheetHTML(sp,false)).join('');
   setTimeout(()=>{try{window.print()}catch(e){toast('الطباعة غير متاحة هنا — استخدمي ملف وورد')}},150);
 });
 function download(name,blob){
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();
   setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);
 }
-function cellInfo(r){
-  if(!r)return {t:'',c:'000000'};
-  let t,c;
-  if(r.st==='p'){t='داوم';c='1A7A3F'}
-  else if(r.st==='a'){t='غياب'+(r.parts.length<3?' '+partsLabel(r.parts):'');c='B30000'}
-  else{t='إجازة '+r.type+(r.parts.length<3?' '+partsLabel(r.parts):'');c='B35F00'}
-  if(r.note)t+=' ('+r.note+')';
-  return {t,c};
-}
-function buildDocx(list){
+function buildDocx(specs){
   const D=window.docx;
   const P=(text,o={})=>new D.Paragraph({bidirectional:true,alignment:o.al||D.AlignmentType.CENTER,spacing:{before:o.before||0,after:o.after||0},
-    children:[new D.TextRun({text:String(text),bold:!!o.b,size:o.sz||20,color:o.c||'000000',font:'Arial',rightToLeft:true})]});
+    children:String(text).split('\n').map((ln,i)=>new D.TextRun({text:ln,break:i?1:0,bold:!!o.b,size:o.sz||20,color:o.c||'000000',font:'Arial',rightToLeft:true,underline:o.u?{}:undefined}))});
   const B={style:D.BorderStyle.SINGLE,size:6,color:'333333'};
   const borders={top:B,bottom:B,left:B,right:B};
   const cell=(text,o={})=>new D.TableCell({borders,verticalAlign:D.VerticalAlign.CENTER,shading:o.fill?{fill:o.fill,type:D.ShadingType.CLEAR,color:'auto'}:undefined,
     width:o.w?{size:o.w,type:D.WidthType.DXA}:undefined,margins:{top:60,bottom:60,left:60,right:60},children:[P(text,o)]});
   const NB={style:D.BorderStyle.NONE,size:0,color:'FFFFFF'};const nob={top:NB,bottom:NB,left:NB,right:NB,insideHorizontal:NB,insideVertical:NB};
   const dt=pad(today.getDate())+'/'+pad(today.getMonth()+1)+'/'+today.getFullYear();
-  const sections=list.map(sh=>{
-    const days=dutyDays(Y,M,sh),emps=empsOf(sh);
-    const total=15100,wNo=450,wName=4300,wN=550,wDay=Math.floor((total-wNo-wName-3*wN)/Math.max(days.length,1));
+  const sections=specs.map(sp=>{
+    const total=15100,wNo=450,wName=4300,wT=sp.tail.length>1?550:1100,wDay=Math.floor((total-wNo-wName-sp.tail.length*wT)/Math.max(sp.heads.length,1));
     const head=new D.TableRow({tableHeader:true,children:[cell('ت',{b:1,fill:'E6E6E6',w:wNo}),cell('الاسم',{b:1,fill:'E6E6E6',w:wName}),
-      ...days.map(dd=>cell(DAYS[dd.w]+' /'+dd.d,{b:1,fill:'E6E6E6',w:wDay,sz:18})),...PARTS.map(p=>cell(p,{b:1,fill:'E6E6E6',w:wN}))]});
-    const rows=emps.map((e,i)=>{const n=notesOf(e,days);const f=i%2?'F2F2F2':undefined;
-      return new D.TableRow({height:{value:430,rule:D.HeightRule.ATLEAST},children:[cell(i+1,{fill:f,w:wNo}),cell(e.name,{fill:f,w:wName,al:D.AlignmentType.RIGHT,sz:22,b:1}),
-        ...days.map(dd=>{const ci=cellInfo(S.rec[rk(dd.s,e.id)]);return cell(ci.t,{fill:f,w:wDay,c:ci.c,sz:17})}),
-        ...PARTS.map(p=>cell(n[p].join('، '),{fill:f,w:wN,sz:18}))]})});
+      ...sp.heads.map(x=>cell(x,{b:1,fill:'E6E6E6',w:wDay,sz:18})),...sp.tail.map(x=>cell(x,{b:1,fill:'E6E6E6',w:wT,sz:18}))]});
+    const rows=sp.rows.map((r,i)=>{const f=i%2?'F2F2F2':undefined;
+      return new D.TableRow({height:{value:430,rule:D.HeightRule.ATLEAST},children:[cell(i+1,{fill:f,w:wNo}),cell(r.name,{fill:f,w:wName,al:D.AlignmentType.RIGHT,sz:22,b:1}),
+        ...r.cells.map(ci=>cell(ci.t,{fill:f,w:wDay,c:ci.c,sz:17})),...r.tail.map(x=>cell(x,{fill:f,w:wT,sz:20,b:1,c:r.over?'B30000':'000000'}))]})});
     const top=new D.Table({visuallyRightToLeft:true,borders:nob,columnWidths:[9000,6100],width:{size:total,type:D.WidthType.DXA},rows:[new D.TableRow({children:[
       new D.TableCell({borders:nob,width:{size:9000,type:D.WidthType.DXA},children:[P(S.h1,{b:1,sz:26,al:D.AlignmentType.RIGHT}),P(S.h2,{b:1,sz:26,al:D.AlignmentType.RIGHT}),P(S.h3,{b:1,sz:26,al:D.AlignmentType.RIGHT})]}),
       new D.TableCell({borders:nob,verticalAlign:D.VerticalAlign.BOTTOM,width:{size:6100,type:D.WidthType.DXA},children:[P('التاريخ: '+dt,{al:D.AlignmentType.LEFT})]})]})]});
     const sig=new D.Table({visuallyRightToLeft:true,borders:nob,columnWidths:[total/2,total/2],width:{size:total,type:D.WidthType.DXA},rows:[new D.TableRow({children:[S.sigR,S.sigL].map(t=>
       new D.TableCell({borders:nob,width:{size:total/2,type:D.WidthType.DXA},children:[P(t,{b:1,sz:22,before:400}),P('التوقيع: ..........................',{sz:22,before:300})]}))})]});
-    return {properties:{page:{size:{orientation:D.PageOrientation.LANDSCAPE},margin:{top:600,bottom:600,left:600,right:600}}},
-      children:[top,P('موقف الوجبة '+SHIFT[sh]+' لشهر '+MONTHS[M]+' '+Y,{b:1,sz:30,before:120,after:160}),
-        new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,columnWidths:[wNo,wName,...days.map(()=>wDay),wN,wN,wN],width:{size:total,type:D.WidthType.DXA},rows:[head,...rows]}),sig]};
+    const ch=[top,P(sp.title,{b:1,sz:30,before:120,after:160,u:1}),
+      new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,columnWidths:[wNo,wName,...sp.heads.map(()=>wDay),...sp.tail.map(()=>wT)],width:{size:total,type:D.WidthType.DXA},rows:[head,...rows]})];
+    if(sp.note)ch.push(P('*'+sp.note,{sz:19,b:1,before:120,al:D.AlignmentType.RIGHT}));
+    ch.push(sig);
+    return {properties:{page:{size:{orientation:D.PageOrientation.LANDSCAPE},margin:{top:600,bottom:600,left:600,right:600}}},children:ch};
   });
   return D.Packer.toBlob(new D.Document({creator:'موقف المناوبين',sections}));
 }
-$('btnWord').onclick=()=>chooseScope(list=>{
+$('btnWord').onclick=()=>chooseScope(all=>{
   if(!window.docx){toast('مكتبة الوورد ما اشتغلت — حدّثي الصفحة');return}
-  const nm='موقف '+(list.length>1?'الوجبات':'الوجبة '+SHIFT[list[0]])+' '+MONTHS[M]+' '+Y+'.docx';
-  buildDocx(list).then(b=>{download(nm,b);toast('تم تنزيل ملف الوورد')}).catch(()=>toast('تعذّر إنشاء ملف الوورد'));
+  const specs=curSpecs(all);if(!specs.length){toast('ماكو أسماء');return}
+  const nm=(MODE==='duty'?'موقف ':'دوام صباحي ')+scopeName(all)+' '+periodName()+'.docx';
+  buildDocx(specs).then(b=>{download(nm,b);toast('تم تنزيل ملف الوورد')}).catch(()=>toast('تعذّر إنشاء ملف الوورد'));
 });
 $('btnCopy').onclick=()=>{
-  const days=dutyDays(Y,M,SH),emps=empsOf(SH);
-  let t=`موقف الوجبة ${SHIFT[SH]} — ${MONTHS[M]} ${Y}\n${S.h3}\n`;
-  days.forEach(dd=>{const x=[];let done=0;emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(r)done++;if(r&&r.st!=='p')x.push('• '+e.name+' — '+(r.st==='a'?'غياب':'إجازة '+r.type)+' ('+partsLabel(r.parts)+')')});
-    if(!done)return;t+=`\n${DAYS[dd.w]} ${dd.d}/${M+1}:\n`+(x.length?x.join('\n'):'الكل داوم')+'\n'});
+  const days=curDays(),emps=curEmps();
+  let t=(MODE==='duty'?`موقف الوجبة ${SHIFT[SH]} — ${MONTHS[M]} ${Y}`:`الدوام الصباحي — ${secById(SEC).name} — ${periodName()}`)+`\n${S.h3}\n`;
+  days.forEach(dd=>{const x=[];let done=0;emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(r)done++;if(r&&r.st!=='p')x.push('• '+e.name+' — '+(r.st==='a'?'غياب':'إجازة '+r.type)+(MODE==='duty'?' ('+partsLabel(r.parts)+')':''))});
+    if(!done)return;t+=`\n${DAYS[dd.w]} ${dd.d}/${dd.m+1}:\n`+(x.length?x.join('\n'):'الكل داوم')+'\n'});
   const ok=()=>toast('تم نسخ الملخص — الصقيه بالواتساب');
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,()=>fallbackCopy(t,ok));else fallbackCopy(t,ok);
 };
@@ -423,39 +513,62 @@ function fallbackCopy(t,ok){const ta=document.createElement('textarea');ta.value
 /* ---------- settings ---------- */
 function showSettings(on){
   $('viewMain').classList.toggle('hide',on);$('viewSettings').classList.toggle('hide',!on);$('actionBar').classList.toggle('hide',on);
-  document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);
-  if(on){['h1','h2','h3','sigR','sigL'].forEach(k=>$(k).value=S[k]);$('anchorDate').value=S.anchor;$('anchorShift').value=S.anchorShift;SET_SH=SH;renderEmps()}
+  document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
+  if(on){['h1','h2','h3','sigR','sigL','note'].forEach(k=>$(k).value=S[k]);$('anchorDate').value=S.anchor;$('anchorShift').value=S.anchorShift;
+    SET_SH=MODE==='duty'?'d'+SH:SEC;renderEmps()}
   else render();
   window.scrollTo(0,0);
 }
-['h1','h2','h3','sigR','sigL'].forEach(k=>$(k).addEventListener('input',ev=>{S[k]=ev.target.value;save()}));
+['h1','h2','h3','sigR','sigL','note'].forEach(k=>$(k).addEventListener('input',ev=>{S[k]=ev.target.value;save()}));
 $('anchorDate').onchange=ev=>{if(ev.target.value){S.anchor=ev.target.value;save()}};
 $('anchorShift').onchange=ev=>{S.anchorShift=+ev.target.value;save()};
+/* group keys: 'd1'..'d4' for duty shifts, section ids for morning sections */
+function groupList(){return [1,2,3,4].map(i=>({k:'d'+i,label:'الوجبة '+SHIFT[i]})).concat(S.sections.map(s=>({k:s.id,label:'صباحي: '+(s.short||s.name)})))}
+function inGroup(e,k){return k[0]==='d'?e.shift===+k.slice(1):e.sec===k}
+function setGroup(e,k){if(k[0]==='d'){e.shift=+k.slice(1);delete e.sec}else{e.sec=k;delete e.shift}}
 function renderEmps(){
-  $('setTabs').innerHTML=[1,2,3,4].map(i=>`<button class="${i===SET_SH?'on':''}" data-ssh="${i}" style="background:${i===SET_SH?'var(--amber)':'#eef2f7'};color:#1c2430">${SHIFT[i]}</button>`).join('');
-  const list=empsOf(SET_SH);
+  const G=groupList();
+  $('setTabs').innerHTML=G.map(g=>`<button data-ssh="${g.k}" style="background:${g.k===SET_SH?'var(--amber)':'#eef2f7'};color:#1c2430">${esc(g.label)}</button>`).join('');
+  const list=S.emps.filter(e=>inGroup(e,SET_SH));
   $('empList').innerHTML=list.map((e,i)=>`<div class="emp"><input class="txt" data-name="${e.id}" value="${esc(e.name)}">
   <button class="ico" data-up="${e.id}" ${i===0?'disabled':''}>↑</button>
-  <select class="txt" data-move="${e.id}" style="width:74px;padding:8px 4px">${[1,2,3,4].map(s=>`<option value="${s}" ${s===e.shift?'selected':''}>${SHIFT[s]}</option>`).join('')}</select>
-  <button class="ico" data-del="${e.id}" style="color:var(--bad)">✕</button></div>`).join('')||'<div class="hint">ماكو أسماء بهاي الوجبة</div>';
+  <select class="txt" data-move="${e.id}" style="width:92px;padding:8px 4px">${G.map(g=>`<option value="${g.k}" ${g.k===SET_SH?'selected':''}>${esc(g.label)}</option>`).join('')}</select>
+  <button class="ico" data-del="${e.id}" style="color:var(--bad)">✕</button></div>`).join('')||'<div class="hint">ماكو أسماء هنا</div>';
 }
-$('setTabs').addEventListener('click',ev=>{const b=ev.target.closest('[data-ssh]');if(b){SET_SH=+b.dataset.ssh;renderEmps()}});
+$('setTabs').addEventListener('click',ev=>{const b=ev.target.closest('[data-ssh]');if(b){SET_SH=b.dataset.ssh;renderEmps()}});
 $('empList').addEventListener('input',ev=>{const id=ev.target.dataset.name;if(id){S.emps.find(e=>e.id===id).name=ev.target.value;save()}});
-$('empList').addEventListener('change',ev=>{const id=ev.target.dataset.move;if(id){S.emps.find(e=>e.id===id).shift=+ev.target.value;save();renderEmps();toast('تم النقل')}});
+$('empList').addEventListener('change',ev=>{const id=ev.target.dataset.move;if(id){setGroup(S.emps.find(e=>e.id===id),ev.target.value);save();renderEmps();toast('تم النقل')}});
 $('empList').addEventListener('click',ev=>{
   const up=ev.target.closest('[data-up]'),del=ev.target.closest('[data-del]');
-  if(up){const list=empsOf(SET_SH);const i=list.findIndex(e=>e.id===up.dataset.up);if(i>0){const a=S.emps.indexOf(list[i-1]),b=S.emps.indexOf(list[i]);[S.emps[a],S.emps[b]]=[S.emps[b],S.emps[a]];save();renderEmps()}}
+  if(up){const list=S.emps.filter(e=>inGroup(e,SET_SH));const i=list.findIndex(e=>e.id===up.dataset.up);if(i>0){const a=S.emps.indexOf(list[i-1]),b=S.emps.indexOf(list[i]);[S.emps[a],S.emps[b]]=[S.emps[b],S.emps[a]];save();renderEmps()}}
   if(del){
     if(del.dataset.sure){S.emps=S.emps.filter(e=>e.id!==del.dataset.del);save();renderEmps();toast('تم الحذف')}
     else{del.dataset.sure='1';del.textContent='متأكدة؟';del.style.width='70px';setTimeout(()=>{if(del.isConnected){delete del.dataset.sure;del.textContent='✕';del.style.width=''}},3000)}
   }
 });
-$('addEmp').onclick=()=>{const v=$('newEmp').value.trim();if(!v)return;S.emps.push({id:'e'+(S.nextId++),name:v,shift:SET_SH});$('newEmp').value='';save();renderEmps();toast('تمت الإضافة')};
+$('addEmp').onclick=()=>{const v=$('newEmp').value.trim();if(!v)return;const e={id:'e'+(S.nextId++),name:v};setGroup(e,SET_SH);S.emps.push(e);$('newEmp').value='';save();renderEmps();toast('تمت الإضافة')};
 $('btnSettings').onclick=()=>showSettings($('viewSettings').classList.contains('hide'));
 $('doneSettings').onclick=()=>showSettings(false);
 $('backup').onclick=()=>{download('نسخة موقف المناوبين '+ymd(new Date())+'.json',new Blob([JSON.stringify(S)],{type:'application/json'}));toast('تم تنزيل النسخة')};
 $('restoreBtn').onclick=()=>$('restoreFile').click();
-$('restoreFile').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const d=JSON.parse(rd.result);if(!d.emps||!d.rec)throw 0;S=d;save();if($('viewSettings').classList.contains('hide'))render();else showSettings(true);toast('تم تحميل البيانات')}catch(e){toast('الملف غير صالح')}};rd.readAsText(f);ev.target.value=''};
+/* ملف أسماء = يدمج الأسماء الجديدة بدون ما يمسح التأشير. نسخة احتياطية (بيها تأشير) = تسترجع كل شي */
+function mergeNames(d){
+  let added=0;
+  (d.sections||[]).forEach(s=>{if(!S.sections.find(x=>x.id===s.id))S.sections.push(s)});
+  d.emps.forEach(e=>{
+    const same=S.emps.find(x=>x.name.trim()===e.name.trim()&&(x.shift||0)===(e.shift||0)&&(x.sec||'')===(e.sec||''));
+    if(same)return;
+    const n={id:'e'+(S.nextId++),name:e.name};if(e.shift)n.shift=e.shift;if(e.sec)n.sec=e.sec;S.emps.push(n);added++;
+  });
+  return added;
+}
+$('restoreFile').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{
+    const d=JSON.parse(rd.result);if(!d.emps)throw 0;
+    const isBackup=d.kind!=='names'&&d.rec&&Object.keys(d.rec).length;
+    if(isBackup){S=normalize(d);save();toast('تم استرجاع النسخة')}
+    else{const n=mergeNames(d);save();toast(n?'تمت إضافة '+n+' اسم':'الأسماء موجودة من قبل')}
+    if($('viewSettings').classList.contains('hide'))render();else showSettings(true);
+  }catch(e){toast('الملف غير صالح')}};rd.readAsText(f);ev.target.value=''};
 
 render();
 if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js').catch(()=>{})}
