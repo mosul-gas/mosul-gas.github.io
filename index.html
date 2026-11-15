@@ -639,7 +639,7 @@ function showErr(msg){edit=null;let hint='';
   else if(/location|region|not supported/i.test(msg))hint='خدمة Gemini مو متاحة من هذا البلد/الشبكة.';
   else if(/429|quota|RESOURCE/i.test(msg))hint='خلصت الحصة المجانية مؤقتاً، جربي بعد دقيقة.';
   else if(/انتهى الوقت|Failed to fetch|NetworkError|Load failed/i.test(msg))hint='مشكلة نت أو بطء. جربي مرة ثانية أو بصورة أصغر.';
-  $('sheet').innerHTML=`<h3>ما گدرت أقرا الصورة</h3><div class="sub">${esc(hint||'صار خطأ أثناء القراءة.')}</div><div class="hint" style="direction:ltr;text-align:left;font-size:11px;word-break:break-all">${esc((msg||'').slice(0,400))}</div><button class="btn gh" style="width:100%" onclick="document.getElementById('ov').classList.remove('show')">تمام</button>`;$('ov').classList.add('show')}
+  $('sheet').innerHTML=`<h3>ما گدرت أقرا الصورة</h3><div class="sub">${esc(hint||'صار خطأ أثناء القراءة.')}</div><div class="hint" style="direction:ltr;text-align:left;font-size:11px;word-break:break-all">${esc((msg||'').slice(0,900)).replace(/\n/g,'<br>')}</div><button class="btn gh" style="width:100%" onclick="document.getElementById('ov').classList.remove('show')">تمام</button>`;$('ov').classList.add('show')}
 let OCR_STAGE='',OCR_T0=0,OCR_TIMER=null;
 function ocrBusy(on,total,done){
   clearInterval(OCR_TIMER);
@@ -660,16 +660,21 @@ Read the sheet and return:
   "s"="p" handwritten signature or initials (present); "s"="l" a handwritten leave word, with "t" one of "زمنية","مرضية","اعتيادية","حالة وفاة","أمومة","إرسال","أخرى" (plain "إجازة"/"اجازة" → "اعتيادية", "ارسال" → "إرسال"); "s"="a" written absence like "غياب"/"غ"; "s"="e" empty cell. "c" = confidence 0-1.
 Ignore the leave-count column and any notes. Return ONLY JSON: {"title":"...","dates":["YYYY-MM-DD",...],"rows":[{"name":"...","d":[{"s":"p","t":"","c":0.9},...]}]}`;
   const body={contents:[{parts:[{text:prompt},{inline_data:{mime_type:'image/jpeg',data:b64}}]}],generationConfig:{responseMimeType:'application/json',temperature:0}};
-  let lastErr;
-  for(const m of ['gemini-2.5-flash','gemini-flash-latest','gemini-2.0-flash']){
-    const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),75000);
-    const b2=JSON.parse(JSON.stringify(body));if(m!=='gemini-2.0-flash')b2.generationConfig.thinkingConfig={thinkingBudget:0};
-    try{OCR_STAGE='جاري الإرسال إلى '+m;const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${encodeURIComponent(gkey())}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b2),signal:ctl.signal});clearTimeout(to);
-      if(!r.ok){lastErr='HTTP '+r.status+': '+(await r.text()).slice(0,300);if(r.status===400||r.status===403)throw new Error(lastErr);continue}
-      const j=await r.json();const txt=j.candidates[0].content.parts.map(p=>p.text||'').join('');
+  const errs=[];
+  const tries=[['gemini-3.8-flash',{thinkingLevel:'low'}],['gemini-3.8-flash',null],['gemini-flash-latest',null],['gemini-flash-lite-latest',null]];
+  for(const [m,think] of tries){
+    const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),90000);
+    const b2=JSON.parse(JSON.stringify(body));if(think)b2.generationConfig.thinkingConfig=think;
+    try{OCR_STAGE='جاري القراءة بـ '+m;
+      const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${encodeURIComponent(gkey())}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b2),signal:ctl.signal});clearTimeout(to);
+      if(!r.ok){const t=(await r.text()).slice(0,300);errs.push(m+' → HTTP '+r.status+': '+t);
+        if(/API key|API_KEY_INVALID|PERMISSION_DENIED/i.test(t))break;continue}
+      const j=await r.json();const txt=((j.candidates||[])[0]?.content?.parts||[]).map(p=>p.text||'').join('');
+      if(!txt){errs.push(m+' → رد فارغ');continue}
       return JSON.parse(txt.replace(/^```json|```$/g,'').trim());
-    }catch(e){clearTimeout(to);lastErr=e.name==='AbortError'?'انتهى الوقت (75 ثانية) بدون جواب من '+m:e;if(String(e).includes('API key')||String(e).includes('API_KEY'))break}
+    }catch(e){clearTimeout(to);errs.push(m+' → '+(e.name==='AbortError'?'انتهى الوقت بدون جواب':String(e.message||e)))}
   }
+  const lastErr=errs.join('\n');
   throw lastErr;
 }
 /* شاشة المراجعة */
