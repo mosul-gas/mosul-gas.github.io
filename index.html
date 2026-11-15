@@ -649,21 +649,22 @@ function ocrBusy(on,total,done){
   draw();OCR_TIMER=setInterval(draw,1000);$('ov').classList.add('show');
 }
 function shrink(file){return new Promise((ok,no)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{
-  const max=2200,sc=Math.min(1,max/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);
-  c.getContext('2d').drawImage(im,0,0,c.width,c.height);const url=c.toDataURL('image/jpeg',0.88);ok({url,b64:url.split(',')[1]})};im.onerror=no;im.src=fr.result};fr.onerror=no;fr.readAsDataURL(file)})}
+  const max=3072,sc=Math.min(1,max/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);
+  c.getContext('2d').drawImage(im,0,0,c.width,c.height);const url=c.toDataURL('image/jpeg',0.92);ok({url,b64:url.split(',')[1]})};im.onerror=no;im.src=fr.result};fr.onerror=no;fr.readAsDataURL(file)})}
 async function askGemini(b64){
   const prompt=`This is a photo of an Iraqi attendance sheet (Arabic, right-to-left). It has a title (department/section or shift name), a header row of day columns with weekday and date, and rows of printed employee names. Employees sign by hand in a day cell when present.
 Read the sheet and return:
 - "title": the sheet title text exactly as printed (e.g. "أسماء منتسبي شعبة السيطرة والنظم" or "موقف الوجبة الثانية لشهر تشرين الثاني 2026").
 - "dates": the date of each day column in the order they appear from RIGHT to LEFT, formatted YYYY-MM-DD (use the year printed on the sheet; if a column has only a weekday, infer the date from neighbouring columns).
 - "rows": for each printed employee row: "name" exactly as printed, and "d": one cell per date column in the same order, each {"s","t","c"}:
-  "s"="p" handwritten signature or initials (present); "s"="l" a handwritten leave word, with "t" one of "زمنية","مرضية","اعتيادية","حالة وفاة","أمومة","إرسال","أخرى" (plain "إجازة"/"اجازة" → "اعتيادية", "ارسال" → "إرسال"); "s"="a" written absence like "غياب"/"غ"; "s"="e" empty cell. "c" = confidence 0-1.
+  "s"="p" ANY handwritten ink mark in the cell — signature, scribble, initials, short stroke, even if faint, small, slanted or overlapping the cell border (present). Most cells on these sheets are signatures, so look carefully before calling a cell empty; "s"="l" a handwritten leave word, with "t" one of "زمنية","مرضية","اعتيادية","حالة وفاة","أمومة","إرسال","أخرى" (plain "إجازة"/"اجازة" → "اعتيادية", "ارسال" → "إرسال"); "s"="a" written absence like "غياب"/"غ"; "s"="e" ONLY if the cell is completely blank with no ink at all. "c" = confidence 0-1.
+Work row by row: follow each printed name horizontally across to its own cells (rows are separated by lines and alternate grey/white shading), so a signature is never assigned to the neighbouring row. The photo may be rotated or taken at an angle; read it in its correct orientation.
 Ignore the leave-count column and any notes. Return ONLY JSON: {"title":"...","dates":["YYYY-MM-DD",...],"rows":[{"name":"...","d":[{"s":"p","t":"","c":0.9},...]}]}`;
   const body={contents:[{parts:[{text:prompt},{inline_data:{mime_type:'image/jpeg',data:b64}}]}],generationConfig:{responseMimeType:'application/json',temperature:0}};
   const errs=[];
-  const tries=[['gemini-3.8-flash',{thinkingLevel:'low'}],['gemini-3.8-flash',null],['gemini-flash-latest',null],['gemini-flash-lite-latest',null]];
+  const tries=[['gemini-3.8-flash',{thinkingLevel:'high'}],['gemini-3.8-flash',null],['gemini-flash-latest',null]];
   for(const [m,think] of tries){
-    const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),90000);
+    const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),150000);
     const b2=JSON.parse(JSON.stringify(body));if(think)b2.generationConfig.thinkingConfig=think;
     try{OCR_STAGE='جاري القراءة بـ '+m;
       const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${encodeURIComponent(gkey())}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b2),signal:ctl.signal});clearTimeout(to);
@@ -683,8 +684,11 @@ const CYCLE=['p','l','a','e'];
 function revLabel(c){if(c.st==='p')return 'داوم';if(c.st==='l')return 'إجازة '+(c.type||'');if(c.st==='a')return 'غياب';return '—'}
 function groupName(g){if(!g)return 'غير معروفة';return g.mode==='duty'?'الوجبة '+SHIFT[g.key]:secById(g.key).name}
 function openReview(sheets,thumbs,fails){
-  REV={sheets:sheets.map(sh=>({...sh,cells:sh.rows.map(r=>sh.days.map((d,j)=>{const m=r.cells[j]||{s:'e'};let st=CYCLE.includes(m.s)?m.s:'e';
-    return {st,type:st==='l'?(TYPES.includes(m.t)?m.t:'اعتيادية'):'',low:(st!=='e'&&(+m.c||0)<0.6)||(r.weak&&st!=='e')}}))}))};
+  REV={sheets:sheets.map(sh=>{
+    const colFill=sh.days.map((d,j)=>{let f=0;sh.rows.forEach(r=>{const m=r.cells[j];if(m&&m.s&&m.s!=='e')f++});return f/Math.max(sh.rows.length,1)});
+    return {...sh,cells:sh.rows.map(r=>sh.days.map((d,j)=>{const m=r.cells[j]||{s:'e'};let st=CYCLE.includes(m.s)?m.s:'e';
+    const suspectEmpty=st==='e'&&colFill[j]>=0.5;
+    return {st,type:st==='l'?(TYPES.includes(m.t)?m.t:'اعتيادية'):'',low:(st!=='e'&&(+m.c||0)<0.6)||(r.weak&&st!=='e')||suspectEmpty}}))}})};
   drawReview(thumbs,fails);
 }
 function drawReview(thumbs,fails){
