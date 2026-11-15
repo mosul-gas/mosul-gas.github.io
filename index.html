@@ -178,8 +178,8 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <div class="lbl">السطر الأول</div><input class="txt" id="h1">
     <div class="lbl">السطر الثاني</div><input class="txt" id="h2">
     <div class="lbl">السطر الثالث</div><input class="txt" id="h3">
-    <div class="lbl">توقيع يمين الورقة</div><input class="txt" id="sigR">
-    <div class="lbl">توقيع يسار الورقة</div><input class="txt" id="sigL">
+    <input type="hidden" id="sigR">
+    <div class="lbl">التوقيع أسفل يسار الورقة</div><input class="txt" id="sigL">
     <div class="lbl">تنبيه أسفل أوراق الدوام الصباحي</div><input class="txt" id="note">
     <div class="lbl">عنوان الموقف اليومي</div><input class="txt" id="dTitle">
     <div class="lbl">توقيع الموقف اليومي (الصفة)</div><input class="txt" id="dSig">
@@ -218,7 +218,7 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 17 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 18 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -461,7 +461,7 @@ function sheetHTML(sp,forWord){
   });
   t+='</table>';
   if(sp.note)t+=`<div style="margin-top:6px;font-size:10.5pt;font-weight:700;text-align:center">*${esc(sp.note)}</div>`;
-  t+=`<table style="width:100%;margin-top:14px;border:0;font-size:12pt;font-weight:700;${F}"><tr><td style="text-align:center;border:0;width:50%;white-space:nowrap;vertical-align:top">${esc(S.sigR)}<br>التوقيع: ..........................</td><td style="text-align:center;border:0;width:50%;white-space:nowrap;vertical-align:top">${esc(S.sigL)}<br>التوقيع: ..........................<br>التاريخ: ${dt}</td></tr></table></div>`;
+  t+=`<div style="margin-top:22px;text-align:left;font-size:13pt;font-weight:800;padding-left:6px">${esc(S.sigL)}</div></div>`;
   return t;
 }
 function curSpecs(all){
@@ -512,9 +512,7 @@ function buildDocx(specs){
     const rows=sp.rows.map((r,i)=>{const f=i%2?'F0F0F0':undefined;
       return new D.TableRow({cantSplit:true,height:{value:rh,rule:D.HeightRule.ATLEAST},children:[cell(i+1,{fill:f,w:wNo,sz:22}),cell(r.name,{fill:f,w:wName,sz:fs+2}),
         ...r.cells.map(ci=>cell(ci.t,{fill:f,w:wDay,c:ci.c==='1A7A3F'?'000000':ci.c,sz:fs})),...r.tail.map(x=>cell(x,{fill:f,w:wT,sz:24,c:r.over?'B30000':'000000'}))]})});
-    const sig=new D.Table({visuallyRightToLeft:true,borders:nob,columnWidths:[total/2,total/2],width:{size:total,type:D.WidthType.DXA},rows:[new D.TableRow({cantSplit:true,children:[
-      new D.TableCell({borders:nob,width:{size:total/2,type:D.WidthType.DXA},children:[P(S.sigR,{sz:24,before:200}),P('التوقيع: ..........................',{sz:22,before:60})]}),
-      new D.TableCell({borders:nob,width:{size:total/2,type:D.WidthType.DXA},children:[P(S.sigL,{sz:24,before:200}),P('التوقيع: ..........................',{sz:22,before:60}),P('التاريخ: '+dt,{sz:22,before:60})]})]})]});
+    const sig=P(S.sigL,{sz:26,before:300,al:D.AlignmentType.LEFT});
     const ch=[P(S.h1,{sz:24,al:D.AlignmentType.RIGHT,line:220}),P(S.h2,{sz:24,al:D.AlignmentType.RIGHT,line:220}),P(S.h3,{sz:24,al:D.AlignmentType.RIGHT,line:220}),
       P(sp.title,{sz:30,after:80,u:1}),
       new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,columnWidths:[wNo,wName,...sp.heads.map(()=>wDay),...sp.tail.map(()=>wT)],width:{size:total,type:D.WidthType.DXA},rows:[head,...rows]})];
@@ -542,8 +540,7 @@ async function buildXlsx(specs){
     const ws=wb.addWorksheet(nm,{views:[{rightToLeft:true}],pageSetup:{orientation:'landscape',paperSize:9,fitToPage:true,fitToWidth:1,fitToHeight:0,margins:{left:.3,right:.3,top:.4,bottom:.4,header:.2,footer:.2}}});
     const nCols=2+sp.heads.length+sp.tail.length;
     ws.columns=[{width:5},{width:34},...sp.heads.map(()=>({width:16})),...sp.tail.map(t=>({width:t.length>2?12:7}))];
-    [S.h1,S.h2,S.h3].forEach((t,i)=>{const r=ws.addRow([t]);ws.mergeCells(r.number,1,r.number,nCols-2);r.getCell(1).font={bold:true,size:13,name:'Arial'};r.getCell(1).alignment={horizontal:'right'};
-      if(i===0){r.getCell(nCols-1).value='التاريخ: '+dt;ws.mergeCells(r.number,nCols-1,r.number,nCols);r.getCell(nCols-1).alignment={horizontal:'left'}}});
+    [S.h1,S.h2,S.h3].forEach((t,i)=>{const r=ws.addRow([t]);ws.mergeCells(r.number,1,r.number,nCols-2);r.getCell(1).font={bold:true,size:13,name:'Arial'};r.getCell(1).alignment={horizontal:'right'};});
     ws.addRow([]);
     const tr=ws.addRow([sp.title]);ws.mergeCells(tr.number,1,tr.number,nCols);tr.getCell(1).font={bold:true,size:15,underline:true,name:'Arial'};tr.getCell(1).alignment={horizontal:'center'};
     const hr=ws.addRow(['ت','الاسم',...sp.heads,...sp.tail]);hr.height=34;
@@ -557,10 +554,7 @@ async function buildXlsx(specs){
     });
     if(sp.note){ws.addRow([]);const nr=ws.addRow(['*'+sp.note]);ws.mergeCells(nr.number,1,nr.number,nCols);nr.getCell(1).font={bold:true,size:10,name:'Arial'};nr.getCell(1).alignment={horizontal:'right',wrapText:true};nr.height=30}
     ws.addRow([]);ws.addRow([]);
-    const half=Math.ceil(nCols/2);
-    const s1=ws.addRow([]);s1.getCell(1).value=S.sigR;ws.mergeCells(s1.number,1,s1.number,half);s1.getCell(half+1).value=S.sigL;ws.mergeCells(s1.number,half+1,s1.number,nCols);
-    const s2=ws.addRow([]);s2.getCell(1).value='التوقيع: ..........................';ws.mergeCells(s2.number,1,s2.number,half);s2.getCell(half+1).value='التوقيع: ..........................';ws.mergeCells(s2.number,half+1,s2.number,nCols);
-    [s1,s2].forEach(r=>r.eachCell(c=>{c.alignment={horizontal:'center'};c.font={bold:r===s1,name:'Arial',size:12}}));
+    const s1=ws.addRow([]);s1.getCell(nCols-2).value=S.sigL;ws.mergeCells(s1.number,nCols-2,s1.number,nCols);s1.getCell(nCols-2).alignment={horizontal:'left'};s1.getCell(nCols-2).font={bold:true,name:'Arial',size:13};
   });
   const buf=await wb.xlsx.writeBuffer();
   return new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
@@ -601,7 +595,7 @@ function dailyHTML(dd){
   <div style="font-size:16pt;text-decoration:underline">م/ ${esc(S.dTitle)}</div>
   <div style="font-size:15pt;text-decoration:underline;margin:4px 0 14px">${esc(dd.title.replace(/^م\/ /,''))}</div>
   ${dailyTables(dd).map(tbl).join('')}
-  <div style="margin-top:40px;text-align:left;font-size:14pt;line-height:1.9">${esc(S.dSig||'')}<br>${esc(S.dSigN||'')}${S.dSigN?'':'<br>التوقيع: ....................'}</div></div>`;
+  <div style="margin-top:40px;text-align:left;font-size:14pt;line-height:1.9">${esc(S.dSig||'')}<br>${esc(S.dSigN||'')}</div></div>`;
 }
 function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function buildDailyDocx(dd){
@@ -617,7 +611,7 @@ function buildDailyDocx(dd){
   const ch=[P('م/ '+S.dTitle,{sz:32,u:1}),P(dd.title.replace(/^م\/ /,''),{sz:30,after:240,u:1})];
   dailyTables(dd).forEach((t,k)=>{ch.push(table(t));ch.push(P('',{after:k?0:300}))});
   ch.push(P(S.dSig||'',{sz:28,before:600,al:D.AlignmentType.LEFT}));
-  ch.push(P(S.dSigN||'التوقيع: ....................',{sz:28,before:80,al:D.AlignmentType.LEFT}));
+  if(S.dSigN)ch.push(P(S.dSigN,{sz:28,before:80,al:D.AlignmentType.LEFT}));
   return D.Packer.toBlob(new D.Document({sections:[{properties:{page:{size:{orientation:D.PageOrientation.PORTRAIT},margin:{top:800,bottom:800,left:900,right:900}}},children:ch}]}));
 }
 async function buildDailyXlsx(dd){
@@ -629,7 +623,7 @@ async function buildDailyXlsx(dd){
   const table=t=>{const h=ws.addRow(['ت','الاسم',t.h]);h.eachCell(c=>{c.font={bold:true,name:FN,size:14};c.fill=fill(D_HEAD);c.border=B;c.alignment={horizontal:'center',vertical:'middle'}});
     (t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}]).forEach((r,i)=>{const x=ws.addRow([t.rows.length?i+1:'',r.name,r.st]);x.height=22;x.eachCell({includeEmpty:true},(c,col)=>{c.border=B;c.font={bold:true,name:FN,size:14};c.alignment={horizontal:col===2?'right':'center',vertical:'middle',wrapText:true};if(i%2)c.fill=fill(D_ALT)})})};
   line('م/ '+S.dTitle,{sz:16,u:1});line(dd.title.replace(/^م\/ /,''),{sz:15,u:1});ws.addRow([]);
-  dailyTables(dd).forEach(t=>{table(t);ws.addRow([])});ws.addRow([]);line(S.dSig||'',{al:'left'});line(S.dSigN||'التوقيع: ....................',{al:'left'});
+  dailyTables(dd).forEach(t=>{table(t);ws.addRow([])});ws.addRow([]);line(S.dSig||'',{al:'left'});if(S.dSigN)line(S.dSigN,{al:'left'});
   return new Blob([await wb.xlsx.writeBuffer()],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
 }
 function dailyText(dd){let t=S.dTitle+'\n'+dd.title+'\n\nالدوام الصباحي:\n'+(dd.morning.length?dd.morning.map((r,i)=>(i+1)+'. '+r.name+' — '+r.st).join('\n'):'لا يوجد')+'\n\nالمناوبين:\n'+(dd.duty.length?dd.duty.map((r,i)=>(i+1)+'. '+r.name+' — '+r.st).join('\n'):'لا يوجد');return t}
