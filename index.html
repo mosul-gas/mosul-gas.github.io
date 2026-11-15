@@ -220,7 +220,7 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 19 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 20 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -573,16 +573,17 @@ function prevWorkday(d){const x=new Date(d);do{x.setDate(x.getDate()-1)}while(x.
 function dailyData(dateStr){
   const d=new Date(utc(dateStr));const day=new Date(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate());
   const morning=[];
-  S.sections.forEach(sec=>empsSec(sec.id).forEach(e=>{const r=S.rec[rk(dateStr,e.id)];if(r&&r.st!=='p')morning.push({name:e.name,st:r.st==='a'?'غياب':lvName(r.type)+(r.note?' ('+r.note+')':'')})}));
+  let unM=0,unD=0;const wd=day.getDay()!==5&&day.getDay()!==6;
+  S.sections.forEach(sec=>empsSec(sec.id).forEach(e=>{const r=S.rec[rk(dateStr,e.id)];if(!r){if(wd)unM++;return}if(r.st!=='p')morning.push({name:e.name,st:(r.st==='a'?'غياب':r.type==='زمنية'?'زمنية صباحي':lvName(r.type))+(r.note?' ('+r.note+')':'')})}));
   /* المناوبين: من اليوم اللي بعد آخر يوم دوام لحد هذا اليوم */
   const from=new Date(prevWorkday(day));from.setDate(from.getDate()+1);
   const duty=[];
   for(let x=new Date(from);x<=day;x.setDate(x.getDate()+1)){const ds=ymd(x);const sh=shiftOf(ds);
-    empsOf(sh).forEach(e=>{const r=S.rec[rk(ds,e.id)];if(!r||r.st==='p')return;
+    empsOf(sh).forEach(e=>{const r=S.rec[rk(ds,e.id)];if(!r){unD++;return}if(r.st==='p')return;
       const part=partsLabel(r.parts);let t;
       if(r.st==='a')t='غياب '+part;else if(r.type==='اعتيادية')t='إجازة '+part;else t=lvName(r.type)+(r.parts&&r.parts.length<3?' '+part:'');
       duty.push({name:e.name,st:t+' يوم '+DAYS[x.getDay()]+' '+(x.getMonth()+1)+'/'+x.getDate()})})}
-  return {title:'م/ الموقف اليومي ليوم '+DAYS[day.getDay()]+' الموافق '+day.getFullYear()+'/'+(day.getMonth()+1)+'/'+day.getDate(),morning,duty};
+  return {unM,unD,from:new Date(from),title:'م/ الموقف اليومي ليوم '+DAYS[day.getDay()]+' الموافق '+day.getFullYear()+'/'+(day.getMonth()+1)+'/'+day.getDate(),morning,duty};
 }
 function sigLines(){const n=new Date();let h=n.getHours();const ap=h<12?'ص':'م';h=h%12||12;
   return [S.dSig||'المهندس',S.dSigN||'حسين أحمد حمود',S.sigT||'ر. قسم السيطرة الذاتية','التاريخ: '+n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear()+'  الساعة '+h+':'+pad(n.getMinutes())+' '+ap].filter(x=>x)}
@@ -636,12 +637,18 @@ $('btnCopy').onclick=()=>{
   const def=MODE==='day'?(()=>{const t=ymd(today),w=weekDays().map(x=>x.s);return w.includes(t)?t:w[0]})():ymd(today);
   $('sheet').innerHTML=`<h3>📋 الموقف اليومي</h3><div class="sub">اختاري اليوم، وتطلع ورقة A4 بالطول: اللي ما داوموا بالصباحي، وإجازات المناوبين.</div>
   <input class="txt" type="date" id="dDate" value="${def}" style="margin-bottom:10px">
-  <div id="dPrev" class="hint" style="max-height:220px;overflow:auto;background:#f6f8fb;border-radius:10px;padding:8px;white-space:pre-line"></div>
+  <div id="dPrev" style="max-height:52vh;overflow:auto;background:#f6f8fb;border-radius:10px;padding:8px;margin-bottom:10px"></div>
   <button class="btn" data-d="pdf" style="background:#C62828;color:#fff;width:100%;margin-bottom:8px">🖨️ طبع PDF</button>
   <div class="row2"><button class="btn" data-d="word" style="background:#2B579A;color:#fff">📄 وورد</button><button class="btn" data-d="xl" style="background:#1d6f42;color:#fff">📊 اكسل</button></div>
   <div class="row2" style="margin-top:8px"><button class="btn gh" data-d="copy">نسخ كنص للواتساب</button><button class="btn gh" data-d="x">إلغاء</button></div>`;
   $('ov').classList.add('show');
-  const prev=()=>{const dd=dailyData($('dDate').value);$('dPrev').textContent=(!dd.morning.length&&!dd.duty.length?'⚠️ ما مسجّل أي غياب أو إجازة لهذا اليوم، لا بالصباحي ولا بالمناوبين. تأكدي إنج مسجّلة الموقف بنفس التاريخ.\n\n':'')+dailyText(dd)};prev();$('dDate').onchange=prev;
+  const prev=()=>{const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const w=[];
+    const fd=dd.from,td=new Date(utc(v));const rng=fd.getDate()===td.getUTCDate()&&fd.getMonth()===td.getUTCMonth()?'':' (المناوبين من يوم '+DAYS[fd.getDay()]+' '+(fd.getMonth()+1)+'/'+fd.getDate()+' لهذا اليوم)';
+    if(!dd.morning.length&&!dd.duty.length)w.push('⚠️ ما مسجّل أي غياب أو إجازة لهذا اليوم.');
+    if(dd.unM)w.push('⚠️ '+dd.unM+' من الصباحي ما مأشّر عليهم بهذا اليوم — يُحسبون داوموا. أشّري عليهم قبل الطبع.');
+    if(dd.unD)w.push('⚠️ '+dd.unD+' من المناوبين ما مأشّر عليهم'+(rng?' بالأيام اللي يشملها الموقف':'')+' — يُحسبون داوموا.');
+    if(!w.length)w.push('✅ الكل مأشّر عليهم، الموقف جاهز للطبع.');
+    $('dPrev').innerHTML='<div style="font-family:Cairo;font-weight:700;font-size:13px;line-height:1.7;margin-bottom:8px;color:'+(w[0][0]==='✅'?'#1A7A3F':'#9a5a00')+'">'+w.map(esc).join('<br>')+(rng?'<br><span style="color:#444">'+esc(rng.trim())+'</span>':'')+'</div><div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:6px;zoom:.55">'+dailyHTML(dd)+'</div>'};prev();$('dDate').onchange=prev;
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-d]');if(!b)return;const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const nm='الموقف اليومي '+v;
     if(b.dataset.d==='pdf'){$('printArea').innerHTML=dailyHTML(dd);setPage('size:A4 portrait;margin:12mm');$('sheet').onclick=null;closeSheet();setTimeout(()=>{try{window.print()}catch(e){toast('الطباعة غير متاحة هنا')}},150)}
     else if(b.dataset.d==='word'){if(!window.docx){toast('حدّثي الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل الوورد')})}
