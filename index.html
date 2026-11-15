@@ -211,6 +211,7 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 11 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -738,7 +739,7 @@ render();
  if(inApp||(!standalone&&/iPhone|iPad/.test(ua))){const d=document.createElement('div');d.className='warnbar';
   d.innerHTML=inApp?'⚠️ انتي فاتحة الأداة من داخل الواتساب/الماسنجر، وهنا التأشير ما ينحفظ. افتحيها من <b>Safari</b> وضيفيها للشاشة الرئيسية، وبعدها افتحيها دائماً من الأيقونة.':'💡 حتى ينحفظ شغلج دايماً: زر المشاركة ⬆️ ← «إضافة إلى الشاشة الرئيسية»، وافتحي الأداة دائماً من الأيقونة.';
   document.getElementById('viewMain').prepend(d)}})();
-if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{})}
 })();
 </script>
 </body>
