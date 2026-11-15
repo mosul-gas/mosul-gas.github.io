@@ -230,7 +230,9 @@ const DAYS=['الأحد','الاثنين','الثلاثاء','الأربعاء',
 const SHIFT=['','الأولى','الثانية','الثالثة','الرابعة'];
 const PARTS=['ص','م','ل'];
 const PART_NAME={'ص':'صباحي','م':'مسائي','ل':'ليلي'};
-const TYPES=['اعتيادية','مرضية','زمنية','طارئة','حالة وفاة','أمومة','إرسال'];
+const TYPES=['اعتيادية','مرضية','زمنية','طارئة','حالة وفاة','إيفاد','واجب رسمي','أمومة','إرسال'];
+const NOT_LEAVE=['إيفاد','واجب رسمي','إرسال'];
+function lvName(t){return NOT_LEAVE.includes(t)?t:'إجازة '+(t||'')}
 const KEY='mawqif_v1';
 const DEF_SECS=[
  {id:'s1',name:'إدارة القسم السيطرة الذاتية',short:'الإدارة'},
@@ -292,7 +294,7 @@ function cellShort(r){
   if(r.st==='p')return 'داوم';
   const part=(MODE==='duty'&&r.parts&&r.parts.length<3)?'<br><small>'+partsLabel(r.parts)+'</small>':'';
   if(r.st==='a')return 'غياب'+part;
-  return 'إجازة '+esc(r.type||'')+(MODE==='duty'?'<br><small>'+partsLabel(r.parts)+'</small>':'');
+  return esc(lvName(r.type))+(MODE==='duty'?'<br><small>'+partsLabel(r.parts)+'</small>':'');
 }
 function notesOf(emp,days){
   const o={'ص':[],'م':[],'ل':[]};
@@ -303,7 +305,7 @@ function notesOf(emp,days){
 function monthLeaves(emp,y,m,uptoStr){
   let n=0;const pre=y+'-'+pad(m+1)+'-';
   for(const k in S.rec){const i=k.indexOf('|');const ds=k.slice(0,i);if(k.slice(i+1)!==emp.id||!ds.startsWith(pre))continue;
-    if(uptoStr&&ds>uptoStr)continue;const r=S.rec[k];if(r&&r.st==='l')n+=(r.type==='زمنية'?0.5:1)}
+    if(uptoStr&&ds>uptoStr)continue;const r=S.rec[k];if(r&&r.st==='l'&&!NOT_LEAVE.includes(r.type))n+=(r.type==='زمنية'?0.5:1)}
   return n;
 }
 function cellInfo(r){
@@ -311,7 +313,7 @@ function cellInfo(r){
   let t,c;
   if(r.st==='p'){t='داوم';c='1A7A3F'}
   else if(r.st==='a'){t='غياب'+(MODE==='duty'&&r.parts.length<3?' '+partsLabel(r.parts):'');c='B30000'}
-  else{t='إجازة '+r.type+(MODE==='duty'&&r.parts.length<3?' '+partsLabel(r.parts):'');c='B35F00'}
+  else{t=lvName(r.type)+(MODE==='duty'&&r.parts.length<3?' '+partsLabel(r.parts):'');c='B35F00'}
   if(r.note)t+=' ('+r.note+')';
   return {t,c};
 }
@@ -359,7 +361,7 @@ function render(){
   let s='';
   days.forEach(dd=>{
     const items=[];let done=0;
-    emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(r)done++;if(r&&r.st!=='p')items.push(`<span class="tag ${r.st}">${esc(e.name)} — ${r.st==='a'?'غياب':'إجازة '+esc(r.type)}${MODE==='duty'?' ('+partsLabel(r.parts)+')':''}</span>`)});
+    emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(r)done++;if(r&&r.st!=='p')items.push(`<span class="tag ${r.st}">${esc(e.name)} — ${r.st==='a'?'غياب':esc(lvName(r.type))}${MODE==='duty'?' ('+partsLabel(r.parts)+')':''}</span>`)});
     s+=`<div class="daysum"><b>${DAYS[dd.w]} ${dd.d}/${dd.m+1}</b> — ${done===0?'<span style="color:var(--muted)">لم يُؤشَّر بعد</span>':(items.length?items.join(''):'<span style="color:var(--ok)">الكل داوم</span>')}${done&&done<emps.length?` <span style="color:var(--muted);font-size:12px">(باقي ${emps.length-done} غير مؤشّر)</span>`:''}</div>`;
   });
   $('daySummary').innerHTML=s||'<div class="hint">ماكو أيام</div>';
@@ -522,7 +524,7 @@ $('btnWord').onclick=()=>chooseScope(all=>{
 $('btnCopy').onclick=()=>{
   const days=curDays(),emps=curEmps();
   let t=(MODE==='duty'?`موقف الوجبة ${SHIFT[SH]} — ${MONTHS[M]} ${Y}`:`الدوام الصباحي — ${secById(SEC).name} — ${periodName()}`)+`\n${S.h3}\n`;
-  days.forEach(dd=>{const x=[];let done=0;emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(r)done++;if(r&&r.st!=='p')x.push('• '+e.name+' — '+(r.st==='a'?'غياب':'إجازة '+r.type)+(MODE==='duty'?' ('+partsLabel(r.parts)+')':''))});
+  days.forEach(dd=>{const x=[];let done=0;emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(r)done++;if(r&&r.st!=='p')x.push('• '+e.name+' — '+(r.st==='a'?'غياب':lvName(r.type))+(MODE==='duty'?' ('+partsLabel(r.parts)+')':''))});
     if(!done)return;t+=`\n${DAYS[dd.w]} ${dd.d}/${dd.m+1}:\n`+(x.length?x.join('\n'):'الكل داوم')+'\n'});
   const ok=()=>toast('تم نسخ الملخص — الصقيه بالواتساب');
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,()=>fallbackCopy(t,ok));else fallbackCopy(t,ok);
@@ -661,7 +663,7 @@ Read the sheet and return:
 - "title": the sheet title text exactly as printed (e.g. "أسماء منتسبي شعبة السيطرة والنظم" or "موقف الوجبة الثانية لشهر تشرين الثاني 2026").
 - "dates": the date of each day column in the order they appear from RIGHT to LEFT, formatted YYYY-MM-DD (use the year printed on the sheet; if a column has only a weekday, infer the date from neighbouring columns).
 - "rows": for each printed employee row: "name" exactly as printed, and "d": one cell per date column in the same order, each {"s","t","c"}:
-  "s"="p" ANY handwritten ink mark in the cell — signature, scribble, initials, short stroke, even if faint, small, slanted or overlapping the cell border (present). Most cells on these sheets are signatures, so look carefully before calling a cell empty; "s"="l" a handwritten leave word, with "t" one of "زمنية","مرضية","اعتيادية","طارئة","حالة وفاة","أمومة","إرسال" (plain "إجازة"/"اجازة" → "اعتيادية", "ارسال" → "إرسال"); "s"="a" written absence like "غياب"/"غ"; "s"="e" ONLY if the cell is completely blank with no ink at all. "c" = confidence 0-1.
+  "s"="p" ANY handwritten ink mark in the cell — signature, scribble, initials, short stroke, even if faint, small, slanted or overlapping the cell border (present). Most cells on these sheets are signatures, so look carefully before calling a cell empty; "s"="l" a handwritten leave word, with "t" one of "زمنية","مرضية","اعتيادية","طارئة","حالة وفاة","إيفاد","واجب رسمي","أمومة","إرسال" (plain "إجازة"/"اجازة" → "اعتيادية", "ارسال" → "إرسال"); "s"="a" written absence like "غياب"/"غ"; "s"="e" ONLY if the cell is completely blank with no ink at all. "c" = confidence 0-1.
 Work row by row: follow each printed name horizontally across to its own cells (rows are separated by lines and alternate grey/white shading), so a signature is never assigned to the neighbouring row. The photo may be rotated or taken at an angle; read it in its correct orientation.
 Ignore the leave-count column and any notes. Also return "rotation": how many degrees CLOCKWISE the photo must be rotated so the Arabic text reads upright (0, 90, 180 or 270).
 Return ONLY JSON: {"rotation":0,"title":"...","dates":["YYYY-MM-DD",...],"rows":[{"name":"...","d":[{"s":"p","t":"","c":0.9},...]}]}`;
@@ -686,7 +688,7 @@ Return ONLY JSON: {"rotation":0,"title":"...","dates":["YYYY-MM-DD",...],"rows":
 /* شاشة المراجعة */
 let REV=null;
 const CYCLE=['p','l','a','e'];
-function revLabel(c){if(c.st==='p')return 'داوم';if(c.st==='l')return 'إجازة '+(c.type||'');if(c.st==='a')return 'غياب';return '—'}
+function revLabel(c){if(c.st==='p')return 'داوم';if(c.st==='l')return lvName(c.type);if(c.st==='a')return 'غياب';return '—'}
 function groupName(g){if(!g)return 'غير معروفة';return g.mode==='duty'?'الوجبة '+SHIFT[g.key]:secById(g.key).name}
 function openReview(sheets,thumbs,fails){
   REV={sheets:sheets.map(sh=>{
@@ -698,7 +700,7 @@ function openReview(sheets,thumbs,fails){
 }
 function drawReview(thumbs,fails){
   let low=0;REV.sheets.forEach(sh=>sh.cells.forEach(r=>r.forEach(c=>{if(c.low)low++})));
-  let h=`<h3>راجعي القراءة قبل الاعتماد</h3><div class="sub">اضغطي على أي خانة تبدّلها (داوم ← اعتيادية ← مرضية ← زمنية ← طارئة ← غياب). الخانات بعلامة ؟ الأداة مو متأكدة منها${low?' ('+low+')':''}.${fails?' تعذّرت قراءة '+fails+' صورة.':''}</div>`;
+  let h=`<h3>راجعي القراءة قبل الاعتماد</h3><div class="sub">اضغطي على أي خانة تبدّلها (داوم ← اعتيادية ← مرضية ← زمنية ← طارئة ← حالة وفاة ← إيفاد ← واجب رسمي ← غياب). الخانات بعلامة ؟ الأداة مو متأكدة منها${low?' ('+low+')':''}.${fails?' تعذّرت قراءة '+fails+' صورة.':''}</div>`;
   if(thumbs&&thumbs.length)h+=`<div class="revthumbs">${thumbs.map(u=>`<img src="${u}" alt="">`).join('')}</div>`;
   REV.sheets.forEach((sh,si)=>{
     const dl=sh.days.filter(Boolean);
@@ -714,7 +716,7 @@ function drawReview(thumbs,fails){
   $('sheet').onclick=ev=>{
     const td=ev.target.closest('td[data-s]');
     if(td){const c=REV.sheets[+td.dataset.s].cells[+td.dataset.r][+td.dataset.j];
-      const SEQ=[['p',''],['l','اعتيادية'],['l','مرضية'],['l','زمنية'],['l','طارئة'],['a','']];
+      const SEQ=[['p',''],['l','اعتيادية'],['l','مرضية'],['l','زمنية'],['l','طارئة'],['l','حالة وفاة'],['l','إيفاد'],['l','واجب رسمي'],['a','']];
       let i=SEQ.findIndex(x=>x[0]===c.st&&(c.st!=='l'||x[1]===c.type));
       const nx=SEQ[(i+1)%SEQ.length];c.st=nx[0];c.type=nx[1];
       c.low=false;drawReview(thumbs,fails);return}
