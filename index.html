@@ -11,6 +11,7 @@
 <meta name="apple-mobile-web-app-title" content="موقف المناوبين">
 <link rel="manifest" href="manifest.json">
 <script src="docx.umd.js" defer></script>
+<script src="exceljs.min.js" defer></script>
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +66,7 @@ td.notes{font-size:12px;min-width:40px;padding:4px;color:var(--lv);font-weight:7
 .stat{border-radius:12px;padding:10px 6px;text-align:center;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.12)}
 .stat b{display:block;font-family:Cairo;font-size:22px}
 .stat span{font-size:13px;font-weight:700}
-.actions{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:2fr 1fr;gap:8px;z-index:30}
+.actions{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr 1fr .8fr;gap:8px;z-index:30}
 .btn{border:0;border-radius:12px;padding:12px 8px;font-family:Cairo;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn.pri{background:var(--navy);color:#fff}
 .btn.amb{background:var(--amber);color:#1c2430}
@@ -211,11 +212,12 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 12 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 13 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
-  <button class="btn amb" id="btnWord" style="font-size:16px">📄 طبع وورد</button>
+  <button class="btn amb" id="btnWord">📄 طبع وورد</button>
+  <button class="btn" id="btnExcel" style="background:#1d6f42;color:#fff">📊 طبع اكسل</button>
   <button class="btn gh" id="btnCopy">📋 ملخص</button>
 </div>
 
@@ -521,6 +523,48 @@ $('btnWord').onclick=()=>chooseScope(all=>{
   const nm=(MODE==='duty'?'موقف ':'دوام صباحي ')+scopeName(all)+' '+periodName()+'.docx';
   buildDocx(specs).then(b=>{download(nm,b);toast('تم تنزيل ملف الوورد')}).catch(()=>toast('تعذّر إنشاء ملف الوورد'));
 });
+
+async function buildXlsx(specs){
+  const E=window.ExcelJS;const wb=new E.Workbook();wb.creator='موقف المناوبين';
+  const thin={style:'thin',color:{argb:'FF333333'}};const B={top:thin,bottom:thin,left:thin,right:thin};
+  const dt=pad(today.getDate())+'/'+pad(today.getMonth()+1)+'/'+today.getFullYear();
+  const used={};
+  specs.forEach(sp=>{
+    let nm=sp.title.replace(/^أسماء منتسبي /,'').replace(/^موقف /,'').replace(/[\\\/\?\*\[\]:]/g,'').slice(0,28)||'ورقة';
+    while(used[nm])nm=nm.slice(0,26)+' '+(++used[nm]);used[nm]=1;
+    const ws=wb.addWorksheet(nm,{views:[{rightToLeft:true}],pageSetup:{orientation:'landscape',paperSize:9,fitToPage:true,fitToWidth:1,fitToHeight:0,margins:{left:.3,right:.3,top:.4,bottom:.4,header:.2,footer:.2}}});
+    const nCols=2+sp.heads.length+sp.tail.length;
+    ws.columns=[{width:5},{width:34},...sp.heads.map(()=>({width:16})),...sp.tail.map(t=>({width:t.length>2?12:7}))];
+    [S.h1,S.h2,S.h3].forEach((t,i)=>{const r=ws.addRow([t]);ws.mergeCells(r.number,1,r.number,nCols-2);r.getCell(1).font={bold:true,size:13,name:'Arial'};r.getCell(1).alignment={horizontal:'right'};
+      if(i===0){r.getCell(nCols-1).value='التاريخ: '+dt;ws.mergeCells(r.number,nCols-1,r.number,nCols);r.getCell(nCols-1).alignment={horizontal:'left'}}});
+    ws.addRow([]);
+    const tr=ws.addRow([sp.title]);ws.mergeCells(tr.number,1,tr.number,nCols);tr.getCell(1).font={bold:true,size:15,underline:true,name:'Arial'};tr.getCell(1).alignment={horizontal:'center'};
+    const hr=ws.addRow(['ت','الاسم',...sp.heads,...sp.tail]);hr.height=34;
+    hr.eachCell(c=>{c.font={bold:true,name:'Arial',size:11};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE6E6E6'}};c.border=B;c.alignment={horizontal:'center',vertical:'middle',wrapText:true}});
+    sp.rows.forEach((r,i)=>{
+      const row=ws.addRow([i+1,r.name,...r.cells.map(c=>c.t),...r.tail]);row.height=24;
+      row.eachCell({includeEmpty:true},(c,col)=>{c.border=B;c.alignment={horizontal:col===2?'right':'center',vertical:'middle',wrapText:true};c.font={name:'Arial',size:col===2?12:10,bold:col===2};
+        if(i%2)c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFF2F2F2'}};
+        if(col>2&&col<=2+r.cells.length){c.font={...c.font,color:{argb:'FF'+r.cells[col-3].c}}}
+        if(col>2+r.cells.length&&r.over)c.font={...c.font,bold:true,color:{argb:'FFB30000'}}});
+    });
+    if(sp.note){ws.addRow([]);const nr=ws.addRow(['*'+sp.note]);ws.mergeCells(nr.number,1,nr.number,nCols);nr.getCell(1).font={bold:true,size:10,name:'Arial'};nr.getCell(1).alignment={horizontal:'right',wrapText:true};nr.height=30}
+    ws.addRow([]);ws.addRow([]);
+    const half=Math.ceil(nCols/2);
+    const s1=ws.addRow([]);s1.getCell(1).value=S.sigR;ws.mergeCells(s1.number,1,s1.number,half);s1.getCell(half+1).value=S.sigL;ws.mergeCells(s1.number,half+1,s1.number,nCols);
+    const s2=ws.addRow([]);s2.getCell(1).value='التوقيع: ..........................';ws.mergeCells(s2.number,1,s2.number,half);s2.getCell(half+1).value='التوقيع: ..........................';ws.mergeCells(s2.number,half+1,s2.number,nCols);
+    [s1,s2].forEach(r=>r.eachCell(c=>{c.alignment={horizontal:'center'};c.font={bold:r===s1,name:'Arial',size:12}}));
+  });
+  const buf=await wb.xlsx.writeBuffer();
+  return new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+}
+$('btnExcel').onclick=()=>chooseScope(all=>{
+  if(!window.ExcelJS){toast('مكتبة الاكسل ما اشتغلت — حدّثي الصفحة');return}
+  const specs=curSpecs(all);if(!specs.length){toast('ماكو أسماء');return}
+  const nm=(MODE==='duty'?'موقف ':'دوام صباحي ')+scopeName(all)+' '+periodName()+'.xlsx';
+  buildXlsx(specs).then(b=>{download(nm,b);toast('تم تنزيل ملف الاكسل')}).catch(e=>{console.log(e);toast('تعذّر إنشاء ملف الاكسل')});
+});
+
 $('btnCopy').onclick=()=>{
   const days=curDays(),emps=curEmps();
   let t=(MODE==='duty'?`موقف الوجبة ${SHIFT[SH]} — ${MONTHS[M]} ${Y}`:`الدوام الصباحي — ${secById(SEC).name} — ${periodName()}`)+`\n${S.h3}\n`;
@@ -642,7 +686,7 @@ let OCR_ERR='';
 function showErr(msg){edit=null;let hint='';
   if(/API key|API_KEY|PERMISSION|403/i.test(msg))hint='المفتاح غلط أو ما مفعّل. تأكدي إنه منسوخ كامل بالإعدادات.';
   else if(/location|region|not supported/i.test(msg))hint='خدمة Gemini مو متاحة من هذا البلد/الشبكة.';
-  else if(/429|quota|RESOURCE/i.test(msg))hint='خلصت الحصة المجانية مؤقتاً، جربي بعد دقيقة.';
+  else if(/429|quota|RESOURCE/i.test(msg))hint='خلصت الحصة المجانية مال Gemini. جربي بعد ساعة أو باچر، أو فعّلي الدفع بحساب Google AI Studio حتى يشتغل دائماً.';
   else if(/انتهى الوقت|Failed to fetch|NetworkError|Load failed/i.test(msg))hint='مشكلة نت أو بطء. جربي مرة ثانية أو بصورة أصغر.';
   $('sheet').innerHTML=`<h3>ما گدرت أقرا الصورة</h3><div class="sub">${esc(hint||'صار خطأ أثناء القراءة.')}</div><div class="hint" style="direction:ltr;text-align:left;font-size:11px;word-break:break-all">${esc((msg||'').slice(0,900)).replace(/\n/g,'<br>')}</div><button class="btn gh" style="width:100%" onclick="document.getElementById('ov').classList.remove('show')">تمام</button>`;$('ov').classList.add('show')}
 let OCR_STAGE='',OCR_T0=0,OCR_TIMER=null;
@@ -669,14 +713,14 @@ Ignore the leave-count column and any notes. Also return "rotation": how many de
 Return ONLY JSON: {"rotation":0,"title":"...","dates":["YYYY-MM-DD",...],"rows":[{"name":"...","d":[{"s":"p","t":"","c":0.9},...]}]}`;
   const body={contents:[{parts:[{text:prompt},{inline_data:{mime_type:'image/jpeg',data:b64}}]}],generationConfig:{responseMimeType:'application/json',temperature:0}};
   const errs=[];
-  const tries=[['gemini-3.8-flash',{thinkingLevel:'high'}],['gemini-3.8-flash',null],['gemini-flash-latest',null]];
+  const tries=[['gemini-3.8-flash',{thinkingLevel:'medium'}],['gemini-flash-latest',{thinkingLevel:'low'}]];
   for(const [m,think] of tries){
-    const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),150000);
+    const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),120000);
     const b2=JSON.parse(JSON.stringify(body));if(think)b2.generationConfig.thinkingConfig=think;
     try{OCR_STAGE='جاري القراءة بـ '+m;
       const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${encodeURIComponent(gkey())}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b2),signal:ctl.signal});clearTimeout(to);
       if(!r.ok){const t=(await r.text()).slice(0,300);errs.push(m+' → HTTP '+r.status+': '+t);
-        if(/API key|API_KEY_INVALID|PERMISSION_DENIED/i.test(t))break;continue}
+        if(/API key|API_KEY_INVALID|PERMISSION_DENIED/i.test(t)||r.status===429)break;continue}
       const j=await r.json();const txt=((j.candidates||[])[0]?.content?.parts||[]).map(p=>p.text||'').join('');
       if(!txt){errs.push(m+' → رد فارغ');continue}
       return JSON.parse(txt.replace(/^```json|```$/g,'').trim());
