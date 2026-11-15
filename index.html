@@ -602,10 +602,10 @@ $('ocrFile').onchange=async ev=>{const files=[...ev.target.files];ev.target.valu
     try{const img=await shrink(files[i]);thumbs.push(img.url);
       const res=await askGemini(img.b64);const sh=mapSheet(res);if(sh)sheets.push(sh);else fails++;
       ocrBusy(true,files.length,i+1);
-    }catch(e){fails++;console.log(e)}
+    }catch(e){fails++;OCR_ERR=String(e&&e.message||e);console.log(e)}
   }
   ocrBusy(false);
-  if(!sheets.length){toast('ما گدرت أقرا الصورة — تأكدي من المفتاح والنت ووضوح الصورة');return}
+  if(!sheets.length){showErr(OCR_ERR);return}
   openReview(sheets,thumbs,fails);
 };
 /* تطبيع الأسماء العربية للمطابقة */
@@ -633,9 +633,20 @@ function mapSheet(res){
   if(!rows.length)return null;
   return {g,days,rows,unknown,title:res.title||''};
 }
+let OCR_ERR='';
+function showErr(msg){edit=null;let hint='';
+  if(/API key|API_KEY|PERMISSION|403/i.test(msg))hint='المفتاح غلط أو ما مفعّل. تأكدي إنه منسوخ كامل بالإعدادات.';
+  else if(/location|region|not supported/i.test(msg))hint='خدمة Gemini مو متاحة من هذا البلد/الشبكة.';
+  else if(/429|quota|RESOURCE/i.test(msg))hint='خلصت الحصة المجانية مؤقتاً، جربي بعد دقيقة.';
+  else if(/انتهى الوقت|Failed to fetch|NetworkError|Load failed/i.test(msg))hint='مشكلة نت أو بطء. جربي مرة ثانية أو بصورة أصغر.';
+  $('sheet').innerHTML=`<h3>ما گدرت أقرا الصورة</h3><div class="sub">${esc(hint||'صار خطأ أثناء القراءة.')}</div><div class="hint" style="direction:ltr;text-align:left;font-size:11px;word-break:break-all">${esc((msg||'').slice(0,400))}</div><button class="btn gh" style="width:100%" onclick="document.getElementById('ov').classList.remove('show')">تمام</button>`;$('ov').classList.add('show')}
+let OCR_STAGE='',OCR_T0=0,OCR_TIMER=null;
 function ocrBusy(on,total,done){
+  clearInterval(OCR_TIMER);
   if(!on){closeSheet();return}
-  edit=null;$('sheet').innerHTML=`<h3>دا أقرا الصور…</h3><div class="sub">${done||0} من ${total} — لا تسكّرين الصفحة</div><div class="spin"></div>`;$('ov').classList.add('show');
+  if(!done)OCR_T0=Date.now();
+  const draw=()=>{edit=null;$('sheet').innerHTML=`<h3>دا أقرا الصور…</h3><div class="sub">${done||0} من ${total} — لا تسكّرين الصفحة<br>${Math.round((Date.now()-OCR_T0)/1000)} ثانية · ${esc(OCR_STAGE)}</div><div class="spin"></div>`};
+  draw();OCR_TIMER=setInterval(draw,1000);$('ov').classList.add('show');
 }
 function shrink(file){return new Promise((ok,no)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{
   const max=2200,sc=Math.min(1,max/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);
@@ -650,12 +661,14 @@ Read the sheet and return:
 Ignore the leave-count column and any notes. Return ONLY JSON: {"title":"...","dates":["YYYY-MM-DD",...],"rows":[{"name":"...","d":[{"s":"p","t":"","c":0.9},...]}]}`;
   const body={contents:[{parts:[{text:prompt},{inline_data:{mime_type:'image/jpeg',data:b64}}]}],generationConfig:{responseMimeType:'application/json',temperature:0}};
   let lastErr;
-  for(const m of ['gemini-flash-latest','gemini-2.5-flash','gemini-2.0-flash']){
-    try{const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${encodeURIComponent(gkey())}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-      if(!r.ok){lastErr=await r.text();if(r.status===400||r.status===403)throw new Error(lastErr);continue}
+  for(const m of ['gemini-2.5-flash','gemini-flash-latest','gemini-2.0-flash']){
+    const ctl=new AbortController();const to=setTimeout(()=>ctl.abort(),75000);
+    const b2=JSON.parse(JSON.stringify(body));if(m!=='gemini-2.0-flash')b2.generationConfig.thinkingConfig={thinkingBudget:0};
+    try{OCR_STAGE='جاري الإرسال إلى '+m;const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${encodeURIComponent(gkey())}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b2),signal:ctl.signal});clearTimeout(to);
+      if(!r.ok){lastErr='HTTP '+r.status+': '+(await r.text()).slice(0,300);if(r.status===400||r.status===403)throw new Error(lastErr);continue}
       const j=await r.json();const txt=j.candidates[0].content.parts.map(p=>p.text||'').join('');
       return JSON.parse(txt.replace(/^```json|```$/g,'').trim());
-    }catch(e){lastErr=e;if(String(e).includes('API key'))break}
+    }catch(e){clearTimeout(to);lastErr=e.name==='AbortError'?'انتهى الوقت (75 ثانية) بدون جواب من '+m:e;if(String(e).includes('API key')||String(e).includes('API_KEY'))break}
   }
   throw lastErr;
 }
