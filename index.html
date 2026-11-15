@@ -179,11 +179,13 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <div class="lbl">السطر الثاني</div><input class="txt" id="h2">
     <div class="lbl">السطر الثالث</div><input class="txt" id="h3">
     <input type="hidden" id="sigR">
-    <div class="lbl">التوقيع أسفل يسار الورقة</div><input class="txt" id="sigL">
+    <input type="hidden" id="sigL">
     <div class="lbl">تنبيه أسفل أوراق الدوام الصباحي</div><input class="txt" id="note">
     <div class="lbl">عنوان الموقف اليومي</div><input class="txt" id="dTitle">
-    <div class="lbl">توقيع الموقف اليومي (الصفة)</div><input class="txt" id="dSig">
-    <div class="lbl">اسم الموقّع على الموقف اليومي</div><input class="txt" id="dSigN" placeholder="مثلاً: حسين احمد ...">
+    <div class="lbl">التوقيع أسفل يسار الأوراق — السطر الأول</div><input class="txt" id="dSig" placeholder="المهندس">
+    <div class="lbl">اسم الموقّع</div><input class="txt" id="dSigN" placeholder="حسين أحمد حمود">
+    <div class="lbl">الصفة (تحت الاسم)</div><input class="txt" id="sigT" placeholder="ر. قسم السيطرة الذاتية">
+    <div class="hint">والتاريخ والساعة تنكتب وحدها تحتهم بوقت الطبع.</div>
   </div>
   <div class="card">
     <h2 class="sec">قراءة الصور</h2>
@@ -218,7 +220,7 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 18 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 19 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -461,7 +463,7 @@ function sheetHTML(sp,forWord){
   });
   t+='</table>';
   if(sp.note)t+=`<div style="margin-top:6px;font-size:10.5pt;font-weight:700;text-align:center">*${esc(sp.note)}</div>`;
-  t+=`<div style="margin-top:22px;text-align:left;font-size:13pt;font-weight:800;padding-left:6px">${esc(S.sigL)}</div></div>`;
+  t+=sigHTML('12.5pt')+`</div>`;
   return t;
 }
 function curSpecs(all){
@@ -497,7 +499,7 @@ function download(name,blob){
 }
 function buildDocx(specs){
   const D=window.docx;const FONT='Simplified Arabic';
-  const P=(text,o={})=>new D.Paragraph({bidirectional:true,alignment:o.al||D.AlignmentType.CENTER,spacing:{before:o.before||0,after:o.after||0,line:o.line||240},keepNext:!!o.keep,
+  const P=(text,o={})=>new D.Paragraph({bidirectional:!o.ltr,alignment:o.al||D.AlignmentType.CENTER,spacing:{before:o.before||0,after:o.after||0,line:o.line||240},keepNext:!!o.keep,
     children:String(text).split('\n').map((ln,i)=>new D.TextRun({text:ln,break:i?1:0,bold:o.b!==0,size:o.sz||24,color:o.c||'000000',font:{ascii:FONT,hAnsi:FONT,cs:FONT},rightToLeft:true,boldComplexScript:o.b!==0,sizeComplexScript:o.sz||24,underline:o.u?{}:undefined}))});
   const B={style:D.BorderStyle.SINGLE,size:8,color:'222222'};const borders={top:B,bottom:B,left:B,right:B};
   const cell=(text,o={})=>new D.TableCell({borders,verticalAlign:D.VerticalAlign.CENTER,shading:o.fill?{fill:o.fill,type:D.ShadingType.CLEAR,color:'auto'}:undefined,
@@ -512,7 +514,7 @@ function buildDocx(specs){
     const rows=sp.rows.map((r,i)=>{const f=i%2?'F0F0F0':undefined;
       return new D.TableRow({cantSplit:true,height:{value:rh,rule:D.HeightRule.ATLEAST},children:[cell(i+1,{fill:f,w:wNo,sz:22}),cell(r.name,{fill:f,w:wName,sz:fs+2}),
         ...r.cells.map(ci=>cell(ci.t,{fill:f,w:wDay,c:ci.c==='1A7A3F'?'000000':ci.c,sz:fs})),...r.tail.map(x=>cell(x,{fill:f,w:wT,sz:24,c:r.over?'B30000':'000000'}))]})});
-    const sig=P(S.sigL,{sz:26,before:300,al:D.AlignmentType.LEFT});
+    const sig=P(sigLines().join('\n'),{sz:24,before:200,al:D.AlignmentType.END,line:260});
     const ch=[P(S.h1,{sz:24,al:D.AlignmentType.RIGHT,line:220}),P(S.h2,{sz:24,al:D.AlignmentType.RIGHT,line:220}),P(S.h3,{sz:24,al:D.AlignmentType.RIGHT,line:220}),
       P(sp.title,{sz:30,after:80,u:1}),
       new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,columnWidths:[wNo,wName,...sp.heads.map(()=>wDay),...sp.tail.map(()=>wT)],width:{size:total,type:D.WidthType.DXA},rows:[head,...rows]})];
@@ -537,7 +539,7 @@ async function buildXlsx(specs){
   specs.forEach(sp=>{
     let nm=sp.title.replace(/^أسماء منتسبي /,'').replace(/^موقف /,'').replace(/[\\\/\?\*\[\]:]/g,'').slice(0,28)||'ورقة';
     while(used[nm])nm=nm.slice(0,26)+' '+(++used[nm]);used[nm]=1;
-    const ws=wb.addWorksheet(nm,{views:[{rightToLeft:true}],pageSetup:{orientation:'landscape',paperSize:9,fitToPage:true,fitToWidth:1,fitToHeight:0,margins:{left:.3,right:.3,top:.4,bottom:.4,header:.2,footer:.2}}});
+    const ws=wb.addWorksheet(nm,{views:[{rightToLeft:true}],pageSetup:{orientation:'landscape',paperSize:9,fitToPage:true,fitToWidth:1,fitToHeight:1,margins:{left:.3,right:.3,top:.4,bottom:.4,header:.2,footer:.2}}});
     const nCols=2+sp.heads.length+sp.tail.length;
     ws.columns=[{width:5},{width:34},...sp.heads.map(()=>({width:16})),...sp.tail.map(t=>({width:t.length>2?12:7}))];
     [S.h1,S.h2,S.h3].forEach((t,i)=>{const r=ws.addRow([t]);ws.mergeCells(r.number,1,r.number,nCols-2);r.getCell(1).font={bold:true,size:13,name:'Arial'};r.getCell(1).alignment={horizontal:'right'};});
@@ -554,7 +556,7 @@ async function buildXlsx(specs){
     });
     if(sp.note){ws.addRow([]);const nr=ws.addRow(['*'+sp.note]);ws.mergeCells(nr.number,1,nr.number,nCols);nr.getCell(1).font={bold:true,size:10,name:'Arial'};nr.getCell(1).alignment={horizontal:'right',wrapText:true};nr.height=30}
     ws.addRow([]);ws.addRow([]);
-    const s1=ws.addRow([]);s1.getCell(nCols-2).value=S.sigL;ws.mergeCells(s1.number,nCols-2,s1.number,nCols);s1.getCell(nCols-2).alignment={horizontal:'left'};s1.getCell(nCols-2).font={bold:true,name:'Arial',size:13};
+    sigLines().forEach(t=>{const s1=ws.addRow([]);s1.getCell(nCols-3).value=t;ws.mergeCells(s1.number,nCols-3,s1.number,nCols);s1.getCell(nCols-3).alignment={horizontal:'left'};s1.getCell(nCols-3).font={bold:true,name:'Arial',size:12}});
   });
   const buf=await wb.xlsx.writeBuffer();
   return new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
@@ -582,6 +584,9 @@ function dailyData(dateStr){
       duty.push({name:e.name,st:t+' يوم '+DAYS[x.getDay()]+' '+(x.getMonth()+1)+'/'+x.getDate()})})}
   return {title:'م/ الموقف اليومي ليوم '+DAYS[day.getDay()]+' الموافق '+day.getFullYear()+'/'+(day.getMonth()+1)+'/'+day.getDate(),morning,duty};
 }
+function sigLines(){const n=new Date();let h=n.getHours();const ap=h<12?'ص':'م';h=h%12||12;
+  return [S.dSig||'المهندس',S.dSigN||'حسين أحمد حمود',S.sigT||'ر. قسم السيطرة الذاتية','التاريخ: '+n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear()+'  الساعة '+h+':'+pad(n.getMinutes())+' '+ap].filter(x=>x)}
+function sigHTML(fs){return `<div style="margin-top:22px;text-align:left"><div style="display:inline-block;text-align:center;font-size:${fs};font-weight:800;line-height:1.7;padding-left:6px">${sigLines().map(esc).join('<br>')}</div></div>`}
 function setPage(css){let el=document.getElementById('pgStyle');if(!el){el=document.createElement('style');el.id='pgStyle';document.head.appendChild(el)}el.textContent=css?'@media print{@page{'+css+'}}':''}
 const D_HEAD='B4C6E7',D_ALT='DCE6F1';
 function dailyTables(dd){return [{h:'الموقف',rows:dd.morning,label:'الدوام الصباحي'},{h:'المناوبين',rows:dd.duty,label:'المناوبين'}]}
@@ -595,12 +600,12 @@ function dailyHTML(dd){
   <div style="font-size:16pt;text-decoration:underline">م/ ${esc(S.dTitle)}</div>
   <div style="font-size:15pt;text-decoration:underline;margin:4px 0 14px">${esc(dd.title.replace(/^م\/ /,''))}</div>
   ${dailyTables(dd).map(tbl).join('')}
-  <div style="margin-top:40px;text-align:left;font-size:14pt;line-height:1.9">${esc(S.dSig||'')}<br>${esc(S.dSigN||'')}</div></div>`;
+  ${sigHTML('13.5pt').replace('margin-top:22px','margin-top:40px')}</div>`;
 }
 function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function buildDailyDocx(dd){
   const D=window.docx;const FONT='Simplified Arabic';
-  const P=(t,o={})=>new D.Paragraph({bidirectional:true,alignment:o.al||D.AlignmentType.RIGHT,spacing:{before:o.before||0,after:o.after||0},
+  const P=(t,o={})=>new D.Paragraph({bidirectional:!o.ltr,alignment:o.al||D.AlignmentType.RIGHT,spacing:{before:o.before||0,after:o.after||0},
     children:[new D.TextRun({text:String(t),bold:true,boldComplexScript:true,size:o.sz||27,sizeComplexScript:o.sz||27,font:{ascii:FONT,hAnsi:FONT,cs:FONT},rightToLeft:true,underline:o.u?{}:undefined})]});
   const B={style:D.BorderStyle.SINGLE,size:10,color:'000000'};const borders={top:B,bottom:B,left:B,right:B};
   const cell=(t,o={})=>new D.TableCell({borders,width:{size:o.w,type:D.WidthType.DXA},verticalAlign:D.VerticalAlign.CENTER,shading:o.fill?{fill:o.fill,type:D.ShadingType.CLEAR,color:'auto'}:undefined,margins:{top:50,bottom:50,left:100,right:100},children:[P(t,{sz:27,al:o.al||D.AlignmentType.CENTER})]});
@@ -610,8 +615,7 @@ function buildDailyDocx(dd){
       ...rows.map((r,i)=>{const f=i%2?D_ALT:undefined;return new D.TableRow({cantSplit:true,height:{value:420,rule:D.HeightRule.ATLEAST},children:[cell(t.rows.length?i+1:'',{w:W[0],fill:f}),cell(r.name,{w:W[1],al:D.AlignmentType.RIGHT,fill:f}),cell(r.st,{w:W[2],fill:f})]})})]})};
   const ch=[P('م/ '+S.dTitle,{sz:32,u:1}),P(dd.title.replace(/^م\/ /,''),{sz:30,after:240,u:1})];
   dailyTables(dd).forEach((t,k)=>{ch.push(table(t));ch.push(P('',{after:k?0:300}))});
-  ch.push(P(S.dSig||'',{sz:28,before:600,al:D.AlignmentType.LEFT}));
-  if(S.dSigN)ch.push(P(S.dSigN,{sz:28,before:80,al:D.AlignmentType.LEFT}));
+  sigLines().forEach((t,k)=>ch.push(P(t,{sz:26,before:k?40:600,al:D.AlignmentType.END})));
   return D.Packer.toBlob(new D.Document({sections:[{properties:{page:{size:{orientation:D.PageOrientation.PORTRAIT},margin:{top:800,bottom:800,left:900,right:900}}},children:ch}]}));
 }
 async function buildDailyXlsx(dd){
@@ -623,7 +627,7 @@ async function buildDailyXlsx(dd){
   const table=t=>{const h=ws.addRow(['ت','الاسم',t.h]);h.eachCell(c=>{c.font={bold:true,name:FN,size:14};c.fill=fill(D_HEAD);c.border=B;c.alignment={horizontal:'center',vertical:'middle'}});
     (t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}]).forEach((r,i)=>{const x=ws.addRow([t.rows.length?i+1:'',r.name,r.st]);x.height=22;x.eachCell({includeEmpty:true},(c,col)=>{c.border=B;c.font={bold:true,name:FN,size:14};c.alignment={horizontal:col===2?'right':'center',vertical:'middle',wrapText:true};if(i%2)c.fill=fill(D_ALT)})})};
   line('م/ '+S.dTitle,{sz:16,u:1});line(dd.title.replace(/^م\/ /,''),{sz:15,u:1});ws.addRow([]);
-  dailyTables(dd).forEach(t=>{table(t);ws.addRow([])});ws.addRow([]);line(S.dSig||'',{al:'left'});if(S.dSigN)line(S.dSigN,{al:'left'});
+  dailyTables(dd).forEach(t=>{table(t);ws.addRow([])});ws.addRow([]);sigLines().forEach(t=>line(t,{al:'left'}));
   return new Blob([await wb.xlsx.writeBuffer()],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
 }
 function dailyText(dd){let t=S.dTitle+'\n'+dd.title+'\n\nالدوام الصباحي:\n'+(dd.morning.length?dd.morning.map((r,i)=>(i+1)+'. '+r.name+' — '+r.st).join('\n'):'لا يوجد')+'\n\nالمناوبين:\n'+(dd.duty.length?dd.duty.map((r,i)=>(i+1)+'. '+r.name+' — '+r.st).join('\n'):'لا يوجد');return t}
@@ -651,12 +655,12 @@ function fallbackCopy(t,ok){const ta=document.createElement('textarea');ta.value
 function showSettings(on){
   $('viewMain').classList.toggle('hide',on);$('viewSettings').classList.toggle('hide',!on);$('actionBar').classList.toggle('hide',on);
   document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
-  if(on){['h1','h2','h3','sigR','sigL','note','dTitle','dSig','dSigN'].forEach(k=>$(k).value=S[k]||'');$('anchorDate').value=S.anchor;$('anchorShift').value=S.anchorShift;
+  if(on){['h1','h2','h3','sigR','sigL','note','dTitle','dSig','dSigN','sigT'].forEach(k=>$(k).value=S[k]||'');$('anchorDate').value=S.anchor;$('anchorShift').value=S.anchorShift;
     SET_SH=MODE==='duty'?'d'+SH:SEC;renderEmps()}
   else render();
   window.scrollTo(0,0);
 }
-['h1','h2','h3','sigR','sigL','note','dTitle','dSig','dSigN'].forEach(k=>$(k).addEventListener('input',ev=>{S[k]=ev.target.value;save()}));
+['h1','h2','h3','sigR','sigL','note','dTitle','dSig','dSigN','sigT'].forEach(k=>$(k).addEventListener('input',ev=>{S[k]=ev.target.value;save()}));
 $('anchorDate').onchange=ev=>{if(ev.target.value){S.anchor=ev.target.value;save()}};
 $('anchorShift').onchange=ev=>{S.anchorShift=+ev.target.value;save()};
 /* group keys: 'd1'..'d4' for duty shifts, section ids for morning sections */
