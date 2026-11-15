@@ -130,6 +130,7 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
   @page{size:A4 landscape;margin:7mm}
   .psheet{page-break-inside:avoid}
   html,body{background:#fff!important}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   header.top,main,.actions,.overlay,.toast{display:none!important}
   #printArea{display:block}
 }
@@ -220,7 +221,7 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 21 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 22 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -588,14 +589,14 @@ function dailyData(dateStr){
 function sigLines(){const n=new Date();return [S.dSig||'المهندس',S.dSigN||'حسين أحمد حمود',S.sigT||'ر. قسم السيطرة الذاتية',n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear()].filter(x=>x)}
 function sigHTML(fs){return `<div style="margin-top:22px;text-align:left"><div style="display:inline-block;text-align:center;font-size:${fs};font-weight:800;line-height:1.7;padding-left:6px">${sigLines().map(esc).join('<br>')}</div></div>`}
 function setPage(css){let el=document.getElementById('pgStyle');if(!el){el=document.createElement('style');el.id='pgStyle';document.head.appendChild(el)}el.textContent=css?'@media print{@page{'+css+'}}':''}
-const D_HEAD='B4C6E7',D_ALT='DCE6F1';
+const D_HEAD='A6A6A6',D_ALT='D9D9D9',D_ROW='F2F2F2';
 function dailyTables(dd){return [{h:'الموقف',rows:dd.morning,label:'الدوام الصباحي'},{h:'المناوبين',rows:dd.duty,label:'المناوبين'}]}
 function dailyHTML(dd){
   const F="font-family:'Simplified Arabic','Traditional Arabic',Arial,sans-serif;font-weight:800;";const bd='border:1.5px solid #000;';
   const tbl=t=>{const rows=t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}];
     return `<table style="width:100%;border-collapse:collapse;margin:0 0 22px;${F}font-size:13.5pt">
     <tr style="background:#${D_HEAD}"><th style="${bd}padding:5px;width:7%">ت</th><th style="${bd}padding:5px;width:45%">الاسم</th><th style="${bd}padding:5px">${t.h}</th></tr>
-    ${rows.map((r,i)=>`<tr style="${i%2?'background:#'+D_ALT:''}"><td style="${bd}padding:6px;text-align:center">${t.rows.length?i+1:''}</td><td style="${bd}padding:6px 10px;text-align:right">${esc(r.name)}</td><td style="${bd}padding:6px;text-align:center">${esc(r.st)}</td></tr>`).join('')}</table>`};
+    ${rows.map((r,i)=>`<tr style="background:#${i%2?D_ALT:D_ROW}"><td style="${bd}padding:6px;text-align:center">${t.rows.length?i+1:''}</td><td style="${bd}padding:6px 10px;text-align:right">${esc(r.name)}</td><td style="${bd}padding:6px;text-align:center">${esc(r.st)}</td></tr>`).join('')}</table>`};
   return `<div style="${F}direction:rtl;color:#000;padding:2mm 2mm 0;min-height:266mm;box-sizing:border-box;display:flex;flex-direction:column">
   <div style="font-size:16pt;text-decoration:underline">م/ ${esc(S.dTitle)}</div>
   <div style="font-size:15pt;text-decoration:underline;margin:4px 0 14px">${esc(dd.title.replace(/^م\/ /,''))}</div>
@@ -612,7 +613,7 @@ function buildDailyDocx(dd){
   const W=[650,4500,4650];
   const table=t=>{const rows=t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}];return new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,columnWidths:W,width:{size:9800,type:D.WidthType.DXA},
     rows:[new D.TableRow({tableHeader:true,children:[cell('ت',{w:W[0],fill:D_HEAD}),cell('الاسم',{w:W[1],fill:D_HEAD}),cell(t.h,{w:W[2],fill:D_HEAD})]}),
-      ...rows.map((r,i)=>{const f=i%2?D_ALT:undefined;return new D.TableRow({cantSplit:true,height:{value:420,rule:D.HeightRule.ATLEAST},children:[cell(t.rows.length?i+1:'',{w:W[0],fill:f}),cell(r.name,{w:W[1],al:D.AlignmentType.RIGHT,fill:f}),cell(r.st,{w:W[2],fill:f})]})})]})};
+      ...rows.map((r,i)=>{const f=i%2?D_ALT:D_ROW;return new D.TableRow({cantSplit:true,height:{value:420,rule:D.HeightRule.ATLEAST},children:[cell(t.rows.length?i+1:'',{w:W[0],fill:f}),cell(r.name,{w:W[1],al:D.AlignmentType.RIGHT,fill:f}),cell(r.st,{w:W[2],fill:f})]})})]})};
   const ch=[P('م/ '+S.dTitle,{sz:32,u:1}),P(dd.title.replace(/^م\/ /,''),{sz:30,after:240,u:1})];
   dailyTables(dd).forEach((t,k)=>{ch.push(table(t));ch.push(P('',{after:k?0:300}))});
   const foot=new D.Footer({children:sigLines().map(t=>P(t,{sz:26,before:40,al:D.AlignmentType.END}))});
@@ -625,7 +626,7 @@ async function buildDailyXlsx(dd){
   const line=(t,o={})=>{const r=ws.addRow([t]);ws.mergeCells(r.number,1,r.number,3);r.getCell(1).font={bold:true,size:o.sz||14,underline:!!o.u,name:FN};r.getCell(1).alignment={horizontal:o.al||'right'};return r};
   const fill=c=>({type:'pattern',pattern:'solid',fgColor:{argb:'FF'+c}});
   const table=t=>{const h=ws.addRow(['ت','الاسم',t.h]);h.eachCell(c=>{c.font={bold:true,name:FN,size:14};c.fill=fill(D_HEAD);c.border=B;c.alignment={horizontal:'center',vertical:'middle'}});
-    (t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}]).forEach((r,i)=>{const x=ws.addRow([t.rows.length?i+1:'',r.name,r.st]);x.height=22;x.eachCell({includeEmpty:true},(c,col)=>{c.border=B;c.font={bold:true,name:FN,size:14};c.alignment={horizontal:col===2?'right':'center',vertical:'middle',wrapText:true};if(i%2)c.fill=fill(D_ALT)})})};
+    (t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}]).forEach((r,i)=>{const x=ws.addRow([t.rows.length?i+1:'',r.name,r.st]);x.height=22;x.eachCell({includeEmpty:true},(c,col)=>{c.border=B;c.font={bold:true,name:FN,size:14};c.alignment={horizontal:col===2?'right':'center',vertical:'middle',wrapText:true};c.fill=fill(i%2?D_ALT:D_ROW)})})};
   line('م/ '+S.dTitle,{sz:16,u:1});line(dd.title.replace(/^م\/ /,''),{sz:15,u:1});ws.addRow([]);
   dailyTables(dd).forEach(t=>{table(t);ws.addRow([])});ws.addRow([]);ws.addRow([]);ws.addRow([]);ws.addRow([]);sigLines().forEach(t=>line(t,{al:'left'}));
   return new Blob([await wb.xlsx.writeBuffer()],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
