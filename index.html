@@ -20,7 +20,7 @@
 <style>
 :root{
   --navy:#0f2a44; --navy2:#16395c; --amber:#f2a516; --bg:#f3f5f8; --card:#fff; --line:#d9dee6;
-  --ok:#14803f; --okbg:#c9efd6; --bad:#c62828; --badbg:#fbd0d0; --lv:#c26a00; --lvbg:#ffe0a8; --muted:#6b7686;
+  --ok:#000; --okbg:#69F0AE; --bad:#000; --badbg:#FF8A80; --lv:#000; --lvbg:#FFD740; --muted:#6b7686;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:#1c2430;font-family:Almarai,Tahoma,sans-serif}
@@ -42,14 +42,14 @@ main{padding:12px 12px 120px;max-width:1100px;margin:0 auto}
 .card{background:var(--card);border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:12px;margin-bottom:12px}
 .hint{font-size:13px;color:var(--muted);margin:2px 2px 10px;line-height:1.7}
 .gridwrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
-table.grid{border-collapse:separate;border-spacing:0;min-width:100%;font-size:13px}
+table.grid{border-collapse:separate;border-spacing:0;font-size:13px}
 .grid th,.grid td{border-bottom:1px solid var(--line);border-left:1px solid var(--line);padding:0;text-align:center;white-space:nowrap}
 .grid thead th{background:#eef2f7;font-family:Cairo;font-weight:700;padding:6px 4px;position:sticky;top:0}
-.grid th.namecol,.grid td.namecol{position:sticky;right:0;background:#fff;z-index:2;text-align:right;padding:8px 10px;min-width:230px;white-space:nowrap;font-size:15px;line-height:1.4;font-weight:700;box-shadow:-3px 0 6px rgba(0,0,0,.06)}
+.grid th.namecol,.grid td.namecol{position:sticky;right:0;background:#fff;z-index:2;text-align:right;padding:6px 8px;width:150px;min-width:150px;max-width:150px;white-space:normal;font-size:14px;line-height:1.35;font-weight:700;box-shadow:-3px 0 6px rgba(0,0,0,.06)}
 .grid td.namecol .no{display:inline-block;min-width:22px;color:var(--muted);font-weight:400}
 .grid thead th.namecol{background:#eef2f7;z-index:3}
 .grid tr:nth-child(even) td.namecol{background:#f8fafc}
-.daycell{min-width:70px}
+.daycell{min-width:62px}
 .daycell .dn{display:block;font-size:11px;color:var(--muted);font-weight:400}
 .allok{display:block;margin:4px auto 0;border:1px solid var(--ok);background:#fff;color:var(--ok);border-radius:8px;font-size:11px;padding:2px 6px;cursor:pointer}
 td.c{height:50px;cursor:pointer;font-size:13px;font-weight:700;line-height:1.25}
@@ -63,9 +63,9 @@ td.notes{font-size:12px;min-width:40px;padding:4px;color:var(--lv);font-weight:7
 .legend span{display:inline-flex;align-items:center;gap:5px}
 .legend i{width:14px;height:14px;border-radius:4px;display:inline-block}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.stat{border-radius:12px;padding:10px 6px;text-align:center;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.12)}
-.stat b{display:block;font-family:Cairo;font-size:22px}
-.stat span{font-size:13px;font-weight:700}
+.stat{border-radius:14px;padding:10px 4px;text-align:center;color:#000;border:2.5px solid #000;box-shadow:3px 3px 0 #000}
+.stat b{display:block;font-family:Cairo;font-size:26px;font-weight:800;line-height:1.2}
+.stat span{font-size:13px;font-weight:800}
 .actions{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr 1fr .8fr;gap:8px;z-index:30}
 .btn{border:0;border-radius:12px;padding:12px 8px;font-family:Cairo;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn.pri{background:var(--navy);color:#fff}
@@ -116,6 +116,8 @@ td.notes.overc{background:var(--badbg);color:var(--bad)}
 .settabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
 .settabs button{border:0;border-radius:10px;padding:8px 10px;font-family:Cairo;font-weight:700;cursor:pointer;font-size:13px}
 #printArea{display:none}
+.actions .btn{border:2px solid #000;box-shadow:2px 2px 0 #000;font-size:15px}
+td.c.p,td.c.a,td.c.l{font-weight:800}
 .sheet.wide{max-width:900px}
 .revhead{font-family:Cairo;font-weight:800;color:var(--navy);margin:12px 2px 6px;font-size:15px}
 .revthumbs{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px}.revthumbs img{height:110px;border-radius:8px;border:1px solid var(--line)}
@@ -152,7 +154,7 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
   <div class="card">
     <div class="stats" id="stats"></div>
   </div>
-  <button class="btn amb" id="btnOcr" style="width:100%;margin-bottom:10px;font-size:16px;padding:14px">📷 قراءة صور الموقف</button>
+  <button class="btn" id="btnOcr" style="width:100%;margin-bottom:10px;font-size:17px;padding:15px;background:#FF6D00;color:#fff;border:2.5px solid #000;box-shadow:3px 3px 0 #000">📷 قراءة صور الموقف</button>
   <input type="file" id="ocrFile" accept="image/*" multiple class="hide">
   <p class="hint">اضغطي على أي خانة لتأشير الحالة. زر «الكل داوم» تحت اليوم يأشّر الباقين حاضرين مرة وحدة، وبعدين تعدّلين الغائب والمجاز فقط.</p>
   <div class="gridwrap"><table class="grid" id="grid"></table></div>
@@ -212,13 +214,13 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 13 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 14 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
-  <button class="btn amb" id="btnWord">📄 طبع وورد</button>
+  <button class="btn" id="btnWord" style="background:#2B579A;color:#fff">📄 طبع وورد</button>
   <button class="btn" id="btnExcel" style="background:#1d6f42;color:#fff">📊 طبع اكسل</button>
-  <button class="btn gh" id="btnCopy">📋 ملخص</button>
+  <button class="btn" id="btnCopy" style="background:#7B1FA2;color:#fff">📋 ملخص</button>
 </div>
 
 <div class="overlay" id="ov"><div class="sheet" id="sheet"></div></div>
@@ -359,7 +361,7 @@ function render(){
   $('grid').innerHTML=h+'</tbody>';
   let p=0,a=0,l=0,e0=0;
   days.forEach(dd=>emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(!r)e0++;else if(r.st==='p')p++;else if(r.st==='a')a++;else l++}));
-  $('stats').innerHTML=`<div class="stat" style="background:#1f9d55"><b>${p}</b><span>داوم</span></div><div class="stat" style="background:#d64545"><b>${a}</b><span>غياب</span></div><div class="stat" style="background:#e68a00"><b>${l}</b><span>إجازة</span></div><div class="stat" style="background:#5b6878"><b>${e0}</b><span>غير مؤشّر</span></div>`;
+  $('stats').innerHTML=`<div class="stat" style="background:#00E676"><b>${p}</b><span>✔ داوم</span></div><div class="stat" style="background:#FF3D3D"><b>${a}</b><span>✖ غياب</span></div><div class="stat" style="background:#FFC400"><b>${l}</b><span>✈ إجازة</span></div><div class="stat" style="background:#B0BEC5"><b>${e0}</b><span>⏳ غير مؤشّر</span></div>`;
   let s='';
   days.forEach(dd=>{
     const items=[];let done=0;
