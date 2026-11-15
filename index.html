@@ -599,8 +599,11 @@ $('ocrFile').onchange=async ev=>{const files=[...ev.target.files];ev.target.valu
   ocrBusy(true,files.length);
   const sheets=[];let thumbs=[],fails=0;
   for(let i=0;i<files.length;i++){
-    try{const img=await shrink(files[i]);thumbs.push(img.url);
-      const res=await askGemini(img.b64);const sh=mapSheet(res);if(sh)sheets.push(sh);else fails++;
+    try{let img=await shrink(files[i]);
+      let res=await askGemini(img.b64);
+      const rot=((+res.rotation||0)%360+360)%360;
+      if([90,180,270].includes(rot)){OCR_STAGE='الصورة مايلة — عدّلت اتجاهها وأقراها مرة ثانية';img=await rotateB64(img.b64,rot);res=await askGemini(img.b64)}
+      thumbs.push(img.url);const sh=mapSheet(res);if(sh)sheets.push(sh);else fails++;
       ocrBusy(true,files.length,i+1);
     }catch(e){fails++;OCR_ERR=String(e&&e.message||e);console.log(e)}
   }
@@ -648,6 +651,7 @@ function ocrBusy(on,total,done){
   const draw=()=>{edit=null;$('sheet').innerHTML=`<h3>دا أقرا الصور…</h3><div class="sub">${done||0} من ${total} — لا تسكّرين الصفحة<br>${Math.round((Date.now()-OCR_T0)/1000)} ثانية · ${esc(OCR_STAGE)}</div><div class="spin"></div>`};
   draw();OCR_TIMER=setInterval(draw,1000);$('ov').classList.add('show');
 }
+function rotateB64(b64,deg){return new Promise(ok=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');const sw=deg%180!==0;c.width=sw?im.height:im.width;c.height=sw?im.width:im.height;const x=c.getContext('2d');x.translate(c.width/2,c.height/2);x.rotate(deg*Math.PI/180);x.drawImage(im,-im.width/2,-im.height/2);const url=c.toDataURL('image/jpeg',0.92);ok({url,b64:url.split(',')[1]})};im.src='data:image/jpeg;base64,'+b64})}
 function shrink(file){return new Promise((ok,no)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{
   const max=3072,sc=Math.min(1,max/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);
   c.getContext('2d').drawImage(im,0,0,c.width,c.height);const url=c.toDataURL('image/jpeg',0.92);ok({url,b64:url.split(',')[1]})};im.onerror=no;im.src=fr.result};fr.onerror=no;fr.readAsDataURL(file)})}
@@ -659,7 +663,8 @@ Read the sheet and return:
 - "rows": for each printed employee row: "name" exactly as printed, and "d": one cell per date column in the same order, each {"s","t","c"}:
   "s"="p" ANY handwritten ink mark in the cell — signature, scribble, initials, short stroke, even if faint, small, slanted or overlapping the cell border (present). Most cells on these sheets are signatures, so look carefully before calling a cell empty; "s"="l" a handwritten leave word, with "t" one of "زمنية","مرضية","اعتيادية","حالة وفاة","أمومة","إرسال","أخرى" (plain "إجازة"/"اجازة" → "اعتيادية", "ارسال" → "إرسال"); "s"="a" written absence like "غياب"/"غ"; "s"="e" ONLY if the cell is completely blank with no ink at all. "c" = confidence 0-1.
 Work row by row: follow each printed name horizontally across to its own cells (rows are separated by lines and alternate grey/white shading), so a signature is never assigned to the neighbouring row. The photo may be rotated or taken at an angle; read it in its correct orientation.
-Ignore the leave-count column and any notes. Return ONLY JSON: {"title":"...","dates":["YYYY-MM-DD",...],"rows":[{"name":"...","d":[{"s":"p","t":"","c":0.9},...]}]}`;
+Ignore the leave-count column and any notes. Also return "rotation": how many degrees CLOCKWISE the photo must be rotated so the Arabic text reads upright (0, 90, 180 or 270).
+Return ONLY JSON: {"rotation":0,"title":"...","dates":["YYYY-MM-DD",...],"rows":[{"name":"...","d":[{"s":"p","t":"","c":0.9},...]}]}`;
   const body={contents:[{parts:[{text:prompt},{inline_data:{mime_type:'image/jpeg',data:b64}}]}],generationConfig:{responseMimeType:'application/json',temperature:0}};
   const errs=[];
   const tries=[['gemini-3.8-flash',{thinkingLevel:'high'}],['gemini-3.8-flash',null],['gemini-flash-latest',null]];
