@@ -129,7 +129,7 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
 @media print{
   @page{size:A4 landscape;margin:7mm}
   .psheet{page-break-inside:avoid}
-  body{background:#fff}
+  html,body{background:#fff!important}
   header.top,main,.actions,.overlay,.toast{display:none!important}
   #printArea{display:block}
 }
@@ -182,7 +182,8 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <div class="lbl">توقيع يسار الورقة</div><input class="txt" id="sigL">
     <div class="lbl">تنبيه أسفل أوراق الدوام الصباحي</div><input class="txt" id="note">
     <div class="lbl">عنوان الموقف اليومي</div><input class="txt" id="dTitle">
-    <div class="lbl">توقيع الموقف اليومي</div><input class="txt" id="dSig">
+    <div class="lbl">توقيع الموقف اليومي (الصفة)</div><input class="txt" id="dSig">
+    <div class="lbl">اسم الموقّع على الموقف اليومي</div><input class="txt" id="dSigN" placeholder="مثلاً: حسين احمد ...">
   </div>
   <div class="card">
     <h2 class="sec">قراءة الصور</h2>
@@ -217,7 +218,7 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 16 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 17 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -487,7 +488,7 @@ function chooseScope(cb){
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-scope]');if(!b)return;$('sheet').onclick=null;closeSheet();if(b.dataset.scope!=='x')cb(b.dataset.scope==='all')};
 }
 $('btnPrint').onclick=()=>chooseScope(all=>{
-  $('printArea').innerHTML=curSpecs(all).map(sp=>sheetHTML(sp,false)).join('');
+  setPage('');$('printArea').innerHTML=curSpecs(all).map(sp=>sheetHTML(sp,false)).join('');
   setTimeout(()=>{try{window.print()}catch(e){toast('الطباعة غير متاحة هنا — استخدمي ملف وورد')}},150);
 });
 function download(name,blob){
@@ -587,27 +588,48 @@ function dailyData(dateStr){
       duty.push({name:e.name,st:t+' يوم '+DAYS[x.getDay()]+' '+(x.getMonth()+1)+'/'+x.getDate()})})}
   return {title:'م/ الموقف اليومي ليوم '+DAYS[day.getDay()]+' الموافق '+day.getFullYear()+'/'+(day.getMonth()+1)+'/'+day.getDate(),morning,duty};
 }
+function setPage(css){let el=document.getElementById('pgStyle');if(!el){el=document.createElement('style');el.id='pgStyle';document.head.appendChild(el)}el.textContent=css?'@media print{@page{'+css+'}}':''}
+const D_HEAD='B4C6E7',D_ALT='DCE6F1';
+function dailyTables(dd){return [{h:'الموقف',rows:dd.morning,label:'الدوام الصباحي'},{h:'المناوبين',rows:dd.duty,label:'المناوبين'}]}
+function dailyHTML(dd){
+  const F="font-family:'Simplified Arabic','Traditional Arabic',Arial,sans-serif;font-weight:800;";const bd='border:1.5px solid #000;';
+  const tbl=t=>{const rows=t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}];
+    return `<table style="width:100%;border-collapse:collapse;margin:0 0 22px;${F}font-size:13.5pt">
+    <tr style="background:#${D_HEAD}"><th style="${bd}padding:5px;width:7%">ت</th><th style="${bd}padding:5px;width:45%">الاسم</th><th style="${bd}padding:5px">${t.h}</th></tr>
+    ${rows.map((r,i)=>`<tr style="${i%2?'background:#'+D_ALT:''}"><td style="${bd}padding:6px;text-align:center">${t.rows.length?i+1:''}</td><td style="${bd}padding:6px 10px;text-align:right">${esc(r.name)}</td><td style="${bd}padding:6px;text-align:center">${esc(r.st)}</td></tr>`).join('')}</table>`};
+  return `<div style="${F}direction:rtl;color:#000;padding:4mm 2mm">
+  <div style="font-size:16pt;text-decoration:underline">م/ ${esc(S.dTitle)}</div>
+  <div style="font-size:15pt;text-decoration:underline;margin:4px 0 14px">${esc(dd.title.replace(/^م\/ /,''))}</div>
+  ${dailyTables(dd).map(tbl).join('')}
+  <div style="margin-top:40px;text-align:left;font-size:14pt;line-height:1.9">${esc(S.dSig||'')}<br>${esc(S.dSigN||'')}${S.dSigN?'':'<br>التوقيع: ....................'}</div></div>`;
+}
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function buildDailyDocx(dd){
-  const D=window.docx;
-  const P=(t,o={})=>new D.Paragraph({bidirectional:true,alignment:o.al||D.AlignmentType.RIGHT,spacing:{before:o.before||0,after:o.after||0},children:[new D.TextRun({text:String(t),bold:!!o.b,size:o.sz||24,font:'Arial',rightToLeft:true,underline:o.u?{}:undefined})]});
-  const B={style:D.BorderStyle.SINGLE,size:8,color:'000000'};const borders={top:B,bottom:B,left:B,right:B};
-  const cell=(t,o={})=>new D.TableCell({borders,width:{size:o.w,type:D.WidthType.DXA},verticalAlign:D.VerticalAlign.CENTER,shading:o.fill?{fill:o.fill,type:D.ShadingType.CLEAR,color:'auto'}:undefined,margins:{top:50,bottom:50,left:80,right:80},children:[P(t,{b:o.b,sz:o.sz||24,al:o.al||D.AlignmentType.CENTER})]});
-  const W=[600,4300,4700];
-  const table=(h3,rows)=>new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,columnWidths:W,width:{size:9600,type:D.WidthType.DXA},
-    rows:[new D.TableRow({tableHeader:true,children:[cell('ت',{w:W[0],b:1,fill:'D9D9D9'}),cell('الاسم',{w:W[1],b:1,fill:'D9D9D9'}),cell(h3,{w:W[2],b:1,fill:'D9D9D9'})]}),
-      ...(rows.length?rows:[{name:'—',st:'لا يوجد'}]).map((r,i)=>new D.TableRow({height:{value:400,rule:D.HeightRule.ATLEAST},children:[cell(rows.length?i+1:'',{w:W[0],fill:i%2?'F2F2F2':undefined}),cell(r.name,{w:W[1],b:1,al:D.AlignmentType.RIGHT,fill:i%2?'F2F2F2':undefined}),cell(r.st,{w:W[2],b:1,sz:22,fill:i%2?'F2F2F2':undefined})]}))]});
-  const ch=[P(S.dTitle,{b:1,sz:30,u:1}),P(dd.title,{b:1,sz:28,after:200,u:1}),P('الدوام الصباحي',{b:1,sz:24,after:80}),table('الموقف',dd.morning),P('المناوبين',{b:1,sz:24,before:300,after:80}),table('الموقف',dd.duty),
-    P(S.dSig,{b:1,sz:24,before:700,al:D.AlignmentType.LEFT}),P('التوقيع: ..........................',{sz:22,before:200,al:D.AlignmentType.LEFT})];
+  const D=window.docx;const FONT='Simplified Arabic';
+  const P=(t,o={})=>new D.Paragraph({bidirectional:true,alignment:o.al||D.AlignmentType.RIGHT,spacing:{before:o.before||0,after:o.after||0},
+    children:[new D.TextRun({text:String(t),bold:true,boldComplexScript:true,size:o.sz||27,sizeComplexScript:o.sz||27,font:{ascii:FONT,hAnsi:FONT,cs:FONT},rightToLeft:true,underline:o.u?{}:undefined})]});
+  const B={style:D.BorderStyle.SINGLE,size:10,color:'000000'};const borders={top:B,bottom:B,left:B,right:B};
+  const cell=(t,o={})=>new D.TableCell({borders,width:{size:o.w,type:D.WidthType.DXA},verticalAlign:D.VerticalAlign.CENTER,shading:o.fill?{fill:o.fill,type:D.ShadingType.CLEAR,color:'auto'}:undefined,margins:{top:50,bottom:50,left:100,right:100},children:[P(t,{sz:27,al:o.al||D.AlignmentType.CENTER})]});
+  const W=[650,4500,4650];
+  const table=t=>{const rows=t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}];return new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,columnWidths:W,width:{size:9800,type:D.WidthType.DXA},
+    rows:[new D.TableRow({tableHeader:true,children:[cell('ت',{w:W[0],fill:D_HEAD}),cell('الاسم',{w:W[1],fill:D_HEAD}),cell(t.h,{w:W[2],fill:D_HEAD})]}),
+      ...rows.map((r,i)=>{const f=i%2?D_ALT:undefined;return new D.TableRow({cantSplit:true,height:{value:420,rule:D.HeightRule.ATLEAST},children:[cell(t.rows.length?i+1:'',{w:W[0],fill:f}),cell(r.name,{w:W[1],al:D.AlignmentType.RIGHT,fill:f}),cell(r.st,{w:W[2],fill:f})]})})]})};
+  const ch=[P('م/ '+S.dTitle,{sz:32,u:1}),P(dd.title.replace(/^م\/ /,''),{sz:30,after:240,u:1})];
+  dailyTables(dd).forEach((t,k)=>{ch.push(table(t));ch.push(P('',{after:k?0:300}))});
+  ch.push(P(S.dSig||'',{sz:28,before:600,al:D.AlignmentType.LEFT}));
+  ch.push(P(S.dSigN||'التوقيع: ....................',{sz:28,before:80,al:D.AlignmentType.LEFT}));
   return D.Packer.toBlob(new D.Document({sections:[{properties:{page:{size:{orientation:D.PageOrientation.PORTRAIT},margin:{top:800,bottom:800,left:900,right:900}}},children:ch}]}));
 }
 async function buildDailyXlsx(dd){
-  const E=window.ExcelJS;const wb=new E.Workbook();const ws=wb.addWorksheet('الموقف اليومي',{views:[{rightToLeft:true}],pageSetup:{orientation:'portrait',paperSize:9,fitToPage:true,fitToWidth:1,fitToHeight:0}});
-  ws.columns=[{width:6},{width:38},{width:42}];
+  const E=window.ExcelJS;const wb=new E.Workbook();const ws=wb.addWorksheet('الموقف اليومي',{views:[{rightToLeft:true}],pageSetup:{orientation:'portrait',paperSize:9,fitToPage:true,fitToWidth:1,fitToHeight:0,horizontalCentered:true}});
+  ws.columns=[{width:6},{width:40},{width:42}];const FN='Simplified Arabic';
   const thin={style:'thin',color:{argb:'FF000000'}};const B={top:thin,bottom:thin,left:thin,right:thin};
-  const line=(t,o={})=>{const r=ws.addRow([t]);ws.mergeCells(r.number,1,r.number,3);r.getCell(1).font={bold:true,size:o.sz||13,underline:!!o.u,name:'Arial'};r.getCell(1).alignment={horizontal:o.al||'right'};return r};
-  const table=rows=>{const h=ws.addRow(['ت','الاسم','الموقف']);h.eachCell(c=>{c.font={bold:true,name:'Arial'};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFD9D9D9'}};c.border=B;c.alignment={horizontal:'center'}});
-    (rows.length?rows:[{name:'—',st:'لا يوجد'}]).forEach((r,i)=>{const x=ws.addRow([rows.length?i+1:'',r.name,r.st]);x.eachCell({includeEmpty:true},(c,col)=>{c.border=B;c.font={bold:col>1,name:'Arial',size:12};c.alignment={horizontal:col===2?'right':'center',wrapText:true};if(i%2)c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFF2F2F2'}}})})};
-  line(S.dTitle,{sz:15,u:1});line(dd.title,{sz:14,u:1});ws.addRow([]);line('الدوام الصباحي');table(dd.morning);ws.addRow([]);line('المناوبين');table(dd.duty);ws.addRow([]);ws.addRow([]);line(S.dSig,{al:'left'});line('التوقيع: ..........................',{al:'left'});
+  const line=(t,o={})=>{const r=ws.addRow([t]);ws.mergeCells(r.number,1,r.number,3);r.getCell(1).font={bold:true,size:o.sz||14,underline:!!o.u,name:FN};r.getCell(1).alignment={horizontal:o.al||'right'};return r};
+  const fill=c=>({type:'pattern',pattern:'solid',fgColor:{argb:'FF'+c}});
+  const table=t=>{const h=ws.addRow(['ت','الاسم',t.h]);h.eachCell(c=>{c.font={bold:true,name:FN,size:14};c.fill=fill(D_HEAD);c.border=B;c.alignment={horizontal:'center',vertical:'middle'}});
+    (t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}]).forEach((r,i)=>{const x=ws.addRow([t.rows.length?i+1:'',r.name,r.st]);x.height=22;x.eachCell({includeEmpty:true},(c,col)=>{c.border=B;c.font={bold:true,name:FN,size:14};c.alignment={horizontal:col===2?'right':'center',vertical:'middle',wrapText:true};if(i%2)c.fill=fill(D_ALT)})})};
+  line('م/ '+S.dTitle,{sz:16,u:1});line(dd.title.replace(/^م\/ /,''),{sz:15,u:1});ws.addRow([]);
+  dailyTables(dd).forEach(t=>{table(t);ws.addRow([])});ws.addRow([]);line(S.dSig||'',{al:'left'});line(S.dSigN||'التوقيع: ....................',{al:'left'});
   return new Blob([await wb.xlsx.writeBuffer()],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
 }
 function dailyText(dd){let t=S.dTitle+'\n'+dd.title+'\n\nالدوام الصباحي:\n'+(dd.morning.length?dd.morning.map((r,i)=>(i+1)+'. '+r.name+' — '+r.st).join('\n'):'لا يوجد')+'\n\nالمناوبين:\n'+(dd.duty.length?dd.duty.map((r,i)=>(i+1)+'. '+r.name+' — '+r.st).join('\n'):'لا يوجد');return t}
@@ -617,12 +639,14 @@ $('btnCopy').onclick=()=>{
   $('sheet').innerHTML=`<h3>📋 الموقف اليومي</h3><div class="sub">اختاري اليوم، وتطلع ورقة A4 بالطول: اللي ما داوموا بالصباحي، وإجازات المناوبين.</div>
   <input class="txt" type="date" id="dDate" value="${def}" style="margin-bottom:10px">
   <div id="dPrev" class="hint" style="max-height:220px;overflow:auto;background:#f6f8fb;border-radius:10px;padding:8px;white-space:pre-line"></div>
-  <div class="row2"><button class="btn" data-d="word" style="background:#2B579A;color:#fff">📄 طبع وورد</button><button class="btn" data-d="xl" style="background:#1d6f42;color:#fff">📊 طبع اكسل</button></div>
+  <button class="btn" data-d="pdf" style="background:#C62828;color:#fff;width:100%;margin-bottom:8px">🖨️ طبع PDF</button>
+  <div class="row2"><button class="btn" data-d="word" style="background:#2B579A;color:#fff">📄 وورد</button><button class="btn" data-d="xl" style="background:#1d6f42;color:#fff">📊 اكسل</button></div>
   <div class="row2" style="margin-top:8px"><button class="btn gh" data-d="copy">نسخ كنص للواتساب</button><button class="btn gh" data-d="x">إلغاء</button></div>`;
   $('ov').classList.add('show');
-  const prev=()=>{$('dPrev').textContent=dailyText(dailyData($('dDate').value))};prev();$('dDate').onchange=prev;
+  const prev=()=>{const dd=dailyData($('dDate').value);$('dPrev').textContent=(!dd.morning.length&&!dd.duty.length?'⚠️ ما مسجّل أي غياب أو إجازة لهذا اليوم، لا بالصباحي ولا بالمناوبين. تأكدي إنج مسجّلة الموقف بنفس التاريخ.\n\n':'')+dailyText(dd)};prev();$('dDate').onchange=prev;
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-d]');if(!b)return;const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const nm='الموقف اليومي '+v;
-    if(b.dataset.d==='word'){if(!window.docx){toast('حدّثي الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل الوورد')})}
+    if(b.dataset.d==='pdf'){$('printArea').innerHTML=dailyHTML(dd);setPage('size:A4 portrait;margin:12mm');$('sheet').onclick=null;closeSheet();setTimeout(()=>{try{window.print()}catch(e){toast('الطباعة غير متاحة هنا')}},150)}
+    else if(b.dataset.d==='word'){if(!window.docx){toast('حدّثي الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل الوورد')})}
     else if(b.dataset.d==='xl'){if(!window.ExcelJS){toast('حدّثي الصفحة');return}buildDailyXlsx(dd).then(x=>{download(nm+'.xlsx',x);toast('تم تنزيل الاكسل')})}
     else if(b.dataset.d==='copy'){const t=dailyText(dd);const ok=()=>toast('تم النسخ');if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,()=>fallbackCopy(t,ok));else fallbackCopy(t,ok)}
     else{$('sheet').onclick=null;closeSheet()}};
@@ -633,12 +657,12 @@ function fallbackCopy(t,ok){const ta=document.createElement('textarea');ta.value
 function showSettings(on){
   $('viewMain').classList.toggle('hide',on);$('viewSettings').classList.toggle('hide',!on);$('actionBar').classList.toggle('hide',on);
   document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
-  if(on){['h1','h2','h3','sigR','sigL','note','dTitle','dSig'].forEach(k=>$(k).value=S[k]);$('anchorDate').value=S.anchor;$('anchorShift').value=S.anchorShift;
+  if(on){['h1','h2','h3','sigR','sigL','note','dTitle','dSig','dSigN'].forEach(k=>$(k).value=S[k]||'');$('anchorDate').value=S.anchor;$('anchorShift').value=S.anchorShift;
     SET_SH=MODE==='duty'?'d'+SH:SEC;renderEmps()}
   else render();
   window.scrollTo(0,0);
 }
-['h1','h2','h3','sigR','sigL','note','dTitle','dSig'].forEach(k=>$(k).addEventListener('input',ev=>{S[k]=ev.target.value;save()}));
+['h1','h2','h3','sigR','sigL','note','dTitle','dSig','dSigN'].forEach(k=>$(k).addEventListener('input',ev=>{S[k]=ev.target.value;save()}));
 $('anchorDate').onchange=ev=>{if(ev.target.value){S.anchor=ev.target.value;save()}};
 $('anchorShift').onchange=ev=>{S.anchorShift=+ev.target.value;save()};
 /* group keys: 'd1'..'d4' for duty shifts, section ids for morning sections */
