@@ -116,6 +116,7 @@ td.notes.overc{background:var(--badbg);color:var(--bad)}
 .settabs button{border:0;border-radius:10px;padding:8px 10px;font-family:Cairo;font-weight:700;cursor:pointer;font-size:13px}
 #printArea{display:none}
 .sheet.wide{max-width:900px}
+.revhead{font-family:Cairo;font-weight:800;color:var(--navy);margin:12px 2px 6px;font-size:15px}
 .revthumbs{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px}.revthumbs img{height:110px;border-radius:8px;border:1px solid var(--line)}
 table.rev td.c{min-width:70px;height:42px}
 td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
@@ -595,22 +596,43 @@ $('gkey').value=gkey();
 $('gkey').addEventListener('input',ev=>{try{localStorage.setItem(GKEY,ev.target.value.trim())}catch(e){}});
 $('btnOcr').onclick=()=>{if(!gkey()){toast('حطي مفتاح Gemini بالإعدادات أول مرة');showSettings(true);setTimeout(()=>$('gkey').focus(),300);return}$('ocrFile').click()};
 $('ocrFile').onchange=async ev=>{const files=[...ev.target.files];ev.target.value='';if(!files.length)return;
-  const emps=curEmps(),days=curDays();if(!emps.length){toast('ماكو أسماء بهاي الصفحة');return}
   ocrBusy(true,files.length);
-  const merged={};let thumbs=[],fails=0;
+  const sheets=[];let thumbs=[],fails=0;
   for(let i=0;i<files.length;i++){
     try{const img=await shrink(files[i]);thumbs.push(img.url);
-      const res=await askGemini(img.b64,emps,days);
-      (res.rows||[]).forEach(r=>{const idx=(r.n|0)-1;if(idx<0||idx>=emps.length)return;
-        (r.d||[]).forEach((c,j)=>{if(j>=days.length)return;const k=rk(days[j].s,emps[idx].id);
-          if(!merged[k]||merged[k].st==='e')merged[k]=c})});
+      const res=await askGemini(img.b64);const sh=mapSheet(res);if(sh)sheets.push(sh);else fails++;
       ocrBusy(true,files.length,i+1);
     }catch(e){fails++;console.log(e)}
   }
   ocrBusy(false);
-  if(fails===files.length){toast('ما گدرت أقرا الصورة — تأكدي من المفتاح والنت');return}
-  openReview(merged,emps,days,thumbs,fails);
+  if(!sheets.length){toast('ما گدرت أقرا الصورة — تأكدي من المفتاح والنت ووضوح الصورة');return}
+  openReview(sheets,thumbs,fails);
 };
+/* تطبيع الأسماء العربية للمطابقة */
+function norm(t){return String(t||'').replace(/^\s*م\s*\.?\s*/,'').replace(/[أإآا]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/[ً-ْـ.]/g,'').replace(/عبد\s+/g,'عبد').replace(/\s+/g,' ').trim()}
+function nameScore(a,b){a=norm(a);b=norm(b);if(a===b)return 1;const A=a.split(' '),B=b.split(' ');let hit=0;A.forEach(w=>{if(B.includes(w))hit++});return hit/Math.max(A.length,B.length)}
+function groupFromTitle(title){
+  const t=norm(title);
+  const ord=[['الاولي',1],['الثانيه',2],['الثالثه',3],['الرابعه',4]];
+  if(/وجبه/.test(t)){for(const [w,n] of ord)if(t.includes(w))return {mode:'duty',key:n}}
+  let best=null,bs=0;S.sections.forEach(x=>{const n=norm(x.name).replace(/^شعبه /,'');const sc=t.includes(n)?1:nameScore(t,n);if(sc>bs){bs=sc;best=x}});
+  return best&&bs>0.3?{mode:'day',key:best.id}:null;
+}
+function parseDate(x){const m=String(x||'').match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);if(!m)return null;const d=new Date(+m[1],+m[2]-1,+m[3]);return isNaN(d)?null:d}
+function mapSheet(res){
+  if(!res||!Array.isArray(res.rows))return null;
+  let g=groupFromTitle(res.title||'');
+  const dates=(res.dates||[]).map(parseDate);
+  const days=dates.map(d=>d?{s:ymd(d),d:d.getDate(),m:d.getMonth(),y:d.getFullYear(),w:d.getDay()}:null);
+  /* مطابقة الأسماء: ضمن المجموعة المكتشفة، وإذا ما انعرفت نبحث بكل الأسماء */
+  const pool=()=>g?S.emps.filter(e=>g.mode==='duty'?e.shift===g.key:e.sec===g.key):S.emps;
+  const rows=[];const unknown=[];
+  res.rows.forEach(r=>{let best=null,bs=0;pool().forEach(e=>{const sc=nameScore(r.name,e.name);if(sc>bs){bs=sc;best=e}});
+    if(!g&&best&&bs>=0.6){g=best.shift?{mode:'duty',key:best.shift}:{mode:'day',key:best.sec}}
+    if(best&&bs>=0.5)rows.push({emp:best,cells:r.d||[],weak:bs<0.75});else unknown.push(r.name)});
+  if(!rows.length)return null;
+  return {g,days,rows,unknown,title:res.title||''};
+}
 function ocrBusy(on,total,done){
   if(!on){closeSheet();return}
   edit=null;$('sheet').innerHTML=`<h3>دا أقرا الصور…</h3><div class="sub">${done||0} من ${total} — لا تسكّرين الصفحة</div><div class="spin"></div>`;$('ov').classList.add('show');
@@ -618,21 +640,14 @@ function ocrBusy(on,total,done){
 function shrink(file){return new Promise((ok,no)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{
   const max=2200,sc=Math.min(1,max/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);
   c.getContext('2d').drawImage(im,0,0,c.width,c.height);const url=c.toDataURL('image/jpeg',0.88);ok({url,b64:url.split(',')[1]})};im.onerror=no;im.src=fr.result};fr.onerror=no;fr.readAsDataURL(file)})}
-async function askGemini(b64,emps,days){
-  const list=emps.map((e,i)=>(i+1)+'. '+e.name).join('\n');
-  const cols=days.map((d,j)=>(j+1)+'. '+DAYS[d.w]+' '+d.y+'/'+(d.m+1)+'/'+d.d).join('\n');
-  const prompt=`This is a photo of an Iraqi attendance sheet (Arabic, right-to-left). Rows = employees (printed names), columns = days. Each employee signs by hand in a day cell when present.
-Expected employees (number. name):
-${list}
-Expected day columns (index. weekday date):
-${cols}
-For EACH expected employee (match by printed name, tolerate small spelling differences) and EACH expected day column (match by the weekday/date header), classify the cell:
-- "p" = a handwritten signature or initials (present)
-- "l" = a handwritten word meaning leave. Put the leave type in "t": one of "زمنية","مرضية","اعتيادية","حالة وفاة","أمومة","إرسال","أخرى". If only "إجازة"/"اجازة" is written use "اعتيادية". "ارسال" = "إرسال".
-- "a" = written absence such as "غياب" or "غ"
-- "e" = empty cell
-Also give "c" = confidence 0-1 for each cell. If an expected employee or day is not on the sheet, use "e" with c=0.
-Return ONLY JSON: {"rows":[{"n":<employee number>,"d":[{"s":"p|l|a|e","t":"<type or empty>","c":0.0}, ... one per expected day in order]}]}`;
+async function askGemini(b64){
+  const prompt=`This is a photo of an Iraqi attendance sheet (Arabic, right-to-left). It has a title (department/section or shift name), a header row of day columns with weekday and date, and rows of printed employee names. Employees sign by hand in a day cell when present.
+Read the sheet and return:
+- "title": the sheet title text exactly as printed (e.g. "أسماء منتسبي شعبة السيطرة والنظم" or "موقف الوجبة الثانية لشهر تشرين الثاني 2026").
+- "dates": the date of each day column in the order they appear from RIGHT to LEFT, formatted YYYY-MM-DD (use the year printed on the sheet; if a column has only a weekday, infer the date from neighbouring columns).
+- "rows": for each printed employee row: "name" exactly as printed, and "d": one cell per date column in the same order, each {"s","t","c"}:
+  "s"="p" handwritten signature or initials (present); "s"="l" a handwritten leave word, with "t" one of "زمنية","مرضية","اعتيادية","حالة وفاة","أمومة","إرسال","أخرى" (plain "إجازة"/"اجازة" → "اعتيادية", "ارسال" → "إرسال"); "s"="a" written absence like "غياب"/"غ"; "s"="e" empty cell. "c" = confidence 0-1.
+Ignore the leave-count column and any notes. Return ONLY JSON: {"title":"...","dates":["YYYY-MM-DD",...],"rows":[{"name":"...","d":[{"s":"p","t":"","c":0.9},...]}]}`;
   const body={contents:[{parts:[{text:prompt},{inline_data:{mime_type:'image/jpeg',data:b64}}]}],generationConfig:{responseMimeType:'application/json',temperature:0}};
   let lastErr;
   for(const m of ['gemini-flash-latest','gemini-2.5-flash','gemini-2.0-flash']){
@@ -648,33 +663,41 @@ Return ONLY JSON: {"rows":[{"n":<employee number>,"d":[{"s":"p|l|a|e","t":"<type
 let REV=null;
 const CYCLE=['p','l','a','e'];
 function revLabel(c){if(c.st==='p')return 'داوم';if(c.st==='l')return 'إجازة '+(c.type||'');if(c.st==='a')return 'غياب';return '—'}
-function openReview(merged,emps,days,thumbs,fails){
-  REV={emps,days,cells:{}};
-  emps.forEach(e=>days.forEach(d=>{const k=rk(d.s,e.id),m=merged[k];
-    let st=m?m.s:'e';if(!CYCLE.includes(st))st='e';
-    REV.cells[k]={st,type:st==='l'?(TYPES.includes(m.t)?m.t:'اعتيادية'):'',low:!!m&&st!=='e'&&(+m.c||0)<0.6}}));
+function groupName(g){if(!g)return 'غير معروفة';return g.mode==='duty'?'الوجبة '+SHIFT[g.key]:secById(g.key).name}
+function openReview(sheets,thumbs,fails){
+  REV={sheets:sheets.map(sh=>({...sh,cells:sh.rows.map(r=>sh.days.map((d,j)=>{const m=r.cells[j]||{s:'e'};let st=CYCLE.includes(m.s)?m.s:'e';
+    return {st,type:st==='l'?(TYPES.includes(m.t)?m.t:'اعتيادية'):'',low:(st!=='e'&&(+m.c||0)<0.6)||(r.weak&&st!=='e')}}))}))};
   drawReview(thumbs,fails);
 }
 function drawReview(thumbs,fails){
-  const {emps,days,cells}=REV;
-  let low=0;for(const k in cells)if(cells[k].low)low++;
+  let low=0;REV.sheets.forEach(sh=>sh.cells.forEach(r=>r.forEach(c=>{if(c.low)low++})));
   let h=`<h3>راجعي القراءة قبل الاعتماد</h3><div class="sub">اضغطي على أي خانة تبدّلها (داوم ← إجازة ← غياب ← فارغ). الخانات بعلامة ؟ الأداة مو متأكدة منها${low?' ('+low+')':''}.${fails?' تعذّرت قراءة '+fails+' صورة.':''}</div>`;
   if(thumbs&&thumbs.length)h+=`<div class="revthumbs">${thumbs.map(u=>`<img src="${u}" alt="">`).join('')}</div>`;
-  h+=`<div class="gridwrap"><table class="grid rev"><thead><tr><th class="namecol">الاسم</th>${days.map(d=>`<th>${DAYS[d.w]}<span class="dn">${d.d}/${d.m+1}</span></th>`).join('')}</tr></thead><tbody>`;
-  emps.forEach(e=>{h+=`<tr><td class="namecol">${esc(e.name)}</td>`;days.forEach(d=>{const k=rk(d.s,e.id),c=cells[k];
-    h+=`<td class="c ${c.st==='e'?'e':c.st}${c.low?' low':''}" data-rk="${k}">${esc(revLabel(c))}${c.low?' ؟':''}</td>`});h+='</tr>'});
-  h+=`</tbody></table></div><div class="row2"><button class="btn pri" data-rev="ok">✔ اعتماد</button><button class="btn gh" data-rev="x">إلغاء</button></div>`;
+  REV.sheets.forEach((sh,si)=>{
+    const dl=sh.days.filter(Boolean);
+    h+=`<div class="revhead">📄 ${esc(groupName(sh.g))}${dl.length?' — '+dl[0].d+'/'+(dl[0].m+1)+' إلى '+dl[dl.length-1].d+'/'+(dl[dl.length-1].m+1)+'/'+dl[dl.length-1].y:''}</div>`;
+    if(sh.unknown.length)h+=`<div class="hint" style="color:var(--bad)">أسماء ما لگيتها بالأداة (تنضاف من الإعدادات): ${sh.unknown.map(esc).join('، ')}</div>`;
+    h+=`<div class="gridwrap"><table class="grid rev"><thead><tr><th class="namecol">الاسم</th>${sh.days.map(d=>d?`<th>${DAYS[d.w]}<span class="dn">${d.d}/${d.m+1}</span></th>`:'<th>؟</th>').join('')}</tr></thead><tbody>`;
+    sh.rows.forEach((r,ri)=>{h+=`<tr><td class="namecol">${esc(r.emp.name)}${r.weak?' ؟':''}</td>`;sh.days.forEach((d,j)=>{const c=sh.cells[ri][j];
+      h+=`<td class="c ${c.st==='e'?'e':c.st}${c.low?' low':''}" data-s="${si}" data-r="${ri}" data-j="${j}">${esc(revLabel(c))}${c.low?' ؟':''}</td>`});h+='</tr>'});
+    h+='</tbody></table></div>';
+  });
+  h+=`<div class="row2"><button class="btn pri" data-rev="ok">✔ اعتماد</button><button class="btn gh" data-rev="x">إلغاء</button></div>`;
   edit=null;$('sheet').innerHTML=h;$('sheet').classList.add('wide');$('ov').classList.add('show');
   $('sheet').onclick=ev=>{
-    const td=ev.target.closest('td[data-rk]');
-    if(td){const c=REV.cells[td.dataset.rk];
+    const td=ev.target.closest('td[data-s]');
+    if(td){const c=REV.sheets[+td.dataset.s].cells[+td.dataset.r][+td.dataset.j];
       if(c.st==='l'){const i=TYPES.indexOf(c.type);if(i>=0&&i<2){c.type=TYPES[i+1]}else{c.st='a';c.type=''}}
       else{c.st=CYCLE[(CYCLE.indexOf(c.st)+1)%4];if(c.st==='l')c.type='اعتيادية'}
       c.low=false;drawReview(thumbs,fails);return}
     const b=ev.target.closest('[data-rev]');if(!b)return;
-    if(b.dataset.rev==='ok'){let n=0;for(const k in REV.cells){const c=REV.cells[k];if(c.st==='e')continue;
-        S.rec[k]=c.st==='p'?{st:'p'}:{st:c.st,parts:PARTS.slice(),type:c.st==='l'?c.type:'',note:''};n++}
-      save();toast('تم اعتماد '+n+' خانة')}
+    if(b.dataset.rev==='ok'){let n=0,last=null;
+      REV.sheets.forEach(sh=>{sh.rows.forEach((r,ri)=>sh.days.forEach((d,j)=>{if(!d)return;const c=sh.cells[ri][j];if(c.st==='e')return;
+        S.rec[rk(d.s,r.emp.id)]=c.st==='p'?{st:'p'}:{st:c.st,parts:PARTS.slice(),type:c.st==='l'?c.type:'',note:''};n++}));
+        const fd=sh.days.find(Boolean);if(sh.g&&fd)last={g:sh.g,d:fd}});
+      save();
+      if(last){if(last.g.mode==='duty'){MODE='duty';SH=last.g.key;Y=last.d.y;M=last.d.m}else{MODE='day';SEC=last.g.key;WK=sundayOf(new Date(last.d.y,last.d.m,last.d.d))}try{localStorage.setItem(KEY+'_mode',MODE)}catch(e){}}
+      toast('تم اعتماد '+n+' خانة')}
     $('sheet').onclick=null;$('sheet').classList.remove('wide');REV=null;closeSheet();render();
   };
 }
