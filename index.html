@@ -66,7 +66,7 @@ td.notes{font-size:12px;min-width:40px;padding:4px;color:var(--lv);font-weight:7
 .stat{border-radius:14px;padding:10px 4px;text-align:center;color:#000;border:2.5px solid #000;box-shadow:3px 3px 0 #000}
 .stat b{display:block;font-family:Cairo;font-size:26px;font-weight:800;line-height:1.2}
 .stat span{font-size:13px;font-weight:800}
-.actions{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:1fr 1fr .8fr;gap:8px;z-index:30}
+.actions{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr);gap:6px;z-index:30}
 .btn{border:0;border-radius:12px;padding:12px 8px;font-family:Cairo;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn.pri{background:var(--navy);color:#fff}
 .btn.amb{background:var(--amber);color:#1c2430}
@@ -116,7 +116,7 @@ td.notes.overc{background:var(--badbg);color:var(--bad)}
 .settabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
 .settabs button{border:0;border-radius:10px;padding:8px 10px;font-family:Cairo;font-weight:700;cursor:pointer;font-size:13px}
 #printArea{display:none}
-.actions .btn{border:2px solid #000;box-shadow:2px 2px 0 #000;font-size:15px}
+.actions .btn{border:2px solid #000;box-shadow:2px 2px 0 #000;font-size:14px;padding:12px 4px}
 td.c.p,td.c.a,td.c.l{font-weight:800}
 .sheet.wide{max-width:900px}
 .revhead{font-family:Cairo;font-weight:800;color:var(--navy);margin:12px 2px 6px;font-size:15px}
@@ -127,7 +127,8 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
 .warnbar{background:#fff4d6;border:1px solid #f2a516;color:#7a4b00;border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:14px;line-height:1.7}
 #printArea>div:last-child{page-break-after:auto!important}
 @media print{
-  @page{size:A4 landscape;margin:9mm}
+  @page{size:A4 landscape;margin:7mm}
+  .psheet{page-break-inside:avoid}
   body{background:#fff}
   header.top,main,.actions,.overlay,.toast{display:none!important}
   #printArea{display:block}
@@ -216,13 +217,14 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 15 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 16 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
-  <button class="btn" id="btnWord" style="background:#2B579A;color:#fff">📄 طبع وورد</button>
-  <button class="btn" id="btnExcel" style="background:#1d6f42;color:#fff">📊 طبع اكسل</button>
-  <button class="btn" id="btnCopy" style="background:#7B1FA2;color:#fff">📋 الموقف اليومي</button>
+  <button class="btn" id="btnPrint" style="background:#C62828;color:#fff">🖨️ طبع PDF</button>
+  <button class="btn" id="btnWord" style="background:#2B579A;color:#fff">📄 وورد</button>
+  <button class="btn" id="btnExcel" style="background:#1d6f42;color:#fff">📊 اكسل</button>
+  <button class="btn" id="btnCopy" style="background:#7B1FA2;color:#fff">📋 اليومي</button>
 </div>
 
 <div class="overlay" id="ov"><div class="sheet" id="sheet"></div></div>
@@ -439,25 +441,26 @@ function specDay(secId){
     rows:emps.map(e=>{const c=monthLeaves(e,days[0].y,days[0].m,upto);return {name:e.name,cells:days.map(dd=>cellInfo(S.rec[rk(dd.s,e.id)])),tail:[c?String(c):''],over:c>LEAVE_LIMIT}})};
 }
 function sheetHTML(sp,forWord){
-  const bd='border:1px solid #333;';
-  const dt=pad(today.getDate())+'/'+pad(today.getMonth()+1)+'/'+today.getFullYear();
-  let t=`<div style="font-family:Cairo,Arial;direction:rtl;${forWord?'':'page-break-after:always;'}">
-  <table style="width:100%;border:0;margin-bottom:4px"><tr><td style="text-align:right;font-weight:700;font-size:13pt;line-height:1.6;border:0;white-space:nowrap">${esc(S.h1)}<br>${esc(S.h2)}<br>${esc(S.h3)}</td><td style="text-align:left;font-size:10pt;vertical-align:bottom;border:0">التاريخ: ${dt}</td></tr></table>
-  <div style="text-align:center;font-weight:800;font-size:15pt;margin:4px 0 8px;text-decoration:underline">${esc(sp.title)}</div>
-  <table style="width:100%;border-collapse:collapse;font-size:10pt;text-align:center">
-  <tr style="background:#e6e6e6"><th style="${bd}padding:4px;width:22px">ت</th><th style="${bd}padding:4px;width:170pt;white-space:nowrap">الاسم</th>`;
-  sp.heads.forEach(x=>t+=`<th style="${bd}padding:4px;white-space:nowrap">${esc(x).replace('\n','<br>')}</th>`);
-  sp.tail.forEach(x=>t+=`<th style="${bd}padding:4px;width:${x.length>2?'48pt':'26pt'}">${esc(x)}</th>`);
+  const bd='border:1px solid #222;';const F="font-family:'Simplified Arabic','Traditional Arabic',Arial,sans-serif;";
+  const dt=today.getFullYear()+'/'+pad(today.getMonth()+1)+'/'+pad(today.getDate());
+  const n=sp.rows.length;const rp=n>16?'3px':n>12?'4px':'6px';const fs=n>16?'11pt':'12pt';
+  let t=`<div class="psheet" style="${F}direction:rtl;${forWord?'':'page-break-after:always;'}">
+  <div style="text-align:right;font-weight:700;font-size:13pt;line-height:1.45">${esc(S.h1)}<br>${esc(S.h2)}<br>${esc(S.h3)}</div>
+  <div style="text-align:center;font-weight:800;font-size:16pt;margin:2px 0 6px;text-decoration:underline">${esc(sp.title)}</div>
+  <table style="width:100%;border-collapse:collapse;text-align:center;${F}">
+  <tr style="background:#d9d9d9"><th style="${bd}padding:4px;width:24px;font-size:11pt">ت</th><th style="${bd}padding:4px;width:30%;font-size:12pt">الاسم</th>`;
+  sp.heads.forEach(x=>t+=`<th style="${bd}padding:3px;font-size:11pt;white-space:nowrap">${esc(x).replace('\n','<br>')}</th>`);
+  sp.tail.forEach(x=>t+=`<th style="${bd}padding:3px;font-size:10pt;width:${x.length>2?'52pt':'28pt'}">${esc(x)}</th>`);
   t+='</tr>';
   sp.rows.forEach((r,i)=>{
-    t+=`<tr style="${i%2?'background:#f2f2f2;':''}"><td style="${bd}padding:5px">${i+1}</td><td style="${bd}padding:5px 8px;text-align:right;white-space:nowrap;font-size:11.5pt;font-weight:700">${esc(r.name)}</td>`;
-    r.cells.forEach(c=>t+=`<td style="${bd}padding:5px;color:#${c.c};font-size:9pt">${esc(c.t)}</td>`);
-    r.tail.forEach(x=>t+=`<td style="${bd}padding:5px;font-weight:700;${r.over?'color:#b30000;':''}">${esc(x)}</td>`);
+    t+=`<tr style="${i%2?'background:#f0f0f0;':''}"><td style="${bd}padding:${rp};font-size:11pt;font-weight:700">${i+1}</td><td style="${bd}padding:${rp} 6px;text-align:center;vertical-align:middle;white-space:nowrap;font-size:${fs};font-weight:800">${esc(r.name)}</td>`;
+    r.cells.forEach(c=>t+=`<td style="${bd}padding:${rp};color:#${c.c==='1A7A3F'?'000000':c.c};font-size:${fs};font-weight:800;vertical-align:middle">${esc(c.t)}</td>`);
+    r.tail.forEach(x=>t+=`<td style="${bd}padding:${rp};font-weight:800;font-size:12pt;${r.over?'color:#b30000;':''}">${esc(x)}</td>`);
     t+='</tr>';
   });
   t+='</table>';
-  if(sp.note)t+=`<div style="margin-top:8px;font-size:9.5pt;font-weight:700">*${esc(sp.note)}</div>`;
-  t+=`<table style="width:100%;margin-top:26px;border:0;font-size:11pt"><tr><td style="text-align:center;border:0;width:50%;white-space:nowrap">${esc(S.sigR)}<br><br>التوقيع: ..........................</td><td style="text-align:center;border:0;width:50%;white-space:nowrap">${esc(S.sigL)}<br><br>التوقيع: ..........................</td></tr></table></div>`;
+  if(sp.note)t+=`<div style="margin-top:6px;font-size:10.5pt;font-weight:700;text-align:center">*${esc(sp.note)}</div>`;
+  t+=`<table style="width:100%;margin-top:14px;border:0;font-size:12pt;font-weight:700;${F}"><tr><td style="text-align:center;border:0;width:50%;white-space:nowrap;vertical-align:top">${esc(S.sigR)}<br>التوقيع: ..........................</td><td style="text-align:center;border:0;width:50%;white-space:nowrap;vertical-align:top">${esc(S.sigL)}<br>التوقيع: ..........................<br>التاريخ: ${dt}</td></tr></table></div>`;
   return t;
 }
 function curSpecs(all){
@@ -483,7 +486,7 @@ function chooseScope(cb){
   $('ov').classList.add('show');
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-scope]');if(!b)return;$('sheet').onclick=null;closeSheet();if(b.dataset.scope!=='x')cb(b.dataset.scope==='all')};
 }
-const _noPrint=()=>chooseScope(all=>{
+$('btnPrint').onclick=()=>chooseScope(all=>{
   $('printArea').innerHTML=curSpecs(all).map(sp=>sheetHTML(sp,false)).join('');
   setTimeout(()=>{try{window.print()}catch(e){toast('الطباعة غير متاحة هنا — استخدمي ملف وورد')}},150);
 });
@@ -492,32 +495,31 @@ function download(name,blob){
   setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);
 }
 function buildDocx(specs){
-  const D=window.docx;
-  const P=(text,o={})=>new D.Paragraph({bidirectional:true,alignment:o.al||D.AlignmentType.CENTER,spacing:{before:o.before||0,after:o.after||0},
-    children:String(text).split('\n').map((ln,i)=>new D.TextRun({text:ln,break:i?1:0,bold:!!o.b,size:o.sz||20,color:o.c||'000000',font:'Arial',rightToLeft:true,underline:o.u?{}:undefined}))});
-  const B={style:D.BorderStyle.SINGLE,size:6,color:'333333'};
-  const borders={top:B,bottom:B,left:B,right:B};
+  const D=window.docx;const FONT='Simplified Arabic';
+  const P=(text,o={})=>new D.Paragraph({bidirectional:true,alignment:o.al||D.AlignmentType.CENTER,spacing:{before:o.before||0,after:o.after||0,line:o.line||240},keepNext:!!o.keep,
+    children:String(text).split('\n').map((ln,i)=>new D.TextRun({text:ln,break:i?1:0,bold:o.b!==0,size:o.sz||24,color:o.c||'000000',font:{ascii:FONT,hAnsi:FONT,cs:FONT},rightToLeft:true,boldComplexScript:o.b!==0,sizeComplexScript:o.sz||24,underline:o.u?{}:undefined}))});
+  const B={style:D.BorderStyle.SINGLE,size:8,color:'222222'};const borders={top:B,bottom:B,left:B,right:B};
   const cell=(text,o={})=>new D.TableCell({borders,verticalAlign:D.VerticalAlign.CENTER,shading:o.fill?{fill:o.fill,type:D.ShadingType.CLEAR,color:'auto'}:undefined,
-    width:o.w?{size:o.w,type:D.WidthType.DXA}:undefined,margins:{top:60,bottom:60,left:60,right:60},children:[P(text,o)]});
+    width:{size:o.w,type:D.WidthType.DXA},margins:{top:20,bottom:20,left:50,right:50},children:[P(text,{...o,al:D.AlignmentType.CENTER})]});
   const NB={style:D.BorderStyle.NONE,size:0,color:'FFFFFF'};const nob={top:NB,bottom:NB,left:NB,right:NB,insideHorizontal:NB,insideVertical:NB};
-  const dt=pad(today.getDate())+'/'+pad(today.getMonth()+1)+'/'+today.getFullYear();
+  const dt=today.getFullYear()+'/'+pad(today.getMonth()+1)+'/'+pad(today.getDate());
   const sections=specs.map(sp=>{
-    const total=15100,wNo=450,wName=4300,wT=sp.tail.length>1?550:1100,wDay=Math.floor((total-wNo-wName-sp.tail.length*wT)/Math.max(sp.heads.length,1));
-    const head=new D.TableRow({tableHeader:true,children:[cell('ت',{b:1,fill:'E6E6E6',w:wNo}),cell('الاسم',{b:1,fill:'E6E6E6',w:wName}),
-      ...sp.heads.map(x=>cell(x,{b:1,fill:'E6E6E6',w:wDay,sz:18})),...sp.tail.map(x=>cell(x,{b:1,fill:'E6E6E6',w:wT,sz:18}))]});
-    const rows=sp.rows.map((r,i)=>{const f=i%2?'F2F2F2':undefined;
-      return new D.TableRow({height:{value:430,rule:D.HeightRule.ATLEAST},children:[cell(i+1,{fill:f,w:wNo}),cell(r.name,{fill:f,w:wName,al:D.AlignmentType.RIGHT,sz:22,b:1}),
-        ...r.cells.map(ci=>cell(ci.t,{fill:f,w:wDay,c:ci.c,sz:17})),...r.tail.map(x=>cell(x,{fill:f,w:wT,sz:20,b:1,c:r.over?'B30000':'000000'}))]})});
-    const top=new D.Table({visuallyRightToLeft:true,borders:nob,columnWidths:[9000,6100],width:{size:total,type:D.WidthType.DXA},rows:[new D.TableRow({children:[
-      new D.TableCell({borders:nob,width:{size:9000,type:D.WidthType.DXA},children:[P(S.h1,{b:1,sz:26,al:D.AlignmentType.RIGHT}),P(S.h2,{b:1,sz:26,al:D.AlignmentType.RIGHT}),P(S.h3,{b:1,sz:26,al:D.AlignmentType.RIGHT})]}),
-      new D.TableCell({borders:nob,verticalAlign:D.VerticalAlign.BOTTOM,width:{size:6100,type:D.WidthType.DXA},children:[P('التاريخ: '+dt,{al:D.AlignmentType.LEFT})]})]})]});
-    const sig=new D.Table({visuallyRightToLeft:true,borders:nob,columnWidths:[total/2,total/2],width:{size:total,type:D.WidthType.DXA},rows:[new D.TableRow({children:[S.sigR,S.sigL].map(t=>
-      new D.TableCell({borders:nob,width:{size:total/2,type:D.WidthType.DXA},children:[P(t,{b:1,sz:22,before:400}),P('التوقيع: ..........................',{sz:22,before:300})]}))})]});
-    const ch=[top,P(sp.title,{b:1,sz:30,before:120,after:160,u:1}),
+    const n=sp.rows.length;const rh=n>16?300:n>12?340:400;const fs=n>16?22:24;
+    const total=15400,wNo=450,wName=4200,wT=sp.tail.length>1?560:1150,wDay=Math.floor((total-wNo-wName-sp.tail.length*wT)/Math.max(sp.heads.length,1));
+    const head=new D.TableRow({tableHeader:true,children:[cell('ت',{fill:'D9D9D9',w:wNo,sz:22}),cell('الاسم',{fill:'D9D9D9',w:wName,sz:24}),
+      ...sp.heads.map(x=>cell(x,{fill:'D9D9D9',w:wDay,sz:21})),...sp.tail.map(x=>cell(x,{fill:'D9D9D9',w:wT,sz:20}))]});
+    const rows=sp.rows.map((r,i)=>{const f=i%2?'F0F0F0':undefined;
+      return new D.TableRow({cantSplit:true,height:{value:rh,rule:D.HeightRule.ATLEAST},children:[cell(i+1,{fill:f,w:wNo,sz:22}),cell(r.name,{fill:f,w:wName,sz:fs+2}),
+        ...r.cells.map(ci=>cell(ci.t,{fill:f,w:wDay,c:ci.c==='1A7A3F'?'000000':ci.c,sz:fs})),...r.tail.map(x=>cell(x,{fill:f,w:wT,sz:24,c:r.over?'B30000':'000000'}))]})});
+    const sig=new D.Table({visuallyRightToLeft:true,borders:nob,columnWidths:[total/2,total/2],width:{size:total,type:D.WidthType.DXA},rows:[new D.TableRow({cantSplit:true,children:[
+      new D.TableCell({borders:nob,width:{size:total/2,type:D.WidthType.DXA},children:[P(S.sigR,{sz:24,before:200}),P('التوقيع: ..........................',{sz:22,before:60})]}),
+      new D.TableCell({borders:nob,width:{size:total/2,type:D.WidthType.DXA},children:[P(S.sigL,{sz:24,before:200}),P('التوقيع: ..........................',{sz:22,before:60}),P('التاريخ: '+dt,{sz:22,before:60})]})]})]});
+    const ch=[P(S.h1,{sz:24,al:D.AlignmentType.RIGHT,line:220}),P(S.h2,{sz:24,al:D.AlignmentType.RIGHT,line:220}),P(S.h3,{sz:24,al:D.AlignmentType.RIGHT,line:220}),
+      P(sp.title,{sz:30,after:80,u:1}),
       new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,columnWidths:[wNo,wName,...sp.heads.map(()=>wDay),...sp.tail.map(()=>wT)],width:{size:total,type:D.WidthType.DXA},rows:[head,...rows]})];
-    if(sp.note)ch.push(P('*'+sp.note,{sz:19,b:1,before:120,al:D.AlignmentType.RIGHT}));
+    if(sp.note)ch.push(P('*'+sp.note,{sz:20,before:80}));
     ch.push(sig);
-    return {properties:{page:{size:{orientation:D.PageOrientation.LANDSCAPE},margin:{top:600,bottom:600,left:600,right:600}}},children:ch};
+    return {properties:{page:{size:{orientation:D.PageOrientation.LANDSCAPE},margin:{top:400,bottom:300,left:500,right:500}}},children:ch};
   });
   return D.Packer.toBlob(new D.Document({creator:'موقف المناوبين',sections}));
 }
