@@ -220,7 +220,7 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 20 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 21 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -585,8 +585,7 @@ function dailyData(dateStr){
       duty.push({name:e.name,st:t+' يوم '+DAYS[x.getDay()]+' '+(x.getMonth()+1)+'/'+x.getDate()})})}
   return {unM,unD,from:new Date(from),title:'م/ الموقف اليومي ليوم '+DAYS[day.getDay()]+' الموافق '+day.getFullYear()+'/'+(day.getMonth()+1)+'/'+day.getDate(),morning,duty};
 }
-function sigLines(){const n=new Date();let h=n.getHours();const ap=h<12?'ص':'م';h=h%12||12;
-  return [S.dSig||'المهندس',S.dSigN||'حسين أحمد حمود',S.sigT||'ر. قسم السيطرة الذاتية','التاريخ: '+n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear()+'  الساعة '+h+':'+pad(n.getMinutes())+' '+ap].filter(x=>x)}
+function sigLines(){const n=new Date();return [S.dSig||'المهندس',S.dSigN||'حسين أحمد حمود',S.sigT||'ر. قسم السيطرة الذاتية',n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear()].filter(x=>x)}
 function sigHTML(fs){return `<div style="margin-top:22px;text-align:left"><div style="display:inline-block;text-align:center;font-size:${fs};font-weight:800;line-height:1.7;padding-left:6px">${sigLines().map(esc).join('<br>')}</div></div>`}
 function setPage(css){let el=document.getElementById('pgStyle');if(!el){el=document.createElement('style');el.id='pgStyle';document.head.appendChild(el)}el.textContent=css?'@media print{@page{'+css+'}}':''}
 const D_HEAD='B4C6E7',D_ALT='DCE6F1';
@@ -597,11 +596,11 @@ function dailyHTML(dd){
     return `<table style="width:100%;border-collapse:collapse;margin:0 0 22px;${F}font-size:13.5pt">
     <tr style="background:#${D_HEAD}"><th style="${bd}padding:5px;width:7%">ت</th><th style="${bd}padding:5px;width:45%">الاسم</th><th style="${bd}padding:5px">${t.h}</th></tr>
     ${rows.map((r,i)=>`<tr style="${i%2?'background:#'+D_ALT:''}"><td style="${bd}padding:6px;text-align:center">${t.rows.length?i+1:''}</td><td style="${bd}padding:6px 10px;text-align:right">${esc(r.name)}</td><td style="${bd}padding:6px;text-align:center">${esc(r.st)}</td></tr>`).join('')}</table>`};
-  return `<div style="${F}direction:rtl;color:#000;padding:4mm 2mm">
+  return `<div style="${F}direction:rtl;color:#000;padding:2mm 2mm 0;min-height:266mm;box-sizing:border-box;display:flex;flex-direction:column">
   <div style="font-size:16pt;text-decoration:underline">م/ ${esc(S.dTitle)}</div>
   <div style="font-size:15pt;text-decoration:underline;margin:4px 0 14px">${esc(dd.title.replace(/^م\/ /,''))}</div>
   ${dailyTables(dd).map(tbl).join('')}
-  ${sigHTML('13.5pt').replace('margin-top:22px','margin-top:40px')}</div>`;
+  ${sigHTML('13.5pt').replace('margin-top:22px','margin-top:auto;padding-top:22mm')}</div>`;
 }
 function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function buildDailyDocx(dd){
@@ -616,8 +615,8 @@ function buildDailyDocx(dd){
       ...rows.map((r,i)=>{const f=i%2?D_ALT:undefined;return new D.TableRow({cantSplit:true,height:{value:420,rule:D.HeightRule.ATLEAST},children:[cell(t.rows.length?i+1:'',{w:W[0],fill:f}),cell(r.name,{w:W[1],al:D.AlignmentType.RIGHT,fill:f}),cell(r.st,{w:W[2],fill:f})]})})]})};
   const ch=[P('م/ '+S.dTitle,{sz:32,u:1}),P(dd.title.replace(/^م\/ /,''),{sz:30,after:240,u:1})];
   dailyTables(dd).forEach((t,k)=>{ch.push(table(t));ch.push(P('',{after:k?0:300}))});
-  sigLines().forEach((t,k)=>ch.push(P(t,{sz:26,before:k?40:600,al:D.AlignmentType.END})));
-  return D.Packer.toBlob(new D.Document({sections:[{properties:{page:{size:{orientation:D.PageOrientation.PORTRAIT},margin:{top:800,bottom:800,left:900,right:900}}},children:ch}]}));
+  const foot=new D.Footer({children:sigLines().map(t=>P(t,{sz:26,before:40,al:D.AlignmentType.END}))});
+  return D.Packer.toBlob(new D.Document({sections:[{properties:{page:{size:{orientation:D.PageOrientation.PORTRAIT},margin:{top:800,bottom:2200,left:900,right:900,footer:500}}},footers:{default:foot},children:ch}]}));
 }
 async function buildDailyXlsx(dd){
   const E=window.ExcelJS;const wb=new E.Workbook();const ws=wb.addWorksheet('الموقف اليومي',{views:[{rightToLeft:true}],pageSetup:{orientation:'portrait',paperSize:9,fitToPage:true,fitToWidth:1,fitToHeight:0,horizontalCentered:true}});
@@ -628,7 +627,7 @@ async function buildDailyXlsx(dd){
   const table=t=>{const h=ws.addRow(['ت','الاسم',t.h]);h.eachCell(c=>{c.font={bold:true,name:FN,size:14};c.fill=fill(D_HEAD);c.border=B;c.alignment={horizontal:'center',vertical:'middle'}});
     (t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}]).forEach((r,i)=>{const x=ws.addRow([t.rows.length?i+1:'',r.name,r.st]);x.height=22;x.eachCell({includeEmpty:true},(c,col)=>{c.border=B;c.font={bold:true,name:FN,size:14};c.alignment={horizontal:col===2?'right':'center',vertical:'middle',wrapText:true};if(i%2)c.fill=fill(D_ALT)})})};
   line('م/ '+S.dTitle,{sz:16,u:1});line(dd.title.replace(/^م\/ /,''),{sz:15,u:1});ws.addRow([]);
-  dailyTables(dd).forEach(t=>{table(t);ws.addRow([])});ws.addRow([]);sigLines().forEach(t=>line(t,{al:'left'}));
+  dailyTables(dd).forEach(t=>{table(t);ws.addRow([])});ws.addRow([]);ws.addRow([]);ws.addRow([]);ws.addRow([]);sigLines().forEach(t=>line(t,{al:'left'}));
   return new Blob([await wb.xlsx.writeBuffer()],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
 }
 function dailyText(dd){let t=S.dTitle+'\n'+dd.title+'\n\nالدوام الصباحي:\n'+(dd.morning.length?dd.morning.map((r,i)=>(i+1)+'. '+r.name+' — '+r.st).join('\n'):'لا يوجد')+'\n\nالمناوبين:\n'+(dd.duty.length?dd.duty.map((r,i)=>(i+1)+'. '+r.name+' — '+r.st).join('\n'):'لا يوجد');return t}
