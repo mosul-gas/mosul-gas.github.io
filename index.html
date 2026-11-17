@@ -222,7 +222,7 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 25 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 26 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -438,7 +438,7 @@ $('nextM').onclick=()=>step(1);
 /* ---------- report spec (shared by print & word) ---------- */
 function specDuty(sh){
   const days=dutyDays(Y,M,sh),emps=empsOf(sh);
-  return {title:'موقف الوجبة '+SHIFT[sh]+' لشهر '+MONTHS[M]+' '+Y,
+  return {plain:true,title:'موقف الوجبة '+SHIFT[sh]+' لشهر '+MONTHS[M]+' '+Y,
     heads:days.map(dd=>DAYS[dd.w]+' /'+dd.d),tail:PARTS.slice(),note:'',
     rows:emps.map(e=>{const n=notesOf(e,days);return {name:e.name,cells:days.map(dd=>cellInfo(S.rec[rk(dd.s,e.id)])),tail:PARTS.map(p=>n[p].join('، '))}})};
 }
