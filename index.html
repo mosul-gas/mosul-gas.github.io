@@ -12,6 +12,7 @@
 <link rel="manifest" href="manifest.json">
 <script src="docx.umd.js" defer></script>
 <script src="exceljs.min.js" defer></script>
+<script src="jspdf.umd.min.js" defer></script>
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -221,7 +222,7 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 23 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 24 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -317,7 +318,7 @@ function notesOf(emp,days){
 function monthLeaves(emp,y,m,uptoStr){
   let n=0;const pre=y+'-'+pad(m+1)+'-';
   for(const k in S.rec){const i=k.indexOf('|');const ds=k.slice(0,i);if(k.slice(i+1)!==emp.id||!ds.startsWith(pre))continue;
-    if(uptoStr&&ds>uptoStr)continue;const r=S.rec[k];if(r&&r.st==='l'&&!NOT_LEAVE.includes(r.type))n+=(r.type==='زمنية'?0.5:1)}
+    if(uptoStr&&ds>uptoStr)continue;const r=S.rec[k];if(r&&r.st==='l'&&!NOT_LEAVE.includes(r.type)&&r.type!=='مرضية')n+=(r.type==='زمنية'?0.5:1)}
   return n;
 }
 function cellInfo(r){
@@ -491,8 +492,8 @@ function chooseScope(cb){
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-scope]');if(!b)return;$('sheet').onclick=null;closeSheet();if(b.dataset.scope!=='x')cb(b.dataset.scope==='all')};
 }
 $('btnPrint').onclick=()=>chooseScope(all=>{
-  setPage('');$('printArea').innerHTML=curSpecs(all).map(sp=>sheetHTML(sp,false)).join('');
-  setTimeout(()=>{try{window.print()}catch(e){toast('الطباعة غير متاحة هنا — استخدمي ملف وورد')}},150);
+  const specs=curSpecs(all);if(!specs.length){toast('ماكو أسماء');return}
+  savePDF(specs.map(sheetCanvas),true,(MODE==='duty'?'موقف ':'دوام صباحي ')+scopeName(all)+' '+periodName()+'.pdf');
 });
 function download(name,blob){
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();
@@ -588,6 +589,57 @@ function dailyData(dateStr){
 }
 function sigLines(){const n=new Date();return [S.dSig||'المهندس',S.dSigN||'حسين أحمد حمود',S.sigT||'ر. قسم السيطرة الذاتية',n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear()].filter(x=>x)}
 function sigHTML(fs){return `<div style="margin-top:22px;text-align:left"><div style="display:inline-block;text-align:center;font-size:${fs};font-weight:800;line-height:1.7;padding-left:6px">${sigLines().map(esc).join('<br>')}</div></div>`}
+/* ===== PDF file (drawn on canvas, Arabic shaped by the browser) ===== */
+const MM=200/25.4,PT=0.3528*MM,CF="'Simplified Arabic','Geeza Pro','Arial',sans-serif";
+function cvPage(land){const c=document.createElement('canvas');c.width=Math.round((land?297:210)*MM);c.height=Math.round((land?210:297)*MM);
+  const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);try{x.direction='rtl'}catch(e){}x.textBaseline='middle';return [c,x]}
+function setF(x,pt){x.font='bold '+Math.max(8,Math.round(pt*PT))+'px '+CF}
+function txt(x,t,X,Y,al,pt,color,maxW){t=String(t);let p=pt;setF(x,p);if(maxW)while(x.measureText(t).width>maxW&&p>pt*0.55){p-=0.5;setF(x,p)}
+  x.fillStyle=color||'#000';x.textAlign=al;x.fillText(t,X,Y);return x.measureText(t).width}
+function uline(x,t,X,Y,al,pt){const w=txt(x,t,X,Y,al,pt);const L=al==='right'?X-w:al==='center'?X-w/2:X;x.fillStyle='#000';x.fillRect(L,Y+pt*PT*0.62,w,Math.max(2,0.3*MM))}
+function drawRows(x,top,right,ws,rows){let y=top;rows.forEach(r=>{let cx=right;r.cells.forEach((c,i)=>{const w=ws[i],L=cx-w;
+    x.fillStyle='#'+(r.fill||'FFFFFF');x.fillRect(L,y,w,r.h);x.lineWidth=Math.max(1.5,0.3*MM);x.strokeStyle='#000';x.strokeRect(L,y,w,r.h);
+    const lines=String(c.t).split('\n'),lh=r.pt*PT*1.2,pad=1.4*MM;
+    lines.forEach((ln,k)=>{const yy=y+r.h/2+(k-(lines.length-1)/2)*lh;if(c.al==='right')txt(x,ln,cx-pad,yy,'right',r.pt,c.c,w-2*pad);else txt(x,ln,L+w/2,yy,'center',r.pt,c.c,w-2*pad)});cx=L});y+=r.h});return y}
+function wrapLines(x,t,maxW,pt){setF(x,pt);const out=[];let cur='';String(t).split(' ').forEach(wd=>{const tr=cur?cur+' '+wd:wd;if(x.measureText(tr).width>maxW&&cur){out.push(cur);cur=wd}else cur=tr});if(cur)out.push(cur);return out}
+function drawSig(x,left,bottom,pt){const L=sigLines(),lh=pt*PT*1.75;setF(x,pt);const bw=Math.max(...L.map(l=>x.measureText(l).width))+3*MM,cx=left+bw/2;
+  L.forEach((l,i)=>txt(x,l,cx,bottom-(L.length-i-0.5)*lh,'center',pt));return L.length*lh}
+function sheetCanvas(sp){
+  const [c,x]=cvPage(true),W=c.width,H=c.height,m=8*MM,right=W-m,left=m,tw=right-left;let y=m+2*MM;
+  [S.h1,S.h2,S.h3].forEach(t=>{txt(x,t,right,y,'right',12.5);y+=12.5*PT*1.45});
+  y+=1*MM;uline(x,sp.title,W/2,y,'center',16);y+=16*PT*1.3;
+  const nT=sp.tail.length,wNo=8*MM,wName=tw*0.25,wT=nT>1?9*MM:19*MM,wDay=(tw-wNo-wName-nT*wT)/Math.max(sp.heads.length,1);
+  const ws=[wNo,wName,...sp.heads.map(()=>wDay),...sp.tail.map(()=>wT)];
+  const noteL=sp.note?wrapLines(x,'*'+sp.note,tw,10.5):[];const noteH=noteL.length*10.5*PT*1.35+(noteL.length?2*MM:0);
+  const sigH=4*12*PT*1.75+6*MM,hh=12*MM,n=Math.max(sp.rows.length,1);
+  const rh=Math.max(4.5*MM,Math.min(10*MM,(H-m-sigH-noteH-y-hh)/n)),pt=Math.min(12.5,rh*0.62/PT);
+  y=drawRows(x,y,right,ws,[{cells:[{t:'ت'},{t:'الاسم'},...sp.heads.map(h=>({t:h})),...sp.tail.map(t=>({t}))],fill:'A6A6A6',h:hh,pt:11}]);
+  sp.rows.forEach((r,i)=>{y=drawRows(x,y,right,ws,[{cells:[{t:i+1},{t:r.name},...r.cells.map(ci=>({t:ci.t,c:'#'+(ci.c==='1A7A3F'?'000000':ci.c)})),...r.tail.map(t=>({t,c:r.over?'#B30000':'#000'}))],fill:i%2?'D9D9D9':'F2F2F2',h:rh,pt}])});
+  y+=2*MM;noteL.forEach(l=>{y+=10.5*PT*0.7;txt(x,l,W/2,y,'center',10.5);y+=10.5*PT*0.65});
+  drawSig(x,left,H-m,12);return c;
+}
+function dailyCanvases(dd){
+  const pages=[];let [c,x]=cvPage(false);const W=c.width,H=c.height,m=14*MM,right=W-m,left=m,tw=right-left;let y=m+3*MM;
+  uline(x,'م/ '+S.dTitle,right,y,'right',16);y+=16*PT*1.6;uline(x,dd.title.replace(/^م\/ /,''),right,y,'right',15);y+=15*PT*1.5;
+  const ws=[tw*0.07,tw*0.45,tw*0.48],rh=9.5*MM,pt=13.5,sigH=4*13.5*PT*1.75+22*MM;
+  dailyTables(dd).forEach(t=>{const rows=t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}];
+    const hdr={cells:[{t:'ت'},{t:'الاسم'},{t:t.h}],fill:D_HEAD,h:rh,pt};
+    if(y+2*rh>H-m){pages.push(c);[c,x]=cvPage(false);y=m}
+    y=drawRows(x,y,right,ws,[hdr]);
+    rows.forEach((r,i)=>{if(y+rh>H-m){pages.push(c);[c,x]=cvPage(false);y=m;y=drawRows(x,y,right,ws,[hdr])}
+      y=drawRows(x,y,right,ws,[{cells:[{t:t.rows.length?i+1:''},{t:r.name,al:'right'},{t:r.st}],fill:i%2?D_ALT:D_ROW,h:rh,pt}])});
+    y+=7*MM});
+  if(y+sigH>H-m){pages.push(c);[c,x]=cvPage(false)}
+  drawSig(x,left,H-m,13.5);pages.push(c);return pages;
+}
+function savePDF(pages,land,name){
+  if(!window.jspdf){toast('مكتبة PDF ما اشتغلت — حدّثي الصفحة');return}
+  const pdf=new window.jspdf.jsPDF({orientation:land?'l':'p',unit:'mm',format:'a4',compress:true});
+  pages.forEach((c,i)=>{if(i)pdf.addPage('a4',land?'l':'p');pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',0,0,land?297:210,land?210:297)});
+  const blob=pdf.output('blob');let f=null;try{f=new File([blob],name,{type:'application/pdf'})}catch(e){}
+  if(f&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(e=>{if(e&&e.name!=='AbortError')download(name,blob)});return}
+  download(name,blob);toast('تم تنزيل ملف PDF');
+}
 function setPage(css){let el=document.getElementById('pgStyle');if(!el){el=document.createElement('style');el.id='pgStyle';document.head.appendChild(el)}el.textContent=css?'@media print{@page{'+css+'}}':''}
 const D_HEAD='A6A6A6',D_ALT='D9D9D9',D_ROW='F2F2F2';
 function dailyTables(dd){return [{h:'الموقف',rows:dd.morning,label:'الدوام الصباحي'},{h:'المناوبين',rows:dd.duty,label:'المناوبين'}]}
@@ -650,7 +702,7 @@ $('btnCopy').onclick=()=>{
     if(!w.length)w.push('✅ الكل مأشّر عليهم، الموقف جاهز للطبع.');
     $('dPrev').innerHTML='<div style="font-family:Cairo;font-weight:700;font-size:13px;line-height:1.7;margin-bottom:8px;color:'+(w[0][0]==='✅'?'#1A7A3F':'#9a5a00')+'">'+w.map(esc).join('<br>')+(rng?'<br><span style="color:#444">'+esc(rng.trim())+'</span>':'')+'</div><div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:6px;zoom:.55">'+dailyHTML(dd)+'</div>'};prev();$('dDate').onchange=prev;
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-d]');if(!b)return;const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const nm='الموقف اليومي '+v;
-    if(b.dataset.d==='pdf'){$('printArea').innerHTML=dailyHTML(dd);setPage('size:A4 portrait;margin:12mm');$('sheet').onclick=null;closeSheet();setTimeout(()=>{try{window.print()}catch(e){toast('الطباعة غير متاحة هنا')}},150)}
+    if(b.dataset.d==='pdf'){savePDF(dailyCanvases(dd),false,nm+'.pdf')}
     else if(b.dataset.d==='word'){if(!window.docx){toast('حدّثي الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل الوورد')})}
     else if(b.dataset.d==='xl'){if(!window.ExcelJS){toast('حدّثي الصفحة');return}buildDailyXlsx(dd).then(x=>{download(nm+'.xlsx',x);toast('تم تنزيل الاكسل')})}
     else if(b.dataset.d==='copy'){const t=dailyText(dd);const ok=()=>toast('تم النسخ');if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,()=>fallbackCopy(t,ok));else fallbackCopy(t,ok)}
