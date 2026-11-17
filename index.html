@@ -135,6 +135,25 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
   header.top,main,.actions,.overlay,.toast{display:none!important}
   #printArea{display:block}
 }
+
+/* compact layout (v27) */
+header.top{position:relative;padding:calc(6px + env(safe-area-inset-top)) 10px 8px}
+.brand .bolt{width:26px;height:26px;border-radius:8px}.brand .bolt svg{width:15px;height:15px}
+.brand h1{font-size:15px}.brand small{font-size:10.5px}
+.brand .gear{padding:5px 8px;font-size:12px}
+.modeseg{margin-top:6px;padding:3px;border-radius:10px}.modeseg button{padding:5px 4px;font-size:13.5px}
+.monthbar{margin-top:6px;padding:1px;border-radius:10px}.monthbar button{height:28px;width:34px;font-size:18px}.monthbar b{font-size:14px}
+.tabs{margin-top:6px;gap:5px}.tabs button{padding:5px 3px;font-size:13px;border-radius:8px}
+main{padding:8px 8px 74px}
+#statsCard{padding:0;background:none;box-shadow:none;margin-bottom:6px}
+.stats{gap:5px}
+.stat{border-radius:9px;padding:3px 2px;border-width:1.5px;box-shadow:1.5px 1.5px 0 #000;display:flex;align-items:center;justify-content:center;gap:4px}
+.stat b{font-size:16px;display:inline;line-height:1.3}.stat span{font-size:11.5px}
+#btnOcr{padding:7px!important;font-size:14px!important;margin-bottom:6px!important;border-width:1.5px!important;box-shadow:1.5px 1.5px 0 #000!important;border-radius:10px}
+#mainHint{display:none}
+.actions{grid-template-columns:repeat(5,1fr);gap:4px;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+.actions .btn{padding:7px 2px;font-size:12px;border-radius:9px;gap:3px;line-height:1.2}
+#btnReady{grid-column:auto!important;padding:7px 2px!important}
 </style>
 </head>
 <body>
@@ -154,12 +173,12 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
 </header>
 
 <main id="viewMain">
-  <div class="card">
+  <div class="card" id="statsCard">
     <div class="stats" id="stats"></div>
   </div>
   <button class="btn" id="btnOcr" style="width:100%;margin-bottom:10px;font-size:17px;padding:15px;background:#FF6D00;color:#fff;border:2.5px solid #000;box-shadow:3px 3px 0 #000">📷 قراءة صور الموقف</button>
   <input type="file" id="ocrFile" accept="image/*" multiple class="hide">
-  <p class="hint">اضغطي على أي خانة لتأشير الحالة. زر «الكل داوم» تحت اليوم يأشّر الباقين حاضرين مرة وحدة، وبعدين تعدّلين الغائب والمجاز فقط.</p>
+  <p class="hint" id="mainHint">اضغطي على أي خانة لتأشير الحالة. زر «الكل داوم» تحت اليوم يأشّر الباقين حاضرين مرة وحدة، وبعدين تعدّلين الغائب والمجاز فقط.</p>
   <div class="gridwrap"><table class="grid" id="grid"></table></div>
   <div class="legend">
     <span><i style="background:var(--okbg);border:1px solid var(--ok)"></i>داوم</span>
@@ -222,15 +241,15 @@ td.c.low{outline:2px dashed #e0a100;outline-offset:-3px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 26 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 27 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
-  <button class="btn" id="btnPrint" style="background:#C62828;color:#fff">🖨️ طبع PDF</button>
+  <button class="btn" id="btnPrint" style="background:#C62828;color:#fff">🖨️ PDF</button>
   <button class="btn" id="btnWord" style="background:#2B579A;color:#fff">📄 وورد</button>
   <button class="btn" id="btnExcel" style="background:#1d6f42;color:#fff">📊 اكسل</button>
   <button class="btn" id="btnCopy" style="background:#7B1FA2;color:#fff">📋 اليومي</button>
-  <button class="btn" id="btnReady" style="background:#455A64;color:#fff;grid-column:1/-1;padding:9px">📅 تحضير موقف جاهز (الأسبوع الجاي / الشهر الجاي)</button>
+  <button class="btn" id="btnReady" style="background:#455A64;color:#fff;grid-column:1/-1;padding:9px">📅 جاهز</button>
 </div>
 
 <div class="overlay" id="ov"><div class="sheet" id="sheet"></div></div>
@@ -372,7 +391,7 @@ function render(){
   $('grid').innerHTML=h+'</tbody>';
   let p=0,a=0,l=0,e0=0;
   days.forEach(dd=>emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(!r)e0++;else if(r.st==='p')p++;else if(r.st==='a')a++;else l++}));
-  $('stats').innerHTML=`<div class="stat" style="background:#00E676"><b>${p}</b><span>✔ داوم</span></div><div class="stat" style="background:#FF3D3D"><b>${a}</b><span>✖ غياب</span></div><div class="stat" style="background:#FFC400"><b>${l}</b><span>✈ إجازة</span></div><div class="stat" style="background:#B0BEC5"><b>${e0}</b><span>⏳ غير مؤشّر</span></div>`;
+  $('stats').innerHTML=`<div class="stat" style="background:#00E676"><b>${p}</b><span>داوم</span></div><div class="stat" style="background:#FF3D3D"><b>${a}</b><span>غياب</span></div><div class="stat" style="background:#FFC400"><b>${l}</b><span>إجازة</span></div><div class="stat" style="background:#B0BEC5"><b>${e0}</b><span>ما مؤشّر</span></div>`;
   let s='';
   days.forEach(dd=>{
     const items=[];let done=0;
