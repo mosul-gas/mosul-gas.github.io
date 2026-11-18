@@ -261,7 +261,7 @@ main{padding:8px 8px 74px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 33 — 18/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 34 — 18/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -565,7 +565,7 @@ function download(name,blob){
 function buildDocx(specs){
   const D=window.docx;const FONT='Simplified Arabic';
   const P=(text,o={})=>new D.Paragraph({bidirectional:false,alignment:o.al||D.AlignmentType.CENTER,spacing:{before:o.before||0,after:o.after||0,line:o.line||240},keepNext:!!o.keep,
-    children:String(text).split('\n').map((ln,i)=>new D.TextRun({text:'\u200F'+ln+'\u200F',break:i?1:0,bold:o.b!==0,size:o.sz||24,color:o.c||'000000',font:{ascii:FONT,hAnsi:FONT,cs:FONT},rightToLeft:true,boldComplexScript:o.b!==0,sizeComplexScript:o.sz||24,underline:o.u?{}:undefined}))});
+    children:String(text).split('\n').map((ln,i)=>new D.TextRun({text:'\u202B'+ln+'\u202C',break:i?1:0,bold:o.b!==0,size:o.sz||24,color:o.c||'000000',font:{ascii:FONT,hAnsi:FONT,cs:FONT},rightToLeft:true,boldComplexScript:o.b!==0,sizeComplexScript:o.sz||24,underline:o.u?{}:undefined}))});
   const B={style:D.BorderStyle.SINGLE,size:8,color:'222222'};const borders={top:B,bottom:B,left:B,right:B};
   const cell=(text,o={})=>new D.TableCell({borders,verticalAlign:D.VerticalAlign.CENTER,shading:o.fill?{fill:o.fill,type:D.ShadingType.CLEAR,color:'auto'}:undefined,
     width:{size:o.w,type:D.WidthType.DXA},margins:{top:20,bottom:20,left:50,right:50},children:[P(text,{...o,al:D.AlignmentType.CENTER})]});
@@ -725,7 +725,7 @@ function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','
 function buildDailyDocx(dd){
   const D=window.docx;const FONT='Simplified Arabic';
   const P=(t,o={})=>new D.Paragraph({bidirectional:false,alignment:o.al||D.AlignmentType.RIGHT,spacing:{before:o.before||0,after:o.after||0},
-    children:[new D.TextRun({text:'\u200F'+String(t)+'\u200F',bold:true,boldComplexScript:true,size:o.sz||27,sizeComplexScript:o.sz||27,font:{ascii:FONT,hAnsi:FONT,cs:FONT},rightToLeft:true,underline:o.u?{}:undefined})]});
+    children:[new D.TextRun({text:'\u202B'+String(t)+'\u202C',bold:true,boldComplexScript:true,size:o.sz||27,sizeComplexScript:o.sz||27,font:{ascii:FONT,hAnsi:FONT,cs:FONT},rightToLeft:true,underline:o.u?{}:undefined})]});
   const B={style:D.BorderStyle.SINGLE,size:10,color:'000000'};const borders={top:B,bottom:B,left:B,right:B};
   const cell=(t,o={})=>new D.TableCell({borders,width:{size:o.w,type:D.WidthType.DXA},verticalAlign:D.VerticalAlign.CENTER,shading:o.fill?{fill:o.fill,type:D.ShadingType.CLEAR,color:'auto'}:undefined,margins:{top:50,bottom:50,left:100,right:100},children:[P(t,{sz:27,al:o.al||D.AlignmentType.CENTER})]});
   const W=[650,4500,4650];
@@ -873,7 +873,7 @@ function b64bytes(d){const s=atob(d.split(',')[1]);const u=new Uint8Array(s.leng
 async function buildLetterDocx(L){
   let logoBytes=null;try{logoBytes=S.logo?b64bytes(S.logo):new Uint8Array(await (await fetch('logo-moe.png')).arrayBuffer())}catch(e){}
   const D=window.docx,F='Arial';const yr=today.getFullYear();
-  const run=(t,o={})=>new D.TextRun({text:o.en?String(t):'\u200F'+String(t)+'\u200F',bold:o.b!==0,boldComplexScript:o.b!==0,size:o.sz||28,sizeComplexScript:o.sz||28,font:{ascii:F,hAnsi:F,cs:F},rightToLeft:!o.en,color:o.c||'000000',underline:o.u?{}:undefined,shading:o.sh?{type:D.ShadingType.CLEAR,fill:o.sh,color:'auto'}:undefined});
+  const run=(t,o={})=>new D.TextRun({text:o.en?String(t):'\u202B'+String(t)+'\u202C',bold:o.b!==0,boldComplexScript:o.b!==0,size:o.sz||28,sizeComplexScript:o.sz||28,font:{ascii:F,hAnsi:F,cs:F},rightToLeft:!o.en,color:o.c||'000000',underline:o.u?{}:undefined,shading:o.sh?{type:D.ShadingType.CLEAR,fill:o.sh,color:'auto'}:undefined});
   const P=(t,o={})=>new D.Paragraph({bidirectional:false,alignment:o.al||(o.en?D.AlignmentType.LEFT:D.AlignmentType.RIGHT),spacing:{before:o.before||0,after:o.after||0,line:o.line||240},indent:o.ind?{firstLine:o.ind}:undefined,children:Array.isArray(t)?t:[run(t,o)]});
   const NB={style:D.BorderStyle.NONE,size:0,color:'FFFFFF'},nob={top:NB,bottom:NB,left:NB,right:NB,insideHorizontal:NB,insideVertical:NB};
   const W=10200,c3=[3900,2400,3900];
