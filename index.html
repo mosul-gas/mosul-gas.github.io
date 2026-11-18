@@ -315,7 +315,7 @@ header.top{background:linear-gradient(135deg,#0ea5e9 0%,#3b82f6 55%,#7c5ce6 100%
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 42 — 18/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 43 — 18/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -764,8 +764,8 @@ function cvFrame(x,W,H){x.strokeStyle='#1F3864';x.lineWidth=0.7*MM;x.strokeRect(
 function setPage(css){let el=document.getElementById('pgStyle');if(!el){el=document.createElement('style');el.id='pgStyle';document.head.appendChild(el)}el.textContent=css?'@media print{@page{'+css+'}}':''}
 const D_HEAD='A6A6A6',D_ALT='D9D9D9',D_ROW='F2F2F2';
 const SEC_COLS=['BBD7FF','BFEBC9','FFD8A8','DCCBFF','FFC9D6','FFF0A0','B8EEF0'];
-function rowFill(r,i){return r.sec!=null?SEC_COLS[r.sec%SEC_COLS.length]:(i%2?D_ALT:D_ROW)}
-function secLegend(rows){const seen=[];rows.forEach(r=>{if(r.sec!=null&&!seen.includes(r.sec))seen.push(r.sec)});return seen.map(i=>({name:(S.sections[i]||{}).name||'',col:SEC_COLS[i%SEC_COLS.length]}))}
+function rowFill(r,i){return i%2?D_ALT:D_ROW}
+function secLegend(rows){return [];const seen=[];rows.forEach(r=>{if(r.sec!=null&&!seen.includes(r.sec))seen.push(r.sec)});return seen.map(i=>({name:(S.sections[i]||{}).name||'',col:SEC_COLS[i%SEC_COLS.length]}))}
 function dailyTables(dd){return [{h:'الموقف',rows:dd.morning,label:'الدوام الصباحي'},{h:'المناوبين',rows:dd.duty,label:'المناوبين'}]}
 function dailyHTML(dd){
   const F="font-family:'Simplified Arabic','Traditional Arabic',Arial,sans-serif;font-weight:800;";const bd='border:1.5px solid #000;';
