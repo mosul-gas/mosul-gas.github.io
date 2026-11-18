@@ -212,11 +212,9 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 #ltTypes{gap:9px!important}
 #ltTypes .btn,.bev{position:relative;background:linear-gradient(180deg,#f7fcff 0%,#cfeaf8 42%,#8cc3e4 52%,#b9def3 100%)!important;color:#0b2545!important;border:1px solid #4f86ae!important;border-radius:11px!important;box-shadow:0 4px 0 #2f6690,0 7px 12px rgba(0,0,0,.22),inset 0 1px 0 #fff!important;text-shadow:0 1px 0 rgba(255,255,255,.8);font-family:Cairo;font-weight:800!important;transition:transform .08s,box-shadow .08s;animation:bevIn .35s ease both}
 #ltTypes .btn:active,.bev:active{transform:translateY(3px);box-shadow:0 1px 0 #2f6690,0 3px 6px rgba(0,0,0,.2),inset 0 1px 0 #fff!important}
-#ltTypes .btn[data-lt="free"]{background:linear-gradient(180deg,#ffffff 0%,#eef2f7 45%,#d5dde8 55%,#eef2f7 100%)!important;border-color:#8a99ad!important;box-shadow:0 4px 0 #6b7a8f,0 7px 12px rgba(0,0,0,.2),inset 0 1px 0 #fff!important}
 #ltTypes .btn[data-ltadd]{background:#fff!important;border:1.5px dashed #2563eb!important;box-shadow:none!important;color:#2563eb!important;text-shadow:none}
 @keyframes bevIn{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
 #ltTypes .btn:nth-child(2){animation-delay:.04s}#ltTypes .btn:nth-child(3){animation-delay:.08s}#ltTypes .btn:nth-child(4){animation-delay:.12s}#ltTypes .btn:nth-child(5){animation-delay:.16s}#ltTypes .btn:nth-child(6){animation-delay:.2s}#ltTypes .btn:nth-child(7){animation-delay:.24s}#ltTypes .btn:nth-child(8){animation-delay:.28s}#ltTypes .btn:nth-child(9){animation-delay:.32s}#ltTypes .btn:nth-child(n+10){animation-delay:.36s}
-#ltTypes .btn[data-cu]{padding-left:28px!important}
 .bevbk{display:block;width:100%;margin-top:12px;padding:11px;font-size:14.5px}
 #ltTypes .btn{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 </style>
@@ -342,7 +340,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 66 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 67 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -953,10 +951,13 @@ $('ltArchive').onclick=e=>{const b=e.target.closest('button');if(!b)return;const
 function sure(msg){try{return window.confirm(msg||'هل أنت متأكد من الحذف؟')}catch(e){return true}}
 function confirmDel(b){return sure('هل أنت متأكد من حذف هذا الكتاب من الأرشيف؟')}
 $('ltSearch').oninput=ltArchive;
-function renderLtTypes(){$('ltTypes').innerHTML=allLtTypes().map(t=>`<button class="btn" data-lt="${t.k}"${t.custom?' data-cu="1"':''} style="position:relative;background:${t.k==='free'?'#e0ecff':t.custom?'linear-gradient(135deg,#0ea5e9,#2563eb)':'linear-gradient(135deg,#3b82f6,#6366f1)'};color:${t.k==='free'?'#1d4ed8':'#fff'};padding:9px 4px;font-size:13px">${esc(t.n)}${t.custom?`<span data-ltdel="${t.k}" style="position:absolute;top:4px;left:4px;width:20px;height:20px;border-radius:50%;background:#B30000;color:#fff;font-size:12px;line-height:20px;text-align:center">✕</span>`:''}</button>`).join('')+`<button class="btn" data-ltadd="1" style="background:#fff;border:1.5px dashed #2563eb;color:#2563eb;padding:9px 4px;font-size:13px">➕ نوع جديد</button>`}
+function renderLtTypes(){$('ltTypes').innerHTML=allLtTypes().map(t=>`<button class="btn" data-lt="${t.k}"${t.custom?' data-cu="1"':''} style="position:relative;background:${t.k==='free'?'#e0ecff':t.custom?'linear-gradient(135deg,#0ea5e9,#2563eb)':'linear-gradient(135deg,#3b82f6,#6366f1)'};color:${t.k==='free'?'#1d4ed8':'#fff'};padding:9px 4px;font-size:13px">${esc(t.n)}</button>`).join('')+`<button class="btn" data-ltadd="1" style="background:#fff;border:1.5px dashed #2563eb;color:#2563eb;padding:9px 4px;font-size:13px">➕ نوع جديد</button>`}
 renderLtTypes();
 let LP_T=null,LP_DONE=false;
-function ltRename(k){const t=allLtTypes().find(x=>x.k===k);if(!t)return;const n=(prompt('✏️ الاسم الجديد لـ «'+t.n+'»:',t.n)||'').trim();if(!n||n===t.n)return;
+function ltRename(k){const t=allLtTypes().find(x=>x.k===k);if(!t)return;const c0=(S.ltCustom||[]).find(x=>x.k===k);
+  const r=prompt('✏️ الاسم الجديد لـ «'+t.n+'»:'+(c0?'\n(لحذف هذا النوع امسح الاسم واضغط موافق)':''),t.n);if(r===null)return;const n=r.trim();
+  if(!n){if(c0&&sure('هل أنت متأكد من حذف نوع الكتاب «'+t.n+'»؟ (الكتب المحفوظة بالأرشيف تبقى)')){S.ltCustom=S.ltCustom.filter(x=>x.k!==k);save();renderLtTypes();toast('تم الحذف')}return}
+  if(n===t.n)return;
   const c=(S.ltCustom||[]).find(x=>x.k===k);if(c){if(c.subj===c.n)c.subj=n;c.n=n}else{S.ltNames=S.ltNames||{};S.ltNames[k]=n}save();renderLtTypes();toast('تم تغيير الاسم إلى «'+n+'»')}
 $('ltTypes').addEventListener('pointerdown',e=>{const b=e.target.closest('[data-lt]');if(!b||e.target.closest('[data-ltdel]'))return;LP_DONE=false;clearTimeout(LP_T);LP_T=setTimeout(()=>{LP_DONE=true;if(navigator.vibrate)navigator.vibrate(30);ltRename(b.dataset.lt)},650)});
 ['pointerup','pointerleave','pointercancel','pointermove'].forEach(ev=>$('ltTypes').addEventListener(ev,e=>{if(ev==='pointermove'&&Math.abs(e.movementX||0)+Math.abs(e.movementY||0)<6)return;clearTimeout(LP_T)}));
