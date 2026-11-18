@@ -21,7 +21,7 @@
 <style>
 :root{
   --navy:#0f2a44; --navy2:#16395c; --amber:#f2a516; --bg:#f3f5f8; --card:#fff; --line:#d9dee6;
-  --ok:#000; --okbg:#69F0AE; --bad:#000; --badbg:#FF8A80; --lv:#000; --lvbg:#CDBDF6; --muted:#6b7686;
+  --ok:#000; --okbg:#D3E9D8; --bad:#000; --badbg:#F0CFCF; --lv:#000; --lvbg:#D6E1EE; --muted:#6b7686;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:#1c2430;font-family:Almarai,Tahoma,sans-serif}
@@ -296,6 +296,14 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .s-l{background:linear-gradient(180deg,#7464a8 0%,#5a4a8c 50%,#463873 100%)!important;border:1px solid #33285a!important;box-shadow:0 3px 0 #2a204b,0 5px 9px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.35)!important;color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.35)!important}
 .s-e{background:linear-gradient(180deg,#7d8a9c 0%,#5f6c7e 50%,#4b5768 100%)!important;border:1px solid #384252!important;box-shadow:0 3px 0 #2e3644,0 5px 9px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.35)!important;color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.35)!important}
 #stats #btnOcr{background:linear-gradient(180deg,#2f4f86 0%,#1F3864 50%,#16294a 100%)!important;border:1px solid #C9A646!important;box-shadow:0 3px 0 #0f1d36,0 5px 9px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.35)!important;color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.35)!important}
+.seg button,.chips button,.stat{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;font-weight:800!important;text-shadow:0 1px 0 rgba(255,255,255,.75)!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff!important;transition:transform .08s,box-shadow .08s;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.seg button{border-radius:11px!important;padding:9px 4px!important}
+.chips button{border-radius:10px!important;padding:6px 12px!important}
+.seg button.on,.chips button.on{background:linear-gradient(180deg,#fffbea 0%,#ffe89a 42%,#f7c531 52%,#ffdf70 100%)!important;border-color:#a87900!important;box-shadow:0 3px 0 #8a6200,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff!important;color:#000!important}
+.seg button:active,.chips button:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78!important}
+.chips button.addchip{background:#fff!important;border:1.5px dashed #1F3864!important;box-shadow:none!important;color:#1F3864!important;text-shadow:none!important}
+.stat b,.stat span{color:#0b1a2e!important;text-shadow:0 1px 0 rgba(255,255,255,.7)!important}
+.s-p,.s-a,.s-l,.s-e{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;font-weight:800!important;text-shadow:0 1px 0 rgba(255,255,255,.75)!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff!important}
 </style>
 </head>
 <body>
@@ -419,7 +427,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 84 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 85 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -442,8 +450,10 @@ const PARTS=['ص','م','ل'];
 const PART_NAME={'ص':'صباحي','م':'مسائي','ل':'ليلي'};
 const TYPES=['اعتيادية','مرضية','زمنية','طارئة','حالة وفاة','إيفاد','واجب رسمي','أمومة','إرسال'];
 const NOT_LEAVE=['إيفاد','واجب رسمي','إرسال'];
-function abName(r){return r&&r.type==='موقوف'?'موقوف':'غياب'}
-function lvName(t){return NOT_LEAVE.includes(t)?t:'إجازة '+(t||'')}
+function LB(k,d){return (S.lbl&&S.lbl[k])||d}
+function lvList(){const H=S.lvHidden||[];return TYPES.filter(t=>!H.includes(t)).concat(S.lvCustom||[])}
+function abName(r){return r&&r.type==='موقوف'?LB('ab:موقوف','موقوف'):LB('ab:','غياب')}
+function lvName(t){const d=LB('lv:'+t,t);return NOT_LEAVE.includes(t)||/^(إجازة|اجازة)/.test(d)?d:'إجازة '+(d||'')}
 const KEY='mawqif_v1';
 const DEF_SECS=[
  {id:'s1',name:'إدارة القسم السيطرة الذاتية',short:'الإدارة'},
@@ -593,21 +603,35 @@ function openCell(ds,eid){
 function drawSheet(){
   const E=edit;
   let h=`<h3>${E.title}</h3><div class="sub">${E.sub}</div>
-  <div class="seg">${[['p','حاضر'],['a','غياب'],['l','إجازة']].map(([k,t])=>`<button data-st="${k}" class="${k} ${E.st===k?'on':''}">${t}</button>`).join('')}</div>`;
+  <div class="seg">${[['p','حاضر'],['a','غياب'],['l','إجازة']].map(([k,t])=>`<button data-st="${k}" class="${k} ${E.st===k?'on':''}">${esc(LB('st:'+k,t))}</button>`).join('')}</div>`;
   if(E.st!=='p'){
     if(MODE==='duty')h+=`<div class="lbl">أي جزء من المناوبة؟</div><div class="chips">${PARTS.map(p=>`<button data-part="${p}" class="${E.parts.includes(p)?'on':''}">${PART_NAME[p]} (${p})</button>`).join('')}<button data-part="all">يوم كامل</button></div>`;
-    if(E.st==='a')h+=`<div class="lbl">نوع الغياب</div><div class="chips">${[['','غياب'],['موقوف','موقوف']].map(([v,t])=>`<button data-ab="${v}" class="${(E.ab||'')===v?'on':''}">${t}</button>`).join('')}</div>`;
-    if(E.st==='l')h+=`<div class="lbl">نوع الإجازة</div><div class="chips">${TYPES.map(t=>`<button data-type="${t}" class="${E.type===t?'on':''}">${t}</button>`).join('')}</div>`;
+    if(E.st==='a')h+=`<div class="lbl">نوع الغياب</div><div class="chips">${[['','غياب'],['موقوف','موقوف']].map(([v,t])=>`<button data-ab="${v}" class="${(E.ab||'')===v?'on':''}">${esc(LB('ab:'+v,t))}</button>`).join('')}</div>`;
+    if(E.st==='l')h+=`<div class="lbl">نوع الإجازة</div><div class="chips">${lvList().map(t=>`<button data-type="${esc(t)}" class="${E.type===t?'on':''}">${esc(LB('lv:'+t,t))}</button>`).join('')}<button data-lvadd="1" class="addchip">➕ نوع جديد</button></div><div class="hint" style="margin:-4px 0 8px;font-size:11.5px">للتعديل على أي خيار: اضغط عليه ضغطةً مطوّلة.</div>`;
     h+=`<input class="txt" id="noteIn" placeholder="${E.st==='a'?'سبب الغياب (اختياري)':'ملاحظة (اختياري)'}" value="${esc(E.note)}">`;
   }
   h+=`<div class="row2"><button class="btn pri" data-act="save">حفظ</button><button class="btn red" data-act="clear">مسح الخانة</button></div><button class="btn gh" style="width:100%;margin-top:8px" data-act="close">إلغاء</button>`;
   $('sheet').innerHTML=h;
 }
+let CLP_T=null,CLP_DONE=false;
+function chipEdit(b){const E=edit;if(!E)return;const ni=$('noteIn');if(ni)E.note=ni.value;
+  let key,def,isLv=false,t;
+  if(b.dataset.st){key='st:'+b.dataset.st;def={p:'حاضر',a:'غياب',l:'إجازة'}[b.dataset.st]}
+  else if(b.dataset.ab!==undefined){key='ab:'+b.dataset.ab;def=b.dataset.ab||'غياب'}
+  else {t=b.dataset.type;key='lv:'+t;def=t;isLv=true}
+  const cur=LB(key,def);const r=prompt('✏️ الاسم الجديد لـ «'+cur+'»:'+(isLv?'\n(لحذف هذا النوع امسح الاسم ثم اضغط موافق)':''),cur);if(r===null)return;const n=r.trim();
+  if(!n){if(!isLv)return;if(!sure('هل أنت متأكد من حذف نوع الإجازة «'+cur+'»؟ (التأشيرات السابقة تبقى)'))return;
+    if((S.lvCustom||[]).includes(t))S.lvCustom=S.lvCustom.filter(x=>x!==t);else S.lvHidden=(S.lvHidden||[]).concat([t]);if(E.type===t)E.type=lvList()[0];save();drawSheet();toast('تم الحذف');return}
+  S.lbl=S.lbl||{};S.lbl[key]=n;save();drawSheet();render();toast('تم تغيير الاسم')}
+$('sheet').addEventListener('pointerdown',e=>{const b=e.target.closest('[data-st],[data-ab],[data-type]');if(!b||!edit)return;CLP_DONE=false;clearTimeout(CLP_T);CLP_T=setTimeout(()=>{CLP_DONE=true;if(navigator.vibrate)navigator.vibrate(30);chipEdit(b)},650)});
+['pointerup','pointerleave','pointercancel'].forEach(ev=>$('sheet').addEventListener(ev,()=>clearTimeout(CLP_T)));
+$('sheet').addEventListener('contextmenu',e=>{if(e.target.closest('[data-st],[data-ab],[data-type]'))e.preventDefault()});
 $('sheet').addEventListener('click',ev=>{
-  const b=ev.target.closest('button');if(!b||!edit)return;const E=edit;
+  const b=ev.target.closest('button');if(!b||!edit)return;const E=edit;if(CLP_DONE&&(b.dataset.st||b.dataset.ab!==undefined||b.dataset.type)){CLP_DONE=false;return}
   const ni=$('noteIn');if(ni)E.note=ni.value;
   if(b.dataset.st){E.st=b.dataset.st;drawSheet();return}
   if(b.dataset.part){if(b.dataset.part==='all')E.parts=PARTS.slice();else{const p=b.dataset.part;E.parts=E.parts.includes(p)?E.parts.filter(x=>x!==p):PARTS.filter(x=>x===p||E.parts.includes(x))}drawSheet();return}
+  if(b.dataset.lvadd){const n=(prompt('اسم نوع الإجازة الجديد:')||'').trim();if(!n)return;if(lvList().includes(n)){toast('هذا النوع موجود مسبقاً');return}S.lvCustom=(S.lvCustom||[]).concat([n]);save();E.type=n;drawSheet();toast('تمت إضافة «'+n+'»');return}
   if(b.dataset.type){E.type=b.dataset.type;drawSheet();return}
   if(b.dataset.ab!==undefined){E.ab=b.dataset.ab;drawSheet();return}
   const k=rk(E.ds,E.eid);
