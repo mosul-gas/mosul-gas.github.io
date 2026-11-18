@@ -21,7 +21,7 @@
 <style>
 :root{
   --navy:#0f2a44; --navy2:#16395c; --amber:#f2a516; --bg:#f3f5f8; --card:#fff; --line:#d9dee6;
-  --ok:#000; --okbg:#D3E9D8; --bad:#000; --badbg:#F0CFCF; --lv:#000; --lvbg:#D6E1EE; --muted:#6b7686;
+  --ok:#000; --okbg:#FFFFFF; --bad:#000; --badbg:#F0CFCF; --lv:#000; --lvbg:#D6E1EE; --muted:#6b7686;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:#1c2430;font-family:Almarai,Tahoma,sans-serif}
@@ -304,6 +304,10 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .chips button.addchip{background:#fff!important;border:1.5px dashed #1F3864!important;box-shadow:none!important;color:#1F3864!important;text-shadow:none!important}
 .stat b,.stat span{color:#0b1a2e!important;text-shadow:0 1px 0 rgba(255,255,255,.7)!important}
 .s-p,.s-a,.s-l,.s-e{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;font-weight:800!important;text-shadow:0 1px 0 rgba(255,255,255,.75)!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff!important}
+.navtiles button.on,#modeSeg button.on,#tabs button.on,#setTabs button.on,.seg button.on,.chips button.on{background:linear-gradient(180deg,#3a5d97 0%,#1F3864 50%,#16294a 100%)!important;border:1px solid #0f1d36!important;box-shadow:0 3px 0 #0b1528,0 5px 9px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.3),inset 0 0 0 1px rgba(201,166,70,.55)!important;color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.4)!important}
+.navtiles button.on *{color:#fff!important}
+.grid tbody tr td.c.p{background:#ffffff!important;color:#1F3864!important}
+#actionBar .btn{font-size:13px!important;padding:9px 1px!important;gap:2px!important;letter-spacing:-.2px}
 </style>
 </head>
 <body>
@@ -427,7 +431,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 85 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 86 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
