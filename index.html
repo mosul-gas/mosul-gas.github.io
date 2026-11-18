@@ -364,6 +364,12 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .dfmt button span{color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.35)}
 .dfmt button svg path:first-child{fill:#fff}
 .dwa2{width:100%;justify-content:center;margin-top:8px;padding:8px!important;font-size:14px!important}
+.dhd h3{font-size:14.5px!important}
+.dlbl{position:relative;flex:1;min-width:0;display:flex;align-items:center;justify-content:center;border:1.5px solid #c6ced8;border-radius:10px;padding:6px 6px;font-family:Cairo;font-weight:800;font-size:13.5px;color:#0b1a2e;background:#fff;white-space:nowrap;overflow:hidden}
+.dlbl input{position:absolute;inset:0;opacity:0;width:100%;height:100%;border:0}
+.dfmt button{padding:4px 2px!important;flex-direction:row!important;gap:5px!important;justify-content:center;align-items:center}
+.dfmt button svg{width:16px!important;height:19px!important}.dfmt button span{font-size:13.5px!important}
+.btn.dwa.dwa2{padding:3px!important;margin-top:6px!important;font-size:12.5px!important;min-height:0!important}.dwa2 svg{width:17px;height:17px}
 </style>
 </head>
 <body>
@@ -487,7 +493,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 97 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 98 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1028,8 +1034,8 @@ function dailyText(dd){let t=S.dTitle+'\n'+dd.title+'\n\nالدوام الصبا
 $('btnCopy').onclick=()=>{
   edit=null;
   const def=MODE==='day'?(()=>{const t=ymd(today),w=weekDays().map(x=>x.s);return w.includes(t)?t:w[0]})():ymd(today);
-  $('sheet').innerHTML=`<div class="edhead dhd"><h3 style="margin:0;white-space:nowrap">📋 الموقف اليومي</h3><input class="txt" type="date" id="dDate" value="${def}"><div class="edtop"></div></div>
-  <div id="dPrev" style="max-height:60vh;overflow:auto;background:#f6f8fb;border-radius:10px;padding:8px;margin:8px 0 10px"></div>
+  $('sheet').innerHTML=`<div class="edhead dhd"><h3 style="margin:0;white-space:nowrap">📋 الموقف اليومي</h3><label class="dlbl"><span id="dDateLbl"></span><input type="date" id="dDate" value="${def}"></label><div class="edtop"></div></div>
+  <div id="dPrev" style="overflow:hidden;background:#f6f8fb;border-radius:10px;padding:6px;margin:6px 0 8px;display:flex;justify-content:center"></div>
   <div class="pfmt dfmt"><button data-d="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button><button data-d="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button><button data-d="xl"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button></div>
   <button class="btn dwa dwa2" data-d="copy" title="نسخ نصاً لواتساب"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#25D366"/><path d="M8.6 6.8c.3-.3.8-.3 1 .1l1 2c.2.3.1.7-.1 1l-.6.6c.5 1.2 1.5 2.2 2.7 2.8l.6-.6c.3-.3.7-.3 1-.1l2 1c.4.2.4.7.1 1l-.9.9c-.6.6-1.6.7-2.4.3-2.3-1.1-4.1-2.9-5.2-5.2-.4-.8-.3-1.8.3-2.4z" fill="#fff"/></svg><span>نسخ لواتساب</span></button>
   <button class="btn gh" data-d="x" style="display:none">إلغاء</button>`;
@@ -1040,7 +1046,9 @@ $('btnCopy').onclick=()=>{
     if(dd.unM)w.push('⚠️ '+dd.unM+' من الدوام الصباحي غير مؤشَّر عليهم في هذا اليوم — يُحتسبون حاضرين.');
     if(dd.unD)w.push('⚠️ '+dd.unD+' من المناوبين غير مؤشَّر عليهم'+(rng?' في الأيام التي يشملها الموقف':'')+' — يُحتسبون حاضرين.');
     if(!w.length)w.push('✅ تم التأشير على الجميع، والموقف جاهز للطباعة.');
-    $('dPrev').innerHTML='<div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:6px;zoom:.55">'+dailyHTML(dd)+'</div>'};prev();$('dDate').onchange=prev;
+    {const dt=new Date(utc(v));$('dDateLbl').textContent=DAYS[dt.getUTCDay()]+' '+dt.getUTCDate()+'/'+(dt.getUTCMonth()+1)+'/'+dt.getUTCFullYear()}
+    const pv=$('dPrev');pv.innerHTML='<div id="dPage" style="background:#fff;border:1px solid #ccc;border-radius:4px;padding:12mm 10mm;width:210mm;height:297mm;box-sizing:border-box;overflow:hidden">'+dailyHTML(dd)+'</div>';
+    requestAnimationFrame(()=>{const pg=$('dPage');if(!pg)return;const sh=$('sheet');const avail=window.innerHeight*0.9-(sh.scrollHeight-pv.clientHeight)-14;const W=pv.clientWidth-12;const k=Math.max(.25,Math.min(W/pg.offsetWidth,avail/pg.offsetHeight));pg.style.zoom=k})};prev();$('dDate').onchange=prev;
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-d]');if(!b)return;const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const nm='الموقف اليومي '+v;
     if(b.dataset.d==='pdf'){savePDF(dailyCanvases(dd),false,nm+'.pdf')}
     else if(b.dataset.d==='word'){if(!window.docx){toast('يُرجى تحديث الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل ملف Word')})}
