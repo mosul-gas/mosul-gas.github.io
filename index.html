@@ -409,7 +409,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 82 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 83 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1186,7 +1186,7 @@ $('gkey').addEventListener('input',ev=>{try{localStorage.setItem(GKEY,ev.target.
 $('btnPrintMenu').onclick=()=>{edit=null;
   $('sheet').innerHTML=`<h3>طباعة</h3><div class="sub">اختر صيغة الملف</div>
   <div class="pfmt">
-   <button data-pf="pdf"><svg width="34" height="34" viewBox="0 0 34 34"><rect x="9" y="3" width="16" height="9" rx="1" fill="#fff" stroke="#1F3864" stroke-width="1.6"/><rect x="3" y="11" width="28" height="13" rx="3" fill="#1F3864"/><circle cx="26" cy="16" r="1.3" fill="#E3C46A"/><rect x="9" y="19" width="16" height="12" rx="1" fill="#fff" stroke="#1F3864" stroke-width="1.6"/><path d="M12 24h10M12 27.5h7" stroke="#1F3864" stroke-width="1.3"/></svg><span>PDF</span></button>
+   <button data-pf="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button>
    <button data-pf="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button>
    <button data-pf="excel"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button>
   </div>
