@@ -286,6 +286,16 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .pfmt button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px 10px;border-radius:12px;background:linear-gradient(180deg,#fff 0%,#eef2f7 100%);border:1px solid #c6ced8;box-shadow:0 3px 0 #9aa6b5,0 5px 9px rgba(0,0,0,.12);font-family:Arial,sans-serif;font-weight:700;font-size:15px;color:#1c2430;cursor:pointer;direction:ltr}
 .pfmt button:active{transform:translateY(2px);box-shadow:0 1px 0 #9aa6b5}
 #modeSeg{margin-top:8px!important}
+.actions{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+#actionBar .btn{min-width:0;overflow:hidden;font-size:14.5px!important}
+#tabs{gap:5px!important}
+#tabs button:not([data-secadd]){flex:1 0 auto!important;padding-left:16px!important;padding-right:16px!important}
+.stat b,.stat span{color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.35)!important}
+.s-p{background:linear-gradient(180deg,#3f8a63 0%,#2a6b4a 50%,#1f5538 100%)!important;border:1px solid #163f29!important;box-shadow:0 3px 0 #123522,0 5px 9px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.35)!important;color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.35)!important}
+.s-a{background:linear-gradient(180deg,#a54848 0%,#842f2f 50%,#6c2424 100%)!important;border:1px solid #521a1a!important;box-shadow:0 3px 0 #451515,0 5px 9px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.35)!important;color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.35)!important}
+.s-l{background:linear-gradient(180deg,#7464a8 0%,#5a4a8c 50%,#463873 100%)!important;border:1px solid #33285a!important;box-shadow:0 3px 0 #2a204b,0 5px 9px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.35)!important;color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.35)!important}
+.s-e{background:linear-gradient(180deg,#7d8a9c 0%,#5f6c7e 50%,#4b5768 100%)!important;border:1px solid #384252!important;box-shadow:0 3px 0 #2e3644,0 5px 9px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.35)!important;color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.35)!important}
+#stats #btnOcr{background:linear-gradient(180deg,#2f4f86 0%,#1F3864 50%,#16294a 100%)!important;border:1px solid #C9A646!important;box-shadow:0 3px 0 #0f1d36,0 5px 9px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.35)!important;color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.35)!important}
 </style>
 </head>
 <body>
@@ -409,13 +419,13 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 83 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 84 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
-  <button class="btn" id="btnPrintMenu">🖨️ طباعة</button>
+  <button class="btn" id="btnReady">🗂️ تحضير الموقف</button>
   <button class="btn" id="btnCopy">📋 الموقف اليومي</button>
-  <button class="btn" id="btnReady">📅 تحضير الموقف</button>
+  <button class="btn" id="btnPrintMenu">🖨️ طباعة</button>
   <span style="display:none"><button id="btnPrint"></button><button id="btnWord"></button><button id="btnExcel"></button></span>
 </div>
 
