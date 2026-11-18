@@ -355,6 +355,10 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .edseg{position:sticky;bottom:calc(-18px - env(safe-area-inset-bottom));background:#fff;padding:10px 0 6px;margin:12px 0 0!important;border-top:1px solid #e6ebf3;z-index:5}
 .edname{font-size:14.5px!important;padding:6px 10px!important}
 .edgrp{font-size:12.5px;white-space:nowrap;color:#1f4f78}
+.drow{display:flex;gap:7px;align-items:stretch}.drow .txt{flex:1;margin:0!important}
+.dwa{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;font-weight:800!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,0 5px 9px rgba(0,0,0,.18),inset 0 1px 0 #fff!important;display:flex!important;align-items:center;gap:5px;padding:4px 9px!important;font-size:12.5px!important;border-radius:10px!important;white-space:nowrap}
+.dfmt{margin-top:0!important}.dfmt button{padding:8px 4px 7px!important;gap:3px!important}.dfmt button svg{width:24px;height:28px}
+.dfmt button[data-d=pdf] span{color:#B71C1C}.dfmt button[data-d=word] span{color:#1F4E9A}.dfmt button[data-d=xl] span{color:#1B6B3A}
 </style>
 </head>
 <body>
@@ -478,7 +482,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 95 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 96 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1019,12 +1023,11 @@ function dailyText(dd){let t=S.dTitle+'\n'+dd.title+'\n\nالدوام الصبا
 $('btnCopy').onclick=()=>{
   edit=null;
   const def=MODE==='day'?(()=>{const t=ymd(today),w=weekDays().map(x=>x.s);return w.includes(t)?t:w[0]})():ymd(today);
-  $('sheet').innerHTML=`<h3>📋 الموقف اليومي</h3>
-  <input class="txt" type="date" id="dDate" value="${def}" style="margin-bottom:10px">
-  <div id="dPrev" style="max-height:52vh;overflow:auto;background:#f6f8fb;border-radius:10px;padding:8px;margin-bottom:10px"></div>
-  <button class="btn" data-d="pdf" style="background:#C62828;color:#fff;width:100%;margin-bottom:8px">🖨️ طباعة PDF</button>
-  <div class="row2"><button class="btn" data-d="word" style="background:#2B579A;color:#fff">📄 Word</button><button class="btn" data-d="xl" style="background:#1d6f42;color:#fff">📊 Excel</button></div>
-  <div class="row2" style="margin-top:8px"><button class="btn gh" data-d="copy">نسخ نصاً لواتساب</button><button class="btn gh" data-d="x">إلغاء</button></div>`;
+  $('sheet').innerHTML=`<div class="edhead"><h3 style="margin:0">📋 الموقف اليومي</h3><div class="edtop"></div></div>
+  <div class="drow"><input class="txt" type="date" id="dDate" value="${def}"><button class="btn dwa" data-d="copy" title="نسخ نصاً لواتساب"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#25D366"/><path d="M8.6 6.8c.3-.3.8-.3 1 .1l1 2c.2.3.1.7-.1 1l-.6.6c.5 1.2 1.5 2.2 2.7 2.8l.6-.6c.3-.3.7-.3 1-.1l2 1c.4.2.4.7.1 1l-.9.9c-.6.6-1.6.7-2.4.3-2.3-1.1-4.1-2.9-5.2-5.2-.4-.8-.3-1.8.3-2.4z" fill="#fff"/></svg><span>نسخ لواتساب</span></button></div>
+  <div id="dPrev" style="max-height:60vh;overflow:auto;background:#f6f8fb;border-radius:10px;padding:8px;margin:8px 0 10px"></div>
+  <div class="pfmt dfmt"><button data-d="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button><button data-d="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button><button data-d="xl"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button></div>
+  <button class="btn gh" data-d="x" style="display:none">إلغاء</button>`;
   $('ov').classList.add('show');
   const prev=()=>{const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const w=[];
     const fd=dd.from,td=new Date(utc(v));const rng=fd.getDate()===td.getUTCDate()&&fd.getMonth()===td.getUTCMonth()?'':' (المناوبين من يوم '+DAYS[fd.getDay()]+' '+(fd.getMonth()+1)+'/'+fd.getDate()+' لهذا اليوم)';
