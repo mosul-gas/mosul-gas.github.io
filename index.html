@@ -314,6 +314,11 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .sheet .lbl{font-family:Cairo;font-weight:800!important;font-size:14.5px!important;color:#0b1a2e!important;margin:6px 0 6px!important}
 .sheet .chips{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px!important}
 .sheet .chips button{width:100%;padding:7px 2px!important;font-size:13.5px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+.xtop{align-items:center!important;gap:6px!important;padding:3px 8px 3px 6px!important;font-size:12.5px!important;color:#000!important}
+.xtop .xb{display:inline-grid;place-items:center;width:20px;height:20px;border:1.5px solid #1c2430;border-radius:5px;background:#fff;color:#000;font-size:12px;line-height:1;box-shadow:inset 0 -1px 0 rgba(0,0,0,.15)}
+.pfmt button[data-pf=pdf] span{color:#B71C1C}
+.pfmt button[data-pf=word] span{color:#1F4E9A}
+.pfmt button[data-pf=excel] span{color:#1B6B3A}
 </style>
 </head>
 <body>
@@ -437,7 +442,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 88 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 89 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -654,7 +659,7 @@ $('sheet').addEventListener('click',ev=>{
 });
 (function(){const sh=$('sheet');new MutationObserver(()=>{if(sh.querySelector('.xtop'))return;const bs=[...sh.querySelectorAll('button')].filter(b=>b.textContent.trim()==='إلغاء');if(!bs.length)return;const t=bs[bs.length-1];
   bs.forEach(b=>{b.style.display='none';const p=b.parentElement;if(p&&p.classList.contains('row2'))p.style.gridTemplateColumns='1fr'});
-  const x=document.createElement('button');x.className='xtop';x.type='button';x.textContent='✕ إلغاء';x.onclick=e=>{e.stopPropagation();t.click()};sh.prepend(x)}).observe(sh,{childList:true})})();
+  const x=document.createElement('button');x.className='xtop';x.type='button';x.innerHTML='<span class="xb">✕</span><span>إلغاء</span>';x.onclick=e=>{e.stopPropagation();t.click()};sh.prepend(x)}).observe(sh,{childList:true})})();
 function closeSheet(){$('ov').classList.remove('show');$('sheet').classList.remove('wide')}
 $('ov').addEventListener('click',ev=>{if(ev.target.id==='ov')closeSheet()});
 
