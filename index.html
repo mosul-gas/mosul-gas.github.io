@@ -228,6 +228,13 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 #modeSeg{gap:8px!important;background:transparent!important;padding:2px 0 4px!important}
 #tabs{padding-bottom:5px!important}
 #tabs button[data-secadd]{color:#fff!important;font-weight:800!important}
+#btnOcr{width:100%;margin:2px 0 12px;font-size:15px!important;padding:8px 10px!important;display:flex!important;align-items:center;justify-content:center;gap:8px;font-family:Cairo;font-weight:800!important;color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.35);background:linear-gradient(180deg,#7f8cff 0%,#4f5ee8 45%,#3442c9 55%,#5b69ee 100%)!important;border:1px solid #22309e!important;border-radius:12px!important;box-shadow:0 4px 0 #1b2580,0 7px 12px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.6)!important;transition:transform .08s,box-shadow .08s}
+#btnOcr:active{transform:translateY(3px);box-shadow:0 1px 0 #1b2580,0 3px 6px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.6)!important}
+#btnOcr .cam{font-size:26px;line-height:1}
+.monthbar{margin-top:8px!important;padding:3px!important;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;border:1px solid #3f78a3!important;border-radius:12px!important;box-shadow:0 3px 0 #1f4f78,0 5px 9px rgba(0,0,0,.25),inset 0 1px 0 #fff!important}
+.monthbar b{font-size:18px!important;color:#0b1a2e!important;font-weight:800!important;text-shadow:0 1px 0 rgba(255,255,255,.75)}
+.monthbar button{color:#0b1a2e!important;font-size:24px!important;font-weight:800;height:38px!important;width:44px!important}
+.monthbar button:active{background:rgba(0,0,0,.08)!important}
 </style>
 </head>
 <body>
@@ -252,7 +259,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
   <div class="card" id="statsCard">
     <div class="stats" id="stats"></div>
   </div>
-  <button class="btn" id="btnOcr" style="width:100%;margin-bottom:10px;font-size:17px;padding:15px;background:#FF6D00;color:#fff;border:2.5px solid #000;box-shadow:3px 3px 0 #000">📷 قراءة صور الموقف</button>
+  <button class="btn" id="btnOcr"><span class="cam">📷</span> قراءة صور الموقف</button>
   <input type="file" id="ocrFile" accept="image/*" multiple class="hide">
   <p class="hint" id="mainHint">اضغط على أي خانة لتأشير الحالة. زر «الكل داوم» تحت اليوم يأشّر الباقين حاضرين مرة وحدة، وبعدين تعدّل الغائب والمجاز فقط.</p>
   <div class="gridwrap"><table class="grid" id="grid"></table></div>
@@ -351,7 +358,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 71 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 72 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
