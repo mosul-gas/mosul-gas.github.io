@@ -234,7 +234,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
   </div>
   <button class="btn" id="btnOcr" style="width:100%;margin-bottom:10px;font-size:17px;padding:15px;background:#FF6D00;color:#fff;border:2.5px solid #000;box-shadow:3px 3px 0 #000">📷 قراءة صور الموقف</button>
   <input type="file" id="ocrFile" accept="image/*" multiple class="hide">
-  <p class="hint" id="mainHint">اضغطي على أي خانة لتأشير الحالة. زر «الكل داوم» تحت اليوم يأشّر الباقين حاضرين مرة وحدة، وبعدين تعدّلين الغائب والمجاز فقط.</p>
+  <p class="hint" id="mainHint">اضغط على أي خانة لتأشير الحالة. زر «الكل داوم» تحت اليوم يأشّر الباقين حاضرين مرة وحدة، وبعدين تعدّل الغائب والمجاز فقط.</p>
   <div class="gridwrap"><table class="grid" id="grid"></table></div>
   <div class="legend">
     <span><i style="background:var(--okbg);border:1px solid var(--ok)"></i>داوم</span>
@@ -266,7 +266,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 <main id="viewLetters" class="hide">
   <div class="card">
     <h3 style="margin:0 0 4px;font-family:Cairo">📝 الكتب الرسمية</h3>
-    <div class="hint" style="margin:0 0 8px">اختاري نوع الكتاب، اكتبي الموضوع والنص، واضغطي «طبع وورد». العدد والتاريخ يظلن فارغات تكتبيهن بإيدج. كل كتاب ينحفظ بالأرشيف تحت.</div>
+    <div class="hint" style="margin:0 0 8px">اختر نوع الكتاب، اكتب الموضوع والنص، واضغط «طبع وورد». العدد والتاريخ يظلن فارغات تكتبيهن بإيدك. كل كتاب ينحفظ بالأرشيف تحت.</div>
     <div id="ltTypes" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
   </div>
   <div class="card hide" id="ltEditor"></div>
@@ -276,7 +276,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
   </div>
   <div class="card">
     <b style="font-family:Cairo">شعار وزارة الكهرباء</b>
-    <div class="hint" style="margin:4px 0">الشعار الرسمي جاهز ويطلع بنص راس الكتاب. إذا تريدين غيره اختاري صورة.</div>
+    <div class="hint" style="margin:4px 0">الشعار الرسمي جاهز ويطلع بنص راس الكتاب. إذا تريد غيره اختر صورة.</div>
     <div style="display:flex;gap:8px;align-items:center"><img id="ltLogoPrev" style="height:54px;display:none;border:1px solid #ddd;border-radius:6px"><label class="btn gh" style="flex:1">🖼️ اختيار صورة الشعار<input type="file" id="ltLogoFile" accept="image/*" class="hide"></label></div>
     <button class="btn gh" id="ltLogoReset" style="width:100%;margin-top:6px;font-size:13px">↩︎ رجوع للشعار الرسمي</button>
   </div>
@@ -299,12 +299,12 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
   </div>
   <div class="card">
     <h2 class="sec">قراءة الصور</h2>
-    <p class="hint">الصقي هنا مفتاح Gemini مرة وحدة. ينحفظ بهذا الموبايل بس.</p>
+    <p class="hint">الصق هنا مفتاح Gemini مرة وحدة. ينحفظ بهذا الموبايل بس.</p>
     <input class="txt" id="gkey" type="password" placeholder="مفتاح Gemini (AIza…)" autocomplete="off">
   </div>
   <div class="card">
     <h2 class="sec">الأسماء (الوجبات والشُعب)</h2>
-    <p class="hint">صحّحي أي اسم بالكتابة عليه. السهم ينقل الاسم فوق أو جوّه، والقائمة تنقله لوجبة ثانية، و✕ تحذفه.</p>
+    <p class="hint">صحّح أي اسم بالكتابة عليه. السهم ينقل الاسم فوق أو جوّه، والقائمة تنقله لوجبة ثانية، و✕ تحذفه.</p>
     <div class="settabs" id="setTabs"></div>
     <div id="empList"></div>
     <div style="display:flex;gap:6px;margin-top:10px">
@@ -314,7 +314,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
   </div>
   <div class="card">
     <h2 class="sec">تسلسل الوجبات</h2>
-    <p class="hint">الوجبات تدور كل 4 أيام. حددي تاريخ يوم معروف ورقم الوجبة اللي داومت بيه، والأداة تحسب الباقي لكل الأشهر.</p>
+    <p class="hint">الوجبات تدور كل 4 أيام. حدد تاريخ يوم معروف ورقم الوجبة اللي داومت بيه، والأداة تحسب الباقي لكل الأشهر.</p>
     <div class="row2" style="margin-top:0">
       <input class="txt" type="date" id="anchorDate">
       <select class="txt" id="anchorShift"><option value="1">الوجبة الأولى</option><option value="2">الوجبة الثانية</option><option value="3">الوجبة الثالثة</option><option value="4">الوجبة الرابعة</option></select>
@@ -322,7 +322,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
   </div>
   <div class="card">
     <h2 class="sec">نسخة احتياطية</h2>
-    <p class="hint">البيانات محفوظة داخل هذا الجهاز فقط. نزّلي نسخة احتياطية كل فترة حتى ما تضيع لو انمسح المتصفح أو تبدّل الجهاز، وبيها تنقلين كل شي (التأشيرات والأسماء وأرشيف الكتب) للابتوب.</p>
+    <p class="hint">البيانات محفوظة داخل هذا الجهاز فقط. نزّل نسخة احتياطية كل فترة حتى ما تضيع لو انمسح المتصفح أو تبدّل الجهاز، وبيها تنقل كل شي (التأشيرات والأسماء وأرشيف الكتب) للابتوب.</p>
     <div class="hint" id="storeInfo" style="background:#f6f8fb;border-radius:8px;padding:6px 8px;margin:4px 0 8px"></div>
     <div class="row2" style="margin-top:0">
       <button class="btn gh" id="backup">تنزيل نسخة</button>
@@ -331,7 +331,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 53 — 18/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 54 — 18/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -466,7 +466,7 @@ function render(){
   days.forEach(dd=>{h+=`<th class="daycell">${DAYS[dd.w]}<span class="dn">${dd.d}/${dd.m+1}</span><button class="allok" data-all="${dd.s}">الكل داوم</button></th>`});
   h+=MODE==='duty'?'<th>ص</th><th>م</th><th>ل</th>':'<th>عدد<br>الإجازات</th>';
   h+='</tr></thead><tbody>';
-  if(!emps.length)h+=`<tr><td class="namecol" colspan="${days.length+5}" style="white-space:normal">ما بيها أسماء بعد.<br><button class="btn amb sm" style="margin-top:8px" onclick="document.getElementById('restoreFile').click()">📂 فتح ملف الأسماء</button><br><span style="font-weight:400;font-size:13px;color:var(--muted)">أو أضيفيها من الإعدادات</span></td></tr>`;
+  if(!emps.length)h+=`<tr><td class="namecol" colspan="${days.length+5}" style="white-space:normal">ما بيها أسماء بعد.<br><button class="btn amb sm" style="margin-top:8px" onclick="document.getElementById('restoreFile').click()">📂 فتح ملف الأسماء</button><br><span style="font-weight:400;font-size:13px;color:var(--muted)">أو أضفها من الإعدادات</span></td></tr>`;
   const upto=MODE==='day'?days[4].s:null;
   emps.forEach((e,i)=>{
     let cnt=0;
@@ -523,10 +523,10 @@ $('sheet').addEventListener('click',ev=>{
   if(b.dataset.ab!==undefined){E.ab=b.dataset.ab;drawSheet();return}
   const k=rk(E.ds,E.eid);
   if(b.dataset.act==='save'){
-    if(E.st!=='p'&&!E.parts.length){toast('اختاري جزء واحد على الأقل');return}
+    if(E.st!=='p'&&!E.parts.length){toast('اختر جزء واحد على الأقل');return}
     S.rec[k]=E.st==='p'?{st:'p'}:{st:E.st,parts:MODE==='duty'?E.parts:PARTS.slice(),type:E.st==='l'?E.type:E.st==='a'?(E.ab||''):'',note:E.note.trim()};
     save();closeSheet();render();
-  }else if(b.dataset.act==='clear'){if(!sure('هل أنتِ متأكدة من مسح هذه الخانة؟'))return;delete S.rec[k];save();closeSheet();render()}
+  }else if(b.dataset.act==='clear'){if(!sure('هل أنت متأكد من مسح هذه الخانة؟'))return;delete S.rec[k];save();closeSheet();render()}
   else if(b.dataset.act==='close')closeSheet();
 });
 (function(){const sh=$('sheet');new MutationObserver(()=>{if(sh.querySelector('.xtop'))return;const bs=[...sh.querySelectorAll('button')].filter(b=>b.textContent.trim()==='إلغاء');if(!bs.length)return;const t=bs[bs.length-1];
@@ -600,7 +600,7 @@ function chooseScope(cb){
   edit=null;
   const one=MODE==='duty'?'الوجبة '+SHIFT[SH]+' فقط':esc(secById(SEC).name)+' فقط';
   const all=MODE==='duty'?'الوجبات الأربع (كل وجبة بصفحة)':'كل الشُعب (كل شعبة بصفحة)';
-  $('sheet').innerHTML=`<h3>شنو تريدين تطلعين؟</h3><div class="sub">${periodName()}</div>
+  $('sheet').innerHTML=`<h3>شنو تريد تطلع؟</h3><div class="sub">${periodName()}</div>
   <button class="btn pri" style="width:100%;margin-bottom:8px" data-scope="one">${one}</button>
   <button class="btn amb" style="width:100%;margin-bottom:8px" data-scope="all">${all}</button>
   <button class="btn gh" style="width:100%" data-scope="x">إلغاء</button>`;
@@ -625,7 +625,7 @@ $('btnReady').onclick=()=>{
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-r]');if(!b)return;if(b.dataset.r==='x'){$('sheet').onclick=null;closeSheet();return}
     const [k,f]=b.dataset.r.split('|');const R=readySpecs(k);if(!R.specs.length){toast('ماكو أسماء');return}
     if(f==='pdf')savePDF(R.specs.map(sheetCanvas),true,R.name+'.pdf');
-    else{if(!window.docx){toast('حدّثي الصفحة');return}buildDocx(R.specs).then(x=>{download(R.name+'.docx',x);toast('تم تنزيل الوورد')})}};
+    else{if(!window.docx){toast('حدّث الصفحة');return}buildDocx(R.specs).then(x=>{download(R.name+'.docx',x);toast('تم تنزيل الوورد')})}};
 };
 $('btnPrint').onclick=()=>chooseScope(all=>{
   const specs=curSpecs(all);if(!specs.length){toast('ماكو أسماء');return}
@@ -663,7 +663,7 @@ function buildDocx(specs){
   return D.Packer.toBlob(new D.Document({creator:'موقف المناوبين',sections}));
 }
 $('btnWord').onclick=()=>chooseScope(all=>{
-  if(!window.docx){toast('مكتبة الوورد ما اشتغلت — حدّثي الصفحة');return}
+  if(!window.docx){toast('مكتبة الوورد ما اشتغلت — حدّث الصفحة');return}
   const specs=curSpecs(all);if(!specs.length){toast('ماكو أسماء');return}
   const nm=(MODE==='duty'?'موقف ':'دوام صباحي ')+scopeName(all)+' '+periodName()+'.docx';
   buildDocx(specs).then(b=>{download(nm,b);toast('تم تنزيل ملف الوورد')}).catch(()=>toast('تعذّر إنشاء ملف الوورد'));
@@ -700,7 +700,7 @@ async function buildXlsx(specs){
   return new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
 }
 $('btnExcel').onclick=()=>chooseScope(all=>{
-  if(!window.ExcelJS){toast('مكتبة الاكسل ما اشتغلت — حدّثي الصفحة');return}
+  if(!window.ExcelJS){toast('مكتبة الاكسل ما اشتغلت — حدّث الصفحة');return}
   const specs=curSpecs(all);if(!specs.length){toast('ماكو أسماء');return}
   const nm=(MODE==='duty'?'موقف ':'دوام صباحي ')+scopeName(all)+' '+periodName()+'.xlsx';
   buildXlsx(specs).then(b=>{download(nm,b);toast('تم تنزيل ملف الاكسل')}).catch(e=>{console.log(e);toast('تعذّر إنشاء ملف الاكسل')});
@@ -772,7 +772,7 @@ function dailyCanvases(dd){
   drawSig(x,left,H-m,13.5);pages.push(c);pages.forEach(pc=>cvWatermark(pc.getContext('2d'),pc.width,pc.height));return pages;
 }
 function savePDF(pages,land,name){
-  if(!window.jspdf){toast('مكتبة PDF ما اشتغلت — حدّثي الصفحة');return}
+  if(!window.jspdf){toast('مكتبة PDF ما اشتغلت — حدّث الصفحة');return}
   const pdf=new window.jspdf.jsPDF({orientation:land?'l':'p',unit:'mm',format:'a4',compress:true});
   pages.forEach((c,i)=>{if(i)pdf.addPage('a4',land?'l':'p');pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',0,0,land?297:210,land?210:297)});
   const blob=pdf.output('blob');let f=null;try{f=new File([blob],name,{type:'application/pdf'})}catch(e){}
@@ -836,7 +836,7 @@ function dailyText(dd){let t=S.dTitle+'\n'+dd.title+'\n\nالدوام الصبا
 $('btnCopy').onclick=()=>{
   edit=null;
   const def=MODE==='day'?(()=>{const t=ymd(today),w=weekDays().map(x=>x.s);return w.includes(t)?t:w[0]})():ymd(today);
-  $('sheet').innerHTML=`<h3>📋 الموقف اليومي</h3><div class="sub">اختاري اليوم، وتطلع ورقة A4 بالطول: اللي ما داوموا بالصباحي، وإجازات المناوبين.</div>
+  $('sheet').innerHTML=`<h3>📋 الموقف اليومي</h3><div class="sub">اختر اليوم، وتطلع ورقة A4 بالطول: اللي ما داوموا بالصباحي، وإجازات المناوبين.</div>
   <input class="txt" type="date" id="dDate" value="${def}" style="margin-bottom:10px">
   <div id="dPrev" style="max-height:52vh;overflow:auto;background:#f6f8fb;border-radius:10px;padding:8px;margin-bottom:10px"></div>
   <button class="btn" data-d="pdf" style="background:#C62828;color:#fff;width:100%;margin-bottom:8px">🖨️ طبع PDF</button>
@@ -846,14 +846,14 @@ $('btnCopy').onclick=()=>{
   const prev=()=>{const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const w=[];
     const fd=dd.from,td=new Date(utc(v));const rng=fd.getDate()===td.getUTCDate()&&fd.getMonth()===td.getUTCMonth()?'':' (المناوبين من يوم '+DAYS[fd.getDay()]+' '+(fd.getMonth()+1)+'/'+fd.getDate()+' لهذا اليوم)';
     if(!dd.morning.length&&!dd.duty.length)w.push('⚠️ ما مسجّل أي غياب أو إجازة لهذا اليوم.');
-    if(dd.unM)w.push('⚠️ '+dd.unM+' من الصباحي ما مأشّر عليهم بهذا اليوم — يُحسبون داوموا. أشّري عليهم قبل الطبع.');
+    if(dd.unM)w.push('⚠️ '+dd.unM+' من الصباحي ما مأشّر عليهم بهذا اليوم — يُحسبون داوموا. أشّر عليهم قبل الطبع.');
     if(dd.unD)w.push('⚠️ '+dd.unD+' من المناوبين ما مأشّر عليهم'+(rng?' بالأيام اللي يشملها الموقف':'')+' — يُحسبون داوموا.');
     if(!w.length)w.push('✅ الكل مأشّر عليهم، الموقف جاهز للطبع.');
     $('dPrev').innerHTML='<div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:6px;zoom:.55">'+dailyHTML(dd)+'</div>'};prev();$('dDate').onchange=prev;
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-d]');if(!b)return;const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const nm='الموقف اليومي '+v;
     if(b.dataset.d==='pdf'){savePDF(dailyCanvases(dd),false,nm+'.pdf')}
-    else if(b.dataset.d==='word'){if(!window.docx){toast('حدّثي الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل الوورد')})}
-    else if(b.dataset.d==='xl'){if(!window.ExcelJS){toast('حدّثي الصفحة');return}buildDailyXlsx(dd).then(x=>{download(nm+'.xlsx',x);toast('تم تنزيل الاكسل')})}
+    else if(b.dataset.d==='word'){if(!window.docx){toast('حدّث الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل الوورد')})}
+    else if(b.dataset.d==='xl'){if(!window.ExcelJS){toast('حدّث الصفحة');return}buildDailyXlsx(dd).then(x=>{download(nm+'.xlsx',x);toast('تم تنزيل الاكسل')})}
     else if(b.dataset.d==='copy'){const t=dailyText(dd);const ok=()=>toast('تم النسخ');if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,()=>fallbackCopy(t,ok));else fallbackCopy(t,ok)}
     else{$('sheet').onclick=null;closeSheet()}};
 };
@@ -892,7 +892,7 @@ $('empList').addEventListener('click',ev=>{
   const up=ev.target.closest('[data-up]'),del=ev.target.closest('[data-del]');
   if(up){const list=S.emps.filter(e=>inGroup(e,SET_SH));const i=list.findIndex(e=>e.id===up.dataset.up);if(i>0){const a=S.emps.indexOf(list[i-1]),b=S.emps.indexOf(list[i]);[S.emps[a],S.emps[b]]=[S.emps[b],S.emps[a]];save();renderEmps()}}
   if(del){const e=S.emps.find(x=>x.id===del.dataset.del);
-    if(sure('هل أنتِ متأكدة من حذف «'+(e?e.name:'')+'» من القائمة؟')){S.emps=S.emps.filter(e=>e.id!==del.dataset.del);save();renderEmps();toast('تم الحذف')}
+    if(sure('هل أنت متأكد من حذف «'+(e?e.name:'')+'» من القائمة؟')){S.emps=S.emps.filter(e=>e.id!==del.dataset.del);save();renderEmps();toast('تم الحذف')}
   }
 });
 $('addEmp').onclick=()=>{const v=$('newEmp').value.trim();if(!v)return;const e={id:'e'+(S.nextId++),name:v};setGroup(e,SET_SH);S.emps.push(e);$('newEmp').value='';save();renderEmps();toast('تمت الإضافة')};
@@ -920,8 +920,8 @@ function ltEdit(){const E=$('ltEditor');E.classList.remove('hide');
   <div class="row2" style="margin-top:10px"><button class="btn" id="ltWord" style="background:#2B579A;color:#fff">📄 طبع وورد</button><button class="btn gh" id="ltCancel">إغلاق</button></div>`;
   const rd=()=>{LT.to=$('ltTo').value;LT.subj=$('ltSubj').value;LT.body=$('ltBody').value;LT.names=$('ltNames').value.split('\n').map(x=>x.trim()).filter(Boolean);LT.close=$('ltClose').value};
   $('ltCancel').onclick=()=>{E.classList.add('hide');LT=null};
-  $('ltWord').onclick=()=>{rd();if(!LT.subj.trim()&&!LT.body.trim()){toast('اكتبي الموضوع أو النص');return}
-    if(!window.docx){toast('حدّثي الصفحة');return}
+  $('ltWord').onclick=()=>{rd();if(!LT.subj.trim()&&!LT.body.trim()){toast('اكتب الموضوع أو النص');return}
+    if(!window.docx){toast('حدّث الصفحة');return}
     S.letters=S.letters||[];const i=S.letters.findIndex(x=>x.id===LT.id);LT.saved=Date.now();if(i>=0)S.letters[i]={...LT};else S.letters.unshift({...LT});save();ltArchive();
     buildLetterDocx(LT).then(b=>{download((LT.subj||LT.type).replace(/[\\/:*?"<>|]/g,'-')+' '+today.getDate()+'-'+(today.getMonth()+1)+'.docx',b);toast('تم تنزيل الكتاب وانحفظ بالأرشيف')}).catch(e=>toast('خطأ: '+e.message))};
   E.scrollIntoView({behavior:'smooth'});
@@ -933,10 +933,10 @@ function ltArchive(){const q=($('ltSearch').value||'').trim();const L=(S.letters
 }
 $('ltArchive').onclick=e=>{const b=e.target.closest('button');if(!b)return;const L=S.letters||[];
   if(b.dataset.lo){LT={...L.find(x=>x.id===b.dataset.lo)};ltEdit()}
-  else if(b.dataset.lc){LT={...L.find(x=>x.id===b.dataset.lc),id:'L'+Date.now(),created:Date.now()};ltEdit();toast('نسخة جديدة — عدّلي واطبعي')}
+  else if(b.dataset.lc){LT={...L.find(x=>x.id===b.dataset.lc),id:'L'+Date.now(),created:Date.now()};ltEdit();toast('نسخة جديدة — عدّل واطبع')}
   else if(b.dataset.ld){if(confirmDel(b)){S.letters=L.filter(x=>x.id!==b.dataset.ld);save();ltArchive()}}};
-function sure(msg){try{return window.confirm(msg||'هل أنتِ متأكدة من الحذف؟')}catch(e){return true}}
-function confirmDel(b){return sure('هل أنتِ متأكدة من حذف هذا الكتاب من الأرشيف؟')}
+function sure(msg){try{return window.confirm(msg||'هل أنت متأكد من الحذف؟')}catch(e){return true}}
+function confirmDel(b){return sure('هل أنت متأكد من حذف هذا الكتاب من الأرشيف؟')}
 $('ltSearch').oninput=ltArchive;
 $('ltTypes').innerHTML=LT_TYPES.map(t=>`<button class="btn" data-lt="${t.k}" style="background:${t.k==='free'?'#e0ecff':'linear-gradient(135deg,#3b82f6,#6366f1)'};color:${t.k==='free'?'#1d4ed8':'#fff'};padding:9px 4px;font-size:13px">${t.n}</button>`).join('');
 $('ltTypes').onclick=e=>{const b=e.target.closest('[data-lt]');if(b)ltNew(b.dataset.lt)};
@@ -963,7 +963,7 @@ function navOn(){const L=!$('viewLetters').classList.contains('hide'),St=!$('vie
   [['btnMawqif',!L&&!St],['btnLetters',L],['btnSettings',St]].forEach(([id,on])=>$(id).classList.toggle('on',on));document.querySelectorAll('.navtiles [data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav==(L?'l':St?'s':'m')))}
 setInterval(navOn,400);
 $('ltBack').onclick=()=>showLetters(false);
-$('ltLogoReset').onclick=()=>{if(!sure('ترجعين للشعار الرسمي وتمسحين الصورة اللي اخترتيها؟'))return;delete S.logo;save();ltLogo();toast('رجع الشعار الرسمي')};
+$('ltLogoReset').onclick=()=>{if(!sure('ترجع للشعار الرسمي وتمسح الصورة اللي اخترتها؟'))return;delete S.logo;save();ltLogo();toast('رجع الشعار الرسمي')};
 function b64bytes(d){const s=atob(d.split(',')[1]);const u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
 async function buildLetterDocx(L){
   let logoBytes=null;try{logoBytes=S.logo?b64bytes(S.logo):new Uint8Array(await (await fetch('logo-moe.png')).arrayBuffer())}catch(e){}
@@ -1012,7 +1012,7 @@ function mergeNames(d){
 $('restoreFile').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{
     const d=JSON.parse(rd.result);if(!d.emps)throw 0;
     const isBackup=d.kind!=='names'&&d.rec&&Object.keys(d.rec).length;
-    if(isBackup){if(!sure('استرجاع النسخة يبدّل كل البيانات الحالية (التأشيرات والأسماء والأرشيف) بالنسخة المختارة. متأكدة؟'))return;S=normalize(d);save();toast('تم استرجاع النسخة')}
+    if(isBackup){if(!sure('استرجاع النسخة يبدّل كل البيانات الحالية (التأشيرات والأسماء والأرشيف) بالنسخة المختارة. متأكد؟'))return;S=normalize(d);save();toast('تم استرجاع النسخة')}
     else{const n=mergeNames(d);save();toast(n?'تمت إضافة '+n+' اسم':'الأسماء موجودة من قبل')}
     if($('viewSettings').classList.contains('hide'))render();else showSettings(true);
   }catch(e){toast('الملف غير صالح')}};rd.readAsText(f);ev.target.value=''};
@@ -1022,7 +1022,7 @@ const GKEY=KEY+'_gkey';
 function gkey(){try{return localStorage.getItem(GKEY)||''}catch(e){return ''}}
 $('gkey').value=gkey();
 $('gkey').addEventListener('input',ev=>{try{localStorage.setItem(GKEY,ev.target.value.trim())}catch(e){}});
-$('btnOcr').onclick=()=>{if(!gkey()){toast('حطي مفتاح Gemini بالإعدادات أول مرة');showSettings(true);setTimeout(()=>$('gkey').focus(),300);return}$('ocrFile').click()};
+$('btnOcr').onclick=()=>{if(!gkey()){toast('حط مفتاح Gemini بالإعدادات أول مرة');showSettings(true);setTimeout(()=>$('gkey').focus(),300);return}$('ocrFile').click()};
 $('ocrFile').onchange=async ev=>{const files=[...ev.target.files];ev.target.value='';if(!files.length)return;
   ocrBusy(true,files.length);
   const sheets=[];let thumbs=[],fails=0;
@@ -1066,17 +1066,17 @@ function mapSheet(res){
 }
 let OCR_ERR='';
 function showErr(msg){edit=null;let hint='';
-  if(/API key|API_KEY|PERMISSION|403/i.test(msg))hint='المفتاح غلط أو ما مفعّل. تأكدي إنه منسوخ كامل بالإعدادات.';
+  if(/API key|API_KEY|PERMISSION|403/i.test(msg))hint='المفتاح غلط أو ما مفعّل. تأكد إنه منسوخ كامل بالإعدادات.';
   else if(/location|region|not supported/i.test(msg))hint='خدمة Gemini مو متاحة من هذا البلد/الشبكة.';
-  else if(/429|quota|RESOURCE/i.test(msg))hint='خلصت الحصة المجانية مال Gemini. جربي بعد ساعة أو باچر، أو فعّلي الدفع بحساب Google AI Studio حتى يشتغل دائماً.';
-  else if(/انتهى الوقت|Failed to fetch|NetworkError|Load failed/i.test(msg))hint='مشكلة نت أو بطء. جربي مرة ثانية أو بصورة أصغر.';
+  else if(/429|quota|RESOURCE/i.test(msg))hint='خلصت الحصة المجانية مال Gemini. جرّب بعد ساعة أو باچر، أو فعّل الدفع بحساب Google AI Studio حتى يشتغل دائماً.';
+  else if(/انتهى الوقت|Failed to fetch|NetworkError|Load failed/i.test(msg))hint='مشكلة نت أو بطء. جرّب مرة ثانية أو بصورة أصغر.';
   $('sheet').innerHTML=`<h3>ما گدرت أقرا الصورة</h3><div class="sub">${esc(hint||'صار خطأ أثناء القراءة.')}</div><div class="hint" style="direction:ltr;text-align:left;font-size:11px;word-break:break-all">${esc((msg||'').slice(0,900)).replace(/\n/g,'<br>')}</div><button class="btn gh" style="width:100%" onclick="document.getElementById('ov').classList.remove('show')">تمام</button>`;$('ov').classList.add('show')}
 let OCR_STAGE='',OCR_T0=0,OCR_TIMER=null;
 function ocrBusy(on,total,done){
   clearInterval(OCR_TIMER);
   if(!on){closeSheet();return}
   if(!done)OCR_T0=Date.now();
-  const draw=()=>{edit=null;$('sheet').innerHTML=`<h3>دا أقرا الصور…</h3><div class="sub">${done||0} من ${total} — لا تسكّرين الصفحة<br>${Math.round((Date.now()-OCR_T0)/1000)} ثانية · ${esc(OCR_STAGE)}</div><div class="spin"></div>`};
+  const draw=()=>{edit=null;$('sheet').innerHTML=`<h3>دا أقرا الصور…</h3><div class="sub">${done||0} من ${total} — لا تسدّ الصفحة<br>${Math.round((Date.now()-OCR_T0)/1000)} ثانية · ${esc(OCR_STAGE)}</div><div class="spin"></div>`};
   draw();OCR_TIMER=setInterval(draw,1000);$('ov').classList.add('show');
 }
 function rotateB64(b64,deg){return new Promise(ok=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');const sw=deg%180!==0;c.width=sw?im.height:im.width;c.height=sw?im.width:im.height;const x=c.getContext('2d');x.translate(c.width/2,c.height/2);x.rotate(deg*Math.PI/180);x.drawImage(im,-im.width/2,-im.height/2);const url=c.toDataURL('image/jpeg',0.92);ok({url,b64:url.split(',')[1]})};im.src='data:image/jpeg;base64,'+b64})}
@@ -1126,7 +1126,7 @@ function openReview(sheets,thumbs,fails){
 }
 function drawReview(thumbs,fails){
   let low=0;REV.sheets.forEach(sh=>sh.cells.forEach(r=>r.forEach(c=>{if(c.low)low++})));
-  let h=`<h3>راجعي القراءة قبل الاعتماد</h3><div class="sub">اضغطي على أي خانة تبدّلها (داوم ← اعتيادية ← مرضية ← زمنية ← طارئة ← حالة وفاة ← إيفاد ← واجب رسمي ← غياب). الخانات بعلامة ؟ الأداة مو متأكدة منها${low?' ('+low+')':''}.${fails?' تعذّرت قراءة '+fails+' صورة.':''}</div>`;
+  let h=`<h3>راجع القراءة قبل الاعتماد</h3><div class="sub">اضغط على أي خانة تبدّلها (داوم ← اعتيادية ← مرضية ← زمنية ← طارئة ← حالة وفاة ← إيفاد ← واجب رسمي ← غياب). الخانات بعلامة ؟ الأداة مو متأكد منها${low?' ('+low+')':''}.${fails?' تعذّرت قراءة '+fails+' صورة.':''}</div>`;
   if(thumbs&&thumbs.length)h+=`<div class="revthumbs">${thumbs.map(u=>`<img src="${u}" alt="">`).join('')}</div>`;
   REV.sheets.forEach((sh,si)=>{
     const dl=sh.days.filter(Boolean);
@@ -1162,7 +1162,7 @@ render();
 (function(){const ua=navigator.userAgent||'';const inApp=/FBAN|FBAV|Instagram|WhatsApp|Messenger|Line\//i.test(ua);
  const standalone=window.navigator.standalone||matchMedia('(display-mode: standalone)').matches;
  if(inApp||(!standalone&&/iPhone|iPad/.test(ua))){const d=document.createElement('div');d.className='warnbar';
-  d.innerHTML=inApp?'⚠️ انتي فاتحة الأداة من داخل الواتساب/الماسنجر، وهنا التأشير ما ينحفظ. افتحيها من <b>Safari</b> وضيفيها للشاشة الرئيسية، وبعدها افتحيها دائماً من الأيقونة.':'💡 حتى ينحفظ شغلج دايماً: زر المشاركة ⬆️ ← «إضافة إلى الشاشة الرئيسية»، وافتحي الأداة دائماً من الأيقونة.';
+  d.innerHTML=inApp?'⚠️ انت فاتح الأداة من داخل الواتساب/الماسنجر، وهنا التأشير ما ينحفظ. افتحها من <b>Safari</b> وضيفها للشاشة الرئيسية، وبعدها افتحها دائماً من الأيقونة.':'💡 حتى ينحفظ شغلك دايماً: زر المشاركة ⬆️ ← «إضافة إلى الشاشة الرئيسية»، وافتح الأداة دائماً من الأيقونة.';
   document.getElementById('viewMain').prepend(d)}})();
 if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{})}
 })();
