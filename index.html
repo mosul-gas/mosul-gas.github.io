@@ -280,6 +280,11 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .sheet .btn.gh{background:#EEF1F5!important;color:#1c2430!important;border:1px solid #c6ced8!important}
 .xtop{padding:4px 10px!important;font-size:13px!important}
 .sheet h3{font-size:16px!important}
+.actions{grid-template-columns:1fr 1.25fr 1fr!important;gap:7px!important}
+#actionBar .btn{font-size:15px!important}
+.pfmt{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.pfmt button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px 10px;border-radius:12px;background:linear-gradient(180deg,#fff 0%,#eef2f7 100%);border:1px solid #c6ced8;box-shadow:0 3px 0 #9aa6b5,0 5px 9px rgba(0,0,0,.12);font-family:Arial,sans-serif;font-weight:700;font-size:15px;color:#1c2430;cursor:pointer;direction:ltr}
+.pfmt button:active{transform:translateY(2px);box-shadow:0 1px 0 #9aa6b5}
 </style>
 </head>
 <body>
@@ -403,15 +408,14 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 80 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 81 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
-  <button class="btn" id="btnPrint" style="background:#C62828;color:#fff">🖨️ PDF</button>
-  <button class="btn" id="btnWord" style="background:#2B579A;color:#fff">📄 Word</button>
-  <button class="btn" id="btnExcel" style="background:#1d6f42;color:#fff">📊 Excel</button>
-  <button class="btn" id="btnCopy" style="background:#7B1FA2;color:#fff">📋 يومي</button>
-  <button class="btn" id="btnReady" style="background:#455A64;color:#fff;grid-column:1/-1;padding:9px">📅 جاهز</button>
+  <button class="btn" id="btnPrintMenu">🖨️ طباعة</button>
+  <button class="btn" id="btnCopy">📋 الموقف اليومي</button>
+  <button class="btn" id="btnReady">📅 موقف جاهز</button>
+  <span style="display:none"><button id="btnPrint"></button><button id="btnWord"></button><button id="btnExcel"></button></span>
 </div>
 
 <div class="overlay" id="ov"><div class="sheet" id="sheet"></div></div>
@@ -1177,6 +1181,18 @@ const GKEY=KEY+'_gkey';
 function gkey(){try{return localStorage.getItem(GKEY)||''}catch(e){return ''}}
 $('gkey').value=gkey();
 $('gkey').addEventListener('input',ev=>{try{localStorage.setItem(GKEY,ev.target.value.trim())}catch(e){}});
+
+$('btnPrintMenu').onclick=()=>{edit=null;
+  $('sheet').innerHTML=`<h3>طباعة</h3><div class="sub">اختر صيغة الملف</div>
+  <div class="pfmt">
+   <button data-pf="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button>
+   <button data-pf="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button>
+   <button data-pf="excel"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button>
+  </div>
+  <button class="btn gh" style="width:100%;margin-top:10px" data-pf="x">إلغاء</button>`;
+  $('ov').classList.add('show');
+  $('sheet').onclick=ev=>{const b=ev.target.closest('[data-pf]');if(!b)return;const f=b.dataset.pf;closeSheet();
+    if(f!=='x')setTimeout(()=>$({pdf:'btnPrint',word:'btnWord',excel:'btnExcel'}[f]).click(),60)}};
 $('btnOcr').onclick=()=>{if(!gkey()){toast('يُرجى إدخال مفتاح Gemini في الإعدادات أولاً');showSettings(true);setTimeout(()=>$('gkey').focus(),300);return}$('ocrFile').click()};
 $('ocrFile').onchange=async ev=>{const files=[...ev.target.files];ev.target.value='';if(!files.length)return;
   ocrBusy(true,files.length);
