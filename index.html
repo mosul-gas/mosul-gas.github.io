@@ -285,6 +285,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .pfmt{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
 .pfmt button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px 10px;border-radius:12px;background:linear-gradient(180deg,#fff 0%,#eef2f7 100%);border:1px solid #c6ced8;box-shadow:0 3px 0 #9aa6b5,0 5px 9px rgba(0,0,0,.12);font-family:Arial,sans-serif;font-weight:700;font-size:15px;color:#1c2430;cursor:pointer;direction:ltr}
 .pfmt button:active{transform:translateY(2px);box-shadow:0 1px 0 #9aa6b5}
+#modeSeg{margin-top:8px!important}
 </style>
 </head>
 <body>
@@ -296,12 +297,12 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
   </div>
   <nav class="navtiles"><button data-nav="m"><span>📋</span>الموقف</button><button data-nav="l"><span>📝</span>الكتب الرسمية</button><button data-nav="s"><span>⚙️</span>الإعدادات</button></nav>
 
-  <div class="modeseg" id="modeSeg"><button data-mode="duty">المناوبين</button><button data-mode="day">الدوام الصباحي</button></div>
   <div class="monthbar">
     <button id="prevM" aria-label="الشهر السابق">›</button>
     <b id="monthLbl"></b>
     <button id="nextM" aria-label="الشهر التالي">‹</button>
   </div>
+  <div class="modeseg" id="modeSeg"><button data-mode="duty">المناوبين</button><button data-mode="day">الدوام الصباحي</button></div>
   <div class="tabs" id="tabs"></div>
 </header>
 
@@ -408,13 +409,13 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 81 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 82 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
   <button class="btn" id="btnPrintMenu">🖨️ طباعة</button>
   <button class="btn" id="btnCopy">📋 الموقف اليومي</button>
-  <button class="btn" id="btnReady">📅 موقف جاهز</button>
+  <button class="btn" id="btnReady">📅 تحضير الموقف</button>
   <span style="display:none"><button id="btnPrint"></button><button id="btnWord"></button><button id="btnExcel"></button></span>
 </div>
 
@@ -1185,7 +1186,7 @@ $('gkey').addEventListener('input',ev=>{try{localStorage.setItem(GKEY,ev.target.
 $('btnPrintMenu').onclick=()=>{edit=null;
   $('sheet').innerHTML=`<h3>طباعة</h3><div class="sub">اختر صيغة الملف</div>
   <div class="pfmt">
-   <button data-pf="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button>
+   <button data-pf="pdf"><svg width="34" height="34" viewBox="0 0 34 34"><rect x="9" y="3" width="16" height="9" rx="1" fill="#fff" stroke="#1F3864" stroke-width="1.6"/><rect x="3" y="11" width="28" height="13" rx="3" fill="#1F3864"/><circle cx="26" cy="16" r="1.3" fill="#E3C46A"/><rect x="9" y="19" width="16" height="12" rx="1" fill="#fff" stroke="#1F3864" stroke-width="1.6"/><path d="M12 24h10M12 27.5h7" stroke="#1F3864" stroke-width="1.3"/></svg><span>PDF</span></button>
    <button data-pf="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button>
    <button data-pf="excel"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button>
   </div>
