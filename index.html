@@ -198,6 +198,10 @@ header.top{background:linear-gradient(135deg,#0ea5e9 0%,#3b82f6 55%,#7c5ce6 100%
 .grid td *,.grid th *{font-weight:800!important}
 .grid td.namecol .no{color:#000!important}
 .grid th.namecol,.grid td.namecol{box-shadow:none!important}
+.grid tbody tr:nth-child(odd) td,.grid tbody tr:nth-child(odd) td.namecol{background:#F2F2F2}
+.grid tbody tr:nth-child(even) td,.grid tbody tr:nth-child(even) td.namecol{background:#D9D9D9}
+.grid tbody tr td.c.p{background:var(--okbg)}.grid tbody tr td.c.a{background:var(--badbg)}.grid tbody tr td.c.l{background:var(--lvbg)}
+.grid thead th,.grid thead th.namecol{background:#A6A6A6!important;color:#000}
 </style>
 </head>
 <body>
@@ -321,7 +325,7 @@ header.top{background:linear-gradient(135deg,#0ea5e9 0%,#3b82f6 55%,#7c5ce6 100%
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 49 — 18/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 50 — 18/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
