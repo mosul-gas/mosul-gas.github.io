@@ -343,7 +343,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 59 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 60 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -930,9 +930,12 @@ function ltEdit(){const E=$('ltEditor');E.classList.remove('hide');
   <div class="lbl">نص الكتاب</div><textarea class="txt" id="ltBody" rows="6" style="resize:vertical;line-height:1.7;width:100%;box-sizing:border-box;font-family:inherit;font-size:15px">${esc(LT.body)}</textarea>
   <div class="lbl">${esc(LT.namesLbl)} (اختياري — كل سطر اسم)</div><textarea class="txt" id="ltNames" rows="4" style="width:100%;box-sizing:border-box;font-family:inherit;font-size:15px" placeholder="م. حسين احمد حمود">${esc((LT.names||[]).join('\n'))}</textarea>
   <div class="lbl">الخاتمة</div><input class="txt" id="ltClose" value="${esc(LT.close)}">
-  <div class="row2" style="margin-top:10px"><button class="btn" id="ltWord" style="background:#2B579A;color:#fff">📄 طبع وورد</button><button class="btn gh" id="ltCancel">إغلاق</button></div>`;
+  <div class="row2" style="margin-top:10px"><button class="btn" id="ltPdf" style="background:#C62828;color:#fff">🖨️ طبع PDF</button><button class="btn" id="ltWord" style="background:#2B579A;color:#fff">📄 طبع وورد</button></div><button class="btn gh" id="ltCancel" style="width:100%;margin-top:8px">إغلاق</button>`;
   const rd=()=>{LT.to=$('ltTo').value;LT.subj=$('ltSubj').value;LT.body=$('ltBody').value;LT.names=$('ltNames').value.split('\n').map(x=>x.trim()).filter(Boolean);LT.close=$('ltClose').value};
   $('ltCancel').onclick=()=>{E.classList.add('hide');LT=null};
+  $('ltPdf').onclick=()=>{rd();if(!LT.subj.trim()&&!LT.body.trim()){toast('اكتب الموضوع أو النص');return}
+    S.letters=S.letters||[];const i=S.letters.findIndex(x=>x.id===LT.id);LT.saved=Date.now();if(i>=0)S.letters[i]={...LT};else S.letters.unshift({...LT});save();ltArchive();
+    letterCanvases(LT).then(pg=>{savePDF(pg,false,(LT.subj||LT.type).replace(/[\\/:*?"<>|]/g,'-')+' '+today.getDate()+'-'+(today.getMonth()+1)+'.pdf')}).catch(e=>toast('خطأ: '+e.message))};
   $('ltWord').onclick=()=>{rd();if(!LT.subj.trim()&&!LT.body.trim()){toast('اكتب الموضوع أو النص');return}
     if(!window.docx){toast('حدّث الصفحة');return}
     S.letters=S.letters||[];const i=S.letters.findIndex(x=>x.id===LT.id);LT.saved=Date.now();if(i>=0)S.letters[i]={...LT};else S.letters.unshift({...LT});save();ltArchive();
@@ -986,6 +989,33 @@ setInterval(navOn,400);
 $('ltBack').onclick=()=>showLetters(false);
 $('ltLogoReset').onclick=()=>{if(!sure('ترجع للشعار الرسمي وتمسح الصورة اللي اخترتها؟'))return;delete S.logo;save();ltLogo();toast('رجع الشعار الرسمي')};
 function b64bytes(d){const s=atob(d.split(',')[1]);const u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
+function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}
+async function letterCanvases(L){
+  const logo=await loadImg(S.logo||'logo-moe.png');const yr=today.getFullYear();
+  const pages=[];const np=()=>{const r=cvPage(false);cvFrame(r[1],r[0].width,r[0].height);return r};let [c,x]=np();
+  const W=c.width,H=c.height,m=16*MM,right=W-m,left=m,tw=right-left;let y=m+4*MM;
+  const ar=['وزارة الكهرباء','الشركة العامة لإنتاج الطاقة الكهربائية /','المنطقة الشمالية','مديرية محطة كهرباء الموصل الغازية','قسم السيطرة الذاتية'];
+  const en=['MINISTRY OF ELECTRICITY','General Company of Electricity','Production Northern Region','MOSUL GAS POWER STATION','Department of Instrument & Control'];
+  ar.forEach((t,i)=>txt(x,t,right,y+i*5.6*MM,'right',10.5));
+  x.save();try{x.direction='ltr'}catch(e){}en.forEach((t,i)=>{setF(x,9.5);x.fillStyle='#000';x.textAlign='left';x.fillText(t,left,y+i*5.6*MM)});x.restore();
+  if(logo){const lh=24*MM,lw=lh*logo.width/logo.height;x.drawImage(logo,W/2-lw/2,y-3*MM,lw,lh)}
+  uline(x,'مذكرة داخلية',W/2,y+24*MM,'center',11);
+  y+=29*MM;x.fillStyle='#000';x.fillRect(left,y,tw,Math.max(2,0.35*MM));y+=7*MM;
+  setF(x,9);const sl=' ترشيد استهلاك الكهرباء ظاهرة حضارية ',sw=x.measureText(sl).width;x.fillStyle='#BFBFBF';x.fillRect(right-sw,y-2.6*MM,sw,5.2*MM);txt(x,sl,right,y,'right',9);
+  txt(x,'العدد :',left+62*MM,y,'right',12);y+=8*MM;
+  txt(x,L.to||'',right,y,'right',14,null,tw*0.6);txt(x,'التاريخ :     /     / '+yr,left+62*MM,y,'right',12);
+  y+=16*MM;uline(x,'م/ '+(L.subj||''),W/2,y,'center',15);y+=14*MM;
+  const sigTop=H-m-4*14*PT*1.75-4*MM;
+  const need=h=>{if(y+h>sigTop){pages.push(c);[c,x]=np();y=m+6*MM}};
+  const lh=14*PT*1.9;
+  String(L.body||'').split('\n').forEach(par=>{const ls=par.trim()?wrapLines(x,par,tw,14):[''];ls.forEach(l=>{need(lh);txt(x,l,right,y,'right',14);y+=lh})});
+  if(L.names&&L.names.filter(n=>n.trim()).length){y+=4*MM;need(lh);uline(x,(L.namesLbl||'الأسماء')+':',right,y,'right',14);y+=lh;
+    L.names.filter(n=>n.trim()).forEach((n,i)=>{need(lh);txt(x,(i+1)+'. '+n,right,y,'right',14);y+=lh})}
+  y+=8*MM;need(lh);txt(x,L.close||'مع التقدير.',W/2,y,'center',14);
+  const SL=[...sigLines().slice(0,3),'     /     / '+yr],slh=13.5*PT*1.75;setF(x,13.5);const bw=Math.max(...SL.map(l=>x.measureText(l).width))+3*MM,cx=left+bw/2;
+  SL.forEach((l,i)=>txt(x,l,cx,H-m-(SL.length-i-0.5)*slh,'center',13.5));
+  pages.push(c);pages.forEach(pc=>cvWatermark(pc.getContext('2d'),pc.width,pc.height));return pages;
+}
 async function buildLetterDocx(L){
   let logoBytes=null;try{logoBytes=S.logo?b64bytes(S.logo):new Uint8Array(await (await fetch('logo-moe.png')).arrayBuffer())}catch(e){}
   const D=window.docx,F='Arial';const yr=today.getFullYear();
