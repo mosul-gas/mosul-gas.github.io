@@ -343,7 +343,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 63 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 64 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1012,7 +1012,7 @@ async function letterCanvases(L){
   if(L.names&&L.names.filter(n=>n.trim()).length){y+=4*MM;need(lh);uline(x,(L.namesLbl||'الأسماء')+':',right,y,'right',14);y+=lh;
     L.names.filter(n=>n.trim()).forEach((n,i)=>{need(lh);txt(x,(i+1)+'. '+n,right,y,'right',14);y+=lh})}
   y+=8*MM;need(lh);txt(x,L.close||'مع التقدير.',W/2,y,'center',14);
-  const SL=['','','','     /     / '+yr],slh=13.5*PT*1.75;setF(x,13.5);const bw=Math.max(...SL.map(l=>x.measureText(l).width))+3*MM,cx=left+bw/2;
+  const SL=[...sigLines().slice(0,3),'     /     / '+yr],slh=13.5*PT*1.75;setF(x,13.5);const bw=Math.max(...SL.map(l=>x.measureText(l).width))+3*MM,cx=left+bw/2;
   SL.forEach((l,i)=>txt(x,l,cx,H-m-(SL.length-i-0.5)*slh,'center',13.5));
   pages.push(c);pages.forEach(pc=>cvWatermark(pc.getContext('2d'),pc.width,pc.height));return pages;
 }
@@ -1039,7 +1039,7 @@ async function buildLetterDocx(L){
   if(L.names&&L.names.length){ch.push(P(L.namesLbl+':',{sz:28,u:1,before:200,after:60}));L.names.forEach((n,i)=>ch.push(P((i+1)+'. '+n,{sz:28,line:300,al:D.AlignmentType.RIGHT})))}
   ch.push(P(L.close||'مع التقدير.',{sz:28,al:D.AlignmentType.CENTER,before:360}));
   const sigP=t=>new D.Paragraph({bidirectional:false,alignment:D.AlignmentType.LEFT,spacing:{before:20},children:[run(t,{sz:26})]});
-  const footer=new D.Footer({children:[' ',' ',' ','     /     / '+yr].map(sigP)});
+  const footer=new D.Footer({children:[...sigLines().slice(0,3),'     /     / '+yr].map(sigP)});
   let wmH;if(WM_BYTES){const w=600,h=Math.round(600*(WM_IMG.height/WM_IMG.width));wmH=new D.Header({children:[new D.Paragraph({children:[new D.ImageRun({data:WM_BYTES,transformation:{width:w,height:h},floating:{horizontalPosition:{relative:D.HorizontalPositionRelativeFrom.PAGE,align:D.HorizontalPositionAlign.CENTER},verticalPosition:{relative:D.VerticalPositionRelativeFrom.PAGE,align:D.VerticalPositionAlign.CENTER},wrap:{type:D.TextWrappingType.NONE},behindDocument:false,allowOverlap:true}})]})]})}
   return D.Packer.toBlob(new D.Document({creator:'قسم السيطرة الذاتية',sections:[{properties:{page:{size:{orientation:D.PageOrientation.PORTRAIT},margin:{top:900,bottom:2400,left:900,right:900,footer:600},borders:wordFrame(24)}},headers:wmH?{default:wmH}:undefined,footers:{default:footer},children:ch}]}));
 }
