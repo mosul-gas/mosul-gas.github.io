@@ -370,6 +370,10 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .dfmt button{padding:4px 2px!important;flex-direction:row!important;gap:5px!important;justify-content:center;align-items:center}
 .dfmt button svg{width:16px!important;height:19px!important}.dfmt button span{font-size:13.5px!important}
 .btn.dwa.dwa2{padding:3px!important;margin-top:6px!important;font-size:12.5px!important;min-height:0!important}.dwa2 svg{width:17px;height:17px}
+.pfmt button[data-pf=word]{background:linear-gradient(180deg,#3a6fc4 0%,#1F4E9A 55%,#163a75 100%)!important;border:1px solid #163a75!important;box-shadow:0 3px 0 #163a75,0 5px 9px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.4)!important}.pfmt button[data-pf=pdf]{background:linear-gradient(180deg,#d84343 0%,#B71C1C 55%,#8a1414 100%)!important;border:1px solid #8a1414!important;box-shadow:0 3px 0 #8a1414,0 5px 9px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.4)!important}.pfmt button[data-pf=excel]{background:linear-gradient(180deg,#2f8a55 0%,#1B6B3A 55%,#13502b 100%)!important;border:1px solid #13502b!important;box-shadow:0 3px 0 #13502b,0 5px 9px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.4)!important}
+.pfmt button[data-pf] span{color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.35)}
+.pfmt button[data-pf] svg path:first-child{fill:#fff}
+#ltPdf{background:linear-gradient(180deg,#d84343 0%,#B71C1C 55%,#8a1414 100%)!important;border:1px solid #8a1414!important;box-shadow:0 3px 0 #8a1414,0 5px 9px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.4)!important;color:#fff!important}#ltWord{background:linear-gradient(180deg,#3a6fc4 0%,#1F4E9A 55%,#163a75 100%)!important;border:1px solid #163a75!important;box-shadow:0 3px 0 #163a75,0 5px 9px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.4)!important;color:#fff!important}
 </style>
 </head>
 <body>
@@ -493,7 +497,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 98 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 99 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1287,8 +1291,8 @@ $('gkey').addEventListener('input',ev=>{try{localStorage.setItem(GKEY,ev.target.
 $('btnPrintMenu').onclick=()=>{edit=null;
   $('sheet').innerHTML=`<h3>طباعة</h3><div class="sub">اختر صيغة الملف</div>
   <div class="pfmt">
-   <button data-pf="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button>
    <button data-pf="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button>
+   <button data-pf="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button>
    <button data-pf="excel"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button>
   </div>
   <button class="btn gh" style="width:100%;margin-top:10px" data-pf="x">إلغاء</button>`;
