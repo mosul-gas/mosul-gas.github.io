@@ -83,6 +83,7 @@ h2.sec{font-family:Cairo;font-size:16px;margin:4px 2px 10px;color:var(--navy)}
 /* sheet */
 .overlay{position:fixed;inset:0;background:rgba(10,20,35,.45);z-index:50;display:none;align-items:flex-end;justify-content:center}
 .overlay.show{display:flex}
+.xtop{position:sticky;top:-16px;z-index:9;display:block;margin:-16px -16px 10px auto;padding:10px 16px;background:#fff;border:0;font-family:Cairo;font-weight:800;font-size:14px;color:#B30000;cursor:pointer;width:calc(100% + 32px);text-align:left;border-bottom:1px solid #eee;border-radius:20px 20px 0 0}
 .sheet{background:#fff;width:100%;max-width:560px;border-radius:20px 20px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));max-height:90vh;overflow:auto;animation:up .18s ease}
 @keyframes up{from{transform:translateY(40px);opacity:.5}to{transform:none;opacity:1}}
 .sheet h3{font-family:Cairo;margin:0 0 2px;font-size:17px}
@@ -315,7 +316,7 @@ header.top{background:linear-gradient(135deg,#0ea5e9 0%,#3b82f6 55%,#7c5ce6 100%
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 46 — 18/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 47 — 18/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -513,6 +514,9 @@ $('sheet').addEventListener('click',ev=>{
   }else if(b.dataset.act==='clear'){if(!sure('هل أنتِ متأكدة من مسح هذه الخانة؟'))return;delete S.rec[k];save();closeSheet();render()}
   else if(b.dataset.act==='close')closeSheet();
 });
+(function(){const sh=$('sheet');new MutationObserver(()=>{if(sh.querySelector('.xtop'))return;const bs=[...sh.querySelectorAll('button')].filter(b=>b.textContent.trim()==='إلغاء');if(!bs.length)return;const t=bs[bs.length-1];
+  bs.forEach(b=>{b.style.display='none';const p=b.parentElement;if(p&&p.classList.contains('row2'))p.style.gridTemplateColumns='1fr'});
+  const x=document.createElement('button');x.className='xtop';x.type='button';x.textContent='✕ إلغاء';x.onclick=e=>{e.stopPropagation();t.click()};sh.prepend(x)}).observe(sh,{childList:true})})();
 function closeSheet(){$('ov').classList.remove('show');$('sheet').classList.remove('wide')}
 $('ov').addEventListener('click',ev=>{if(ev.target.id==='ov')closeSheet()});
 
