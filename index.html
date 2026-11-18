@@ -160,8 +160,8 @@ main{padding:8px 8px 74px}
 <header class="top">
   <div class="brand">
     <div class="bolt"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="#0f2a44"/></svg></div>
-    <div><h1 id="appTitle">موقف المناوبين</h1><small id="stationName"></small></div>
-    <button class="gear" id="btnLetters" style="margin-inline-start:auto;background:#E8A33D;color:#1c2430;font-weight:800">📝 الكتب</button><button class="gear" id="btnSettings" aria-label="الإعدادات" style="margin-inline-start:6px">⚙︎ الإعدادات</button>
+    <div><h1 id="appTitle">قسم السيطرة الذاتية</h1><small id="stationName"></small></div>
+    <button class="gear" id="btnMawqif" style="margin-inline-start:auto;font-weight:800">📋 موقف</button><button class="gear" id="btnLetters" style="margin-inline-start:5px;font-weight:800">📝 الكتب</button><button class="gear" id="btnSettings" aria-label="الإعدادات" style="margin-inline-start:5px">⚙︎</button>
   </div>
   <div class="modeseg" id="modeSeg"><button data-mode="duty">المناوبين</button><button data-mode="day">الدوام الصباحي</button></div>
   <div class="monthbar">
@@ -208,6 +208,7 @@ main{padding:8px 8px 74px}
     <b style="font-family:Cairo">شعار وزارة الكهرباء</b>
     <div class="hint" style="margin:4px 0">الشعار الرسمي جاهز ويطلع بنص راس الكتاب. إذا تريدين غيره اختاري صورة.</div>
     <div style="display:flex;gap:8px;align-items:center"><img id="ltLogoPrev" style="height:54px;display:none;border:1px solid #ddd;border-radius:6px"><label class="btn gh" style="flex:1">🖼️ اختيار صورة الشعار<input type="file" id="ltLogoFile" accept="image/*" class="hide"></label></div>
+    <button class="btn gh" id="ltLogoReset" style="width:100%;margin-top:6px;font-size:13px">↩︎ رجوع للشعار الرسمي</button>
   </div>
   <button class="btn gh" id="ltBack" style="width:100%;margin-bottom:20px">⬅︎ رجوع للموقف</button>
 </main>
@@ -259,7 +260,7 @@ main{padding:8px 8px 74px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 31 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 32 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -375,7 +376,7 @@ function curDays(){return MODE==='duty'?dutyDays(Y,M,SH):weekDays()}
 function render(){
   $('stationName').textContent=S.h3;
   document.querySelectorAll('#modeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.mode===MODE));
-  $('appTitle').textContent=MODE==='duty'?'موقف المناوبين':'الدوام الصباحي';
+  $('appTitle').textContent='قسم السيطرة الذاتية';
   if(MODE==='duty'){
     $('monthLbl').textContent=MONTHS[M]+' '+Y;
     $('tabs').className='tabs';
@@ -859,8 +860,13 @@ function ltLogo(){const i=$('ltLogoPrev');i.src=S.logo||'logo-moe.png';i.style.d
 function showLetters(on){$('viewMain').classList.toggle('hide',on);$('viewLetters').classList.toggle('hide',!on);$('viewSettings').classList.add('hide');$('actionBar').classList.toggle('hide',on);
   document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
   if(on){ltArchive();ltLogo()}else render();window.scrollTo(0,0)}
-$('btnLetters').onclick=()=>showLetters($('viewLetters').classList.contains('hide'));
+$('btnLetters').onclick=()=>showLetters(true);
+$('btnMawqif').onclick=()=>{if(!$('viewSettings').classList.contains('hide'))showSettings(false);else showLetters(false)};
+function navOn(){const L=!$('viewLetters').classList.contains('hide'),St=!$('viewSettings').classList.contains('hide');
+  [['btnMawqif',!L&&!St],['btnLetters',L],['btnSettings',St]].forEach(([id,on])=>{const b=$(id);b.style.background=on?'#E8A33D':'';b.style.color=on?'#1c2430':''})}
+setInterval(navOn,400);
 $('ltBack').onclick=()=>showLetters(false);
+$('ltLogoReset').onclick=()=>{delete S.logo;save();ltLogo();toast('رجع الشعار الرسمي')};
 function b64bytes(d){const s=atob(d.split(',')[1]);const u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
 async function buildLetterDocx(L){
   let logoBytes=null;try{logoBytes=S.logo?b64bytes(S.logo):new Uint8Array(await (await fetch('logo-moe.png')).arrayBuffer())}catch(e){}
