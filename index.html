@@ -331,7 +331,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 52 — 18/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 53 — 18/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -994,7 +994,9 @@ async function buildLetterDocx(L){
 
 $('btnSettings').onclick=()=>showSettings(true);
 $('doneSettings').onclick=()=>showSettings(false);
-$('backup').onclick=()=>{download('نسخة موقف المناوبين '+ymd(new Date())+'.json',new Blob([JSON.stringify(S)],{type:'application/json'}));toast('تم تنزيل النسخة')};
+$('backup').onclick=()=>{const name='نسخة احتياطية السيطرة الذاتية '+ymd(new Date())+'.json';const blob=new Blob([JSON.stringify(S)],{type:'application/json'});let f=null;try{f=new File([blob],name,{type:'application/json'})}catch(e){}
+  if(f&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).then(()=>toast('تم حفظ النسخة')).catch(e=>{if(e&&e.name!=='AbortError')download(name,blob)});return}
+  download(name,blob);toast('تم تنزيل النسخة')};
 $('restoreBtn').onclick=()=>$('restoreFile').click();
 /* ملف أسماء = يدمج الأسماء الجديدة بدون ما يمسح التأشير. نسخة احتياطية (بيها تأشير) = تسترجع كل شي */
 function mergeNames(d){
