@@ -208,6 +208,7 @@ header.top{background:linear-gradient(135deg,#0ea5e9 0%,#3b82f6 55%,#7c5ce6 100%
 .grid tbody tr:nth-child(odd) td.nocol{background:#F2F2F2}.grid tbody tr:nth-child(even) td.nocol{background:#D9D9D9}
 td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .grid thead th{padding:4px 3px!important}
+.xtop{display:flex!important;width:auto!important;margin:-6px auto 10px 0!important;padding:7px 14px!important;background:#FDECEC!important;border:1.5px solid #B30000!important;border-radius:10px!important;font-size:14.5px!important;top:0!important;box-shadow:0 2px 6px rgba(0,0,0,.12)}
 </style>
 </head>
 <body>
@@ -331,7 +332,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 55 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 56 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -836,7 +837,7 @@ function dailyText(dd){let t=S.dTitle+'\n'+dd.title+'\n\nالدوام الصبا
 $('btnCopy').onclick=()=>{
   edit=null;
   const def=MODE==='day'?(()=>{const t=ymd(today),w=weekDays().map(x=>x.s);return w.includes(t)?t:w[0]})():ymd(today);
-  $('sheet').innerHTML=`<h3>📋 الموقف اليومي</h3><div class="sub">اختر اليوم، وتطلع ورقة A4 بالطول: اللي ما داوموا بالصباحي، وإجازات المناوبين.</div>
+  $('sheet').innerHTML=`<h3>📋 الموقف اليومي</h3>
   <input class="txt" type="date" id="dDate" value="${def}" style="margin-bottom:10px">
   <div id="dPrev" style="max-height:52vh;overflow:auto;background:#f6f8fb;border-radius:10px;padding:8px;margin-bottom:10px"></div>
   <button class="btn" data-d="pdf" style="background:#C62828;color:#fff;width:100%;margin-bottom:8px">🖨️ طبع PDF</button>
