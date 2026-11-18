@@ -235,6 +235,10 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .monthbar b{font-size:18px!important;color:#0b1a2e!important;font-weight:800!important;text-shadow:0 1px 0 rgba(255,255,255,.75)}
 .monthbar button{color:#0b1a2e!important;font-size:24px!important;font-weight:800;height:38px!important;width:44px!important}
 .monthbar button:active{background:rgba(0,0,0,.08)!important}
+#setTabs button{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;font-weight:800!important;text-shadow:0 1px 0 rgba(255,255,255,.75);border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff!important;transition:transform .08s,box-shadow .08s}
+#setTabs button.on{background:linear-gradient(180deg,#fffbea 0%,#ffe89a 42%,#f7c531 52%,#ffdf70 100%)!important;border-color:#a87900!important;box-shadow:0 3px 0 #8a6200,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff!important;color:#000!important}
+#setTabs button:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78,0 2px 4px rgba(0,0,0,.2)!important}
+#setTabs{gap:9px!important;padding-bottom:4px}
 </style>
 </head>
 <body>
@@ -358,7 +362,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 72 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 73 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -919,12 +923,12 @@ function showSettings(on){if(on)setTimeout(storeInfo,0);
 $('anchorDate').onchange=ev=>{if(ev.target.value){S.anchor=ev.target.value;save()}};
 $('anchorShift').onchange=ev=>{S.anchorShift=+ev.target.value;save()};
 /* group keys: 'd1'..'d4' for duty shifts, section ids for morning sections */
-function groupList(){return [1,2,3,4].map(i=>({k:'d'+i,label:'الوجبة '+SHIFT[i]})).concat(S.sections.map(s=>({k:s.id,label:'صباحي: '+(s.short||s.name)})))}
+function groupList(){return [1,2,3,4].map(i=>({k:'d'+i,label:'الوجبة '+SHIFT[i]})).concat(S.sections.map(s=>({k:s.id,label:'صباحي : '+(s.short||s.name)})))}
 function inGroup(e,k){return k[0]==='d'?e.shift===+k.slice(1):e.sec===k}
 function setGroup(e,k){if(k[0]==='d'){e.shift=+k.slice(1);delete e.sec}else{e.sec=k;delete e.shift}}
 function renderEmps(){
   const G=groupList();
-  $('setTabs').innerHTML=G.map(g=>`<button data-ssh="${g.k}" style="background:${g.k===SET_SH?'var(--amber)':'#eef2f7'};color:#1c2430">${esc(g.label)}</button>`).join('');
+  $('setTabs').innerHTML=G.map(g=>`<button data-ssh="${g.k}" class="${g.k===SET_SH?'on':''}">${esc(g.label)}</button>`).join('');
   const list=S.emps.filter(e=>inGroup(e,SET_SH));
   $('empList').innerHTML=list.map((e,i)=>`<div class="emp"><input class="txt" data-name="${e.id}" value="${esc(e.name)}">
   <button class="ico" data-up="${e.id}" ${i===0?'disabled':''}>↑</button>
