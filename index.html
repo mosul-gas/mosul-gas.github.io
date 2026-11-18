@@ -21,7 +21,7 @@
 <style>
 :root{
   --navy:#0f2a44; --navy2:#16395c; --amber:#f2a516; --bg:#f3f5f8; --card:#fff; --line:#d9dee6;
-  --ok:#000; --okbg:#69F0AE; --bad:#000; --badbg:#FF8A80; --lv:#000; --lvbg:#FFD740; --muted:#6b7686;
+  --ok:#000; --okbg:#69F0AE; --bad:#000; --badbg:#FF8A80; --lv:#000; --lvbg:#CDBDF6; --muted:#6b7686;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:#1c2430;font-family:Almarai,Tahoma,sans-serif}
@@ -260,6 +260,13 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .s-l{background:linear-gradient(180deg,#f8f5ff 0%,#e3d9fb 45%,#c3b0f0 55%,#ddd1f8 100%)!important;border:1px solid #6a4fb3!important;box-shadow:0 3px 0 #4b3590,0 5px 8px rgba(0,0,0,.18),inset 0 1px 0 #fff!important}
 #actionBar #btnReady{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;border-color:#3f78a3!important;box-shadow:0 3px 0 #1f4f78,0 5px 9px rgba(0,0,0,.22),inset 0 1px 0 #fff!important}
 #actionBar .btn{font-size:16px!important;padding:9px 2px!important;white-space:nowrap!important;display:flex!important;align-items:center;justify-content:center;gap:3px}
+.stats{grid-template-columns:repeat(5,1fr)!important;gap:6px!important;align-items:stretch}
+.stat{flex-direction:column!important;gap:0!important;padding:3px 1px!important;min-height:0!important}
+.stat b{font-size:16px!important;line-height:1.15!important}
+.stat span{font-size:11px!important;line-height:1.2!important;white-space:nowrap}
+#stats #btnOcr{margin:0!important;width:auto!important;flex-direction:column!important;gap:0!important;padding:3px 1px!important;border-radius:11px!important;font-size:11px!important;line-height:1.2}
+#stats #btnOcr .cam{font-size:17px!important;line-height:1.1}
+#statsCard{padding-bottom:8px!important}
 </style>
 </head>
 <body>
@@ -284,7 +291,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
   <div class="card" id="statsCard">
     <div class="stats" id="stats"></div>
   </div>
-  <button class="btn" id="btnOcr"><span class="cam">📷</span> قراءة صور الموقف</button>
+  <button class="btn" id="btnOcr"><span class="cam">📷</span><span>قراءة الصور</span></button>
   <input type="file" id="ocrFile" accept="image/*" multiple class="hide">
   <p class="hint" id="mainHint">اضغط على أي خانة لتأشير الحالة. زر «الكل داوم» تحت اليوم يأشّر الباقين حاضرين مرة وحدة، وبعدين تعدّل الغائب والمجاز فقط.</p>
   <div class="gridwrap"><table class="grid" id="grid"></table></div>
@@ -383,7 +390,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 77 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 78 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -533,7 +540,9 @@ function render(){
   $('grid').innerHTML=h+'</tbody>';
   let p=0,a=0,l=0,e0=0;
   days.forEach(dd=>emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(!r)e0++;else if(r.st==='p')p++;else if(r.st==='a')a++;else l++}));
+  {const o=$('btnOcr');if(o&&o.parentNode===$('stats'))document.body.appendChild(o)}
   $('stats').innerHTML=`<div class="stat s-p"><b>${p}</b><span>داوم</span></div><div class="stat s-a"><b>${a}</b><span>غياب</span></div><div class="stat s-l"><b>${l}</b><span>إجازة</span></div><div class="stat s-e"><b>${e0}</b><span>ما مؤشّر</span></div>`;
+  {const o=$('btnOcr');if(o)$('stats').appendChild(o)}
   let s='';
   days.forEach(dd=>{
     const items=[];let done=0;
