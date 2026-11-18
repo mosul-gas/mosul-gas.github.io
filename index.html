@@ -206,7 +206,7 @@ main{padding:8px 8px 74px}
   </div>
   <div class="card">
     <b style="font-family:Cairo">شعار وزارة الكهرباء</b>
-    <div class="hint" style="margin:4px 0">يطلع بنص راس الكتاب. اختاري صورة الشعار مرة وحدة وتنحفظ.</div>
+    <div class="hint" style="margin:4px 0">الشعار الرسمي جاهز ويطلع بنص راس الكتاب. إذا تريدين غيره اختاري صورة.</div>
     <div style="display:flex;gap:8px;align-items:center"><img id="ltLogoPrev" style="height:54px;display:none;border:1px solid #ddd;border-radius:6px"><label class="btn gh" style="flex:1">🖼️ اختيار صورة الشعار<input type="file" id="ltLogoFile" accept="image/*" class="hide"></label></div>
   </div>
   <button class="btn gh" id="ltBack" style="width:100%;margin-bottom:20px">⬅︎ رجوع للموقف</button>
@@ -259,7 +259,7 @@ main{padding:8px 8px 74px}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 30 — 16/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 31 — 16/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -855,14 +855,15 @@ $('ltSearch').oninput=ltArchive;
 $('ltTypes').innerHTML=LT_TYPES.map(t=>`<button class="btn" data-lt="${t.k}" style="background:${t.k==='free'?'#eef2f7':'#0f2a44'};color:${t.k==='free'?'#0f2a44':'#fff'};padding:9px 4px;font-size:13px">${t.n}</button>`).join('');
 $('ltTypes').onclick=e=>{const b=e.target.closest('[data-lt]');if(b)ltNew(b.dataset.lt)};
 $('ltLogoFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),k=Math.min(1,300/Math.max(im.width,im.height));c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);S.logo=c.toDataURL('image/png');save();ltLogo();toast('انحفظ الشعار')};im.src=r.result};r.readAsDataURL(f)};
-function ltLogo(){const i=$('ltLogoPrev');if(S.logo){i.src=S.logo;i.style.display='block'}else i.style.display='none'}
+function ltLogo(){const i=$('ltLogoPrev');i.src=S.logo||'logo-moe.png';i.style.display='block'}
 function showLetters(on){$('viewMain').classList.toggle('hide',on);$('viewLetters').classList.toggle('hide',!on);$('viewSettings').classList.add('hide');$('actionBar').classList.toggle('hide',on);
   document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
   if(on){ltArchive();ltLogo()}else render();window.scrollTo(0,0)}
 $('btnLetters').onclick=()=>showLetters($('viewLetters').classList.contains('hide'));
 $('ltBack').onclick=()=>showLetters(false);
 function b64bytes(d){const s=atob(d.split(',')[1]);const u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
-function buildLetterDocx(L){
+async function buildLetterDocx(L){
+  let logoBytes=null;try{logoBytes=S.logo?b64bytes(S.logo):new Uint8Array(await (await fetch('logo-moe.png')).arrayBuffer())}catch(e){}
   const D=window.docx,F='Arial';const yr=today.getFullYear();
   const run=(t,o={})=>new D.TextRun({text:o.en?String(t):'\u200F'+String(t)+'\u200F',bold:o.b!==0,boldComplexScript:o.b!==0,size:o.sz||28,sizeComplexScript:o.sz||28,font:{ascii:F,hAnsi:F,cs:F},rightToLeft:!o.en,color:o.c||'000000',underline:o.u?{}:undefined,shading:o.sh?{type:D.ShadingType.CLEAR,fill:o.sh,color:'auto'}:undefined});
   const P=(t,o={})=>new D.Paragraph({bidirectional:false,alignment:o.al||(o.en?D.AlignmentType.LEFT:D.AlignmentType.RIGHT),spacing:{before:o.before||0,after:o.after||0,line:o.line||240},indent:o.ind?{firstLine:o.ind}:undefined,children:Array.isArray(t)?t:[run(t,o)]});
@@ -871,7 +872,7 @@ function buildLetterDocx(L){
   const cell=(ch,w,o={})=>new D.TableCell({borders:{top:NB,left:NB,right:NB,bottom:o.bb?{style:D.BorderStyle.SINGLE,size:12,color:'000000'}:NB},width:{size:w,type:D.WidthType.DXA},verticalAlign:D.VerticalAlign.CENTER,children:ch});
   const ar=['وزارة الكهرباء','الشركة العامة لإنتاج الطاقة الكهربائية /','المنطقة الشمالية','مديرية محطة كهرباء الموصل الغازية','قسم السيطرة الذاتية'];
   const en=['MINISTRY OF ELECTRICITY','General Company of Electricity','Production Northern Region','MOSUL GAS POWER STATION','Department of Instrument & Control'];
-  const mid=[];if(S.logo){try{mid.push(new D.Paragraph({alignment:D.AlignmentType.CENTER,children:[new D.ImageRun({data:b64bytes(S.logo),transformation:{width:78,height:60}})]}))}catch(e){}}
+  const mid=[];if(logoBytes){try{const sq=!S.logo;mid.push(new D.Paragraph({alignment:D.AlignmentType.CENTER,children:[new D.ImageRun({data:logoBytes,transformation:sq?{width:82,height:82}:{width:78,height:60}})]}))}catch(e){}}
   else mid.push(P('وزارة الكهرباء',{sz:22,al:D.AlignmentType.CENTER}));
   mid.push(P('مذكرة داخلية',{sz:22,al:D.AlignmentType.CENTER,u:1}));
   const head=new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,borders:nob,columnWidths:c3,width:{size:W,type:D.WidthType.DXA},rows:[new D.TableRow({children:[
