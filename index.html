@@ -332,7 +332,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 56 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 58 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -910,7 +910,8 @@ const LT_TYPES=[
  {k:'report',n:'تقرير صيانة',to:'السيد مدير المحطة المحترم',subj:'تقرير صيانة',body:'نود إعلامكم بأنه تم إنجاز أعمال الصيانة التالية '},
  {k:'free',n:'كتاب فارغ',to:'إلى/ ',subj:'',body:''}];
 let LT=null;
-function ltNew(t){const T=LT_TYPES.find(x=>x.k===t);LT={id:'L'+Date.now(),type:T.n,to:T.to,subj:T.subj,body:T.body,names:T.names?[''] :[],namesLbl:T.namesLbl||'الأسماء',close:T.close||'مع التقدير.',created:Date.now()};ltEdit()}
+function allLtTypes(){return LT_TYPES.concat(S.ltCustom||[])}
+function ltNew(t){const T=allLtTypes().find(x=>x.k===t);if(!T)return;LT={id:'L'+Date.now(),type:T.n,to:T.to,subj:T.subj,body:T.body,names:T.names?[''] :[],namesLbl:T.namesLbl||'الأسماء',close:T.close||'مع التقدير.',created:Date.now()};ltEdit()}
 function ltEdit(){const E=$('ltEditor');E.classList.remove('hide');
   E.innerHTML=`<b style="font-family:Cairo">✏️ ${esc(LT.type)}</b>
   <div class="lbl">الجهة (إلى)</div><input class="txt" id="ltTo" value="${esc(LT.to)}">
@@ -939,8 +940,16 @@ $('ltArchive').onclick=e=>{const b=e.target.closest('button');if(!b)return;const
 function sure(msg){try{return window.confirm(msg||'هل أنت متأكد من الحذف؟')}catch(e){return true}}
 function confirmDel(b){return sure('هل أنت متأكد من حذف هذا الكتاب من الأرشيف؟')}
 $('ltSearch').oninput=ltArchive;
-$('ltTypes').innerHTML=LT_TYPES.map(t=>`<button class="btn" data-lt="${t.k}" style="background:${t.k==='free'?'#e0ecff':'linear-gradient(135deg,#3b82f6,#6366f1)'};color:${t.k==='free'?'#1d4ed8':'#fff'};padding:9px 4px;font-size:13px">${t.n}</button>`).join('');
-$('ltTypes').onclick=e=>{const b=e.target.closest('[data-lt]');if(b)ltNew(b.dataset.lt)};
+function renderLtTypes(){$('ltTypes').innerHTML=allLtTypes().map(t=>`<button class="btn" data-lt="${t.k}" style="position:relative;background:${t.k==='free'?'#e0ecff':t.custom?'linear-gradient(135deg,#0ea5e9,#2563eb)':'linear-gradient(135deg,#3b82f6,#6366f1)'};color:${t.k==='free'?'#1d4ed8':'#fff'};padding:9px 4px;font-size:13px">${esc(t.n)}${t.custom?`<span data-ltdel="${t.k}" style="position:absolute;top:4px;left:4px;width:20px;height:20px;border-radius:50%;background:#B30000;color:#fff;font-size:12px;line-height:20px;text-align:center">✕</span>`:''}</button>`).join('')+`<button class="btn" data-ltadd="1" style="background:#fff;border:1.5px dashed #2563eb;color:#2563eb;padding:9px 4px;font-size:13px">➕ نوع جديد</button>`}
+renderLtTypes();
+$('ltTypes').onclick=e=>{
+  const d=e.target.closest('[data-ltdel]');if(d){e.stopPropagation();const T=(S.ltCustom||[]).find(x=>x.k===d.dataset.ltdel);if(T&&sure('هل أنت متأكد من حذف نوع الكتاب «'+T.n+'»؟ (الكتب المحفوظة بالأرشيف تبقى)')){S.ltCustom=S.ltCustom.filter(x=>x.k!==T.k);save();renderLtTypes();toast('تم الحذف')}return}
+  if(e.target.closest('[data-ltadd]')){const n=(prompt('اسم نوع الكتاب الجديد (مثلاً: طلب إجازة، شكر وتقدير):')||'').trim();if(!n)return;
+    const open=LT&&!$('ltEditor').classList.contains('hide');const v=id=>{const el=$(id);return el?el.value:''};
+    const useCur=open&&v('ltBody').trim()&&confirm('تريد تحفظ نص الكتاب المفتوح هسه كنموذج لهذا النوع؟');
+    const T={k:'c'+Date.now(),n,custom:true,to:useCur?v('ltTo'):'إلى/ ',subj:useCur?v('ltSubj'):n,body:useCur?v('ltBody'):'',close:useCur?(v('ltClose')||'مع التقدير.'):'مع التقدير.'};
+    S.ltCustom=(S.ltCustom||[]).concat([T]);save();renderLtTypes();toast('تمت إضافة «'+n+'»');ltNew(T.k);return}
+  const b=e.target.closest('[data-lt]');if(b)ltNew(b.dataset.lt)};
 $('ltLogoFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),k=Math.min(1,300/Math.max(im.width,im.height));c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);S.logo=c.toDataURL('image/png');save();ltLogo();toast('انحفظ الشعار')};im.src=r.result};r.readAsDataURL(f)};
 function ltLogo(){const i=$('ltLogoPrev');i.src=S.logo||'logo-moe.png';i.style.display='block'}
 function showLetters(on){$('viewMain').classList.toggle('hide',on);$('viewLetters').classList.toggle('hide',!on);$('viewSettings').classList.add('hide');$('actionBar').classList.toggle('hide',on);
@@ -990,7 +999,8 @@ async function buildLetterDocx(L){
   ch.push(P(L.close||'مع التقدير.',{sz:28,al:D.AlignmentType.CENTER,before:360}));
   const sigP=t=>new D.Paragraph({bidirectional:false,alignment:D.AlignmentType.LEFT,spacing:{before:20},children:[run(t,{sz:26})]});
   const footer=new D.Footer({children:[...sigLines().slice(0,3),'     /     / '+yr].map(sigP)});
-  return D.Packer.toBlob(new D.Document({creator:'قسم السيطرة الذاتية',sections:[{properties:{page:{size:{orientation:D.PageOrientation.PORTRAIT},margin:{top:900,bottom:2400,left:900,right:900,footer:600},borders:wordFrame(24)}},footers:{default:footer},children:ch}]}));
+  let wmH;if(WM_BYTES){const w=600,h=Math.round(600*(WM_IMG.height/WM_IMG.width));wmH=new D.Header({children:[new D.Paragraph({children:[new D.ImageRun({data:WM_BYTES,transformation:{width:w,height:h},floating:{horizontalPosition:{relative:D.HorizontalPositionRelativeFrom.PAGE,align:D.HorizontalPositionAlign.CENTER},verticalPosition:{relative:D.VerticalPositionRelativeFrom.PAGE,align:D.VerticalPositionAlign.CENTER},wrap:{type:D.TextWrappingType.NONE},behindDocument:false,allowOverlap:true}})]})]})}
+  return D.Packer.toBlob(new D.Document({creator:'قسم السيطرة الذاتية',sections:[{properties:{page:{size:{orientation:D.PageOrientation.PORTRAIT},margin:{top:900,bottom:2400,left:900,right:900,footer:600},borders:wordFrame(24)}},headers:wmH?{default:wmH}:undefined,footers:{default:footer},children:ch}]}));
 }
 
 $('btnSettings').onclick=()=>showSettings(true);
