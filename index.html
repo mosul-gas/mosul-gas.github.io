@@ -247,6 +247,16 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .monthbar b{font-size:16px!important}
 #appTitle{font-size:19px!important;line-height:1.25!important;white-space:nowrap}
 #stationName{font-size:13.5px!important;font-weight:800!important;opacity:.95}
+.burger{height:30px!important;width:40px!important;gap:3px!important}
+.stat{border-radius:11px!important;padding:4px 2px!important;color:#0b1a2e!important;text-shadow:0 1px 0 rgba(255,255,255,.7);transition:transform .08s}
+.stat b,.stat span{color:#0b1a2e!important;font-weight:800!important}
+.s-p{background:linear-gradient(180deg,#f2fbf5 0%,#c9edd6 45%,#93d4ab 55%,#bfe7cd 100%)!important;border:1px solid #2e7d4f!important;box-shadow:0 3px 0 #1f5a39,0 5px 8px rgba(0,0,0,.18),inset 0 1px 0 #fff!important}
+.s-a{background:linear-gradient(180deg,#fdf3f3 0%,#f6d0d0 45%,#e9a2a2 55%,#f3c6c6 100%)!important;border:1px solid #a33a3a!important;box-shadow:0 3px 0 #7a2626,0 5px 8px rgba(0,0,0,.18),inset 0 1px 0 #fff!important}
+.s-l{background:linear-gradient(180deg,#fffaf0 0%,#fbe9b8 45%,#f1cd6a 55%,#f8e2a0 100%)!important;border:1px solid #a87900!important;box-shadow:0 3px 0 #7d5a00,0 5px 8px rgba(0,0,0,.18),inset 0 1px 0 #fff!important}
+.s-e{background:linear-gradient(180deg,#fbfcfd 0%,#e4e9ef 45%,#c3ccd7 55%,#dde3ea 100%)!important;border:1px solid #6b7a8f!important;box-shadow:0 3px 0 #4b5869,0 5px 8px rgba(0,0,0,.18),inset 0 1px 0 #fff!important}
+#actionBar .btn{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;font-weight:800!important;text-shadow:0 1px 0 rgba(255,255,255,.75);border:1px solid #3f78a3!important;border-radius:11px!important;box-shadow:0 3px 0 #1f4f78,0 5px 9px rgba(0,0,0,.22),inset 0 1px 0 #fff!important;transition:transform .08s,box-shadow .08s}
+#actionBar .btn:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78,0 2px 4px rgba(0,0,0,.2)!important}
+#actionBar #btnReady{background:linear-gradient(180deg,#fffbea 0%,#ffe89a 42%,#f7c531 52%,#ffdf70 100%)!important;border-color:#a87900!important;box-shadow:0 3px 0 #8a6200,0 5px 9px rgba(0,0,0,.22),inset 0 1px 0 #fff!important}
 </style>
 </head>
 <body>
@@ -370,7 +380,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 75 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 76 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -520,7 +530,7 @@ function render(){
   $('grid').innerHTML=h+'</tbody>';
   let p=0,a=0,l=0,e0=0;
   days.forEach(dd=>emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(!r)e0++;else if(r.st==='p')p++;else if(r.st==='a')a++;else l++}));
-  $('stats').innerHTML=`<div class="stat" style="background:#00E676"><b>${p}</b><span>داوم</span></div><div class="stat" style="background:#FF3D3D"><b>${a}</b><span>غياب</span></div><div class="stat" style="background:#FFC400"><b>${l}</b><span>إجازة</span></div><div class="stat" style="background:#B0BEC5"><b>${e0}</b><span>ما مؤشّر</span></div>`;
+  $('stats').innerHTML=`<div class="stat s-p"><b>${p}</b><span>داوم</span></div><div class="stat s-a"><b>${a}</b><span>غياب</span></div><div class="stat s-l"><b>${l}</b><span>إجازة</span></div><div class="stat s-e"><b>${e0}</b><span>ما مؤشّر</span></div>`;
   let s='';
   days.forEach(dd=>{
     const items=[];let done=0;
