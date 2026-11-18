@@ -343,7 +343,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 62 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 63 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -994,8 +994,8 @@ async function letterCanvases(L){
   const logo=await loadImg(S.logo||'logo-moe.png');const yr=today.getFullYear();
   const pages=[];const np=()=>{const r=cvPage(false);cvFrame(r[1],r[0].width,r[0].height);return r};let [c,x]=np();
   const W=c.width,H=c.height,m=16*MM,right=W-m,left=m,tw=right-left;let y=m+4*MM;
-  const ar=['وزارة الكهرباء','الشركة العامة لإنتاج الطاقة الكهربائية /','المنطقة الشمالية','مديرية محطة كهرباء الموصل الغازية','قسم السيطرة الذاتية'];
-  const en=['MINISTRY OF ELECTRICITY','General Company of Electricity','Production Northern Region','MOSUL GAS POWER STATION','Department of Instrument & Control'];
+  const ar=['وزارة الكهرباء','الشركة العامة لإنتاج الطاقة الكهربائية /','المنطقة الشمالية','مديرية محطة كهرباء الموصل الغازية',(S.dTitle||'قسم السيطرة الذاتية')];
+  const en=['MINISTRY OF ELECTRICITY','General Company of Electricity','Production Northern Region','MOSUL GAS POWER STATION',(S.enDept||'Department of Instrument & Control')];
   ar.forEach((t,i)=>txt(x,t,right,y+i*5.6*MM,'right',10.5));
   x.save();try{x.direction='ltr'}catch(e){}en.forEach((t,i)=>{setF(x,9.5);x.fillStyle='#000';x.textAlign='left';x.fillText(t,left,y+i*5.6*MM)});x.restore();
   if(logo){const lh=24*MM,lw=lh*logo.width/logo.height;x.drawImage(logo,W/2-lw/2,y-3*MM,lw,lh)}
@@ -1012,7 +1012,7 @@ async function letterCanvases(L){
   if(L.names&&L.names.filter(n=>n.trim()).length){y+=4*MM;need(lh);uline(x,(L.namesLbl||'الأسماء')+':',right,y,'right',14);y+=lh;
     L.names.filter(n=>n.trim()).forEach((n,i)=>{need(lh);txt(x,(i+1)+'. '+n,right,y,'right',14);y+=lh})}
   y+=8*MM;need(lh);txt(x,L.close||'مع التقدير.',W/2,y,'center',14);
-  const SL=[...sigLines().slice(0,3),'     /     / '+yr],slh=13.5*PT*1.75;setF(x,13.5);const bw=Math.max(...SL.map(l=>x.measureText(l).width))+3*MM,cx=left+bw/2;
+  const SL=['','','','     /     / '+yr],slh=13.5*PT*1.75;setF(x,13.5);const bw=Math.max(...SL.map(l=>x.measureText(l).width))+3*MM,cx=left+bw/2;
   SL.forEach((l,i)=>txt(x,l,cx,H-m-(SL.length-i-0.5)*slh,'center',13.5));
   pages.push(c);pages.forEach(pc=>cvWatermark(pc.getContext('2d'),pc.width,pc.height));return pages;
 }
@@ -1024,8 +1024,8 @@ async function buildLetterDocx(L){
   const NB={style:D.BorderStyle.NONE,size:0,color:'FFFFFF'},nob={top:NB,bottom:NB,left:NB,right:NB,insideHorizontal:NB,insideVertical:NB};
   const W=10200,c3=[3900,2400,3900];
   const cell=(ch,w,o={})=>new D.TableCell({borders:{top:NB,left:NB,right:NB,bottom:o.bb?{style:D.BorderStyle.SINGLE,size:12,color:'000000'}:NB},width:{size:w,type:D.WidthType.DXA},verticalAlign:D.VerticalAlign.CENTER,children:ch});
-  const ar=['وزارة الكهرباء','الشركة العامة لإنتاج الطاقة الكهربائية /','المنطقة الشمالية','مديرية محطة كهرباء الموصل الغازية','قسم السيطرة الذاتية'];
-  const en=['MINISTRY OF ELECTRICITY','General Company of Electricity','Production Northern Region','MOSUL GAS POWER STATION','Department of Instrument & Control'];
+  const ar=['وزارة الكهرباء','الشركة العامة لإنتاج الطاقة الكهربائية /','المنطقة الشمالية','مديرية محطة كهرباء الموصل الغازية',(S.dTitle||'قسم السيطرة الذاتية')];
+  const en=['MINISTRY OF ELECTRICITY','General Company of Electricity','Production Northern Region','MOSUL GAS POWER STATION',(S.enDept||'Department of Instrument & Control')];
   const mid=[];if(logoBytes){try{const sq=!S.logo;mid.push(new D.Paragraph({alignment:D.AlignmentType.CENTER,children:[new D.ImageRun({data:logoBytes,transformation:sq?{width:82,height:82}:{width:78,height:60}})]}))}catch(e){}}
   else mid.push(P('وزارة الكهرباء',{sz:22,al:D.AlignmentType.CENTER}));
   mid.push(P('مذكرة داخلية',{sz:22,al:D.AlignmentType.CENTER,u:1}));
@@ -1039,7 +1039,7 @@ async function buildLetterDocx(L){
   if(L.names&&L.names.length){ch.push(P(L.namesLbl+':',{sz:28,u:1,before:200,after:60}));L.names.forEach((n,i)=>ch.push(P((i+1)+'. '+n,{sz:28,line:300,al:D.AlignmentType.RIGHT})))}
   ch.push(P(L.close||'مع التقدير.',{sz:28,al:D.AlignmentType.CENTER,before:360}));
   const sigP=t=>new D.Paragraph({bidirectional:false,alignment:D.AlignmentType.LEFT,spacing:{before:20},children:[run(t,{sz:26})]});
-  const footer=new D.Footer({children:[...sigLines().slice(0,3),'     /     / '+yr].map(sigP)});
+  const footer=new D.Footer({children:[' ',' ',' ','     /     / '+yr].map(sigP)});
   let wmH;if(WM_BYTES){const w=600,h=Math.round(600*(WM_IMG.height/WM_IMG.width));wmH=new D.Header({children:[new D.Paragraph({children:[new D.ImageRun({data:WM_BYTES,transformation:{width:w,height:h},floating:{horizontalPosition:{relative:D.HorizontalPositionRelativeFrom.PAGE,align:D.HorizontalPositionAlign.CENTER},verticalPosition:{relative:D.VerticalPositionRelativeFrom.PAGE,align:D.VerticalPositionAlign.CENTER},wrap:{type:D.TextWrappingType.NONE},behindDocument:false,allowOverlap:true}})]})]})}
   return D.Packer.toBlob(new D.Document({creator:'قسم السيطرة الذاتية',sections:[{properties:{page:{size:{orientation:D.PageOrientation.PORTRAIT},margin:{top:900,bottom:2400,left:900,right:900,footer:600},borders:wordFrame(24)}},headers:wmH?{default:wmH}:undefined,footers:{default:footer},children:ch}]}));
 }
