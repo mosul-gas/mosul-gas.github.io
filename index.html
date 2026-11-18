@@ -267,6 +267,12 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 #stats #btnOcr{margin:0!important;width:auto!important;flex-direction:column!important;gap:0!important;padding:3px 1px!important;border-radius:11px!important;font-size:11px!important;line-height:1.2}
 #stats #btnOcr .cam{font-size:17px!important;line-height:1.1}
 #statsCard{padding-bottom:8px!important}
+.stat,#stats #btnOcr{flex-direction:row!important;gap:4px!important;padding:5px 2px!important;align-items:center;justify-content:center}
+.stat b{font-size:14px!important}.stat span{font-size:12px!important}
+#stats #btnOcr .cam{font-size:14px!important}#stats #btnOcr{font-size:12px!important}
+.stats{grid-template-columns:repeat(5,auto)!important;justify-content:stretch}
+.navtiles button[data-nav="s"]{font-size:12px!important}
+.navtiles button[data-nav="s"] span{font-size:13px!important}
 </style>
 </head>
 <body>
@@ -390,7 +396,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 78 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 79 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -541,7 +547,7 @@ function render(){
   let p=0,a=0,l=0,e0=0;
   days.forEach(dd=>emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(!r)e0++;else if(r.st==='p')p++;else if(r.st==='a')a++;else l++}));
   {const o=$('btnOcr');if(o&&o.parentNode===$('stats'))document.body.appendChild(o)}
-  $('stats').innerHTML=`<div class="stat s-p"><b>${p}</b><span>داوم</span></div><div class="stat s-a"><b>${a}</b><span>غياب</span></div><div class="stat s-l"><b>${l}</b><span>إجازة</span></div><div class="stat s-e"><b>${e0}</b><span>ما مؤشّر</span></div>`;
+  $('stats').innerHTML=`<div class="stat s-p"><b>${p}</b><span>داوم</span></div><div class="stat s-a"><b>${a}</b><span>غياب</span></div><div class="stat s-l"><b>${l}</b><span>إجازة</span></div><div class="stat s-e"><b>${e0}</b><span>غير مؤشَّر</span></div>`;
   {const o=$('btnOcr');if(o)$('stats').appendChild(o)}
   let s='';
   days.forEach(dd=>{
