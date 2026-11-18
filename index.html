@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="قسم السيطرة">
+<meta name="apple-mobile-web-app-title" content="السيطرة الذاتية">
 <link rel="manifest" href="manifest.json">
 <script src="docx.umd.js" defer></script>
 <script src="exceljs.min.js" defer></script>
@@ -313,7 +313,7 @@ header.top{background:linear-gradient(135deg,#0ea5e9 0%,#3b82f6 55%,#7c5ce6 100%
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 40 — 18/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 41 — 18/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -691,7 +691,7 @@ function dailyData(dateStr){
   const d=new Date(utc(dateStr));const day=new Date(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate());
   const morning=[];
   let unM=0,unD=0;const wd=day.getDay()!==5&&day.getDay()!==6;
-  S.sections.forEach(sec=>empsSec(sec.id).forEach(e=>{const r=S.rec[rk(dateStr,e.id)];if(!r){if(wd)unM++;return}if(r.st!=='p')morning.push({name:e.name,st:(r.st==='a'?abName(r):r.type==='زمنية'?'زمنية صباحي':lvName(r.type))+(r.note?' ('+r.note+')':'')})}));
+  S.sections.forEach((sec,si)=>empsSec(sec.id).forEach(e=>{const r=S.rec[rk(dateStr,e.id)];if(!r){if(wd)unM++;return}if(r.st!=='p')morning.push({sec:si,name:e.name,st:(r.st==='a'?abName(r):r.type==='زمنية'?'زمنية صباحي':lvName(r.type))+(r.note?' ('+r.note+')':'')})}));
   /* المناوبين: من اليوم اللي بعد آخر يوم دوام لحد هذا اليوم */
   const from=new Date(prevWorkday(day));from.setDate(from.getDate()+1);
   const duty=[];
@@ -742,7 +742,8 @@ function dailyCanvases(dd){
     if(y+2*rh>H-m){pages.push(c);[c,x]=np();y=m}
     y=drawRows(x,y,right,ws,[hdr]);
     rows.forEach((r,i)=>{if(y+rh>H-m){pages.push(c);[c,x]=np();y=m;y=drawRows(x,y,right,ws,[hdr])}
-      y=drawRows(x,y,right,ws,[{cells:[{t:t.rows.length?i+1:''},{t:r.name,al:'right'},{t:r.st}],fill:i%2?D_ALT:D_ROW,h:rh,pt}])});
+      y=drawRows(x,y,right,ws,[{cells:[{t:t.rows.length?i+1:''},{t:r.name,al:'right'},{t:r.st}],fill:rowFill(r,i),h:rh,pt}])});
+    const lg=secLegend(t.rows);if(lg.length){y+=3.5*MM;let lx=right;setF(x,10.5);lg.forEach(g=>{const tw2=x.measureText(g.name).width;if(lx-(tw2+8*MM)<left){lx=right;y+=6.5*MM;setF(x,10.5)}x.fillStyle='#'+g.col;x.fillRect(lx-5*MM,y-2*MM,5*MM,4*MM);x.strokeStyle='#000';x.lineWidth=1.5;x.strokeRect(lx-5*MM,y-2*MM,5*MM,4*MM);txt(x,g.name,lx-6.5*MM,y,'right',10.5);lx-=tw2+12*MM});y+=2*MM}
     y+=7*MM});
   if(y+sigH>H-m){pages.push(c);[c,x]=np()}
   drawSig(x,left,H-m,13.5);pages.push(c);return pages;
@@ -760,13 +761,16 @@ function wordFrame(sp){const D=window.docx;const b={style:D.BorderStyle.DOUBLE,s
 function cvFrame(x,W,H){x.strokeStyle='#1F3864';x.lineWidth=0.7*MM;x.strokeRect(6*MM,6*MM,W-12*MM,H-12*MM);x.lineWidth=0.25*MM;x.strokeRect(7.4*MM,7.4*MM,W-14.8*MM,H-14.8*MM)}
 function setPage(css){let el=document.getElementById('pgStyle');if(!el){el=document.createElement('style');el.id='pgStyle';document.head.appendChild(el)}el.textContent=css?'@media print{@page{'+css+'}}':''}
 const D_HEAD='A6A6A6',D_ALT='D9D9D9',D_ROW='F2F2F2';
+const SEC_COLS=['BBD7FF','BFEBC9','FFD8A8','DCCBFF','FFC9D6','FFF0A0','B8EEF0'];
+function rowFill(r,i){return r.sec!=null?SEC_COLS[r.sec%SEC_COLS.length]:(i%2?D_ALT:D_ROW)}
+function secLegend(rows){const seen=[];rows.forEach(r=>{if(r.sec!=null&&!seen.includes(r.sec))seen.push(r.sec)});return seen.map(i=>({name:(S.sections[i]||{}).name||'',col:SEC_COLS[i%SEC_COLS.length]}))}
 function dailyTables(dd){return [{h:'الموقف',rows:dd.morning,label:'الدوام الصباحي'},{h:'المناوبين',rows:dd.duty,label:'المناوبين'}]}
 function dailyHTML(dd){
   const F="font-family:'Simplified Arabic','Traditional Arabic',Arial,sans-serif;font-weight:800;";const bd='border:1.5px solid #000;';
   const tbl=t=>{const rows=t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}];
     return `<table style="width:100%;border-collapse:collapse;margin:0 0 22px;${F}font-size:13.5pt">
     <tr style="background:#${D_HEAD}"><th style="${bd}padding:5px;width:7%">ت</th><th style="${bd}padding:5px;width:45%">الاسم</th><th style="${bd}padding:5px">${t.h}</th></tr>
-    ${rows.map((r,i)=>`<tr style="background:#${i%2?D_ALT:D_ROW}"><td style="${bd}padding:6px;text-align:center">${t.rows.length?i+1:''}</td><td style="${bd}padding:6px 10px;text-align:right">${esc(r.name)}</td><td style="${bd}padding:6px;text-align:center">${esc(r.st)}</td></tr>`).join('')}</table>`};
+    ${rows.map((r,i)=>`<tr style="background:#${rowFill(r,i)}"><td style="${bd}padding:6px;text-align:center">${t.rows.length?i+1:''}</td><td style="${bd}padding:6px 10px;text-align:right">${esc(r.name)}</td><td style="${bd}padding:6px;text-align:center">${esc(r.st)}</td></tr>`).join('')}</table>${secLegend(t.rows).length?`<div style="margin:-14px 0 20px;font-size:10.5pt;display:flex;flex-wrap:wrap;gap:6px 14px">${secLegend(t.rows).map(g=>`<span><i style="display:inline-block;width:14px;height:11px;border:1px solid #000;background:#${g.col};vertical-align:middle;margin-left:4px"></i>${esc(g.name)}</span>`).join('')}</div>`:''}`};
   return `<div style="${F}direction:rtl;color:#000;padding:2mm 2mm 0;min-height:266mm;box-sizing:border-box;display:flex;flex-direction:column">
   <div style="font-size:16pt;text-decoration:underline">م/ ${esc(S.dTitle)}</div>
   <div style="font-size:15pt;text-decoration:underline;margin:4px 0 14px">${esc(dd.title.replace(/^م\/ /,''))}</div>
@@ -783,9 +787,12 @@ function buildDailyDocx(dd){
   const W=[650,4500,4650];
   const table=t=>{const rows=t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}];return new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,columnWidths:W,width:{size:9800,type:D.WidthType.DXA},
     rows:[new D.TableRow({tableHeader:true,children:[cell('ت',{w:W[0],fill:D_HEAD}),cell('الاسم',{w:W[1],fill:D_HEAD}),cell(t.h,{w:W[2],fill:D_HEAD})]}),
-      ...rows.map((r,i)=>{const f=i%2?D_ALT:D_ROW;return new D.TableRow({cantSplit:true,height:{value:420,rule:D.HeightRule.ATLEAST},children:[cell(t.rows.length?i+1:'',{w:W[0],fill:f}),cell(r.name,{w:W[1],al:D.AlignmentType.RIGHT,fill:f}),cell(r.st,{w:W[2],fill:f})]})})]})};
+      ...rows.map((r,i)=>{const f=rowFill(r,i);return new D.TableRow({cantSplit:true,height:{value:420,rule:D.HeightRule.ATLEAST},children:[cell(t.rows.length?i+1:'',{w:W[0],fill:f}),cell(r.name,{w:W[1],al:D.AlignmentType.RIGHT,fill:f}),cell(r.st,{w:W[2],fill:f})]})})]})};
   const ch=[P('م/ '+S.dTitle,{sz:32,u:1,al:D.AlignmentType.CENTER}),P(dd.title.replace(/^م\/ /,''),{sz:30,after:240,u:1,al:D.AlignmentType.CENTER})];
-  dailyTables(dd).forEach((t,k)=>{ch.push(table(t));ch.push(P('',{after:k?0:300}))});
+  dailyTables(dd).forEach((t,k)=>{ch.push(table(t));const lg=secLegend(t.rows);
+    if(lg.length){const FONT='Simplified Arabic';const kids=[];lg.forEach((g,j)=>{kids.push(new D.TextRun({text:'\u202B   \u202C',shading:{type:D.ShadingType.CLEAR,fill:g.col,color:'auto'},size:20,font:{ascii:FONT,hAnsi:FONT,cs:FONT}}));kids.push(new D.TextRun({text:'\u202B '+g.name+'      \u202C',bold:true,boldComplexScript:true,size:20,sizeComplexScript:20,rightToLeft:true,font:{ascii:FONT,hAnsi:FONT,cs:FONT}}))});
+      ch.push(new D.Paragraph({bidirectional:false,alignment:D.AlignmentType.RIGHT,spacing:{before:80},children:kids.reverse().reduce((a,c,i,arr)=>a,kids)}))}
+    ch.push(P('',{after:k?0:300}))});
   const foot=new D.Footer({children:sigLines().map(t=>P(t,{sz:26,before:30,al:D.AlignmentType.LEFT,ltr:1}))});
   return D.Packer.toBlob(new D.Document({sections:[{properties:{page:{size:{orientation:D.PageOrientation.PORTRAIT},margin:{top:1000,bottom:2700,left:1000,right:1000,footer:650},borders:wordFrame(24)}},footers:{default:foot},children:ch}]}));
 }
@@ -796,9 +803,9 @@ async function buildDailyXlsx(dd){
   const line=(t,o={})=>{const r=ws.addRow([t]);ws.mergeCells(r.number,1,r.number,3);r.getCell(1).font={bold:true,size:o.sz||14,underline:!!o.u,name:FN};r.getCell(1).alignment={readingOrder:'rtl',horizontal:o.al||'right'};return r};
   const fill=c=>({type:'pattern',pattern:'solid',fgColor:{argb:'FF'+c}});
   const table=t=>{const h=ws.addRow(['ت','الاسم',t.h]);h.eachCell(c=>{c.font={bold:true,name:FN,size:14};c.fill=fill(D_HEAD);c.border=B;c.alignment={readingOrder:'rtl',horizontal:'center',vertical:'middle'}});
-    (t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}]).forEach((r,i)=>{const x=ws.addRow([t.rows.length?i+1:'',r.name,r.st]);x.height=22;x.eachCell({includeEmpty:true},(c,col)=>{c.border=B;c.font={bold:true,name:FN,size:14};c.alignment={readingOrder:'rtl',horizontal:col===2?'right':'center',vertical:'middle',wrapText:true};c.fill=fill(i%2?D_ALT:D_ROW)})})};
+    (t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}]).forEach((r,i)=>{const x=ws.addRow([t.rows.length?i+1:'',r.name,r.st]);x.height=22;x.eachCell({includeEmpty:true},(c,col)=>{c.border=B;c.font={bold:true,name:FN,size:14};c.alignment={readingOrder:'rtl',horizontal:col===2?'right':'center',vertical:'middle',wrapText:true};c.fill=fill(rowFill(r,i))})})};
   line('م/ '+S.dTitle,{sz:16,u:1,al:'center'});line(dd.title.replace(/^م\/ /,''),{sz:15,u:1,al:'center'});ws.addRow([]);
-  dailyTables(dd).forEach(t=>{table(t);ws.addRow([])});ws.addRow([]);ws.addRow([]);ws.addRow([]);ws.addRow([]);sigLines().forEach(t=>line(t,{al:'left'}));
+  dailyTables(dd).forEach(t=>{table(t);secLegend(t.rows).forEach(g=>{const lr=ws.addRow(['','■ '+g.name,'']);const c=lr.getCell(2);c.fill=fill(g.col);c.font={bold:true,name:FN,size:11};c.alignment={readingOrder:'rtl',horizontal:'right'}});ws.addRow([])});ws.addRow([]);ws.addRow([]);ws.addRow([]);ws.addRow([]);sigLines().forEach(t=>line(t,{al:'left'}));
   return new Blob([await wb.xlsx.writeBuffer()],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
 }
 function dailyText(dd){let t=S.dTitle+'\n'+dd.title+'\n\nالدوام الصباحي:\n'+(dd.morning.length?dd.morning.map((r,i)=>(i+1)+'. '+r.name+' — '+r.st).join('\n'):'لا يوجد')+'\n\nالمناوبين:\n'+(dd.duty.length?dd.duty.map((r,i)=>(i+1)+'. '+r.name+' — '+r.st).join('\n'):'لا يوجد');return t}
