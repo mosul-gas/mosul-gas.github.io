@@ -277,7 +277,6 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 <main id="viewLetters" class="hide">
   <div class="card">
     <h3 style="margin:0 0 4px;font-family:Cairo">📝 الكتب الرسمية</h3>
-    <div class="hint" style="margin:0 0 8px">اختر نوع الكتاب، اكتب الموضوع والنص، واضغط «طبع وورد». العدد والتاريخ يظلن فارغات تكتبيهن بإيدك. كل كتاب ينحفظ بالأرشيف تحت.</div>
     <div id="ltTypes" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
     <button class="btn bev bevbk" type="button" onclick="document.getElementById('backup').click()">💾 عمل نسخة احتياطية</button>
   </div>
@@ -286,7 +285,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><b style="font-family:Cairo">🗂️ الأرشيف</b><input class="txt" id="ltSearch" placeholder="بحث بالموضوع أو الجهة…" style="flex:1;margin:0"></div>
     <div id="ltArchive"></div>
   </div>
-  <div class="card">
+  <div class="card hide" style="display:none">
     <b style="font-family:Cairo">شعار وزارة الكهرباء</b>
     <div class="hint" style="margin:4px 0">الشعار الرسمي جاهز ويطلع بنص راس الكتاب. إذا تريد غيره اختر صورة.</div>
     <div style="display:flex;gap:8px;align-items:center"><img id="ltLogoPrev" style="height:54px;display:none;border:1px solid #ddd;border-radius:6px"><label class="btn gh" style="flex:1">🖼️ اختيار صورة الشعار<input type="file" id="ltLogoFile" accept="image/*" class="hide"></label></div>
@@ -343,7 +342,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 64 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 65 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -991,7 +990,7 @@ $('ltLogoReset').onclick=()=>{if(!sure('ترجع للشعار الرسمي وت�
 function b64bytes(d){const s=atob(d.split(',')[1]);const u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
 function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}
 async function letterCanvases(L){
-  const logo=await loadImg(S.logo||'logo-moe.png');const yr=today.getFullYear();
+  const logo=await loadImg('logo-moe-t.png');const yr=today.getFullYear();
   const pages=[];const np=()=>{const r=cvPage(false);cvFrame(r[1],r[0].width,r[0].height);return r};let [c,x]=np();
   const W=c.width,H=c.height,m=16*MM,right=W-m,left=m,tw=right-left;let y=m+4*MM;
   const ar=['وزارة الكهرباء','الشركة العامة لإنتاج الطاقة الكهربائية /','المنطقة الشمالية','مديرية محطة كهرباء الموصل الغازية',(S.dTitle||'قسم السيطرة الذاتية')];
@@ -1017,7 +1016,7 @@ async function letterCanvases(L){
   pages.push(c);pages.forEach(pc=>cvWatermark(pc.getContext('2d'),pc.width,pc.height));return pages;
 }
 async function buildLetterDocx(L){
-  let logoBytes=null;try{logoBytes=S.logo?b64bytes(S.logo):new Uint8Array(await (await fetch('logo-moe.png')).arrayBuffer())}catch(e){}
+  let logoBytes=null;try{logoBytes=new Uint8Array(await (await fetch('logo-moe-t.png')).arrayBuffer())}catch(e){}
   const D=window.docx,F='Arial';const yr=today.getFullYear();
   const run=(t,o={})=>new D.TextRun({text:o.en?String(t):'\u202B'+String(t)+'\u202C',bold:o.b!==0,boldComplexScript:o.b!==0,size:o.sz||28,sizeComplexScript:o.sz||28,font:{ascii:F,hAnsi:F,cs:F},rightToLeft:!o.en,color:o.c||'000000',underline:o.u?{}:undefined,shading:o.sh?{type:D.ShadingType.CLEAR,fill:o.sh,color:'auto'}:undefined});
   const P=(t,o={})=>new D.Paragraph({bidirectional:false,alignment:o.al||(o.en?D.AlignmentType.LEFT:D.AlignmentType.RIGHT),spacing:{before:o.before||0,after:o.after||0,line:o.line||240},indent:o.ind?{firstLine:o.ind}:undefined,children:Array.isArray(t)?t:[run(t,o)]});
@@ -1026,7 +1025,7 @@ async function buildLetterDocx(L){
   const cell=(ch,w,o={})=>new D.TableCell({borders:{top:NB,left:NB,right:NB,bottom:o.bb?{style:D.BorderStyle.SINGLE,size:12,color:'000000'}:NB},width:{size:w,type:D.WidthType.DXA},verticalAlign:D.VerticalAlign.CENTER,children:ch});
   const ar=['وزارة الكهرباء','الشركة العامة لإنتاج الطاقة الكهربائية /','المنطقة الشمالية','مديرية محطة كهرباء الموصل الغازية',(S.dTitle||'قسم السيطرة الذاتية')];
   const en=['MINISTRY OF ELECTRICITY','General Company of Electricity','Production Northern Region','MOSUL GAS POWER STATION',(S.enDept||'Department of Instrument & Control')];
-  const mid=[];if(logoBytes){try{const sq=!S.logo;mid.push(new D.Paragraph({alignment:D.AlignmentType.CENTER,children:[new D.ImageRun({data:logoBytes,transformation:sq?{width:82,height:82}:{width:78,height:60}})]}))}catch(e){}}
+  const mid=[];if(logoBytes){try{const sq=true;mid.push(new D.Paragraph({alignment:D.AlignmentType.CENTER,children:[new D.ImageRun({data:logoBytes,transformation:sq?{width:82,height:82}:{width:78,height:60}})]}))}catch(e){}}
   else mid.push(P('وزارة الكهرباء',{sz:22,al:D.AlignmentType.CENTER}));
   mid.push(P('مذكرة داخلية',{sz:22,al:D.AlignmentType.CENTER,u:1}));
   const head=new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,borders:nob,columnWidths:c3,width:{size:W,type:D.WidthType.DXA},rows:[new D.TableRow({children:[
