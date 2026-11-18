@@ -221,6 +221,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .grid thead th.namecol,.grid thead th.nocol{padding:2px 6px!important}
 .daycell .dn{display:block!important;font-size:11.5px!important;color:#000!important;font-weight:800!important;direction:ltr;line-height:1.1!important}
 .allok{margin:2px auto 0!important;padding:1px 6px!important;font-size:10.5px!important;line-height:1.3!important}
+#tabs button{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 </style>
 </head>
 <body>
@@ -344,7 +345,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 69 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 70 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -469,7 +470,7 @@ function render(){
     const d=weekDays(),a=d[0],b=d[4];
     $('monthLbl').textContent=a.m===b.m?`${a.d} – ${b.d} ${MONTHS[a.m]} ${a.y}`:`${a.d} ${MONTHS[a.m]} – ${b.d} ${MONTHS[b.m]} ${b.y}`;
     $('tabs').className='tabs secs';
-    $('tabs').innerHTML=S.sections.map(s=>`<button class="${s.id===SEC?'on':''}" data-sec="${s.id}">${esc(s.short||s.name)}</button>`).join('');
+    $('tabs').innerHTML=S.sections.map(s=>`<button class="${s.id===SEC?'on':''}" data-sec="${s.id}">${esc(s.short||s.name)}</button>`).join('')+`<button data-secadd="1" style="border:1.5px dashed rgba(255,255,255,.8)!important;background:transparent">➕ إضافة</button>`;
   }
   $('legendParts').classList.toggle('hide',MODE!=='duty');
   $('limitNote').classList.toggle('hide',MODE==='duty');
@@ -554,7 +555,26 @@ $('grid').addEventListener('click',ev=>{
   if(all){let c=0;curEmps().forEach(e=>{const k=rk(all.dataset.all,e.id);if(!S.rec[k]){S.rec[k]={st:'p'};c++}});save();render();toast(c?'تم تأشير '+c+' حاضر':'كل الأسماء مؤشّرة مسبقاً');return}
   const td=ev.target.closest('td.c');if(td)openCell(td.dataset.d,td.dataset.e);
 });
-$('tabs').addEventListener('click',ev=>{const b=ev.target.closest('button');if(!b)return;if(b.dataset.sh)SH=+b.dataset.sh;if(b.dataset.sec)SEC=b.dataset.sec;render()});
+let SLP_T=null,SLP_DONE=false;
+function secAdd(){const n=(prompt('اسم القسم أو الشعبة الجديدة:')||'').trim();if(!n)return;const id='s'+Date.now();S.sections.push({id,name:n,short:n});SEC=id;save();render();toast('تمت إضافة «'+n+'»')}
+function secMenu(id){const sc=S.sections.find(x=>x.id===id);if(!sc)return;edit=null;const cnt=empsSec(id).length;
+  $('sheet').innerHTML=`<h3>«${esc(sc.short||sc.name)}»</h3><div class="sub">بيه ${cnt} منتسب</div>
+  <button class="btn pri" style="width:100%;margin-bottom:8px" data-sm="open">📋 فتح</button>
+  <button class="btn amb" style="width:100%;margin-bottom:8px" data-sm="ren">✏️ تغيير الاسم</button>
+  <button class="btn red" style="width:100%;margin-bottom:8px" data-sm="del">🗑️ حذف</button>
+  <button class="btn gh" style="width:100%" data-sm="x">إلغاء</button>`;
+  $('ov').classList.add('show');
+  $('sheet').onclick=ev=>{const b=ev.target.closest('[data-sm]');if(!b)return;const a=b.dataset.sm;closeSheet();
+    if(a==='open'){SEC=id;render()}
+    else if(a==='ren')setTimeout(()=>{const n=(prompt('✏️ الاسم الجديد لـ «'+(sc.short||sc.name)+'»:',sc.short||sc.name)||'').trim();if(!n)return;sc.name=n;sc.short=n;save();render();toast('تم تغيير الاسم')},50);
+    else if(a==='del')setTimeout(()=>{if(S.sections.length<2){toast('لازم يبقى قسم واحد على الأقل');return}
+      if(cnt){alert('«'+(sc.short||sc.name)+'» بيه '+cnt+' منتسب. انقلهم أول لقسم ثاني من الإعدادات ← الأسماء، وبعدين احذفه.');return}
+      if(!sure('هل أنت متأكد من حذف «'+(sc.short||sc.name)+'»؟'))return;S.sections=S.sections.filter(x=>x.id!==id);if(SEC===id)SEC=S.sections[0].id;save();render();toast('تم الحذف')},50)}}
+$('tabs').addEventListener('pointerdown',e=>{const b=e.target.closest('[data-sec]');if(!b)return;SLP_DONE=false;clearTimeout(SLP_T);SLP_T=setTimeout(()=>{SLP_DONE=true;if(navigator.vibrate)navigator.vibrate(30);secMenu(b.dataset.sec)},650)});
+['pointerup','pointerleave','pointercancel'].forEach(ev=>$('tabs').addEventListener(ev,()=>clearTimeout(SLP_T)));
+$('tabs').addEventListener('pointermove',e=>{if(Math.abs(e.movementX||0)+Math.abs(e.movementY||0)>6)clearTimeout(SLP_T)});
+$('tabs').addEventListener('contextmenu',e=>{if(e.target.closest('[data-sec]'))e.preventDefault()});
+$('tabs').addEventListener('click',ev=>{if(SLP_DONE){SLP_DONE=false;return}if(ev.target.closest('[data-secadd]')){secAdd();return}const b=ev.target.closest('button');if(!b)return;if(b.dataset.sh)SH=+b.dataset.sh;if(b.dataset.sec)SEC=b.dataset.sec;render()});
 $('modeSeg').addEventListener('click',ev=>{const b=ev.target.closest('[data-mode]');if(!b)return;MODE=b.dataset.mode;try{localStorage.setItem(KEY+'_mode',MODE)}catch(e){}render()});
 function step(n){if(MODE==='duty'){M+=n;if(M<0){M=11;Y--}if(M>11){M=0;Y++}}else{WK=new Date(WK);WK.setDate(WK.getDate()+7*n)}render()}
 $('prevM').onclick=()=>step(-1);
