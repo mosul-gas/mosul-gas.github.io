@@ -340,7 +340,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 67 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 68 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -918,7 +918,7 @@ const LT_TYPES=[
  {k:'report',n:'تقرير صيانة',to:'السيد مدير المحطة المحترم',subj:'تقرير صيانة',body:'نود إعلامكم بأنه تم إنجاز أعمال الصيانة التالية '},
  {k:'free',n:'كتاب فارغ',to:'إلى/ ',subj:'',body:''}];
 let LT=null;
-function allLtTypes(){const R=S.ltNames||{};return LT_TYPES.map(t=>R[t.k]?{...t,n:R[t.k],subj:t.subj===t.n?R[t.k]:t.subj}:t).concat(S.ltCustom||[])}
+function allLtTypes(){const R=S.ltNames||{},Hd=S.ltHidden||[];return LT_TYPES.filter(t=>!Hd.includes(t.k)).map(t=>R[t.k]?{...t,n:R[t.k],subj:t.subj===t.n?R[t.k]:t.subj}:t).concat(S.ltCustom||[])}
 function ltNew(t){const T=allLtTypes().find(x=>x.k===t);if(!T)return;LT={id:'L'+Date.now(),type:T.n,to:T.to,subj:T.subj,body:T.body,names:T.names?[''] :[],namesLbl:T.namesLbl||'الأسماء',close:T.close||'مع التقدير.',created:Date.now()};ltEdit()}
 function ltEdit(){const E=$('ltEditor');E.classList.remove('hide');
   E.innerHTML=`<b style="font-family:Cairo">✏️ ${esc(LT.type)}</b>
@@ -954,12 +954,25 @@ $('ltSearch').oninput=ltArchive;
 function renderLtTypes(){$('ltTypes').innerHTML=allLtTypes().map(t=>`<button class="btn" data-lt="${t.k}"${t.custom?' data-cu="1"':''} style="position:relative;background:${t.k==='free'?'#e0ecff':t.custom?'linear-gradient(135deg,#0ea5e9,#2563eb)':'linear-gradient(135deg,#3b82f6,#6366f1)'};color:${t.k==='free'?'#1d4ed8':'#fff'};padding:9px 4px;font-size:13px">${esc(t.n)}</button>`).join('')+`<button class="btn" data-ltadd="1" style="background:#fff;border:1.5px dashed #2563eb;color:#2563eb;padding:9px 4px;font-size:13px">➕ نوع جديد</button>`}
 renderLtTypes();
 let LP_T=null,LP_DONE=false;
+function ltDelete(k){const t=allLtTypes().find(x=>x.k===k);if(!t)return;if(!sure('هل أنت متأكد من حذف نوع الكتاب «'+t.n+'»؟ (الكتب المحفوظة بالأرشيف تبقى)'))return;
+  if((S.ltCustom||[]).some(x=>x.k===k))S.ltCustom=S.ltCustom.filter(x=>x.k!==k);else{S.ltHidden=(S.ltHidden||[]).concat([k])}save();renderLtTypes();toast('تم الحذف')}
+function ltMenu(k){const t=allLtTypes().find(x=>x.k===k);if(!t)return;edit=null;const hid=(S.ltHidden||[]).length;
+  $('sheet').innerHTML=`<h3>«${esc(t.n)}»</h3><div class="sub">شنو تريد تسوي بهذا الكتاب؟</div>
+  <button class="btn pri" style="width:100%;margin-bottom:8px" data-lm="open">📄 فتح الكتاب</button>
+  <button class="btn amb" style="width:100%;margin-bottom:8px" data-lm="ren">✏️ تغيير الاسم</button>
+  <button class="btn red" style="width:100%;margin-bottom:8px" data-lm="del">🗑️ حذف هذا النوع</button>
+  ${hid?`<button class="btn gh" style="width:100%;margin-bottom:8px" data-lm="restore">↩︎ إرجاع الأنواع المحذوفة (${hid})</button>`:''}
+  <button class="btn gh" style="width:100%" data-lm="x">إلغاء</button>`;
+  $('ov').classList.add('show');
+  $('sheet').onclick=ev=>{const b=ev.target.closest('[data-lm]');if(!b)return;const a=b.dataset.lm;closeSheet();
+    if(a==='open')ltNew(k);else if(a==='ren')setTimeout(()=>ltRename(k),50);else if(a==='del')setTimeout(()=>ltDelete(k),50);
+    else if(a==='restore'){S.ltHidden=[];save();renderLtTypes();toast('رجعت الأنواع المحذوفة')}}}
 function ltRename(k){const t=allLtTypes().find(x=>x.k===k);if(!t)return;const c0=(S.ltCustom||[]).find(x=>x.k===k);
-  const r=prompt('✏️ الاسم الجديد لـ «'+t.n+'»:'+(c0?'\n(لحذف هذا النوع امسح الاسم واضغط موافق)':''),t.n);if(r===null)return;const n=r.trim();
+  const r=prompt('✏️ الاسم الجديد لـ «'+t.n+'»:',t.n);if(r===null)return;const n=r.trim();
   if(!n){if(c0&&sure('هل أنت متأكد من حذف نوع الكتاب «'+t.n+'»؟ (الكتب المحفوظة بالأرشيف تبقى)')){S.ltCustom=S.ltCustom.filter(x=>x.k!==k);save();renderLtTypes();toast('تم الحذف')}return}
   if(n===t.n)return;
   const c=(S.ltCustom||[]).find(x=>x.k===k);if(c){if(c.subj===c.n)c.subj=n;c.n=n}else{S.ltNames=S.ltNames||{};S.ltNames[k]=n}save();renderLtTypes();toast('تم تغيير الاسم إلى «'+n+'»')}
-$('ltTypes').addEventListener('pointerdown',e=>{const b=e.target.closest('[data-lt]');if(!b||e.target.closest('[data-ltdel]'))return;LP_DONE=false;clearTimeout(LP_T);LP_T=setTimeout(()=>{LP_DONE=true;if(navigator.vibrate)navigator.vibrate(30);ltRename(b.dataset.lt)},650)});
+$('ltTypes').addEventListener('pointerdown',e=>{const b=e.target.closest('[data-lt]');if(!b||e.target.closest('[data-ltdel]'))return;LP_DONE=false;clearTimeout(LP_T);LP_T=setTimeout(()=>{LP_DONE=true;if(navigator.vibrate)navigator.vibrate(30);ltMenu(b.dataset.lt)},650)});
 ['pointerup','pointerleave','pointercancel','pointermove'].forEach(ev=>$('ltTypes').addEventListener(ev,e=>{if(ev==='pointermove'&&Math.abs(e.movementX||0)+Math.abs(e.movementY||0)<6)return;clearTimeout(LP_T)}));
 $('ltTypes').addEventListener('contextmenu',e=>{if(e.target.closest('[data-lt]'))e.preventDefault()});
 $('ltTypes').onclick=e=>{if(LP_DONE){LP_DONE=false;return}
