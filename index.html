@@ -222,6 +222,12 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .daycell .dn{display:block!important;font-size:11.5px!important;color:#000!important;font-weight:800!important;direction:ltr;line-height:1.1!important}
 .allok{margin:2px auto 0!important;padding:1px 6px!important;font-size:10.5px!important;line-height:1.3!important}
 #tabs button{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.navtiles button,#modeSeg button,#tabs button:not([data-secadd]){background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;font-weight:800!important;text-shadow:0 1px 0 rgba(255,255,255,.75)!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,0 5px 9px rgba(0,0,0,.25),inset 0 1px 0 #fff!important;transition:transform .08s,box-shadow .08s!important;backdrop-filter:none!important}
+.navtiles button:active,#modeSeg button:active,#tabs button:active{transform:translateY(2px)!important;box-shadow:0 1px 0 #1f4f78,0 2px 4px rgba(0,0,0,.2),inset 0 1px 0 #fff!important}
+.navtiles button.on,#modeSeg button.on,#tabs button.on{background:linear-gradient(180deg,#fffbea 0%,#ffe89a 42%,#f7c531 52%,#ffdf70 100%)!important;border-color:#a87900!important;box-shadow:0 3px 0 #8a6200,0 5px 9px rgba(0,0,0,.25),inset 0 1px 0 #fff!important;color:#000!important}
+#modeSeg{gap:8px!important;background:transparent!important;padding:2px 0 4px!important}
+#tabs{padding-bottom:5px!important}
+#tabs button[data-secadd]{color:#fff!important;font-weight:800!important}
 </style>
 </head>
 <body>
@@ -345,7 +351,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 70 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 71 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
