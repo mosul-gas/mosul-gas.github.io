@@ -321,7 +321,7 @@ header.top{background:linear-gradient(135deg,#0ea5e9 0%,#3b82f6 55%,#7c5ce6 100%
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 48 — 18/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 49 — 18/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -839,7 +839,7 @@ $('btnCopy').onclick=()=>{
     if(dd.unM)w.push('⚠️ '+dd.unM+' من الصباحي ما مأشّر عليهم بهذا اليوم — يُحسبون داوموا. أشّري عليهم قبل الطبع.');
     if(dd.unD)w.push('⚠️ '+dd.unD+' من المناوبين ما مأشّر عليهم'+(rng?' بالأيام اللي يشملها الموقف':'')+' — يُحسبون داوموا.');
     if(!w.length)w.push('✅ الكل مأشّر عليهم، الموقف جاهز للطبع.');
-    $('dPrev').innerHTML='<div style="font-family:Cairo;font-weight:700;font-size:13px;line-height:1.7;margin-bottom:8px;color:'+(w[0][0]==='✅'?'#1A7A3F':'#9a5a00')+'">'+w.map(esc).join('<br>')+(rng?'<br><span style="color:#444">'+esc(rng.trim())+'</span>':'')+'</div><div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:6px;zoom:.55">'+dailyHTML(dd)+'</div>'};prev();$('dDate').onchange=prev;
+    $('dPrev').innerHTML='<div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:6px;zoom:.55">'+dailyHTML(dd)+'</div>'};prev();$('dDate').onchange=prev;
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-d]');if(!b)return;const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const nm='الموقف اليومي '+v;
     if(b.dataset.d==='pdf'){savePDF(dailyCanvases(dd),false,nm+'.pdf')}
     else if(b.dataset.d==='word'){if(!window.docx){toast('حدّثي الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل الوورد')})}
