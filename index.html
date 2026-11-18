@@ -315,7 +315,7 @@ header.top{background:linear-gradient(135deg,#0ea5e9 0%,#3b82f6 55%,#7c5ce6 100%
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 43 — 18/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 44 — 18/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -735,6 +735,8 @@ function sheetCanvas(sp){
   y+=2*MM;noteL.forEach(l=>{y+=10.5*PT*0.7;txt(x,l,W/2,y,'center',10.5);y+=10.5*PT*0.65});
   if(!sp.plain)drawSig(x,left,H-m,12);return c;
 }
+let WM_IMG=null,WM_BYTES=null;(function(){const im=new Image();im.onload=()=>{WM_IMG=im;try{const c=document.createElement('canvas');c.width=600;c.height=Math.round(600*im.height/im.width);const x=c.getContext('2d');x.globalAlpha=0.09;x.drawImage(im,0,0,c.width,c.height);c.toBlob(b=>b&&b.arrayBuffer().then(a=>WM_BYTES=new Uint8Array(a)),'image/png')}catch(e){}};im.src='logo-moe-t.png'})();
+function cvWatermark(x,W,H){if(!WM_IMG)return;const w=W*0.62,h=w*WM_IMG.height/WM_IMG.width;x.save();x.globalAlpha=0.09;x.drawImage(WM_IMG,(W-w)/2,(H-h)/2,w,h);x.restore()}
 function dailyCanvases(dd){
   const pages=[];const np=()=>{const r=cvPage(false);cvFrame(r[1],r[0].width,r[0].height);return r};let [c,x]=np();const W=c.width,H=c.height,m=15*MM,right=W-m,left=m,tw=right-left;let y=m+4*MM;
   uline(x,'م/ '+S.dTitle,W/2,y,'center',16);y+=16*PT*1.6;uline(x,dd.title.replace(/^م\/ /,''),W/2,y,'center',15);y+=15*PT*1.5;
@@ -748,7 +750,7 @@ function dailyCanvases(dd){
     const lg=secLegend(t.rows);if(lg.length){y+=3.5*MM;let lx=right;setF(x,10.5);lg.forEach(g=>{const tw2=x.measureText(g.name).width;if(lx-(tw2+8*MM)<left){lx=right;y+=6.5*MM;setF(x,10.5)}x.fillStyle='#'+g.col;x.fillRect(lx-5*MM,y-2*MM,5*MM,4*MM);x.strokeStyle='#000';x.lineWidth=1.5;x.strokeRect(lx-5*MM,y-2*MM,5*MM,4*MM);txt(x,g.name,lx-6.5*MM,y,'right',10.5);lx-=tw2+12*MM});y+=2*MM}
     y+=7*MM});
   if(y+sigH>H-m){pages.push(c);[c,x]=np()}
-  drawSig(x,left,H-m,13.5);pages.push(c);return pages;
+  drawSig(x,left,H-m,13.5);pages.push(c);pages.forEach(pc=>cvWatermark(pc.getContext('2d'),pc.width,pc.height));return pages;
 }
 function savePDF(pages,land,name){
   if(!window.jspdf){toast('مكتبة PDF ما اشتغلت — حدّثي الصفحة');return}
@@ -773,7 +775,7 @@ function dailyHTML(dd){
     return `<table style="width:100%;border-collapse:collapse;margin:0 0 22px;${F}font-size:13.5pt">
     <tr style="background:#${D_HEAD}"><th style="${bd}padding:5px;width:7%">ت</th><th style="${bd}padding:5px;width:45%">الاسم</th><th style="${bd}padding:5px">${t.h}</th></tr>
     ${rows.map((r,i)=>`<tr style="background:#${rowFill(r,i)}"><td style="${bd}padding:6px;text-align:center">${t.rows.length?i+1:''}</td><td style="${bd}padding:6px 10px;text-align:right">${esc(r.name)}</td><td style="${bd}padding:6px;text-align:center">${esc(r.st)}</td></tr>`).join('')}</table>${secLegend(t.rows).length?`<div style="margin:-14px 0 20px;font-size:10.5pt;display:flex;flex-wrap:wrap;gap:6px 14px">${secLegend(t.rows).map(g=>`<span><i style="display:inline-block;width:14px;height:11px;border:1px solid #000;background:#${g.col};vertical-align:middle;margin-left:4px"></i>${esc(g.name)}</span>`).join('')}</div>`:''}`};
-  return `<div style="${F}direction:rtl;color:#000;padding:2mm 2mm 0;min-height:266mm;box-sizing:border-box;display:flex;flex-direction:column">
+  return `<div style="${F}direction:rtl;color:#000;padding:2mm 2mm 0;min-height:266mm;box-sizing:border-box;display:flex;flex-direction:column;position:relative"><img src="logo-moe-t.png" alt="" style="position:absolute;left:19%;top:50%;width:62%;transform:translateY(-50%);opacity:.09;pointer-events:none;z-index:5">
   <div style="font-size:16pt;text-decoration:underline">م/ ${esc(S.dTitle)}</div>
   <div style="font-size:15pt;text-decoration:underline;margin:4px 0 14px">${esc(dd.title.replace(/^م\/ /,''))}</div>
   ${dailyTables(dd).map(tbl).join('')}
@@ -796,7 +798,8 @@ function buildDailyDocx(dd){
       ch.push(new D.Paragraph({bidirectional:false,alignment:D.AlignmentType.RIGHT,spacing:{before:80},children:kids.reverse().reduce((a,c,i,arr)=>a,kids)}))}
     ch.push(P('',{after:k?0:300}))});
   const foot=new D.Footer({children:sigLines().map(t=>P(t,{sz:26,before:30,al:D.AlignmentType.LEFT,ltr:1}))});
-  return D.Packer.toBlob(new D.Document({sections:[{properties:{page:{size:{orientation:D.PageOrientation.PORTRAIT},margin:{top:1000,bottom:2700,left:1000,right:1000,footer:650},borders:wordFrame(24)}},footers:{default:foot},children:ch}]}));
+  let head;if(WM_BYTES){const wmw=400,wmh=Math.round(400*(WM_IMG.height/WM_IMG.width));head=new D.Header({children:[new D.Paragraph({children:[new D.ImageRun({data:WM_BYTES,transformation:{width:wmw,height:wmh},floating:{horizontalPosition:{relative:D.HorizontalPositionRelativeFrom.PAGE,align:D.HorizontalPositionAlign.CENTER},verticalPosition:{relative:D.VerticalPositionRelativeFrom.PAGE,align:D.VerticalPositionAlign.CENTER},wrap:{type:D.TextWrappingType.NONE},behindDocument:false,allowOverlap:true}})]})]})}
+  return D.Packer.toBlob(new D.Document({sections:[{properties:{page:{size:{orientation:D.PageOrientation.PORTRAIT},margin:{top:1000,bottom:2700,left:1000,right:1000,footer:650},borders:wordFrame(24)}},headers:head?{default:head}:undefined,footers:{default:foot},children:ch}]}));
 }
 async function buildDailyXlsx(dd){
   const E=window.ExcelJS;const wb=new E.Workbook();const ws=wb.addWorksheet('الموقف اليومي',{views:[{rightToLeft:true}],pageSetup:{orientation:'portrait',paperSize:9,fitToPage:true,fitToWidth:1,fitToHeight:0,horizontalCentered:true}});
