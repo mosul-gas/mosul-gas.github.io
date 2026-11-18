@@ -202,6 +202,12 @@ header.top{background:linear-gradient(135deg,#0ea5e9 0%,#3b82f6 55%,#7c5ce6 100%
 .grid tbody tr:nth-child(even) td,.grid tbody tr:nth-child(even) td.namecol{background:#D9D9D9}
 .grid tbody tr td.c.p{background:var(--okbg)}.grid tbody tr td.c.a{background:var(--badbg)}.grid tbody tr td.c.l{background:var(--lvbg)}
 .grid thead th,.grid thead th.namecol{background:#A6A6A6!important;color:#000}
+.grid th.nocol,.grid td.nocol{position:sticky;right:0;z-index:3;width:30px;min-width:30px;padding:4px 2px;font-weight:800;text-align:center}
+.grid th.namecol,.grid td.namecol{right:30px!important;min-width:0!important;width:1%;padding:4px 8px!important}
+.grid thead th.nocol{z-index:4}
+.grid tbody tr:nth-child(odd) td.nocol{background:#F2F2F2}.grid tbody tr:nth-child(even) td.nocol{background:#D9D9D9}
+td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
+.grid thead th{padding:4px 3px!important}
 </style>
 </head>
 <body>
@@ -325,7 +331,7 @@ header.top{background:linear-gradient(135deg,#0ea5e9 0%,#3b82f6 55%,#7c5ce6 100%
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 50 — 18/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 51 — 18/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -456,17 +462,17 @@ function render(){
   $('limitNote').classList.toggle('hide',MODE==='duty');
   $('limitNote').textContent=S.note;
   const days=curDays(),emps=curEmps();
-  let h='<thead><tr><th class="namecol">الاسم</th>';
+  let h='<thead><tr><th class="nocol">ت</th><th class="namecol">الاسم</th>';
   days.forEach(dd=>{h+=`<th class="daycell">${DAYS[dd.w]}<span class="dn">${dd.d}/${dd.m+1}</span><button class="allok" data-all="${dd.s}">الكل داوم</button></th>`});
   h+=MODE==='duty'?'<th>ص</th><th>م</th><th>ل</th>':'<th>عدد<br>الإجازات</th>';
   h+='</tr></thead><tbody>';
-  if(!emps.length)h+=`<tr><td class="namecol" colspan="${days.length+4}" style="white-space:normal">ما بيها أسماء بعد.<br><button class="btn amb sm" style="margin-top:8px" onclick="document.getElementById('restoreFile').click()">📂 فتح ملف الأسماء</button><br><span style="font-weight:400;font-size:13px;color:var(--muted)">أو أضيفيها من الإعدادات</span></td></tr>`;
+  if(!emps.length)h+=`<tr><td class="namecol" colspan="${days.length+5}" style="white-space:normal">ما بيها أسماء بعد.<br><button class="btn amb sm" style="margin-top:8px" onclick="document.getElementById('restoreFile').click()">📂 فتح ملف الأسماء</button><br><span style="font-weight:400;font-size:13px;color:var(--muted)">أو أضيفيها من الإعدادات</span></td></tr>`;
   const upto=MODE==='day'?days[4].s:null;
   emps.forEach((e,i)=>{
     let cnt=0;
     if(MODE==='day')cnt=monthLeaves(e,days[0].y,days[0].m,days[0].m===days[4].m?upto:null);
     const over=MODE==='day'&&cnt>LEAVE_LIMIT;
-    h+=`<tr><td class="namecol${over?' over':''}"><span class="no">${i+1}</span>${esc(e.name)}</td>`;
+    h+=`<tr><td class="nocol">${i+1}</td><td class="namecol${over?' over':''}">${esc(e.name)}</td>`;
     days.forEach(dd=>{const r=S.rec[rk(dd.s,e.id)];const cls=r?r.st:'e';h+=`<td class="c ${cls}" data-d="${dd.s}" data-e="${e.id}">${r?cellShort(r):'—'}</td>`});
     if(MODE==='duty'){const n=notesOf(e,days);PARTS.forEach(p=>h+=`<td class="notes">${n[p].join('، ')}</td>`)}
     else h+=`<td class="notes cnt${over?' overc':''}">${cnt||''}</td>`;
