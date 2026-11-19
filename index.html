@@ -374,6 +374,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .pfmt button[data-pf] span{color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.35)}
 .pfmt button[data-pf] svg path:first-child{fill:#fff}
 #ltPdf{background:linear-gradient(180deg,#d84343 0%,#B71C1C 55%,#8a1414 100%)!important;border:1px solid #8a1414!important;box-shadow:0 3px 0 #8a1414,0 5px 9px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.4)!important;color:#fff!important}#ltWord{background:linear-gradient(180deg,#3a6fc4 0%,#1F4E9A 55%,#163a75 100%)!important;border:1px solid #163a75!important;box-shadow:0 3px 0 #163a75,0 5px 9px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.4)!important;color:#fff!important}
+#dPrev [contenteditable]{outline:none;cursor:text}#dPrev [contenteditable]:focus{background:#fff8d6!important;box-shadow:inset 0 0 0 2px #3b82f6}
 </style>
 </head>
 <body>
@@ -497,7 +498,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 100 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 101 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -964,7 +965,7 @@ function cvWatermark(x,W,H){if(!WM_IMG)return;const w=W*0.62,h=w*WM_IMG.height/W
 function dailyCanvases(dd){
   const pages=[];const np=()=>{const r=cvPage(false);cvFrame(r[1],r[0].width,r[0].height);return r};let [c,x]=np();const W=c.width,H=c.height,m=15*MM,right=W-m,left=m,tw=right-left;let y=m+4*MM;
   uline(x,'م/ '+S.dTitle,W/2,y,'center',16);y+=16*PT*1.6;uline(x,dd.title.replace(/^م\/ /,''),W/2,y,'center',15);y+=15*PT*1.5;
-  const ws=[tw*0.07,tw*0.45,tw*0.48],rh=9.5*MM,pt=13.5,sigH=4*13.5*PT*1.75+22*MM;
+  const ws=[tw*0.07,tw*0.38,tw*0.55],rh=9.5*MM,pt=13.5,sigH=4*13.5*PT*1.75+22*MM;
   dailyTables(dd).forEach(t=>{const rows=t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}];
     const hdr={cells:[{t:'ت'},{t:'الاسم'},{t:t.h}],fill:D_HEAD,h:rh,pt};
     if(y+2*rh>H-m){pages.push(c);[c,x]=np();y=m}
@@ -992,17 +993,18 @@ const D_HEAD='A6A6A6',D_ALT='D9D9D9',D_ROW='F2F2F2';
 const SEC_COLS=['BBD7FF','BFEBC9','FFD8A8','DCCBFF','FFC9D6','FFF0A0','B8EEF0'];
 function rowFill(r,i){return i%2?D_ALT:D_ROW}
 function secLegend(rows){return [];const seen=[];rows.forEach(r=>{if(r.sec!=null&&!seen.includes(r.sec))seen.push(r.sec)});return seen.map(i=>({name:(S.sections[i]||{}).name||'',col:SEC_COLS[i%SEC_COLS.length]}))}
+function applyEdits(dd){const T=[dd.morning,dd.duty];document.querySelectorAll('#dPrev [data-f]').forEach(el=>{const r=T[+el.dataset.t]&&T[+el.dataset.t][+el.dataset.i];if(r)r[el.dataset.f]=el.innerText.replace(/\s+/g,' ').trim()})}
 function dailyTables(dd){return [{h:'الموقف',rows:dd.morning,label:'الدوام الصباحي'},{h:'المناوبين',rows:dd.duty,label:'المناوبين'}]}
-function dailyHTML(dd){
+function dailyHTML(dd,ed){
   const F="font-family:'Simplified Arabic','Traditional Arabic',Arial,sans-serif;font-weight:800;";const bd='border:1.5px solid #000;';
-  const tbl=t=>{const rows=t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}];
+  const tbl=(t,ti)=>{const rows=t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}];const ce=(f,i)=>ed&&t.rows.length?` contenteditable="true" data-t="${ti}" data-i="${i}" data-f="${f}"`:'';
     return `<table style="width:100%;border-collapse:collapse;margin:0 0 22px;${F}font-size:13.5pt">
-    <tr style="background:#${D_HEAD}"><th style="${bd}padding:5px;width:7%">ت</th><th style="${bd}padding:5px;width:45%">الاسم</th><th style="${bd}padding:5px">${t.h}</th></tr>
-    ${rows.map((r,i)=>`<tr style="background:#${rowFill(r,i)}"><td style="${bd}padding:6px;text-align:center">${t.rows.length?i+1:''}</td><td style="${bd}padding:6px 10px;text-align:right">${esc(r.name)}</td><td style="${bd}padding:6px;text-align:center">${esc(r.st)}</td></tr>`).join('')}</table>${secLegend(t.rows).length?`<div style="margin:-14px 0 20px;font-size:10.5pt;display:flex;flex-wrap:wrap;gap:6px 14px">${secLegend(t.rows).map(g=>`<span><i style="display:inline-block;width:14px;height:11px;border:1px solid #000;background:#${g.col};vertical-align:middle;margin-left:4px"></i>${esc(g.name)}</span>`).join('')}</div>`:''}`};
+    <tr style="background:#${D_HEAD}"><th style="${bd}padding:5px;width:7%">ت</th><th style="${bd}padding:5px;width:38%">الاسم</th><th style="${bd}padding:5px">${t.h}</th></tr>
+    ${rows.map((r,i)=>`<tr style="background:#${rowFill(r,i)}"><td style="${bd}padding:6px;text-align:center">${t.rows.length?i+1:''}</td><td style="${bd}padding:6px 10px;text-align:right"${ce('name',i)}>${esc(r.name)}</td><td style="${bd}padding:6px;text-align:center"${ce('st',i)}>${esc(r.st)}</td></tr>`).join('')}</table>${secLegend(t.rows).length?`<div style="margin:-14px 0 20px;font-size:10.5pt;display:flex;flex-wrap:wrap;gap:6px 14px">${secLegend(t.rows).map(g=>`<span><i style="display:inline-block;width:14px;height:11px;border:1px solid #000;background:#${g.col};vertical-align:middle;margin-left:4px"></i>${esc(g.name)}</span>`).join('')}</div>`:''}`};
   return `<div style="${F}direction:rtl;color:#000;padding:2mm 2mm 0;min-height:266mm;box-sizing:border-box;display:flex;flex-direction:column;position:relative"><img src="logo-moe-t.png" alt="" style="position:absolute;left:19%;top:50%;width:62%;transform:translateY(-50%);opacity:.09;pointer-events:none;z-index:5">
   <div style="font-size:16pt;text-decoration:underline">م/ ${esc(S.dTitle)}</div>
   <div style="font-size:15pt;text-decoration:underline;margin:4px 0 14px">${esc(dd.title.replace(/^م\/ /,''))}</div>
-  ${dailyTables(dd).map(tbl).join('')}
+  ${dailyTables(dd).map((t,ti)=>tbl(t,ti)).join('')}
   ${sigHTML('13.5pt').replace('margin-top:22px','margin-top:auto;padding-top:22mm')}</div>`;
 }
 function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
@@ -1012,7 +1014,7 @@ function buildDailyDocx(dd){
     children:[new D.TextRun({text:'\u202B'+String(t)+'\u202C',bold:true,boldComplexScript:true,size:o.sz||27,sizeComplexScript:o.sz||27,font:{ascii:FONT,hAnsi:FONT,cs:FONT},rightToLeft:true,underline:o.u?{}:undefined})]});
   const B={style:D.BorderStyle.SINGLE,size:10,color:'000000'};const borders={top:B,bottom:B,left:B,right:B};
   const cell=(t,o={})=>new D.TableCell({borders,width:{size:o.w,type:D.WidthType.DXA},verticalAlign:D.VerticalAlign.CENTER,shading:o.fill?{fill:o.fill,type:D.ShadingType.CLEAR,color:'auto'}:undefined,margins:{top:50,bottom:50,left:100,right:100},children:[P(t,{sz:27,al:o.al||D.AlignmentType.CENTER})]});
-  const W=[650,4500,4650];
+  const W=[650,3800,5350];
   const table=t=>{const rows=t.rows.length?t.rows:[{name:'—',st:'لا يوجد'}];return new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,columnWidths:W,width:{size:9800,type:D.WidthType.DXA},
     rows:[new D.TableRow({tableHeader:true,children:[cell('ت',{w:W[0],fill:D_HEAD}),cell('الاسم',{w:W[1],fill:D_HEAD}),cell(t.h,{w:W[2],fill:D_HEAD})]}),
       ...rows.map((r,i)=>{const f=rowFill(r,i);return new D.TableRow({cantSplit:true,height:{value:420,rule:D.HeightRule.ATLEAST},children:[cell(t.rows.length?i+1:'',{w:W[0],fill:f}),cell(r.name,{w:W[1],al:D.AlignmentType.RIGHT,fill:f}),cell(r.st,{w:W[2],fill:f})]})})]})};
@@ -1043,6 +1045,7 @@ $('btnCopy').onclick=()=>{
   const def=MODE==='day'?(()=>{const t=ymd(today),w=weekDays().map(x=>x.s);return w.includes(t)?t:w[0]})():ymd(today);
   $('sheet').innerHTML=`<div class="edhead dhd"><h3 style="margin:0;white-space:nowrap">📋 الموقف اليومي</h3><label class="dlbl"><span id="dDateLbl"></span><input type="date" id="dDate" value="${def}"></label><div class="edtop"></div></div>
   <div id="dPrev" style="overflow:hidden;background:#f6f8fb;border-radius:10px;padding:6px;margin:6px 0 8px;display:flex;justify-content:center"></div>
+  <div class="hint" style="margin:-4px 0 6px;font-size:11.5px;text-align:center">✏️ اضغط على أي خانة في الورقة لتعديلها قبل الطباعة.</div>
   <div class="pfmt dfmt"><button data-d="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button><button data-d="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button><button data-d="xl"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button></div>
   <button class="btn dwa dwa2" data-d="copy" title="نسخ نصاً لواتساب"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#25D366"/><path d="M8.6 6.8c.3-.3.8-.3 1 .1l1 2c.2.3.1.7-.1 1l-.6.6c.5 1.2 1.5 2.2 2.7 2.8l.6-.6c.3-.3.7-.3 1-.1l2 1c.4.2.4.7.1 1l-.9.9c-.6.6-1.6.7-2.4.3-2.3-1.1-4.1-2.9-5.2-5.2-.4-.8-.3-1.8.3-2.4z" fill="#fff"/></svg><span>نسخ لواتساب</span></button>
   <button class="btn gh" data-d="x" style="display:none">إلغاء</button>`;
@@ -1054,9 +1057,9 @@ $('btnCopy').onclick=()=>{
     if(dd.unD)w.push('⚠️ '+dd.unD+' من المناوبين غير مؤشَّر عليهم'+(rng?' في الأيام التي يشملها الموقف':'')+' — يُحتسبون حاضرين.');
     if(!w.length)w.push('✅ تم التأشير على الجميع، والموقف جاهز للطباعة.');
     {const dt=new Date(utc(v));$('dDateLbl').textContent=DAYS[dt.getUTCDay()]+' '+dt.getUTCDate()+'/'+(dt.getUTCMonth()+1)+'/'+dt.getUTCFullYear()}
-    const pv=$('dPrev');pv.innerHTML='<div id="dPage" style="background:#fff;border:1px solid #ccc;border-radius:4px;padding:12mm 10mm;width:210mm;height:297mm;box-sizing:border-box;overflow:hidden">'+dailyHTML(dd)+'</div>';
+    const pv=$('dPrev');pv.innerHTML='<div id="dPage" style="background:#fff;border:1px solid #ccc;border-radius:4px;padding:12mm 10mm;width:210mm;height:297mm;box-sizing:border-box;overflow:hidden">'+dailyHTML(dd,true)+'</div>';
     requestAnimationFrame(()=>{const pg=$('dPage');if(!pg)return;const sh=$('sheet');const avail=window.innerHeight*0.9-(sh.scrollHeight-pv.clientHeight)-14;const W=pv.clientWidth-12;const k=Math.max(.25,Math.min(W/pg.offsetWidth,avail/pg.offsetHeight));pg.style.zoom=k})};prev();$('dDate').onchange=prev;
-  $('sheet').onclick=ev=>{const b=ev.target.closest('[data-d]');if(!b)return;const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const nm='الموقف اليومي '+v;
+  $('sheet').onclick=ev=>{const b=ev.target.closest('[data-d]');if(!b)return;const v=$('dDate').value;if(!v)return;const dd=dailyData(v);applyEdits(dd);const nm='الموقف اليومي '+v;
     if(b.dataset.d==='pdf'){savePDF(dailyCanvases(dd),false,nm+'.pdf')}
     else if(b.dataset.d==='word'){if(!window.docx){toast('يُرجى تحديث الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل ملف Word')})}
     else if(b.dataset.d==='xl'){if(!window.ExcelJS){toast('يُرجى تحديث الصفحة');return}buildDailyXlsx(dd).then(x=>{download(nm+'.xlsx',x);toast('تم تنزيل ملف Excel')})}
