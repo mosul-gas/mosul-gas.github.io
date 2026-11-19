@@ -497,7 +497,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 99 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 100 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -918,11 +918,14 @@ function dailyData(dateStr){
   /* المناوبين: من اليوم اللي بعد آخر يوم دوام لحد هذا اليوم */
   const from=new Date(prevWorkday(day));from.setDate(from.getDate()+1);
   const duty=[];
-  for(let x=new Date(from);x<=day;x.setDate(x.getDate()+1)){const ds=ymd(x);const sh=shiftOf(ds);
-    empsOf(sh).forEach(e=>{const r=S.rec[rk(ds,e.id)];if(!r){unD++;return}if(r.st==='p')return;
+  const pre=new Date(from);pre.setDate(pre.getDate()-1);
+  for(let x=new Date(pre);x<=day;x.setDate(x.getDate()+1)){const ds=ymd(x);const sh=shiftOf(ds);const isPre=x<from;
+    empsOf(sh).forEach(e=>{const r=S.rec[rk(ds,e.id)];if(!r){if(!isPre)unD++;return}if(r.st==='p')return;
+      if(isPre&&!(r.parts||[]).some(q=>q==='م'||q==='ل'))return;
       const part=partsLabel(r.parts);let t;
       if(r.st==='a')t=abName(r)+' '+part;else if(r.type==='اعتيادية')t='إجازة '+part;else t=lvName(r.type)+(r.parts&&r.parts.length<3?' '+part:'');
-      duty.push({name:e.name,st:t+' يوم '+DAYS[x.getDay()]+' '+(x.getMonth()+1)+'/'+x.getDate()})})}
+      duty.push({name:e.name,st:t+' يوم '+DAYS[x.getDay()]+' '+x.getDate()+'/'+(x.getMonth()+1)})})}
+  {const ORD=['اعتيادية','طارئة','مرضية','زمنية'];const rank=t=>{if(/غياب|موقوف/.test(t))return 90;const i=ORD.findIndex(o=>t.includes(o));return i<0?50:i};morning.sort((a,b)=>rank(a.st)-rank(b.st)||String(a.st).localeCompare(String(b.st),'ar'))}
   return {unM,unD,from:new Date(from),title:'م/ الموقف اليومي ليوم '+DAYS[day.getDay()]+' الموافق '+day.getFullYear()+'/'+(day.getMonth()+1)+'/'+day.getDate(),morning,duty};
 }
 function sigLines(){const n=new Date();return [S.dSig||'المهندس',S.dSigN||'حسين أحمد حمود',S.sigT||'ر. قسم السيطرة الذاتية',n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear()].filter(x=>x)}
