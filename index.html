@@ -382,7 +382,7 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 <div id="gate" style="display:none;position:fixed;inset:0;z-index:99999;background:linear-gradient(160deg,#0f2a5c,#1F3864 60%,#2c4f94);color:#fff;font-family:Cairo,Arial,sans-serif;direction:rtl;align-items:center;justify-content:center;text-align:center;padding:24px"><div style="max-width:330px;width:100%"><img src="logo-moe-t.png" alt="" style="width:92px;filter:drop-shadow(0 2px 6px #0006)"><div style="margin:14px 0 16px;font-size:14.5px;opacity:.9">أدخل رمز الدخول للمتابعة</div><input id="gateIn" type="password" inputmode="numeric" autocomplete="off" placeholder="رمز الدخول" style="width:100%;box-sizing:border-box;padding:13px;border-radius:12px;border:0;font-size:20px;text-align:center;letter-spacing:6px"><div id="gateErr" style="min-height:22px;margin:8px 0;color:#ffd0d0;font-size:13px"></div><button id="gateBtn" style="width:100%;padding:13px;border-radius:12px;border:0;font-size:17px;font-weight:800;background:#fff;color:#1F3864">دخول</button></div></div>
 <script>(function(){const H='2a3b3915a8af21768064aa64489967cb5f579a6e08c4a974dfc25a12621949c4',K='mawqif_gate';
 async function h(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('mawqif-salt-'+t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
-let ok=false;try{ok=localStorage.getItem(K)===H||!!localStorage.getItem('mawqif_v1');if(ok)localStorage.setItem(K,H)}catch(e){}
+let ok=false;try{ok=localStorage.getItem(K)===H||(()=>{try{const d=JSON.parse(localStorage.getItem('mawqif_v1')||'{}');return Object.keys(d.rec||{}).length>0}catch(e){return false}})();if(ok)localStorage.setItem(K,H)}catch(e){}
 if(ok)return;const g=document.getElementById('gate');g.style.display='flex';document.documentElement.style.overflow='hidden';
 const go=async()=>{const v=document.getElementById('gateIn').value.trim();let r=false;try{r=(await h(v))===H}catch(e){}
 if(r){try{localStorage.setItem(K,H)}catch(e){}g.remove();document.documentElement.style.overflow=''}else{document.getElementById('gateErr').textContent='الرمز غير صحيح';document.getElementById('gateIn').value=''}};
@@ -508,7 +508,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 104 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 105 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
