@@ -739,6 +739,17 @@ body.tbl .grid th.namecol,body.tbl .grid td.namecol{font-size:12px!important;pad
 .dres .diract{margin-top:8px}.dres .diract .btn{height:40px!important;font-size:14.5px!important}
 .dres .dedit{width:100%;margin-top:6px;height:38px;font-weight:800}
 .dres .dedit{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,inset 0 1px 0 #fff!important;color:#0b1a2e!important;border-radius:11px!important;margin-top:10px!important}
+
+/* v144 marital status, kids, ids */
+.dseg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0}
+.dseg.dseg3{grid-template-columns:1fr}
+.dseg button{height:40px;border-radius:11px;border:1px solid #3f78a3;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%);box-shadow:0 3px 0 #1f4f78,inset 0 1px 0 #fff;font-family:inherit;font-weight:800;font-size:14px;color:#0b1a2e;cursor:pointer}
+.dseg button.on{background:linear-gradient(180deg,#fff6c9 0%,#ffe27a 45%,#f5be1d 55%,#ffd75a 100%);border-color:#b98a00;box-shadow:0 3px 0 #b98a00}
+.dseg button:active{transform:translateY(2px)}
+.dkids{display:grid;grid-template-columns:1fr 54px 1fr;gap:8px;align-items:center}
+.dkids b{text-align:center;font-size:24px;color:#1F3864}
+.dkids .btn{height:40px;min-height:0;padding:0 6px;font-size:14px;font-weight:800}
+.dkids .btn{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,inset 0 1px 0 #fff!important;color:#0b1a2e!important;border-radius:11px!important}
 </style>
 </head>
 <body>
@@ -892,7 +903,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 143 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 144 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1714,13 +1725,15 @@ function renderDir(){
   $('dirClr').classList.toggle('hide',!DIRQ);
   $('dirFound').innerHTML=(q||DIRSEC||DIRTYPE)?`عدد النتائج: <b>${f.length}</b> من ${D.length}`:`إجمالي المنتسبين في القاعدة: <b>${D.length}</b>`;
   if(!D.length){$('dirList').innerHTML='<div class="card"><div class="hint" style="text-align:center">القاعدة فارغة. استخدمي «استيراد ملف القاعدة» أو «إضافة منتسب» في أسفل الصفحة.</div></div>';return}
-  if(words.length){const FL=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['phone','رقم الهاتف'],['status','الصفة'],['addrCard','السكن حسب البطاقة'],['addrNow','السكن الحالي'],['mother','اسم الأم'],['spouseAllow','المخصصات الزوجية']];
-    $('dirList').innerHTML=f.length?f.map(v=>`<div class="card dres"><div class="dresn" style="${dirStyle(v)}">${esc(v.name)}</div><table class="drest">`+FL.filter(([k])=>v[k]).map(([k,l])=>`<tr><th>${l}</th><td>${esc(v[k])}</td></tr>`).join('')+`</table><div class="diract">${v.phone?`<a class="btn dcall" href="tel:${esc(v.phone)}">اتصال</a><a class="btn dwa" target="_blank" rel="noopener" href="${dirWa(v.phone)}">واتساب</a>`:''}</div><button class="btn dedit" data-di="${v.id}">✎ فتح وتعديل البيانات</button></div>`).join(''):'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج مطابقة.</div></div>';return}
+  if(words.length){const FL=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['phone','رقم الهاتف'],['status','الصفة'],['addrCard','السكن حسب البطاقة'],['addrNow','السكن الحالي'],['mother','اسم الأم'],['_mar','الحالة الزوجية'],['_kids','عدد الأطفال (المخصصات الزوجية)'],['_ids','المستمسكات']];
+    const VV=v=>({...v,_mar:v.marital==='m'?'متزوج':v.marital==='s'?'أعزب':'',_kids:v.marital==='m'?String(+v.kids||0):'',_ids:DIR_IDS.filter(([k])=>(v.idv||{})[k]).map(([k,l])=>l+': '+v.idv[k]).join(' — ')||v.spouseAllow&&''});
+    $('dirList').innerHTML=f.length?f.map(v=>`<div class="card dres"><div class="dresn" style="${dirStyle(v)}">${esc(v.name)}</div><table class="drest">`+FL.filter(([k])=>VV(v)[k]).map(([k,l])=>`<tr><th>${l}</th><td>${esc(VV(v)[k])}</td></tr>`).join('')+`</table><div class="diract">${v.phone?`<a class="btn dcall" href="tel:${esc(v.phone)}">اتصال</a><a class="btn dwa" target="_blank" rel="noopener" href="${dirWa(v.phone)}">واتساب</a>`:''}</div><button class="btn dedit" data-di="${v.id}">✎ فتح وتعديل البيانات</button></div>`).join(''):'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج مطابقة.</div></div>';return}
   let h='';
   order.forEach(k=>{const g=f.filter(v=>dirName(v)===k);if(!g.length)return;
     h+=`<div class="card dirgrp"><h3 class="dirgh"><span>${esc(k)}</span><b>${g.length}</b></h3>`+g.map(v=>`<button class="dirrow" data-di="${v.id}"><span class="dn" style="${dirStyle(v)}">${esc(v.name)}</span><small>${esc(v.title||'')}${v.shift?' · '+esc(v.shift):''}${v.phone?' · '+esc(v.phone):''}</small></button>`).join('')+'</div>'});
   $('dirList').innerHTML=h||'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج مطابقة.</div></div>'}
 function dirWa(p){let d=String(p||'').replace(/[٠-٩]/g,x=>'٠١٢٣٤٥٦٧٨٩'.indexOf(x)).replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);else if(d.startsWith('0'))d='964'+d.slice(1);else if(d.length===10&&d[0]==='7')d='964'+d;return d?'https://wa.me/'+d:'#'}
+const DIR_IDS=[['unified','البطاقة الوطنية الموحدة'],['civil','هوية الأحوال المدنية'],['passport','جواز السفر']];
 function dirSheet(id){
   const v=(S.dir||[]).find(x=>x.id===id);if(!v)return;edit=null;
   const T=v.st=v.st||{f:'',c:'',z:'',b:0,u:0};
@@ -1736,7 +1749,12 @@ function dirSheet(id){
   ${F('addrCard','عنوان السكن حسب البطاقة')}
   ${F('addrNow','عنوان السكن الحالي')}
   ${F('mother','اسم الأم')}
-  ${F('spouseAllow','المخصصات الزوجية')}
+  <div class="lbl">الحالة الزوجية</div>
+  <div class="dseg" id="dMar"><button type="button" data-m="s" class="${v.marital==='s'?'on':''}">أعزب</button><button type="button" data-m="m" class="${v.marital==='m'?'on':''}">متزوج</button></div>
+  <div id="dKidsBox" class="${v.marital==='m'?'':'hide'}"><div class="lbl">المخصصات الزوجية — عدد الأطفال</div><div class="dkids"><button type="button" class="btn" id="kidAdd">＋ إضافة طفل</button><b id="kidN">${+v.kids||0}</b><button type="button" class="btn" id="kidDel">− حذف طفل</button></div></div>
+  <div class="lbl">المستمسكات الشخصية (اختاري ما يلزم)</div>
+  <div class="dseg dseg3" id="dIdSeg">${DIR_IDS.map(([k,l])=>`<button type="button" data-id="${k}" class="${(v.idOn||{})[k]||(v.idv||{})[k]?'on':''}">${l}</button>`).join('')}</div>
+  <div id="dIdBox"></div>
   <div class="lbl">شكل الاسم (خط / لون / حجم)</div>
   <div class="dirfmt"><select class="txt" data-s="f">${DIR_FONTS.map(x=>`<option value="${esc(x)}" ${T.f===x?'selected':''}>${esc(x||'الخط الافتراضي')}</option>`).join('')}</select>
   <select class="txt" data-s="z">${['','12','14','16','18','20','22'].map(x=>`<option value="${x}" ${String(T.z)===x?'selected':''}>${x?'حجم '+x:'الحجم'}</option>`).join('')}</select>
@@ -1748,6 +1766,14 @@ function dirSheet(id){
   sh.querySelectorAll('[data-f]').forEach(el=>{el.oninput=el.onchange=()=>{v[el.dataset.f]=el.value;if(el.dataset.f==='phone'){$('dirCall').href='tel:'+el.value;$('dirWa').href=dirWa(el.value)}upd()}});
   sh.querySelectorAll('select[data-s]').forEach(el=>{el.onchange=()=>{T[el.dataset.s]=el.value;upd()}});
   sh.querySelectorAll('button[data-s]').forEach(el=>{el.onclick=()=>{const k=el.dataset.s;T[k]=T[k]?0:1;el.classList.toggle('on',!!T[k]);upd()}});
+  v.idOn=v.idOn||{};v.idv=v.idv||{};
+  const drawIds=()=>{$('dIdBox').innerHTML=DIR_IDS.filter(([k])=>v.idOn[k]||v.idv[k]).map(([k,l])=>`<div class="lbl">رقم ${l}</div><input class="txt" data-idv="${k}" inputmode="numeric" value="${esc(v.idv[k]||'')}">`).join('');
+    $('dIdBox').querySelectorAll('[data-idv]').forEach(el=>{el.oninput=()=>{v.idv[el.dataset.idv]=el.value;upd()}})};
+  drawIds();
+  $('dIdSeg').onclick=e=>{const b=e.target.closest('[data-id]');if(!b)return;const k=b.dataset.id;v.idOn[k]=!(v.idOn[k]||v.idv[k]);if(!v.idOn[k])v.idv[k]='';b.classList.toggle('on',!!v.idOn[k]);drawIds();upd()};
+  $('dMar').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;v.marital=b.dataset.m;sh.querySelectorAll('#dMar button').forEach(x=>x.classList.toggle('on',x===b));$('dKidsBox').classList.toggle('hide',v.marital!=='m');if(v.marital!=='m')v.kids=0,$('kidN').textContent=0;upd()};
+  $('kidAdd').onclick=()=>{v.kids=(+v.kids||0)+1;$('kidN').textContent=v.kids;upd()};
+  $('kidDel').onclick=()=>{v.kids=Math.max(0,(+v.kids||0)-1);$('kidN').textContent=v.kids;upd()};
   $('dcolBtn').onclick=()=>$('dcolList').classList.toggle('hide');
   sh.querySelectorAll('.dcol').forEach(el=>{el.onclick=()=>{T.c=el.dataset.c;sh.querySelectorAll('.dcol').forEach(x=>x.classList.toggle('on',x===el));$('dcsw').style.background=T.c||'#fff';$('dcolList').classList.add('hide');upd()}});
   $('dirX').onclick=()=>closeSheet();
@@ -2109,6 +2135,11 @@ render();
  if(inApp||(!standalone&&/iPhone|iPad/.test(ua))){const d=document.createElement('div');d.className='warnbar';
   d.innerHTML=inApp?'⚠️ الأداة مفتوحة من داخل واتساب أو ماسنجر، ولن تُحفظ التأشيرات. يُرجى فتحها من <b>Safari</b> وإضافتها إلى الشاشة الرئيسية، ثم فتحها دائماً من الأيقونة.':'💡 لضمان حفظ العمل دائماً: زر المشاركة ⬆️ ← «إضافة إلى الشاشة الرئيسية»، ثم افتح الأداة دائماً من الأيقونة.';
   document.getElementById('viewMain').prepend(d)}})();
+(function(){const CUR=(document.body.textContent.match(/نسخة الأداة: (\d+)/)||[])[1];if(!CUR||location.protocol!=='https:')return;let busy=false;
+  async function chk(){if(busy)return;busy=true;try{const r=await fetch('index.html?_='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/نسخة الأداة: (\d+)/);
+    if(m&&m[1]!==CUR){const open=$('ov').classList.contains('show')||(typeof LT!=='undefined'&&LT&&!$('ltEditor').classList.contains('hide'));if(open){toast('يتوفر تحديث جديد — سيُطبَّق عند إغلاق النافذة');setTimeout(()=>{busy=false},20000);return}
+      toast('جارٍ تحديث الأداة إلى النسخة '+m[1]);setTimeout(()=>location.reload(),900);return}}catch(e){}busy=false}
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});setInterval(chk,120000);setTimeout(chk,4000)})();
 if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{})}
 })();
 
