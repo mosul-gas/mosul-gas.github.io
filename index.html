@@ -426,6 +426,34 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 .pfmt button[data-pf=excel],.pfmt button[data-d=excel]{background:linear-gradient(180deg,#4fb877 0%,#23894f 52%,#17683a 100%)!important;box-shadow:0 4px 0 #0e4a28,0 8px 12px rgba(14,74,40,.35),inset 0 1px 0 rgba(255,255,255,.6)!important}
 .pfmt button:active{box-shadow:0 1px 0 rgba(0,0,0,.4),0 2px 4px rgba(0,0,0,.25)!important}
 .pfmt button[data-d] span{color:#fff!important}
+/* v115: period label + calendar picker */
+.monthbar b{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;flex:1;text-align:center;cursor:pointer;padding:6px 0}
+.calhead{display:flex;align-items:center;justify-content:space-between;margin:6px 0 8px}.calhead b{font-size:18px;color:#1F3864}
+.calhead button{width:42px;height:38px;border-radius:12px;font-size:22px;border:1px solid #3f78a3;background:linear-gradient(180deg,#f7fcff,#d6eefa 42%,#9ccbe8 52%,#c4e4f6);box-shadow:0 3px 0 #1f4f78,0 5px 8px rgba(0,0,0,.18),inset 0 1px 0 #fff;color:#0b1a2e;font-weight:800}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;direction:rtl;text-align:center}
+.calw{font-style:normal;font-weight:800;color:#1F3864;font-size:13px;padding:4px 0}
+.cald{height:40px;border-radius:11px;border:1px solid #9ccbe8;background:linear-gradient(180deg,#fff,#e4f3fc);color:#0b1a2e;font-weight:800;font-size:15px;box-shadow:0 2px 0 #7fb2d6;font-family:inherit}
+.cald.wk{color:#8a95a8}.cald.td{outline:2px solid #1F3864;outline-offset:-2px}
+.cald.mid{background:linear-gradient(180deg,#fff3b8,#ffe27a);border-color:#e0b020;box-shadow:0 2px 0 #c99a10}
+.cald.st,.cald.en{background:linear-gradient(180deg,#fffbea 0%,#ffe89a 42%,#f7c531 52%,#ffdf70 100%);border:1px solid #fff;box-shadow:0 3px 0 #b98a00,0 4px 8px rgba(0,0,0,.2);color:#000}
+.calsum{margin:12px 0 8px;text-align:center;font-weight:800;color:#1F3864;font-size:14.5px}
+.calq{display:flex;gap:8px;margin-bottom:10px}.calq button{flex:1;padding:9px 2px;font-size:13px;font-weight:800;border-radius:12px;border:1px solid #3f78a3;background:linear-gradient(180deg,#f7fcff,#d6eefa 42%,#9ccbe8 52%,#c4e4f6);box-shadow:0 3px 0 #1f4f78,0 5px 8px rgba(0,0,0,.18),inset 0 1px 0 #fff;color:#0b1a2e;font-family:inherit}
+.calq button:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78}
+.calact{display:flex;gap:10px}.calact .btn{flex:1}
+/* v115b: luxury 3D table headers, sky/yellow rows */
+.grid thead th,.grid thead th.namecol,.grid thead th.nocol{background:linear-gradient(180deg,#5fb8f0 0%,#2f7fd6 48%,#1d5fb5 52%,#2f7fd6 100%)!important;color:#fff!important;border:1px solid #0f3a73!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.55),inset 0 -3px 0 rgba(8,38,90,.45)!important;text-shadow:0 1px 2px rgba(0,0,0,.45)!important;font-weight:900!important}
+.grid thead th.daycell{background:linear-gradient(180deg,#fffbea 0%,#ffe89a 42%,#f7c531 52%,#ffdf70 100%)!important;color:#000!important;border:1px solid #a87900!important;box-shadow:inset 0 2px 0 #fff,inset 0 -3px 0 rgba(138,98,0,.5)!important;text-shadow:0 1px 0 rgba(255,255,255,.7)!important}
+.grid thead th.daycell,.grid thead th.daycell .dn{color:#000!important}
+.grid tbody tr:nth-child(odd) td,.grid tbody tr:nth-child(odd) td.namecol,.grid tbody tr:nth-child(odd) td.nocol{background:linear-gradient(180deg,#f4fbff,#dff1fc)!important}
+.grid tbody tr:nth-child(even) td,.grid tbody tr:nth-child(even) td.namecol,.grid tbody tr:nth-child(even) td.nocol{background:linear-gradient(180deg,#b9dcf3,#9fcbea)!important}
+.grid tbody tr td.c.p{background:#fff!important}
+.grid tbody tr td.c.a{background:#F6CFCF!important}.grid tbody tr td.c.l{background:#FFE98A!important}
+/* v115c: back button */
+.backbtn{width:auto!important;min-width:92px;height:42px!important;padding:0 16px 0 14px;display:flex!important;align-items:center;justify-content:center;gap:7px;border-radius:14px!important;font-family:Cairo,inherit;font-size:16px;font-weight:900;cursor:pointer;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;border:1px solid #3f78a3!important;box-shadow:0 4px 0 #1f4f78,0 6px 10px rgba(0,0,0,.22),inset 0 1px 0 #fff!important}
+.backbtn b{font-weight:900;color:#0b1a2e;text-shadow:0 1px 0 rgba(255,255,255,.75)}
+.backbtn svg{filter:drop-shadow(0 1.5px 0 rgba(10,30,70,.45))}
+.backbtn:active{transform:translateY(3px);box-shadow:0 1px 0 #1f4f78,0 2px 4px rgba(0,0,0,.2)!important}
+#viewLetters .setbar{margin:0 0 10px}
 </style>
 </head>
 <body>
@@ -491,6 +519,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   <div class="dfoot" id="dVer"></div>
 </aside>
 <main id="viewLetters" class="hide">
+  <div class="setbar"><button id="ltBack" class="backbtn" aria-label="رجوع"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><b>رجوع</b></button><span>الكتب الرسمية</span></div>
   <div class="card">
     <h3 style="margin:0 0 4px;font-family:Cairo">📚 الكتب الرسمية</h3>
     <div id="ltTypes" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
@@ -507,10 +536,9 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <div style="display:flex;gap:8px;align-items:center"><img id="ltLogoPrev" style="height:54px;display:none;border:1px solid #ddd;border-radius:6px"><label class="btn gh" style="flex:1">🖼️ اختيار صورة الشعار<input type="file" id="ltLogoFile" accept="image/*" class="hide"></label></div>
     <button class="btn gh" id="ltLogoReset" style="width:100%;margin-top:6px;font-size:13px">↩︎ رجوع للشعار الرسمي</button>
   </div>
-  <button class="btn gh" id="ltBack" style="width:100%;margin-bottom:20px">⬅︎ رجوع للموقف</button>
 </main>
 <main id="viewSettings" class="hide">
-  <div class="setbar"><button id="backTop" aria-label="رجوع للموقف" title="رجوع للموقف"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button><span>الإعدادات</span></div>
+  <div class="setbar"><button id="backTop" class="backbtn" aria-label="رجوع"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><b>رجوع</b></button><span>الإعدادات</span></div>
   <div class="card">
     <h2 class="sec">ترويسة الورقة</h2>
     <div class="lbl">السطر الأول</div><input class="txt" id="h1">
@@ -560,8 +588,8 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     </div>
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
-  <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 114 — 19/11/2026</p>
+  <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 115 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -623,7 +651,7 @@ const today=new Date();
 let MODE='duty';
 try{MODE=localStorage.getItem(KEY+'_mode')||'duty'}catch(e){}
 let Y=today.getFullYear(),M=today.getMonth(),SH,SET_SH=1,SET_SEC=null;
-let WK=sundayOf(today),SEC=S.sections[0].id;
+let WK=sundayOf(today),SEC=S.sections[0].id,RNG=null;
 
 function pad(n){return String(n).padStart(2,'0')}
 function ymd(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
@@ -631,8 +659,14 @@ function utc(s){const [a,b,c]=s.split('-').map(Number);return Date.UTC(a,b-1,c)}
 function sundayOf(d){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()-x.getDay());return x}
 function shiftOf(s){const diff=Math.round((utc(s)-utc(S.anchor))/864e5);return (((S.anchorShift-1+diff)%4)+4)%4+1}
 SH=shiftOf(ymd(today));
-function dutyDays(y,m,sh){const out=[];const last=new Date(y,m+1,0).getDate();for(let d=1;d<=last;d++){const s=y+'-'+pad(m+1)+'-'+pad(d);if(shiftOf(s)===sh)out.push({s,d,m,y,w:new Date(y,m,d).getDay()})}return out}
-function weekDays(){const out=[];for(let i=0;i<5;i++){const x=new Date(WK);x.setDate(x.getDate()+i);out.push({s:ymd(x),d:x.getDate(),m:x.getMonth(),y:x.getFullYear(),w:x.getDay()})}return out}
+function viewRange(){if(RNG)return RNG;const a=new Date(WK);const b=new Date(WK);b.setDate(b.getDate()+(MODE==='duty'?6:4));return {a,b}}
+function rangeLabel(a,b){const A={d:a.getDate(),m:a.getMonth(),y:a.getFullYear()},B={d:b.getDate(),m:b.getMonth(),y:b.getFullYear()};
+  if(A.d===B.d&&A.m===B.m&&A.y===B.y)return A.d+' '+MONTHS[A.m]+' '+A.y;
+  if(A.m===B.m&&A.y===B.y)return A.d+' – '+B.d+' '+MONTHS[A.m]+' '+A.y;
+  return A.d+' '+MONTHS[A.m]+(A.y!==B.y?' '+A.y:'')+' – '+B.d+' '+MONTHS[B.m]+' '+B.y}
+function dutyDays(y,m,sh){const r=viewRange(),out=[];for(let x=new Date(r.a);x<=r.b;x.setDate(x.getDate()+1)){const s=ymd(x);if(shiftOf(s)===sh)out.push({s,d:x.getDate(),m:x.getMonth(),y:x.getFullYear(),w:x.getDay()})}return out}
+function dutyDaysOld(y,m,sh){const out=[];const last=new Date(y,m+1,0).getDate();for(let d=1;d<=last;d++){const s=y+'-'+pad(m+1)+'-'+pad(d);if(shiftOf(s)===sh)out.push({s,d,m,y,w:new Date(y,m,d).getDay()})}return out}
+function weekDays(){const r=viewRange(),out=[];for(let x=new Date(r.a);x<=r.b;x.setDate(x.getDate()+1)){if(x.getDay()>4)continue;out.push({s:ymd(x),d:x.getDate(),m:x.getMonth(),y:x.getFullYear(),w:x.getDay()})}if(!out.length){const x=new Date(r.a);out.push({s:ymd(x),d:x.getDate(),m:x.getMonth(),y:x.getFullYear(),w:x.getDay()})}return out}
 function empsOf(sh){return S.emps.filter(e=>e.shift===sh)}
 function empsSec(id){return S.emps.filter(e=>e.sec===id)}
 function curEmps(){return MODE==='duty'?empsOf(SH):empsSec(SEC)}
@@ -680,12 +714,11 @@ function render(){
   document.querySelectorAll('#modeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.mode===MODE));
   $('appTitle').textContent=(S.h3||'محطة كهرباء الموصل الغازية').replace(/^محطة كهرباء/,'محطة كهرباء');
   if(MODE==='duty'){
-    $('monthLbl').textContent=MONTHS[M]+' '+Y;
+    {const r=viewRange();$('monthLbl').textContent=rangeLabel(r.a,r.b)}
     $('tabs').className='tabs';
     $('tabs').innerHTML=[1,2,3,4].map(i=>`<button class="${i===SH?'on':''}" data-sh="${i}">${SHIFT[i]}</button>`).join('');
   }else{
-    const d=weekDays(),a=d[0],b=d[4];
-    $('monthLbl').textContent=a.m===b.m?`${a.d} – ${b.d} ${MONTHS[a.m]} ${a.y}`:`${a.d} ${MONTHS[a.m]} – ${b.d} ${MONTHS[b.m]} ${b.y}`;
+    {const r=viewRange();$('monthLbl').textContent=rangeLabel(r.a,r.b)}
     $('tabs').className='tabs secs';
     $('tabs').innerHTML=S.sections.map(s=>`<button class="${s.id===SEC?'on':''}" data-sec="${s.id}">${esc(s.short||s.name)}</button>`).join('')+`<button data-secadd="1" style="border:1.5px dashed rgba(255,255,255,.8)!important;background:transparent">➕ إضافة</button>`;
   }
@@ -698,10 +731,10 @@ function render(){
   h+=MODE==='duty'?'<th>ص</th><th>م</th><th>ل</th>':'<th>عدد<br>الإجازات</th>';
   h+='</tr></thead><tbody>';
   if(!emps.length)h+=`<tr><td class="namecol" colspan="${days.length+5}" style="white-space:normal">لا توجد أسماء بعد.<br><button class="btn amb sm" style="margin-top:8px" onclick="document.getElementById('restoreFile').click()">📂 فتح ملف الأسماء</button><br><span style="font-weight:400;font-size:13px;color:var(--muted)">أو أضفها من الإعدادات</span></td></tr>`;
-  const upto=MODE==='day'?days[4].s:null;
+  const upto=MODE==='day'?days[days.length-1].s:null;
   emps.forEach((e,i)=>{
     let cnt=0;
-    if(MODE==='day')cnt=monthLeaves(e,days[0].y,days[0].m,days[0].m===days[4].m?upto:null);
+    if(MODE==='day')cnt=monthLeaves(e,days[0].y,days[0].m,days[0].m===days[days.length-1].m?upto:null);
     const over=MODE==='day'&&cnt>LEAVE_LIMIT;
     h+=`<tr><td class="nocol">${i+1}</td><td class="namecol${over?' over':''}">${esc(e.name)}</td>`;
     days.forEach(dd=>{const r=S.rec[rk(dd.s,e.id)];const cls=r?r.st:'e';h+=`<td class="c ${cls}" data-d="${dd.s}" data-e="${e.id}">${r?cellShort(r):'—'}</td>`});
@@ -809,20 +842,56 @@ $('tabs').addEventListener('pointermove',e=>{if(Math.abs(e.movementX||0)+Math.ab
 $('tabs').addEventListener('contextmenu',e=>{if(e.target.closest('[data-sec]'))e.preventDefault()});
 $('tabs').addEventListener('click',ev=>{if(SLP_DONE){SLP_DONE=false;return}if(ev.target.closest('[data-secadd]')){secAdd();return}const b=ev.target.closest('button');if(!b)return;if(b.dataset.sh)SH=+b.dataset.sh;if(b.dataset.sec)SEC=b.dataset.sec;render()});
 $('modeSeg').addEventListener('click',ev=>{const b=ev.target.closest('[data-mode]');if(!b)return;MODE=b.dataset.mode;try{localStorage.setItem(KEY+'_mode',MODE)}catch(e){}render()});
-function step(n){if(MODE==='duty'){M+=n;if(M<0){M=11;Y--}if(M>11){M=0;Y++}}else{WK=new Date(WK);WK.setDate(WK.getDate()+7*n)}render()}
+function step(n){if(RNG){const span=Math.round((RNG.b-RNG.a)/864e5)+1;const a=new Date(RNG.a),b=new Date(RNG.b);a.setDate(a.getDate()+span*n);b.setDate(b.getDate()+span*n);RNG={a,b};WK=sundayOf(a)}else{WK=new Date(WK);WK.setDate(WK.getDate()+7*n)}{const r=viewRange();Y=r.a.getFullYear();M=r.a.getMonth()}render()}
 $('prevM').onclick=()=>step(-1);
 $('nextM').onclick=()=>step(1);
+
+/* ---------- calendar range picker (long-press on the period label) ---------- */
+(function(){let T=null,done=false,cm,cy,sa=null,sb=null;
+function dstr(d){return ymd(d)}
+function draw(){const first=new Date(cy,cm,1),n=new Date(cy,cm+1,0).getDate();let h='';
+  const a=sa&&sb?(sa<=sb?sa:sb):sa,b=sa&&sb?(sa<=sb?sb:sa):sa;
+  h+=`<div class="calhead"><button data-cn="1" aria-label="الشهر التالي">‹</button><b>${MONTHS[cm]} ${cy}</b><button data-cn="-1" aria-label="الشهر السابق">›</button></div><div class="calgrid">`;
+  ['ح','ن','ث','ر','خ','ج','س'].forEach(x=>h+=`<i class="calw">${x}</i>`);
+  for(let i=0;i<first.getDay();i++)h+='<i></i>';
+  for(let d=1;d<=n;d++){const x=new Date(cy,cm,d),k=dstr(x);let c='';if(a&&k===a)c+=' st';if(b&&k===b)c+=' en';if(a&&b&&k>a&&k<b)c+=' mid';if(k===dstr(today))c+=' td';if(x.getDay()>4)c+=' wk';
+    h+=`<button class="cald${c}" data-cd="${k}">${d}</button>`}
+  h+='</div>';
+  const lbl=a?(b&&b!==a?rangeLabel(new Date(utc(a)+(new Date().getTimezoneOffset()*0)),new Date(utc(b))).replace(/ – /g,' إلى '):'اختر يوم النهاية'):'اختر يوم البداية';
+  h+=`<div class="calsum">${a&&b&&a!==b?'من '+rangeLabel(pd(a),pd(b)).replace(' – ',' إلى '):(a?'البداية: '+pd(a).getDate()+' '+MONTHS[pd(a).getMonth()]+' — اضغط يوم النهاية':'اضغط يوم البداية ثم يوم النهاية')}</div>
+  <div class="calq"><button data-q="week">هذا الأسبوع</button><button data-q="month">هذا الشهر كاملاً</button><button data-q="reset">رجوع للأسبوع</button></div>
+  <div class="calact"><button class="btn gh" data-ca="x">إلغاء</button><button class="btn pri" data-ca="ok">تطبيق</button></div>`;
+  $('sheet').innerHTML='<h3>اختيار فترة</h3>'+h}
+function pd(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d)}
+function openCal(){edit=null;const r=viewRange();cy=r.a.getFullYear();cm=r.a.getMonth();sa=ymd(r.a);sb=ymd(r.b);draw();$('ov').classList.add('show');
+  $('sheet').onclick=ev=>{const b=ev.target.closest('button');if(!b)return;
+    if(b.dataset.cn){cm+=+b.dataset.cn;if(cm<0){cm=11;cy--}if(cm>11){cm=0;cy++}draw();return}
+    if(b.dataset.cd){if(sa&&!sb){sb=b.dataset.cd}else{sa=b.dataset.cd;sb=null}draw();return}
+    if(b.dataset.q){const t=new Date(today);if(b.dataset.q==='week'){const a=sundayOf(t),z=new Date(a);z.setDate(z.getDate()+(MODE==='duty'?6:4));sa=ymd(a);sb=ymd(z)}
+      else if(b.dataset.q==='month'){sa=ymd(new Date(cy,cm,1));sb=ymd(new Date(cy,cm+1,0))}
+      else{RNG=null;WK=sundayOf(today);$('sheet').onclick=null;closeSheet();render();return}
+      draw();return}
+    if(b.dataset.ca==='x'){$('sheet').onclick=null;closeSheet();return}
+    if(b.dataset.ca==='ok'){let a=sa,z=sb||sa;if(!a){toast('اختر يوم البداية');return}if(a>z){const t=a;a=z;z=t}
+      if((utc(z)-utc(a))/864e5>92){toast('الحد الأقصى للفترة ثلاثة أشهر');return}
+      RNG={a:pd(a),b:pd(z)};WK=sundayOf(RNG.a);Y=RNG.a.getFullYear();M=RNG.a.getMonth();$('sheet').onclick=null;closeSheet();render()}}}
+const L=$('monthLbl');
+L.addEventListener('pointerdown',()=>{done=false;clearTimeout(T);T=setTimeout(()=>{done=true;if(navigator.vibrate)navigator.vibrate(30);openCal()},600)});
+['pointerup','pointerleave','pointercancel'].forEach(ev=>L.addEventListener(ev,()=>clearTimeout(T)));
+L.addEventListener('contextmenu',e=>e.preventDefault());
+L.addEventListener('click',()=>{if(done){done=false}});
+})();
 
 /* ---------- report spec (shared by print & word) ---------- */
 function specDuty(sh){
   const days=dutyDays(Y,M,sh),emps=empsOf(sh);
-  return {plain:true,title:'موقف الوجبة '+SHIFT[sh]+' لشهر '+MONTHS[M]+' '+Y,
+  return {plain:true,title:'موقف الوجبة '+SHIFT[sh]+' — '+(()=>{const r=viewRange();return rangeLabel(r.a,r.b)})(),
     heads:days.map(dd=>DAYS[dd.w]+' /'+dd.d),tail:PARTS.slice(),note:'',
     rows:emps.map(e=>{const n=notesOf(e,days);return {name:e.name,cells:days.map(dd=>cellInfo(S.rec[rk(dd.s,e.id)])),tail:PARTS.map(p=>n[p].join('، '))}})};
 }
 function specDay(secId){
   const days=weekDays(),emps=empsSec(secId),sec=secById(secId);
-  const upto=days[0].m===days[4].m?days[4].s:null;
+  const upto=days[0].m===days[days.length-1].m?days[days.length-1].s:null;
   return {plain:true,title:'أسماء منتسبي '+sec.name,
     heads:days.map(dd=>DAYS[dd.w]+'\n'+dateLbl(dd)),tail:['عدد الإجازات'],note:S.note,
     rows:emps.map(e=>{const c=monthLeaves(e,days[0].y,days[0].m,upto);return {name:e.name,cells:days.map(dd=>cellInfo(S.rec[rk(dd.s,e.id)])),tail:[c?String(c):''],over:c>LEAVE_LIMIT}})};
@@ -859,8 +928,7 @@ function scopeName(all){
   return all?'الشعب':secById(SEC).name;
 }
 function periodName(){
-  if(MODE==='duty')return MONTHS[M]+' '+Y;
-  const d=weekDays();return 'أسبوع '+d[0].d+'-'+(d[0].m+1)+' '+d[0].y;
+  const r=viewRange();return rangeLabel(r.a,r.b).replace(/ – /g,' إلى ').replace(/\s+/g,' ');
 }
 function chooseScope(cb){
   edit=null;
@@ -874,10 +942,10 @@ function chooseScope(cb){
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-scope]');if(!b)return;$('sheet').onclick=null;closeSheet();if(b.dataset.scope!=='x')cb(b.dataset.scope==='all')};
 }
 function readySpecs(kind){
-  const sv={MODE,WK,Y,M};
+  const sv={MODE,WK,Y,M,RNG};RNG=null;
   try{if(kind==='week'){MODE='day';const n=new Date(sundayOf(today));n.setDate(n.getDate()+7);WK=n;return {specs:curSpecs(true),name:'دوام صباحي '+periodName(),land:true}}
-    MODE='duty';M=today.getMonth()+1;Y=today.getFullYear();if(M>11){M=0;Y++}return {specs:curSpecs(true),name:'موقف المناوبين '+periodName()}}
-  finally{MODE=sv.MODE;WK=sv.WK;Y=sv.Y;M=sv.M}
+    MODE='duty';M=today.getMonth()+1;Y=today.getFullYear();if(M>11){M=0;Y++}RNG={a:new Date(Y,M,1),b:new Date(Y,M+1,0)};return {specs:curSpecs(true),name:'موقف المناوبين '+periodName()}}
+  finally{MODE=sv.MODE;WK=sv.WK;Y=sv.Y;M=sv.M;RNG=sv.RNG}
 }
 $('btnReady').onclick=()=>{
   edit=null;const n=new Date(sundayOf(today));n.setDate(n.getDate()+7);const nm=new Date(today.getFullYear(),today.getMonth()+1,1);
