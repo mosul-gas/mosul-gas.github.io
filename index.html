@@ -454,6 +454,12 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 .backbtn svg{filter:drop-shadow(0 1.5px 0 rgba(10,30,70,.45))}
 .backbtn:active{transform:translateY(3px);box-shadow:0 1px 0 #1f4f78,0 2px 4px rgba(0,0,0,.2)!important}
 #viewLetters .setbar{margin:0 0 10px}
+/* v116: roomier letter editor */
+#ltBody{min-height:360px!important;padding:14px!important;line-height:1.9!important;font-size:16px!important}
+#ltNames{min-height:130px!important}
+#ltCancel{margin-top:14px!important}
+#viewLetters{padding-bottom:calc(60px + env(safe-area-inset-bottom))}
+#ltPdf,#ltWord{min-height:48px}
 </style>
 </head>
 <body>
@@ -589,7 +595,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 115 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 116 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1261,10 +1267,11 @@ function ltEdit(){const E=$('ltEditor');E.classList.remove('hide');
   E.innerHTML=`<b style="font-family:Cairo">✏️ ${esc(LT.type)}</b>
   <div class="lbl">الجهة (إلى)</div><input class="txt" id="ltTo" value="${esc(LT.to)}">
   <div class="lbl">الموضوع (م/)</div><input class="txt" id="ltSubj" value="${esc(LT.subj)}" placeholder="مثال: إجابة">
-  <div class="lbl">نص الكتاب</div><textarea class="txt" id="ltBody" rows="6" style="resize:vertical;line-height:1.7;width:100%;box-sizing:border-box;font-family:inherit;font-size:15px">${esc(LT.body)}</textarea>
-  <div class="lbl">${esc(LT.namesLbl)} (اختياري — اسم في كل سطر)</div><textarea class="txt" id="ltNames" rows="4" style="width:100%;box-sizing:border-box;font-family:inherit;font-size:15px" placeholder="م. حسين احمد حمود">${esc((LT.names||[]).join('\n'))}</textarea>
+  <div class="lbl">نص الكتاب</div><textarea class="txt" id="ltBody" rows="14" style="resize:vertical;line-height:1.7;width:100%;box-sizing:border-box;font-family:inherit;font-size:15px">${esc(LT.body)}</textarea>
+  <div class="lbl">${esc(LT.namesLbl)} (اختياري — اسم في كل سطر)</div><textarea class="txt" id="ltNames" rows="5" style="width:100%;box-sizing:border-box;font-family:inherit;font-size:15px" placeholder="م. حسين احمد حمود">${esc((LT.names||[]).join('\n'))}</textarea>
   <div class="lbl">الخاتمة</div><input class="txt" id="ltClose" value="${esc(LT.close)}">
-  <div class="row2" style="margin-top:10px"><button class="btn" id="ltPdf" style="background:#C62828;color:#fff">🖨️ طباعة PDF</button><button class="btn" id="ltWord" style="background:#2B579A;color:#fff">📄 طباعة Word</button></div><button class="btn gh" id="ltCancel" style="width:100%;margin-top:8px">إغلاق</button>`;
+  <div class="row2" style="margin-top:34px"><button class="btn" id="ltPdf" style="background:#C62828;color:#fff">🖨️ طباعة PDF</button><button class="btn" id="ltWord" style="background:#2B579A;color:#fff">📄 طباعة Word</button></div><button class="btn gh" id="ltCancel" style="width:100%;margin-top:8px">إغلاق</button>`;
+  {const g=el=>{el.style.height='auto';el.style.height=Math.max(el.scrollHeight+6,el.id==='ltBody'?360:130)+'px'};['ltBody','ltNames'].forEach(i=>{const el=$(i);g(el);el.addEventListener('input',()=>g(el))})}
   const rd=()=>{LT.to=$('ltTo').value;LT.subj=$('ltSubj').value;LT.body=$('ltBody').value;LT.names=$('ltNames').value.split('\n').map(x=>x.trim()).filter(Boolean);LT.close=$('ltClose').value};
   $('ltCancel').onclick=()=>{E.classList.add('hide');LT=null};
   $('ltPdf').onclick=()=>{rd();if(!LT.subj.trim()&&!LT.body.trim()){toast('اكتب الموضوع أو النص');return}
