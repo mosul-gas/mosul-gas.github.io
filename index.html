@@ -489,6 +489,13 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 .daysum:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78,0 2px 4px rgba(0,0,0,.18),inset 0 1px 0 #fff}
 .daysum b{font-weight:900;text-shadow:0 1px 0 rgba(255,255,255,.8)}
 .daysum .tag{padding:0 5px;margin:1px;border-radius:6px;font-size:11.5px;box-shadow:0 1px 0 rgba(0,0,0,.25)}
+/* v119: subpage bar: title tile (gold) with back button inside, no other header tiles */
+.subbar{display:none}
+.subpage .subbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;padding:6px 8px 6px 6px;border-radius:14px;background:linear-gradient(180deg,#fffbea 0%,#ffe89a 42%,#f7c531 52%,#ffdf70 100%);border:1px solid #fff;box-shadow:0 4px 0 #b98a00,0 6px 10px rgba(0,0,0,.25),inset 0 1px 0 #fff}
+.subpage .subbar span{font-family:Cairo,inherit;font-weight:900;font-size:19px;color:#000;padding-right:10px;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.subpage .subbar .backbtn{height:38px!important;min-width:84px;font-size:15px}
+.subpage .setbar{display:none!important}
+.subpage .modeseg,.subpage .monthbar,.subpage .tabs{display:none!important}
 </style>
 </head>
 <body>
@@ -514,6 +521,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <b id="monthLbl"></b>
     <button id="nextM" aria-label="الشهر التالي">‹</button>
   </div>
+  <div class="subbar" id="subBar"><span id="subTitle"></span><button id="subBack" class="backbtn" aria-label="رجوع"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><b>رجوع</b></button></div>
   <div class="modeseg" id="modeSeg"><button data-mode="duty">المناوبين</button><button data-mode="day">الدوام الصباحي</button></div>
   <div class="tabs" id="tabs"></div>
 </header>
@@ -625,7 +633,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 118 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 119 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1411,9 +1419,11 @@ $('btnLetters').onclick=()=>showLetters(true);
 $('btnMawqif').onclick=()=>{if(!$('viewSettings').classList.contains('hide'))showSettings(false);else showLetters(false)};
 function navOn(){const L=!$('viewLetters').classList.contains('hide'),St=!$('viewSettings').classList.contains('hide');
   document.body.classList.toggle('subpage',L||St);
+  {const t=$('subTitle');if(t)t.textContent=L?'الكتب الرسمية':St?'الإعدادات':''}
   [['btnMawqif',!L&&!St],['btnLetters',L],['btnSettings',St]].forEach(([id,on])=>$(id).classList.toggle('on',on));document.querySelectorAll('.navtiles [data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav==(L?'l':St?'s':'m')))}
 setInterval(navOn,400);
 $('ltBack').onclick=()=>showLetters(false);
+$('subBack').onclick=()=>$('btnMawqif').click();
 $('ltLogoReset').onclick=()=>{if(!sure('هل تريد الرجوع إلى الشعار الرسمي؟'))return;delete S.logo;save();ltLogo();toast('تمت استعادة الشعار الرسمي')};
 function b64bytes(d){const s=atob(d.split(',')[1]);const u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
 function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}
