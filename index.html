@@ -632,6 +632,37 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 #sheet:has(#dPrev) .dadd{gap:6px!important;margin:0 0 6px!important}
 #sheet:has(#dPrev) .dadd .btn{height:38px!important;padding:0 4px!important;font-size:12.5px!important;font-weight:800!important;border-radius:12px!important;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,0 4px 7px rgba(0,0,0,.16),inset 0 1px 0 #fff!important;line-height:1.1!important}
 #sheet:has(#dPrev) .dadd .btn:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78!important}
+/* v136: names table fits the screen — no horizontal scroll, no sticky columns (iOS blank-column bug) */
+.gridwrap{overflow-x:hidden!important}
+.grid{table-layout:fixed!important;width:100%!important;min-width:0!important}
+.grid th.nocol,.grid td.nocol{position:static!important;width:26px!important;min-width:0!important;padding:3px 1px!important;font-size:12px!important}
+.grid th.namecol,.grid td.namecol{position:static!important;min-width:0!important;white-space:normal!important;font-size:12.5px!important;line-height:1.3!important;padding:4px 5px!important;box-shadow:none!important;word-break:break-word}
+.grid th.daycell{width:48px!important;min-width:0!important;padding:3px 1px!important;font-size:11px!important;line-height:1.2}
+.grid th.daycell .dn{font-size:10.5px!important}
+.grid th.daycell .allok{font-size:8.5px!important;padding:1px 2px!important;margin-top:2px!important;white-space:normal!important;line-height:1.1;border-radius:7px!important}
+.grid td.c{min-width:0!important;padding:3px 1px!important;font-size:11px!important;overflow:hidden}
+.grid th:not(.nocol):not(.namecol):not(.daycell){width:36px!important;min-width:0!important;padding:3px 1px!important;font-size:10.5px!important;line-height:1.15}
+.grid td.notes{min-width:0!important;padding:2px 1px!important;font-size:11px!important}
+/* v136: home = selectors only; «موقف الحضور» opens a table-only screen with a back button */
+#homeCard{display:none;text-align:center;margin-top:12px}
+body:not(.tbl):not(.subpage) #homeCard{display:block}
+body:not(.tbl):not(.subpage) #viewMain>:not(#homeCard):not(#ocrFile):not(#btnOcr):not(.card:has(.sumhead)){display:none!important}
+body.tbl #actionBar,body.tbl #viewMain>:not(.gridwrap):not(#limitNote):not(#ocrFile):not(#btnOcr){display:none!important}
+body.tbl #limitNote.hide{display:none!important}
+#homeCard .homeh{font-family:Cairo;font-weight:800;font-size:17px;color:#1F3864}
+#btnOpenTbl{width:100%;height:44px;font-size:15px!important;font-weight:800;border-radius:13px!important;background:linear-gradient(180deg,#fff6c9 0%,#ffe27a 45%,#f5be1d 55%,#ffd75a 100%)!important;color:#000!important;border:1px solid #b98a00!important;box-shadow:0 3px 0 #b98a00,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff!important}
+#btnOpenTbl:active{transform:translateY(2px);box-shadow:0 1px 0 #b98a00!important}
+#subTitle small{font-size:11.5px;font-weight:700;opacity:.8}
+body.tbl .gridwrap{margin-top:4px}
+body.tbl .grid th.namecol,body.tbl .grid td.namecol{font-size:14px!important;padding:6px 6px!important}
+body.tbl .grid td.c{font-size:12.5px!important;height:46px}
+body.tbl .grid th.daycell{font-size:12px!important}
+
+.grid td.nocol,.grid td.namecol,.grid th.nocol,.grid th.namecol{transform:none!important;will-change:auto!important}
+table.grid th.namecol{width:auto!important}
+table.grid th.daycell{width:43px!important}
+table.grid th.nocol,table.grid td.nocol{width:22px!important}
+table.grid th:not(.nocol):not(.namecol):not(.daycell){width:34px!important;font-size:9.5px!important}
 </style>
 </head>
 <body>
@@ -663,6 +694,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 </header>
 
 <main id="viewMain">
+  <div class="card" id="homeCard"><div class="homeh">موقف الحضور</div><p class="hint" style="text-align:center;margin:4px 0 10px">اختاري الأسبوع، ثم المناوبين أو الدوام الصباحي، ثم الوجبة أو الشعبة من الأزرار أعلاه، وبعدها اضغطي «موقف الحضور» لعرض الجدول.</p><button class="btn" id="btnOpenTbl">عرض الجدول</button></div>
   <div class="card" id="statsCard">
     <div class="stats" id="stats"></div>
   </div>
@@ -779,7 +811,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 135 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 136 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1415,7 +1447,7 @@ function fallbackCopy(t,ok){const ta=document.createElement('textarea');ta.value
 
 /* ---------- settings ---------- */
 function storeInfo(){try{const kb=Math.round(JSON.stringify(S).length*2/1024);const n=(S.letters||[]).length;const pc=Math.max(1,Math.round(kb/50));$('storeInfo').innerHTML='💾 <b>الذاكرة:</b> مستخدم '+kb+' كيلوبايت من أصل 5 ميغابايت متاحة للأداة (نحو '+pc+'٪)، والمساحة كافية لسنوات.<br>🗂️ <b>أرشيف الكتب:</b> '+n+' كتاب. يشغل الكتاب الواحد نحو 1 كيلوبايت، إذ يُحفظ نصّه فقط ويُنشأ الملف عند الطباعة.'}catch(e){}}
-function showSettings(on){if(on)setTimeout(storeInfo,0);$('viewDir').classList.add('hide');
+function showSettings(on){if(on){document.body.classList.remove('tbl');setTimeout(storeInfo,0)}$('viewDir').classList.add('hide');
   $('viewLetters').classList.add('hide');$('viewMain').classList.toggle('hide',on);$('viewSettings').classList.toggle('hide',!on);$('actionBar').classList.toggle('hide',on);
   document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
   if(on){['h1','h2','h3','sigR','sigL','note','dTitle','dSig','dSigN','sigT'].forEach(k=>$(k).value=S[k]||'');$('anchorDate').value=S.anchor;$('anchorShift').value=S.anchorShift;
@@ -1576,6 +1608,7 @@ let DIRQ='',DIRSEC='';
 const dirName=v=>v.sec||'بدون شعبة';
 function dirStyle(v){const t=v.st||{};return (t.f?'font-family:'+t.f+';':'')+(t.c?'color:'+t.c+';':'')+(t.z?'font-size:'+t.z+'px;':'')+(t.b?'font-weight:900;':'')+(t.u?'text-decoration:underline;':'')}
 function showDir(on){
+  if(on)document.body.classList.remove('tbl');
   $('viewLetters').classList.add('hide');$('viewSettings').classList.add('hide');$('viewDir').classList.toggle('hide',!on);$('viewMain').classList.toggle('hide',on);$('actionBar').classList.toggle('hide',on);
   document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
   if(on)renderDir();else render();window.scrollTo(0,0)}
@@ -1632,7 +1665,7 @@ $('dirFile').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const rd=new 
 $('dirExp').onclick=()=>{const b=new Blob([JSON.stringify({dir:S.dir||[]},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='دليل-المنتسبين.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)};
 
 function ltLogo(){const i=$('ltLogoPrev');i.src=S.logo||'logo-moe.png';i.style.display='block'}
-function showLetters(on){$('viewDir').classList.add('hide');$('viewMain').classList.toggle('hide',on);$('viewLetters').classList.toggle('hide',!on);$('viewSettings').classList.add('hide');$('actionBar').classList.toggle('hide',on);
+function showLetters(on){if(on)document.body.classList.remove('tbl');$('viewDir').classList.add('hide');$('viewMain').classList.toggle('hide',on);$('viewLetters').classList.toggle('hide',!on);$('viewSettings').classList.add('hide');$('actionBar').classList.toggle('hide',on);
   document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
   if(on){ltArchive();ltLogo()}else render();window.scrollTo(0,0)}
 
@@ -1641,7 +1674,7 @@ function openDrawer(on){$('drawer').classList.toggle('open',on);$('drawerOv').cl
 $('btnMenu').onclick=()=>{navOn();openDrawer(true)};
 $('drawerOv').onclick=()=>openDrawer(false);
 $('drawer').addEventListener('click',e=>{const b=e.target.closest('.ditem');if(!b)return;openDrawer(false);const g=b.dataset.go;
-  if(g==='daily'||g==='ready'){showLetters(false);if(!$('viewSettings').classList.contains('hide'))showSettings(false);setTimeout(()=>$(g==='daily'?'btnCopy':'btnReady').click(),60)}
+  if(g==='daily'||g==='ready'){showLetters(false);showTable(true);if(!$('viewSettings').classList.contains('hide'))showSettings(false);setTimeout(()=>$(g==='daily'?'btnCopy':'btnReady').click(),60)}
   else if(g==='month'||g==='week'){$('btnMawqif').click();setTimeout(()=>{const m=document.querySelector('#modeSeg [data-mode="'+(g==='month'?'duty':'day')+'"]');m&&m.click()},60)}
   else if(g==='dir')showDir(true)
   else if(g==='backup')$('backup').click()},true);
@@ -1649,14 +1682,16 @@ try{const v=[...document.querySelectorAll('#viewSettings p.hint')].find(x=>x.tex
 
 document.querySelector('.navtiles').addEventListener('click',e=>{const b=e.target.closest('[data-nav]');if(!b)return;({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]&&$(({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]).click()});
 $('btnLetters').onclick=()=>showLetters(true);
-$('btnMawqif').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);else if(!$('viewSettings').classList.contains('hide'))showSettings(false);else showLetters(false)};
+function showTable(on){document.body.classList.toggle('tbl',on);window.scrollTo(0,0);navOn()}
+$('btnMawqif').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);if(!$('viewSettings').classList.contains('hide'))showSettings(false);if(!$('viewLetters').classList.contains('hide'))showLetters(false);showTable(true)};
+$('btnOpenTbl').onclick=()=>showTable(true);
 function navOn(){const L=!$('viewLetters').classList.contains('hide'),St=!$('viewSettings').classList.contains('hide'),Dr=!$('viewDir').classList.contains('hide');
-  document.body.classList.toggle('subpage',L||St||Dr);
-  {const t=$('subTitle');if(t)t.textContent=L?'الكتب الرسمية':St?'الإعدادات':Dr?'دليل المنتسبين':''}
-  [['btnMawqif',!L&&!St&&!Dr],['btnLetters',L],['btnSettings',St]].forEach(([id,on])=>$(id).classList.toggle('on',on));document.querySelectorAll('.navtiles [data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav==(L?'l':St?'s':'m')))}
+  const T=document.body.classList.contains('tbl');document.body.classList.toggle('subpage',L||St||Dr||T);
+  {const t=$('subTitle');if(t){let h='';if(L)h='الكتب الرسمية';else if(St)h='الإعدادات';else if(Dr)h='دليل المنتسبين';else if(T){let x=[];try{x=[$('monthLbl').textContent,document.querySelector('#modeSeg .on').textContent.trim(),(document.querySelector('#tabs .on')||{textContent:''}).textContent.trim()].filter(Boolean)}catch(e){}h='موقف الحضور'+(x.length?'<small> — '+x.join(' · ')+'</small>':'')}if(t.dataset.h!==h){t.dataset.h=h;t.innerHTML=h}}}
+  [['btnMawqif',!L&&!St&&!Dr&&T],['btnLetters',L],['btnSettings',St]].forEach(([id,on])=>$(id).classList.toggle('on',on));document.querySelectorAll('.navtiles [data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav==(L?'l':St?'s':'m')))}
 setInterval(navOn,400);
 $('ltBack').onclick=()=>showLetters(false);
-$('subBack').onclick=()=>$('btnMawqif').click();
+$('subBack').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);else if(!$('viewSettings').classList.contains('hide'))showSettings(false);else if(!$('viewLetters').classList.contains('hide'))showLetters(false);else showTable(false);navOn()};
 $('ltLogoReset').onclick=()=>{if(!sure('هل تريد الرجوع إلى الشعار الرسمي؟'))return;delete S.logo;save();ltLogo();toast('تمت استعادة الشعار الرسمي')};
 function b64bytes(d){const s=atob(d.split(',')[1]);const u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
 function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}
