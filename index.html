@@ -808,6 +808,17 @@ body.daymode .dwbar button{height:26px!important;font-size:11px!important;box-sh
 .xtop .xb{background:transparent!important;border:2px solid #fff!important;color:#fff!important;border-radius:6px!important;box-shadow:none!important;font-weight:900!important}
 .backbtn[aria-label="إغلاق"] svg{border:2.5px solid #fff;border-radius:6px;padding:2px;width:22px;height:22px;box-sizing:border-box;stroke:#fff!important}
 .xtop:active,.backbtn[aria-label="إغلاق"]:active,#doneSettings:active{transform:translateY(2px);box-shadow:0 1px 0 #8c1a10!important}
+
+/* v156 big home tiles */
+body:not(.tbl):not(.subpage) .navtiles,body:not(.tbl):not(.subpage) #modeSeg,body:not(.tbl):not(.subpage) #btnOcr{display:none!important}
+#homeCard{padding:10px!important;background:transparent!important;box-shadow:none!important;border:0!important}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;grid-auto-rows:1fr;min-height:calc(100vh - 290px)}
+.hg{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border-radius:20px;border:1.5px solid #3f78a3;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%);box-shadow:0 5px 0 #1f4f78,0 8px 12px rgba(0,0,0,.18);font-family:inherit;cursor:pointer;min-height:96px;color:#0b1a2e}
+.hg span{font-size:38px;line-height:1}
+.hg b{font-size:18px;font-weight:900}
+.hg.wide{grid-column:1/-1}
+.hg.y{background:linear-gradient(180deg,#fff6c9 0%,#ffe27a 45%,#f5be1d 55%,#ffd75a 100%);border-color:#b98a00;box-shadow:0 5px 0 #b98a00,0 8px 12px rgba(0,0,0,.18)}
+.hg:active{transform:translateY(3px);box-shadow:0 2px 0 #1f4f78}
 </style>
 </head>
 <body>
@@ -841,7 +852,15 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 </header>
 
 <main id="viewMain">
-  <div class="card" id="homeCard"><div class="homeh">موقف الحضور</div><p class="hint" style="text-align:center;margin:4px 0 2px">اضغطي «موقف الحضور» لفتح الجدول مباشرة، أو اختاري «المناوبين» أو «الدوام الصباحي».</p></div>
+  <div class="card" id="homeCard"><div class="hgrid" id="hGrid">
+    <button class="hg wide y" data-hg="m"><span>📋</span><b>موقف الحضور</b></button>
+    <button class="hg" data-hg="duty"><span>🌙</span><b>المناوبين</b></button>
+    <button class="hg" data-hg="day"><span>☀️</span><b>الدوام الصباحي</b></button>
+    <button class="hg" data-hg="l"><span>📚</span><b>الكتب الرسمية</b></button>
+    <button class="hg" data-hg="dir"><span>👥</span><b>دليل المنتسبين</b></button>
+    <button class="hg" data-hg="ocr"><span>📷</span><b>قراءة الصور</b></button>
+    <button class="hg" data-hg="s"><span>⚙️</span><b>الإعدادات</b></button>
+  </div></div>
   <div class="card" id="statsCard">
     <div class="stats" id="stats"></div>
   </div>
@@ -964,7 +983,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 155 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 156 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1902,6 +1921,14 @@ try{const v=[...document.querySelectorAll('#viewSettings p.hint')].find(x=>x.tex
 
 document.querySelector('.navtiles').addEventListener('click',e=>{const b=e.target.closest('[data-nav]');if(!b)return;if(b.dataset.nav==='m'){$('btnMawqif').click();showTable(true);return}({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]&&$(({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]).click()});
 $('btnLetters').onclick=()=>showLetters(true);
+$('hGrid').addEventListener('click',e=>{const b=e.target.closest('[data-hg]');if(!b)return;const g=b.dataset.hg;
+ if(g==='m'){$('btnMawqif').click();showTable(true)}
+ else if(g==='duty'||g==='day'){const m=document.querySelector('#modeSeg [data-mode="'+g+'"]');m&&m.click()}
+ else if(g==='l')$('btnLetters').click();
+ else if(g==='s')$('btnSettings').click();
+ else if(g==='dir')showDir(true);
+ else if(g==='ocr')$('btnOcr').click()});
+
 function showTable(on){document.body.classList.toggle('tbl',on);window.scrollTo(0,0);navOn()}
 $('btnMawqif').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);if(!$('viewSettings').classList.contains('hide'))showSettings(false);if(!$('viewLetters').classList.contains('hide'))showLetters(false);showTable(false)};
 let DW=0,DWN=2,DWKEY='';
