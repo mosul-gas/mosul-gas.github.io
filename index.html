@@ -451,6 +451,7 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 /* v115c: back button */
 .backbtn{width:auto!important;min-width:92px;height:42px!important;padding:0 16px 0 14px;display:flex!important;align-items:center;justify-content:center;gap:7px;border-radius:14px!important;font-family:Cairo,inherit;font-size:16px;font-weight:900;cursor:pointer;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;border:1px solid #3f78a3!important;box-shadow:0 4px 0 #1f4f78,0 6px 10px rgba(0,0,0,.22),inset 0 1px 0 #fff!important}
 .backbtn b{font-weight:900;color:#0b1a2e;text-shadow:0 1px 0 rgba(255,255,255,.75)}
+.backbtn svg{width:16px!important;height:16px!important}
 .backbtn svg{filter:drop-shadow(0 1.5px 0 rgba(10,30,70,.45))}
 .backbtn:active{transform:translateY(3px);box-shadow:0 1px 0 #1f4f78,0 2px 4px rgba(0,0,0,.2)!important}
 #viewLetters .setbar{margin:0 0 10px}
@@ -750,6 +751,8 @@ body.tbl .grid th.namecol,body.tbl .grid td.namecol{font-size:12px!important;pad
 .dkids b{text-align:center;font-size:24px;color:#1F3864}
 .dkids .btn{height:40px;min-height:0;padding:0 6px;font-size:14px;font-weight:800}
 .dkids .btn{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,inset 0 1px 0 #fff!important;color:#0b1a2e!important;border-radius:11px!important}
+.backbtn{min-width:72px!important;height:36px!important;padding:0 12px!important;font-size:14px!important}
+.subpage .subbar .backbtn{height:34px!important;min-width:70px!important}
 </style>
 </head>
 <body>
@@ -775,7 +778,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <b id="monthLbl"></b>
     <button id="nextM" aria-label="الشهر التالي">‹</button>
   </div>
-  <div class="subbar" id="subBar"><span id="subTitle"></span><button id="subPrint" class="backbtn prbtn" aria-label="طباعة"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="9" rx="2"/><path d="M7 14h10v7H7z"/></svg></button><button id="subBack" class="backbtn" aria-label="رجوع"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><b>رجوع</b></button></div>
+  <div class="subbar" id="subBar"><span id="subTitle"></span><button id="subPrint" class="backbtn prbtn" aria-label="طباعة"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="9" rx="2"/><path d="M7 14h10v7H7z"/></svg></button><button id="subBack" class="backbtn" aria-label="إغلاق"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg><b>إغلاق</b></button></div>
   <div class="modeseg" id="modeSeg"><button data-mode="duty">المناوبين</button><button data-mode="day">الدوام الصباحي</button></div>
   <div class="tabs" id="tabs"></div>
 </header>
@@ -820,7 +823,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   <div class="dfoot" id="dVer"></div>
 </aside>
 <main id="viewLetters" class="hide">
-  <div class="setbar"><button id="ltBack" class="backbtn" aria-label="رجوع"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><b>رجوع</b></button></div>
+  <div class="setbar"><button id="ltBack" class="backbtn" aria-label="إغلاق"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg><b>إغلاق</b></button></div>
   <div class="card">
     
     <div id="ltTypes" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
@@ -852,7 +855,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   </div>
 </main>
 <main id="viewSettings" class="hide">
-  <div class="setbar"><button id="backTop" class="backbtn" aria-label="رجوع"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><b>رجوع</b></button></div>
+  <div class="setbar"><button id="backTop" class="backbtn" aria-label="إغلاق"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg><b>إغلاق</b></button></div>
   <div class="card">
     <h2 class="sec">ترويسة الورقة</h2>
     <div class="lbl">السطر الأول</div><input class="txt" id="h1">
@@ -902,8 +905,8 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     </div>
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
-  <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 144 — 19/11/2026</p>
+  <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 145 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
