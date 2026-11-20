@@ -391,6 +391,25 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .setbar span{font-family:Cairo;font-weight:800;font-size:17px;color:#1F3864}
 #backTop{width:46px;height:40px;display:grid;place-items:center;border-radius:12px;cursor:pointer;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%);color:#0b1a2e;border:1px solid #3f78a3;box-shadow:0 3px 0 #1f4f78,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff}
 #backTop:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78}
+
+/* v113: tables in the tool's blue/yellow family, no gold frames, raised 3D icons */
+.gridwrap{border:2px solid #1F3864!important;border-radius:12px;overflow:auto}
+.grid th,.grid td{border-bottom:1.5px solid #1F3864!important;border-left:1.5px solid #1F3864!important}
+.grid thead th,.grid thead th.namecol,.grid thead th.nocol{background:linear-gradient(135deg,#0ea5e9 0%,#3b82f6 55%,#7c5ce6 100%)!important;color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.3)}
+.grid thead th *{color:#fff!important}
+.grid thead th button,.grid thead th button *{color:#0b1a2e!important;text-shadow:none!important}
+.grid thead th .dn{color:#fff!important}
+.grid tbody tr:nth-child(odd) td,.grid tbody tr:nth-child(odd) td.namecol,.grid tbody tr:nth-child(odd) td.nocol{background:#eaf5fd}
+.grid tbody tr:nth-child(even) td,.grid tbody tr:nth-child(even) td.namecol,.grid tbody tr:nth-child(even) td.nocol{background:#d3e8f8}
+.grid tbody tr td.c.p{background:#ffffff!important;color:#1F3864!important}
+.grid tbody tr td.c.l{background:#FFF0A8!important}
+.grid td.namecol,.grid td.nocol{color:#0b1a2e!important}
+.navtiles button.on,#modeSeg button.on,#tabs button.on,#setTabs button.on,.seg button.on,.chips button.on,#actionBar #btnReady,.setkind button.on{border:1px solid rgba(255,255,255,.85)!important;box-shadow:0 3px 0 #b98a00,0 5px 9px rgba(0,0,0,.24),inset 0 1px 0 #fff!important}
+#stats #btnOcr{border:1px solid #3f78a3!important}
+:root{--lvbg:#FFF0A8}
+.ic3{display:inline-block;font-style:normal;filter:drop-shadow(0 1.5px 0 rgba(20,50,90,.55)) drop-shadow(0 3px 3px rgba(0,0,0,.28));transform:translateY(-1px) scale(1.07);transition:transform .08s,filter .08s}
+button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:drop-shadow(0 1px 1px rgba(0,0,0,.25))}
+.di svg{filter:drop-shadow(0 1.5px 0 rgba(10,30,70,.5)) drop-shadow(0 2px 2px rgba(0,0,0,.25))}
 </style>
 </head>
 <body>
@@ -526,7 +545,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 112 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 113 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1484,6 +1503,14 @@ render();
   document.getElementById('viewMain').prepend(d)}})();
 if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{})}
 })();
+
+/* 3D raised icons: wrap emoji inside buttons */
+(function(){const EM=/(\p{Extended_Pictographic}\uFE0F?)/gu;let busy=false,t=0;
+function run(){busy=true;try{document.querySelectorAll('button,.ditem,.btn').forEach(b=>{if(b.closest('.xb,.ic3'))return;
+ const w=document.createTreeWalker(b,NodeFilter.SHOW_TEXT);const nodes=[];let n;while(n=w.nextNode()){if(n.parentNode.classList&&(n.parentNode.classList.contains('ic3')||n.parentNode.classList.contains('xb')))continue;EM.lastIndex=0;if(EM.test(n.nodeValue))nodes.push(n)}
+ nodes.forEach(n=>{const f=document.createDocumentFragment();n.nodeValue.split(EM).forEach(p=>{if(!p)return;EM.lastIndex=0;if(EM.test(p)&&p.length<=3&&!/[\u2715\u2716]/.test(p)){const i=document.createElement('i');i.className='ic3';i.textContent=p;f.appendChild(i)}else f.appendChild(document.createTextNode(p))});n.parentNode.replaceChild(f,n)})})}catch(e){}busy=false}
+new MutationObserver(()=>{if(busy)return;cancelAnimationFrame(t);t=requestAnimationFrame(run)}).observe(document.body,{childList:true,subtree:true});
+run()})();
 </script>
 </body>
 </html>
