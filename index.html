@@ -772,6 +772,18 @@ body.daymode table.grid th.namecol{width:auto!important}
 body.daymode table.grid th.daycell{width:62px!important}
 body.daymode table.grid th:not(.nocol):not(.namecol):not(.daycell){width:34px!important}
 body.daymode table.grid td.namecol{overflow:hidden}
+
+/* v151 header close + fill page */
+.hclose{display:none!important}
+.subpage .hclose{display:flex!important;flex-direction:row;gap:5px;width:auto!important;min-width:78px;padding:0 10px;color:#fff;font-size:14px;font-family:inherit}
+.subpage .hclose b{font-weight:800}
+.subpage #btnMenu{display:none!important}
+.subpage #subBack{display:none!important}
+body.subpage #viewDir .dstats button,body.subpage #viewDir .dstats>*{min-height:74px;font-size:15px}
+body.subpage #viewDir .dirrow{min-height:60px;font-size:16px}
+body.subpage #viewDir .dirtools2 .btn,body.subpage #viewDir .dirtools2 button{min-height:54px;font-size:16px}
+body.subpage #viewDir{min-height:calc(100vh - 110px);display:flex;flex-direction:column}
+body.subpage #viewDir #dirList{flex:1}
 </style>
 </head>
 <body>
@@ -788,6 +800,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   <div class="brand">
     <div class="bolt"><img src="logo-moe-t.png" alt="" style="width:27px;height:27px;object-fit:contain"></div>
     <div><h1 id="appTitle">محطة كهرباء الموصل الغازية</h1><small id="stationName"></small></div>
+    <button class="burger hclose" id="hdrClose" aria-label="إغلاق" type="button"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg><b>إغلاق</b></button>
     <button class="burger" id="btnMenu" aria-label="القائمة"><span></span><span></span><span></span></button>
   </div>
   <nav class="navtiles"><button data-nav="m"><span>📋</span>موقف الحضور</button><button data-nav="l"><span>📚</span>الكتب الرسمية</button><button data-nav="s"><span>⚙️</span>الإعدادات</button></nav>
@@ -926,7 +939,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 150 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 151 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1753,7 +1766,7 @@ function renderDir(){
     $('dirList').innerHTML=f.length?f.map(v=>`<div class="card dres"><div class="dresn" style="${dirStyle(v)}">${esc(v.name)}</div><table class="drest">`+FL.filter(([k])=>VV(v)[k]).map(([k,l])=>`<tr><th>${l}</th><td>${esc(VV(v)[k])}</td></tr>`).join('')+`</table><div class="diract">${v.phone?`<a class="btn dcall" href="tel:${esc(v.phone)}">اتصال</a><a class="btn dwa" target="_blank" rel="noopener" href="${dirWa(v.phone)}">واتساب</a>`:''}</div><button class="btn dedit" data-di="${v.id}">✎ فتح وتعديل البيانات</button></div>`).join(''):'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج مطابقة.</div></div>';return}
   let h='';
   order.forEach(k=>{const g=f.filter(v=>dirName(v)===k);if(!g.length)return;
-    h+=`<div class="card dirgrp"><h3 class="dirgh"><span>${esc(k)}</span><b>${g.length}</b></h3>`+g.map(v=>`<button class="dirrow" data-di="${v.id}"><span class="dn" style="${dirStyle(v)}">${esc(v.name)}</span><small>${esc(v.title||'')}${v.shift?' · '+esc(v.shift):''}${v.phone?' · '+esc(v.phone):''}</small></button>`).join('')+'</div>'});
+    h+=`<div class="card dirgrp">`+(k==='بدون شعبة'?'':`<h3 class="dirgh"><span>${esc(k)}</span><b>${g.length}</b></h3>`)+g.map(v=>`<button class="dirrow" data-di="${v.id}"><span class="dn" style="${dirStyle(v)}">${esc(v.name)}</span><small>${esc(v.title||'')}${v.shift?' · '+esc(v.shift):''}${v.phone?' · '+esc(v.phone):''}</small></button>`).join('')+'</div>'});
   $('dirList').innerHTML=h||'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج مطابقة.</div></div>'}
 function dirWa(p){let d=String(p||'').replace(/[٠-٩]/g,x=>'٠١٢٣٤٥٦٧٨٩'.indexOf(x)).replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);else if(d.startsWith('0'))d='964'+d.slice(1);else if(d.length===10&&d[0]==='7')d='964'+d;return d?'https://wa.me/'+d:'#'}
 const DIR_IDS=[['unified','البطاقة الوطنية الموحدة'],['civil','هوية الأحوال المدنية'],['passport','جواز السفر']];
@@ -1876,6 +1889,7 @@ setInterval(navOn,400);
 $('ltBack').onclick=()=>showLetters(false);
 $('subPrint').onclick=()=>$('btnPrintMenu').click();
 $('dwPrev').onclick=()=>{DW=Math.max(0,DW-DWN);navOn()};$('dwNext').onclick=()=>{DW+=DWN;navOn()};$('dwSz').onclick=()=>{DWN=DWN===3?2:3;DW=Math.floor(DW/DWN)*DWN;navOn()};
+$('hdrClose').onclick=()=>$('subBack').click();
 $('subBack').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);else if(!$('viewSettings').classList.contains('hide'))showSettings(false);else if(!$('viewLetters').classList.contains('hide'))showLetters(false);else showTable(false);navOn()};
 $('ltLogoReset').onclick=()=>{if(!sure('هل تريد الرجوع إلى الشعار الرسمي؟'))return;delete S.logo;save();ltLogo();toast('تمت استعادة الشعار الرسمي')};
 function b64bytes(d){const s=atob(d.split(',')[1]);const u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
