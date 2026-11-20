@@ -496,6 +496,14 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 .subpage .subbar .backbtn{height:38px!important;min-width:84px;font-size:15px}
 .subpage .setbar{display:none!important}
 .subpage .modeseg,.subpage .monthbar,.subpage .tabs{display:none!important}
+/* v120: compact settings kind/shift buttons, two per row */
+.setkind{gap:6px!important;margin:0 0 8px!important}
+.setkind button{padding:5px 6px!important;font-size:13px!important;border-radius:10px!important;box-shadow:0 2px 0 #1f4f78,0 3px 6px rgba(0,0,0,.18),inset 0 1px 0 #fff!important}
+.setkind button.on{box-shadow:0 2px 0 #b98a00,0 3px 6px rgba(0,0,0,.2),inset 0 1px 0 #fff!important}
+#setTabs.settabs{display:grid!important;grid-template-columns:1fr 1fr;gap:7px!important;padding:8px!important}
+#setTabs.settabs button{padding:5px 4px!important;font-size:12.5px!important;border-radius:10px!important;box-shadow:0 2px 0 #1f4f78,0 3px 6px rgba(0,0,0,.18),inset 0 1px 0 #fff!important;white-space:nowrap}
+#setTabs.settabs button.on{box-shadow:0 2px 0 #b98a00,0 3px 6px rgba(0,0,0,.2),inset 0 1px 0 #fff!important}
+.setcap{background:linear-gradient(180deg,#5fb8f0 0%,#2f7fd6 48%,#1d5fb5 52%,#2f7fd6 100%)!important;color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.4);box-shadow:inset 0 2px 0 rgba(255,255,255,.5),inset 0 -3px 0 rgba(8,38,90,.4)!important;padding:5px 10px!important;font-size:14px!important}
 </style>
 </head>
 <body>
@@ -633,7 +641,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 119 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 120 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
