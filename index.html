@@ -648,7 +648,7 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 #homeCard{display:none;text-align:center;margin-top:12px}
 body:not(.tbl):not(.subpage) #homeCard{display:block}
 body:not(.tbl):not(.subpage) #viewMain>:not(#homeCard):not(#ocrFile):not(#btnOcr):not(.card:has(.sumhead)){display:none!important}
-body.tbl #viewMain>:not(.gridwrap):not(#limitNote):not(#ocrFile):not(#btnOcr){display:none!important}
+body.tbl #viewMain>:not(.gridwrap):not(#dwBar):not(#limitNote):not(#ocrFile):not(#btnOcr){display:none!important}
 body.tbl #limitNote.hide{display:none!important}
 #homeCard .homeh{font-family:Cairo;font-weight:800;font-size:17px;color:#1F3864}
 #btnOpenTbl{width:100%;height:44px;font-size:15px!important;font-weight:800;border-radius:13px!important;background:linear-gradient(180deg,#fff6c9 0%,#ffe27a 45%,#f5be1d 55%,#ffd75a 100%)!important;color:#000!important;border:1px solid #b98a00!important;box-shadow:0 3px 0 #b98a00,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff!important}
@@ -759,6 +759,19 @@ body.tbl .grid th.namecol,body.tbl .grid td.namecol{font-size:12px!important;pad
 .subpage .subbar span#subTitle{background:linear-gradient(180deg,#fff6c9 0%,#ffe27a 45%,#f5be1d 55%,#ffd75a 100%);border:1px solid #b98a00;border-radius:12px;box-shadow:0 4px 0 #b98a00,0 6px 9px rgba(0,0,0,.22),inset 0 1px 0 #fff;padding:6px 16px!important;font-size:16px!important;font-weight:900;color:#000;margin-inline-end:auto}
 .subbar .prbtn{width:auto!important;min-width:0!important;padding:0 12px!important;gap:6px}
 .subpage .subbar .prbtn{width:auto!important;min-width:0!important}
+
+/* v148 day window */
+.dwbar{display:none}
+body.daymode .dwbar{display:flex;align-items:center;gap:6px;margin:6px 0}
+.dwbar b{flex:1;text-align:center;font-size:13px;color:#1F3864;font-weight:900}
+.dwbar button{height:34px;padding:0 9px;border-radius:10px;border:1px solid #3f78a3;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%);box-shadow:0 3px 0 #1f4f78,inset 0 1px 0 #fff;font-family:inherit;font-weight:800;font-size:12px;color:#0b1a2e;cursor:pointer}
+.dwbar button:disabled{opacity:.45}
+.dwbar #dwSz{background:linear-gradient(180deg,#fff6c9 0%,#ffe27a 45%,#f5be1d 55%,#ffd75a 100%);border-color:#b98a00;box-shadow:0 3px 0 #b98a00}
+body.daymode table.grid th.daycell{width:auto!important;font-size:12.5px!important}
+body.daymode table.grid th.namecol{width:auto!important}
+body.daymode table.grid th.daycell{width:62px!important}
+body.daymode table.grid th:not(.nocol):not(.namecol):not(.daycell){width:34px!important}
+body.daymode table.grid td.namecol{overflow:hidden}
 </style>
 </head>
 <body>
@@ -797,6 +810,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   <button class="btn" id="btnOcr"><span class="cam">📷</span><span>قراءة الصور</span></button>
   <input type="file" id="ocrFile" accept="image/*" multiple class="hide">
   <p class="hint" id="mainHint">اضغط على أي خانة لتأشير الحالة. يؤشّر زر «حضور الجميع» أسفل اليوم بقية المنتسبين حاضرين دفعةً واحدة، ثم تُعدَّل حالات الغياب والإجازة فقط.</p>
+  <div class="dwbar" id="dwBar"><button type="button" id="dwPrev">‹ الأيام السابقة</button><b id="dwLbl"></b><button type="button" id="dwNext">الأيام التالية ›</button><button type="button" id="dwSz"></button></div>
   <div class="gridwrap"><table class="grid" id="grid"></table></div>
   <p class="hint hide" id="limitNote" style="margin-top:10px;color:var(--bad)"></p>
   <div class="card" style="margin-top:12px">
@@ -912,7 +926,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 147 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 149 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1834,15 +1848,34 @@ document.querySelector('.navtiles').addEventListener('click',e=>{const b=e.targe
 $('btnLetters').onclick=()=>showLetters(true);
 function showTable(on){document.body.classList.toggle('tbl',on);window.scrollTo(0,0);navOn()}
 $('btnMawqif').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);if(!$('viewSettings').classList.contains('hide'))showSettings(false);if(!$('viewLetters').classList.contains('hide'))showLetters(false);showTable(false)};
-function fitNames(){try{if(!document.body.classList.contains('tbl'))return;const on=document.querySelector('#modeSeg .on');if(!on||on.dataset.mode!=='duty')return;
-  document.querySelectorAll('#grid td.namecol:not([data-fit])').forEach(td=>{td.dataset.fit='1';const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','nowrap');P('word-break','normal');P('font-size','13.5px');let f=13.5;while(td.scrollWidth>td.clientWidth+1&&f>8.5){f-=.5;P('font-size',f+'px')}if(td.parentNode)td.parentNode.style.height='42px'})}catch(e){}}
-function navOn(){fitNames();const L=!$('viewLetters').classList.contains('hide'),St=!$('viewSettings').classList.contains('hide'),Dr=!$('viewDir').classList.contains('hide');
+let DW=0,DWN=2,DWKEY='';
+function dayWin(){try{const T=document.body.classList.contains('tbl'),isDay=MODE==='day';document.body.classList.toggle('daymode',T&&isDay);if(!T||!isDay)return;
+  const ths=[...document.querySelectorAll('#grid thead th.daycell')];const N=ths.length;if(!N)return;
+  const key=ths[0].querySelector('[data-all]')?ths[0].querySelector('[data-all]').dataset.all:'';
+  if(key!==DWKEY){DWKEY=key;const td=new Date();const ts=td.getFullYear()+'-'+String(td.getMonth()+1).padStart(2,'0')+'-'+String(td.getDate()).padStart(2,'0');let ti=ths.findIndex(t=>t.querySelector('[data-all]')&&t.querySelector('[data-all]').dataset.all===ts);DW=ti>=0?Math.floor(ti/DWN)*DWN:0}
+  if(DW>=N)DW=Math.max(0,N-DWN);if(DW<0)DW=0;
+  const sig=DW+':'+DWN+':'+N;
+  const rows=[...document.querySelectorAll('#grid tr')];const stale=rows.some(r=>r.dataset.dw!==sig);
+  if(stale){rows.forEach(r=>{r.dataset.dw=sig;const cs=[...r.children].filter(c=>c.matches('th.daycell,td.c'));cs.forEach((c,i)=>{c.style.display=(i>=DW&&i<DW+DWN)?'':'none'})});
+    document.querySelectorAll('#grid td.namecol[data-fit],#grid td.c[data-fit2]').forEach(c=>{c.removeAttribute('data-fit');c.removeAttribute('data-fit2');c.style.cssText=c.style.cssText.replace(/(white-space|font-size|word-break|overflow-wrap|overflow|padding-inline|line-height)[^;]*;/g,'')});
+    const a=ths[DW],b=ths[Math.min(N-1,DW+DWN-1)];const dn=x=>x.querySelector('.dn')?x.querySelector('.dn').textContent:'';
+    $('dwLbl').textContent=dn(a)===dn(b)?dn(a):dn(a)+' ← '+dn(b);$('dwPrev').disabled=DW<=0;$('dwNext').disabled=DW+DWN>=N;$('dwSz').textContent='عرض: '+DWN+' أيام'}}catch(e){}}
+function fitNames(){try{if(!document.body.classList.contains('tbl'))return;const on=document.querySelector('#modeSeg .on');if(!on)return;
+  document.querySelectorAll('#grid td.namecol:not([data-fit])').forEach(td=>{td.dataset.fit='1';const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','nowrap');P('word-break','normal');P('font-size','13.5px');let f=13.5;while(td.scrollWidth>td.clientWidth+1&&f>8.5){f-=.5;P('font-size',f+'px')}if(td.parentNode)td.parentNode.style.height='44px'});
+  {const all=[...document.querySelectorAll('#grid td.namecol[data-fit]')];if(all.length){const m=Math.min(...all.map(t=>parseFloat(t.style.fontSize)||13.5));all.forEach(t=>t.style.setProperty('font-size',m+'px','important'))}}}catch(e){}}
+function fitCells(){try{if(!document.body.classList.contains('tbl'))return;
+  document.querySelectorAll('#grid td.c:not([data-fit2]),#grid td.notes:not([data-fit2])').forEach(td=>{td.dataset.fit2='1';if(!td.textContent.trim()||td.textContent.trim()==='—'||td.textContent.trim()==='حاضر')return;
+    const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','normal');P('overflow-wrap','normal');P('word-break','normal');P('overflow','visible');P('padding-inline','2px');P('line-height','1.2');
+    let f=12;P('font-size',f+'px');const bad=()=>td.scrollWidth>td.clientWidth+1;while(bad()&&f>6.5){f-=.5;P('font-size',f+'px')}
+    td.querySelectorAll('small').forEach(x=>x.style.setProperty('font-size',Math.max(6.5,f-1.5)+'px','important'))})}catch(e){}}
+function navOn(){dayWin();fitNames();fitCells();const L=!$('viewLetters').classList.contains('hide'),St=!$('viewSettings').classList.contains('hide'),Dr=!$('viewDir').classList.contains('hide');
   const T=document.body.classList.contains('tbl');document.body.classList.toggle('subpage',L||St||Dr||T);
   {const t=$('subTitle');if(t){let h='';if(L)h='الكتب الرسمية';else if(St)h='الإعدادات';else if(Dr)h='دليل المنتسبين';else if(T){let x=[];try{x=[$('monthLbl').textContent,document.querySelector('#modeSeg .on').textContent.trim(),(document.querySelector('#tabs .on')||{textContent:''}).textContent.trim()].filter(Boolean)}catch(e){}h=(x[1]||'موقف الحضور')}if(t.dataset.h!==h){t.dataset.h=h;t.innerHTML=h}}}
   [['btnMawqif',!L&&!St&&!Dr&&T],['btnLetters',L],['btnSettings',St]].forEach(([id,on])=>$(id).classList.toggle('on',on));document.querySelectorAll('.navtiles [data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav==(L?'l':St?'s':'m')))}
 setInterval(navOn,400);
 $('ltBack').onclick=()=>showLetters(false);
 $('subPrint').onclick=()=>$('btnPrintMenu').click();
+$('dwPrev').onclick=()=>{DW=Math.max(0,DW-DWN);navOn()};$('dwNext').onclick=()=>{DW+=DWN;navOn()};$('dwSz').onclick=()=>{DWN=DWN===3?2:3;DW=Math.floor(DW/DWN)*DWN;navOn()};
 $('subBack').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);else if(!$('viewSettings').classList.contains('hide'))showSettings(false);else if(!$('viewLetters').classList.contains('hide'))showLetters(false);else showTable(false);navOn()};
 $('ltLogoReset').onclick=()=>{if(!sure('هل تريد الرجوع إلى الشعار الرسمي؟'))return;delete S.logo;save();ltLogo();toast('تمت استعادة الشعار الرسمي')};
 function b64bytes(d){const s=atob(d.split(',')[1]);const u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
