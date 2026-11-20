@@ -891,6 +891,17 @@ body:not(.ltedit) #ltPm{display:none!important}
 #ltTypes .btn:active{transform:translateY(2px);box-shadow:0 1px 0 #12315a,inset 0 0 0 2px #fff,inset 0 0 0 3.5px #c9a227!important}
 #ltTypes .btn.sel{background:linear-gradient(180deg,#fff3c0,#f3cf56)!important;border:3px solid #0b2447!important;box-shadow:0 4px 0 #0b2447,inset 0 0 0 2px #fff,inset 0 0 0 4px #b8860b!important;color:#0b2447!important}
 .bevbk{background:linear-gradient(180deg,#fff,#e6eefa)!important;color:#12315a!important;border:2.5px solid #12315a!important;border-radius:12px!important;box-shadow:0 3px 0 #12315a,inset 0 0 0 2px #fff,inset 0 0 0 3.5px #c9a227!important;text-shadow:none!important;font-weight:900!important}
+
+body.subpage #viewDir .dstats button,body.subpage #viewDir .dstats>*{min-height:0!important;padding:5px 2px!important;border-radius:11px!important;border:2.5px solid #12315a!important;box-shadow:0 3px 0 #12315a,inset 0 0 0 1.5px #d4af37!important}
+#viewDir .dstats{gap:6px!important}
+#viewDir .dstats button b{font-size:18px!important;line-height:1!important}
+#viewDir .dstats button span{font-size:12px!important}
+#viewDir .dirsec.hide{display:none!important}
+#dirTotal{margin-top:10px;border:3px solid #12315a;box-shadow:0 4px 0 #12315a,inset 0 0 0 2px #d4af37;border-radius:14px}
+#dirTotal .dtt{text-align:center;font-weight:900;font-size:15px;color:#12315a;margin-bottom:6px}
+#dirTotal .dtr{display:flex;justify-content:space-between;padding:6px 8px;border-top:1px dashed #9db3cf;font-weight:800;font-size:14px}
+#dirTotal .dtr b{color:#12315a;font-size:17px}
+#dirTotal #dirBlank{width:100%;margin-top:8px;font-size:13px}
 </style>
 </head>
 <body>
@@ -1001,6 +1012,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <div class="dfound" id="dirFound"></div>
   </div>
   <div id="dirList"></div>
+  <div class="card dirhead" id="dirTotal"></div>
   <div class="card dirhead dirtools2"><div class="dtl">إدارة القاعدة</div>
     <div class="dirtools"><button class="btn" id="dirAdd">＋ إضافة منتسب</button><button class="btn" id="dirDelMode">🗑 حذف منتسب</button></div>
     <div class="dirtools" style="margin-top:8px"><button class="btn" id="dirImp">استيراد ملف القاعدة</button><button class="btn" id="dirExp">تصدير القاعدة</button><input type="file" id="dirFile" accept=".json,application/json" class="hide"></div>
@@ -1058,7 +1070,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 163 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 164 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1892,17 +1904,19 @@ const dirIsShift=v=>!!(v.shift&&String(v.shift).trim());
 function renderDir(){
   S.dir=S.dir||[];const D=S.dir,q=dirNorm(DIRQ);
   const nM=D.filter(v=>!dirIsShift(v)).length,nS=D.length-nM;
-  $('dirStats').innerHTML=`<button data-dt="" class="${DIRTYPE===''?'on':''}"><b>${D.length}</b><span>العدد الكلي</span></button><button data-dt="m" class="${DIRTYPE==='m'?'on':''}"><b>${nM}</b><span>الدوام الصباحي</span></button><button data-dt="s" class="${DIRTYPE==='s'?'on':''}"><b>${nS}</b><span>المناوبون</span></button>`;
+  $('dirStats').innerHTML=`<button data-dt="" class="${DIRTYPE===''?'on':''}"><b>${D.length}</b><span>العدد الكلي</span></button><button data-dt="m" class="${DIRTYPE==='m'?'on':''}"><b>${nM}</b><span>الدوام الصباحي</span></button><button data-dt="s" class="${DIRTYPE==='s'?'on':''}"><b>${nS}</b><span>المناوبين</span></button>`;
   const base=D.filter(v=>!DIRTYPE||(DIRTYPE==='s')===dirIsShift(v));
   const cnt={};base.forEach(v=>{const k=dirName(v);cnt[k]=(cnt[k]||0)+1});
   const order=DIR_SECS.map(x=>x||'بدون شعبة').concat(Object.keys(cnt)).filter((x,i,a)=>a.indexOf(x)===i&&cnt[x]);
   if(DIRSEC&&!cnt[DIRSEC])DIRSEC='';
-  $('dirSecs').innerHTML=`<button data-ds="" class="${DIRSEC===''?'on':''}">كل الشعب <b>${base.length}</b></button>`+order.filter(k=>k!=='بدون شعبة').map(k=>`<button data-ds="${esc(k)}" class="${DIRSEC===k?'on':''}">${esc(k)} <b>${cnt[k]}</b></button>`).join('');
+  $('dirSecs').classList.toggle('hide',order.filter(k=>k!=='بدون شعبة').length<1);$('dirSecs').innerHTML=`<button data-ds="" class="${DIRSEC===''?'on':''}">الكل <b>${base.length}</b></button>`+order.filter(k=>k!=='بدون شعبة').map(k=>`<button data-ds="${esc(k)}" class="${DIRSEC===k?'on':''}">${esc(k)} <b>${cnt[k]}</b></button>`).join('');
   const words=q?q.split(' ').filter(Boolean):[];
   const hay=v=>dirNorm([v.name,v.phone,v.title,v.sec,v.shift,v.mother,v.status].join(' '));
   const f=base.filter(v=>(!DIRSEC||dirName(v)===DIRSEC)&&(!words.length||(h=>words.every(w=>h.includes(w)))(hay(v))));
   $('dirClr').classList.toggle('hide',!DIRQ);
-  $('dirFound').innerHTML=(q||DIRSEC||DIRTYPE)?`عدد النتائج: <b>${f.length}</b> من ${D.length}`:`إجمالي المنتسبين في القاعدة: <b>${D.length}</b>`;
+  $('dirFound').innerHTML=(q||DIRSEC||DIRTYPE)?`عدد النتائج: <b>${f.length}</b> من ${D.length}`:'';
+  const nB=D.filter(v=>!String(v.name||'').trim()||String(v.name).trim()==='منتسب جديد').length;
+  $('dirTotal').innerHTML=D.length?`<div class="dtt">إحصائية الدليل</div><div class="dtr"><span>العدد الكلي</span><b>${D.length}</b></div><div class="dtr"><span>الدوام الصباحي</span><b>${nM}</b></div><div class="dtr"><span>المناوبين</span><b>${nS}</b></div>`+(nB?`<button type="button" class="btn" id="dirBlank">حذف الأسماء الفارغة («منتسب جديد»: ${nB})</button>`:''):'';
   if(!D.length){$('dirList').innerHTML='<div class="card"><div class="hint" style="text-align:center">القاعدة فارغة. استخدمي «استيراد ملف القاعدة» أو «إضافة منتسب» في أسفل الصفحة.</div></div>';return}
   if(words.length){const FL=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['phone','رقم الهاتف'],['status','الصفة'],['addrCard','السكن حسب البطاقة'],['addrNow','السكن الحالي'],['mother','اسم الأم'],['_mar','الحالة الزوجية'],['_kids','عدد الأطفال (المخصصات الزوجية)'],['_ids','المستمسكات']];
     const VV=v=>({...v,_mar:v.marital==='m'?'متزوج':v.marital==='s'?'أعزب':'',_kids:v.marital==='m'?String(+v.kids||0):'',_ids:DIR_IDS.filter(([k])=>(v.idv||{})[k]).map(([k,l])=>l+': '+v.idv[k]).join(' — ')||v.spouseAllow&&''});
@@ -1969,6 +1983,7 @@ function dirDelSheet(){
   $('ddL').onclick=e=>{const b=e.target.closest('[data-dd]');if(!b)return;const v=(S.dir||[]).find(x=>x.id===b.dataset.dd);if(!v)return;if(!confirm('حذف «'+v.name+'» نهائياً من قاعدة البيانات؟'))return;S.dir=S.dir.filter(x=>x.id!==v.id);save();renderDir();draw();toast('تم الحذف')};
   setTimeout(()=>$('ddQ').focus(),150)}
 $('dirDelMode').onclick=dirDelSheet;
+$('dirTotal').addEventListener('click',e=>{if(!e.target.closest('#dirBlank'))return;const n=(S.dir||[]).filter(v=>!String(v.name||'').trim()||String(v.name).trim()==='منتسب جديد').length;if(!confirm('حذف '+n+' من الأسماء الفارغة نهائياً؟'))return;S.dir=S.dir.filter(v=>String(v.name||'').trim()&&String(v.name).trim()!=='منتسب جديد');save();renderDir();toast('تم الحذف')});
 $('dirQ').addEventListener('input',e=>{DIRQ=e.target.value;renderDir()});
 $('dirStats').addEventListener('click',e=>{const b=e.target.closest('[data-dt]');if(!b)return;DIRTYPE=b.dataset.dt;renderDir()});
 $('dirGo').onclick=()=>{$('dirQ').blur();renderDir();$('dirList').scrollIntoView({behavior:'smooth',block:'start'})};
