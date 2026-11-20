@@ -784,6 +784,7 @@ body.subpage #viewDir .dirrow{min-height:60px;font-size:16px}
 body.subpage #viewDir .dirtools2 .btn,body.subpage #viewDir .dirtools2 button{min-height:54px;font-size:16px}
 body.subpage #viewDir{min-height:calc(100vh - 110px);display:flex;flex-direction:column}
 body.subpage #viewDir #dirList{flex:1}
+.dwbar b{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -939,7 +940,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 151 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 152 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1872,10 +1873,10 @@ function dayWin(){try{const T=document.body.classList.contains('tbl'),isDay=MODE
   if(stale){rows.forEach(r=>{r.dataset.dw=sig;const cs=[...r.children].filter(c=>c.matches('th.daycell,td.c'));cs.forEach((c,i)=>{c.style.display=(i>=DW&&i<DW+DWN)?'':'none'})});
     document.querySelectorAll('#grid td.namecol[data-fit],#grid td.c[data-fit2]').forEach(c=>{c.removeAttribute('data-fit');c.removeAttribute('data-fit2');c.style.cssText=c.style.cssText.replace(/(white-space|font-size|word-break|overflow-wrap|overflow|padding-inline|line-height)[^;]*;/g,'')});
     const a=ths[DW],b=ths[Math.min(N-1,DW+DWN-1)];const dn=x=>x.querySelector('.dn')?x.querySelector('.dn').textContent:'';
-    $('dwLbl').textContent=dn(a)===dn(b)?dn(a):dn(a)+' ← '+dn(b);$('dwPrev').disabled=DW<=0;$('dwNext').disabled=DW+DWN>=N;$('dwSz').textContent='عرض: '+DWN+' أيام'}}catch(e){}}
+    $('dwLbl').textContent=dn(a)===dn(b)?dn(a):dn(a)+' ← '+dn(b);$('dwPrev').disabled=DW<=0;$('dwNext').disabled=DW+DWN>=N;$('dwSz').textContent='المعروض: '+DWN+' أيام'}}catch(e){}}
 function fitNames(){try{if(!document.body.classList.contains('tbl'))return;const on=document.querySelector('#modeSeg .on');if(!on)return;
-  document.querySelectorAll('#grid td.namecol:not([data-fit])').forEach(td=>{td.dataset.fit='1';const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','nowrap');P('word-break','normal');P('font-size','13.5px');let f=13.5;while(td.scrollWidth>td.clientWidth+1&&f>8.5){f-=.5;P('font-size',f+'px')}if(td.parentNode)td.parentNode.style.height='44px'});
-  {const all=[...document.querySelectorAll('#grid td.namecol[data-fit]')];if(all.length){const m0=Math.min(...all.map(t=>parseFloat(t.style.fontSize)||13.5));if(m0>=10.5){const m=Math.min(...all.map(t=>parseFloat(t.style.fontSize)||13.5));all.forEach(t=>t.style.setProperty('font-size',m+'px','important'))}}}}catch(e){}}
+  document.querySelectorAll('#grid td.namecol:not([data-fit])').forEach(td=>{td.dataset.fit='1';const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','nowrap');P('word-break','normal');const f0=document.body.classList.contains('daymode')?16.5:14.5;P('font-weight','900');P('font-size',f0+'px');let f=f0;while(td.scrollWidth>td.clientWidth+1&&f>8.5){f-=.5;P('font-size',f+'px')}if(td.parentNode)td.parentNode.style.height='44px'});
+  {const all=[...document.querySelectorAll('#grid td.namecol[data-fit]')];if(all.length){const m0=Math.min(...all.map(t=>parseFloat(t.style.fontSize)||13.5));if(m0>=11.5){const m=Math.min(...all.map(t=>parseFloat(t.style.fontSize)||13.5));all.forEach(t=>t.style.setProperty('font-size',m+'px','important'))}}}}catch(e){}}
 function fitCells(){try{if(!document.body.classList.contains('tbl'))return;
   document.querySelectorAll('#grid td.c:not([data-fit2]),#grid td.notes:not([data-fit2])').forEach(td=>{td.dataset.fit2='1';if(!td.textContent.trim()||td.textContent.trim()==='—'||td.textContent.trim()==='حاضر')return;
     const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','normal');P('overflow-wrap','normal');P('word-break','normal');P('overflow','visible');P('padding-inline','2px');P('line-height','1.2');
