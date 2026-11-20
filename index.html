@@ -719,6 +719,15 @@ body.tbl .grid th.namecol,body.tbl .grid td.namecol{font-size:12px!important;pad
 .diract .dcall{background:linear-gradient(180deg,#e9f7ff 0%,#8fd0f5 45%,#2f93d6 55%,#5db6ec 100%)!important;color:#fff!important;border:1px solid #0f5a99!important;box-shadow:0 4px 0 #0b447a,0 6px 10px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.7)!important;text-shadow:0 1px 1px rgba(0,0,0,.35)}
 .diract .dwa{background:linear-gradient(180deg,#d9fbe3 0%,#6fdc8f 45%,#1ea952 55%,#43c46f 100%)!important;color:#fff!important;border:1px solid #0d6b30!important;box-shadow:0 4px 0 #0a5226,0 6px 10px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.7)!important;text-shadow:0 1px 1px rgba(0,0,0,.35)}
 .diract .btn:active{transform:translateY(3px);box-shadow:0 1px 0 #0b447a!important}
+
+/* v141b directory tools + colour dropdown */
+.dirtools2 .dirtools .btn{height:38px!important;min-height:0!important;padding:0 8px!important;font-size:14px!important;border-radius:11px!important}
+.dirtools2 #dirAdd{width:auto!important;margin:0!important}
+#dirDelMode{background:linear-gradient(180deg,#fff1f0 0%,#ffc9c4 42%,#f07d74 52%,#f8b0aa 100%)!important;border-color:#a8322a!important;box-shadow:0 3px 0 #7d1f19,inset 0 1px 0 #fff!important;color:#5c0f0a!important}
+.dcolbar .btn{display:flex;align-items:center;gap:9px;height:40px;padding:0 12px;width:100%;justify-content:flex-start}
+.dcolbar .dcsw{width:22px;height:22px;border-radius:50%;border:2px solid #1F3864;box-shadow:0 2px 0 rgba(0,0,0,.3)}
+.dcolbar i{margin-inline-start:auto;font-style:normal;font-size:15px}
+.ddrow{position:relative}.ddrow em{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-style:normal;font-weight:900;font-size:12px;color:#a8322a}
 </style>
 </head>
 <body>
@@ -816,8 +825,8 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   </div>
   <div id="dirList"></div>
   <div class="card dirhead dirtools2"><div class="dtl">إدارة القاعدة</div>
-    <button class="btn" id="dirAdd">＋ إضافة منتسب</button>
-    <div class="dirtools"><button class="btn" id="dirImp">استيراد ملف القاعدة</button><button class="btn" id="dirExp">تصدير القاعدة</button><input type="file" id="dirFile" accept=".json,application/json" class="hide"></div>
+    <div class="dirtools"><button class="btn" id="dirAdd">＋ إضافة منتسب</button><button class="btn" id="dirDelMode">🗑 حذف منتسب</button></div>
+    <div class="dirtools" style="margin-top:8px"><button class="btn" id="dirImp">استيراد ملف القاعدة</button><button class="btn" id="dirExp">تصدير القاعدة</button><input type="file" id="dirFile" accept=".json,application/json" class="hide"></div>
   </div>
 </main>
 <main id="viewSettings" class="hide">
@@ -872,7 +881,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 141 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 142 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1719,16 +1728,29 @@ function dirSheet(id){
   <div class="dirfmt"><select class="txt" data-s="f">${DIR_FONTS.map(x=>`<option value="${esc(x)}" ${T.f===x?'selected':''}>${esc(x||'الخط الافتراضي')}</option>`).join('')}</select>
   <select class="txt" data-s="z">${['','12','14','16','18','20','22'].map(x=>`<option value="${x}" ${String(T.z)===x?'selected':''}>${x?'حجم '+x:'الحجم'}</option>`).join('')}</select>
   <button class="btn ${T.b?'on':''}" data-s="b"><b>B</b></button><button class="btn ${T.u?'on':''}" data-s="u"><u>U</u></button></div>
-  <div class="dircols">${DIR_COL.map(c=>`<button class="dcol ${T.c===c?'on':''}" data-c="${c}" style="background:${c||'#fff'}">${c?'':'✕'}</button>`).join('')}</div>
-  <button class="clrlink" id="dirDel">حذف هذا الاسم من القاعدة</button>`;
+  <div class="dcolbar"><button type="button" id="dcolBtn" class="btn"><span class="dcsw" id="dcsw" style="background:${T.c||'#fff'}"></span><span>لون الاسم</span><i>▾</i></button></div>
+  <div class="dircols hide" id="dcolList">${DIR_COL.map(c=>`<button class="dcol ${T.c===c?'on':''}" data-c="${c}" style="background:${c||'#fff'}">${c?'':'✕'}</button>`).join('')}</div>`;
   $('ov').classList.add('show');
   const sh=$('sheet'),upd=()=>{save();$('dirNm').setAttribute('style',dirStyle(v));$('dirNm').textContent=v.name;renderDir()};
   sh.querySelectorAll('[data-f]').forEach(el=>{el.oninput=el.onchange=()=>{v[el.dataset.f]=el.value;if(el.dataset.f==='phone'){$('dirCall').href='tel:'+el.value;$('dirWa').href=dirWa(el.value)}upd()}});
   sh.querySelectorAll('select[data-s]').forEach(el=>{el.onchange=()=>{T[el.dataset.s]=el.value;upd()}});
   sh.querySelectorAll('button[data-s]').forEach(el=>{el.onclick=()=>{const k=el.dataset.s;T[k]=T[k]?0:1;el.classList.toggle('on',!!T[k]);upd()}});
-  sh.querySelectorAll('.dcol').forEach(el=>{el.onclick=()=>{T.c=el.dataset.c;sh.querySelectorAll('.dcol').forEach(x=>x.classList.toggle('on',x===el));upd()}});
+  $('dcolBtn').onclick=()=>$('dcolList').classList.toggle('hide');
+  sh.querySelectorAll('.dcol').forEach(el=>{el.onclick=()=>{T.c=el.dataset.c;sh.querySelectorAll('.dcol').forEach(x=>x.classList.toggle('on',x===el));$('dcsw').style.background=T.c||'#fff';$('dcolList').classList.add('hide');upd()}});
   $('dirX').onclick=()=>closeSheet();
-  $('dirDel').onclick=()=>{if(!confirm('حذف «'+v.name+'» من قاعدة البيانات؟'))return;S.dir=S.dir.filter(x=>x.id!==id);save();closeSheet();renderDir();toast('تم الحذف')}}
+}
+function dirDelSheet(){
+  edit=null;let q='';
+  $('sheet').innerHTML=`<div class="edhead"><div class="edsub">حذف منتسب من القاعدة</div><div class="edtop"><button class="xtop" type="button" id="ddX"><span class="xb">✕</span><span>إغلاق</span></button></div></div><div class="dsearch"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg><input id="ddQ" type="search" autocomplete="off" placeholder="اكتبي اسم المنتسب المراد حذفه…"></div><div class="dfound" id="ddF"></div><div id="ddL"></div>`;
+  $('ov').classList.add('show');
+  const draw=()=>{const w=dirNorm(q).split(' ').filter(Boolean);const L=(S.dir||[]).filter(v=>w.length&&(h=>w.every(x=>h.includes(x)))(dirNorm([v.name,v.phone].join(' '))));
+    $('ddF').textContent=w.length?'عدد النتائج: '+L.length:'اكتبي حرفاً أو أكثر لتظهر الأسماء';
+    $('ddL').innerHTML=L.slice(0,40).map(v=>`<button class="dirrow ddrow" data-dd="${v.id}"><span class="dn">${esc(v.name)}</span><small>${esc(v.sec||'بدون شعبة')}${v.phone?' · '+esc(v.phone):''}</small><em>🗑 حذف</em></button>`).join('')};
+  $('ddQ').oninput=e=>{q=e.target.value;draw()};draw();
+  $('ddX').onclick=()=>closeSheet();
+  $('ddL').onclick=e=>{const b=e.target.closest('[data-dd]');if(!b)return;const v=(S.dir||[]).find(x=>x.id===b.dataset.dd);if(!v)return;if(!confirm('حذف «'+v.name+'» نهائياً من قاعدة البيانات؟'))return;S.dir=S.dir.filter(x=>x.id!==v.id);save();renderDir();draw();toast('تم الحذف')};
+  setTimeout(()=>$('ddQ').focus(),150)}
+$('dirDelMode').onclick=dirDelSheet;
 $('dirQ').addEventListener('input',e=>{DIRQ=e.target.value;renderDir()});
 $('dirStats').addEventListener('click',e=>{const b=e.target.closest('[data-dt]');if(!b)return;DIRTYPE=b.dataset.dt;renderDir()});
 $('dirClr').onclick=()=>{DIRQ='';$('dirQ').value='';renderDir();$('dirQ').focus()};
