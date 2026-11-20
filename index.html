@@ -884,6 +884,13 @@ body.ltedit #ltPdf,body.ltedit #ltWord,body.ltedit #ltCancel,body.ltedit #ltEdit
 #ltPm button{height:40px;padding:0 16px;border-radius:10px;border:2px solid #12315a;background:linear-gradient(180deg,#f7fcff,#c4e4f6);font-family:inherit;font-weight:900;font-size:14px;color:#0b1a2e;box-shadow:0 3px 0 #12315a;white-space:nowrap}
 #ltTypes .btn.sel{background:linear-gradient(180deg,#fff6c9 0%,#ffe27a 45%,#f5be1d 55%,#ffd75a 100%)!important;border:3px solid #12315a!important;box-shadow:0 4px 0 #12315a,0 0 0 2px #c9a227!important;color:#000!important;font-weight:900!important}
 body:not(.ltedit) #ltPm{display:none!important}
+
+/* v163 letter types in navy/gold frames */
+#ltTypes .btn,#btnBackup,#viewLetters #backup{background:linear-gradient(180deg,#fff,#e6eefa)!important;color:#12315a!important;border:2.5px solid #12315a!important;border-radius:12px!important;box-shadow:0 3px 0 #12315a,inset 0 0 0 2px #fff,inset 0 0 0 3.5px #c9a227!important;text-shadow:none!important;font-weight:900!important;height:42px!important;font-size:13px!important}
+#ltTypes .btn[data-ltadd]{background:#fff!important;border:2.5px dashed #12315a!important;box-shadow:none!important;color:#12315a!important}
+#ltTypes .btn:active{transform:translateY(2px);box-shadow:0 1px 0 #12315a,inset 0 0 0 2px #fff,inset 0 0 0 3.5px #c9a227!important}
+#ltTypes .btn.sel{background:linear-gradient(180deg,#fff3c0,#f3cf56)!important;border:3px solid #0b2447!important;box-shadow:0 4px 0 #0b2447,inset 0 0 0 2px #fff,inset 0 0 0 4px #b8860b!important;color:#0b2447!important}
+.bevbk{background:linear-gradient(180deg,#fff,#e6eefa)!important;color:#12315a!important;border:2.5px solid #12315a!important;border-radius:12px!important;box-shadow:0 3px 0 #12315a,inset 0 0 0 2px #fff,inset 0 0 0 3.5px #c9a227!important;text-shadow:none!important;font-weight:900!important}
 </style>
 </head>
 <body>
@@ -1051,7 +1058,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 162 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 163 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
