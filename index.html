@@ -933,10 +933,14 @@ body:not(.tbl):not(.subpage) .hg b{font-size:20.5px!important;font-weight:900!im
 #dirTotal:empty{display:none!important}
 #viewDir .dstats{margin:0 0 10px!important}
 #viewDir .dirhead{padding-top:10px}
+
+#scLib{padding:7px 12px;border-radius:12px;border:3px solid #12315a;background:linear-gradient(180deg,#fff,#dfe9f6);color:#000;font-family:inherit;font-weight:900;font-size:15px;box-shadow:0 3px 0 #12315a,inset 0 0 0 1.5px #d4af37;cursor:pointer;white-space:nowrap}
+#scT{font-weight:900!important;font-size:16px!important}
+.schint{width:100%;text-align:center;color:#f3cf56;font-weight:800;font-size:13.5px}
 </style>
 </head>
 <body>
-<div id="scOv" class="hide"><div class="scbar"><button id="scX" type="button"><span class="xb">✕</span><span>إغلاق</span></button><span id="scT"></span></div><div id="scStage"><video id="scVid" playsinline muted autoplay></video><canvas id="scCv"></canvas></div><div class="scfoot" id="scFoot"></div><input type="file" id="scFile" accept="image/*" class="hide"><input type="file" id="scCap" accept="image/*" capture="environment" class="hide"></div>
+<div id="scOv" class="hide"><div class="scbar"><span id="scT">المسح الضوئي</span><button id="scLib" type="button">🖼️ من المكتبة</button><button id="scX" type="button"><span class="xb">✕</span><span>إغلاق</span></button></div><div id="scStage"><video id="scVid" playsinline muted autoplay></video><canvas id="scCv"></canvas></div><div class="scfoot" id="scFoot"></div><input type="file" id="scFile" accept="image/*" class="hide"><input type="file" id="scCap" accept="image/*" capture="environment" class="hide"></div>
 <div id="gate" style="display:none;position:fixed;inset:0;z-index:99999;background:linear-gradient(160deg,#0f2a5c,#1F3864 60%,#2c4f94);color:#fff;font-family:Cairo,Arial,sans-serif;direction:rtl;align-items:center;justify-content:center;text-align:center;padding:24px"><div style="max-width:330px;width:100%"><img src="logo-moe-t.png" alt="" style="width:92px;filter:drop-shadow(0 2px 6px #0006)"><div style="margin:14px 0 16px;font-size:14.5px;opacity:.9">أدخل رمز الدخول للمتابعة</div><input id="gateIn" type="password" inputmode="numeric" autocomplete="off" placeholder="رمز الدخول" style="width:100%;box-sizing:border-box;padding:13px;border-radius:12px;border:0;font-size:20px;text-align:center;letter-spacing:6px"><div id="gateErr" style="min-height:22px;margin:8px 0;color:#ffd0d0;font-size:13px"></div><button id="gateBtn" style="width:100%;padding:13px;border-radius:12px;border:0;font-size:17px;font-weight:800;background:#fff;color:#1F3864">دخول</button></div></div>
 <script>(function(){const H='2a3b3915a8af21768064aa64489967cb5f579a6e08c4a974dfc25a12621949c4',K='mawqif_gate';
 async function h(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('mawqif-salt-'+t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
@@ -1102,7 +1106,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 167 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 168 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2331,21 +2335,15 @@ function scStageSet(st){
     foot.innerHTML=scBtn('scLib','🖼️ من المكتبة')+`<button id="scShot" class="scshot" type="button" aria-label="التقاط"><i></i></button>`+(SC.pages.length?scBtn('scDone','حفظ PDF ('+SC.pages.length+')','y'):'<span class="scsp"></span>');
     scQ('scLib').onclick=()=>scQ('scFile').click();scQ('scShot').onclick=scShoot;if(SC.pages.length)scQ('scDone').onclick=()=>scPdf();scLive(true)}
   else{scLive(false)}
-  if(st==='crop'){T.textContent='اسحب النقاط الأربع لتحديد حدود الورقة';
-    foot.innerHTML=scBtn('scRe','↺ إعادة')+scBtn('scGo','✔ متابعة','y');scQ('scRe').onclick=()=>scBack();scQ('scGo').onclick=scApply;scDrawCrop()}
-  if(st==='res'){T.textContent='نتيجة المسح';
+  if(st==='crop'){T.textContent='المسح الضوئي';
+    foot.innerHTML='<div class="schint">اسحب النقاط الأربع لتحديد حدود الورقة</div>'+scBtn('scRe','↺ تصوير من جديد')+scBtn('scGo','✔ متابعة','y');scQ('scRe').onclick=()=>scBack();scQ('scGo').onclick=scApply;scDrawCrop()}
+  if(st==='res'){T.textContent='المسح الضوئي';
     foot.innerHTML=`<div class="scm"><button data-m="orig" class="${SC.mode==='orig'?'on':''}">الأصل</button><button data-m="color" class="${SC.mode==='color'?'on':''}">ملوّن</button><button data-m="bw" class="${SC.mode==='bw'?'on':''}">أبيض وأسود</button></div><div class="scrow">`+scBtn('scAdd','＋ صفحة أخرى')+scBtn('scCrop','✂ تعديل الحدود')+scBtn('scSave','حفظ PDF','y')+scBtn('scRead','قراءة الموقف')+`</div>`;
     foot.querySelector('.scm').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;SC.mode=b.dataset.m;scFinal();scStageSet('res')};
     scQ('scAdd').onclick=()=>{scKeep();scBack()};scQ('scCrop').onclick=()=>scStageSet('crop');scQ('scSave').onclick=()=>{scKeep();scPdf()};scQ('scRead').onclick=scReadIt;scDrawRes()}
 }
-function scBack(){SC.src=null;scStageSet('cam')}
-async function scOpen(){
-  closeSheet();SC.pages=[];SC.src=null;scQ('scOv').classList.remove('hide');document.body.style.overflow='hidden';
-  scQ('scStage').style.visibility='visible';scStageSet('cam');
-  try{if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw 0;
-    SC.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}},audio:false});
-    const v=scQ('scVid');v.srcObject=SC.stream;await v.play().catch(()=>{});scLive(true)}
-  catch(e){toast('تعذّر تشغيل الكاميرا المباشرة — اختر صورة من المكتبة أو التقطي صورة');scQ('scCap').click()}}
+function scBack(){scQ('scCap').click()}
+function scOpen(){closeSheet();SC.pages=[];SC.src=null;scQ('scCap').click()}
 function scClose(){scLive(false);if(SC.stream){SC.stream.getTracks().forEach(t=>t.stop());SC.stream=null}scQ('scVid').srcObject=null;scQ('scOv').classList.add('hide');document.body.style.overflow='';SC.src=null;SC.pages=[]}
 function scLive(on){clearInterval(SC.tm);SC.tm=0;const cv=scQ('scCv'),x=cv.getContext('2d');
   if(!on){if(SC.stage==='cam')x.clearRect(0,0,cv.width,cv.height);return}
@@ -2356,7 +2354,7 @@ function scLive(on){clearInterval(SC.tm);SC.tm=0;const cv=scQ('scCv'),x=cv.getCo
     if(SC.live){const P=SC.live.map(p=>[ox+p.x*v.videoWidth*s,oy+p.y*v.videoHeight*s]);x.beginPath();P.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();x.fillStyle='rgba(212,175,55,.18)';x.fill();x.lineWidth=3.5;x.strokeStyle='#f3cf56';x.stroke()}},260)}
 function scFromEl(el,w,h){const k=Math.min(1,2400/Math.max(w,h)),c=document.createElement('canvas');c.width=Math.round(w*k);c.height=Math.round(h*k);c.getContext('2d',{willReadFrequently:true}).drawImage(el,0,0,c.width,c.height);return c}
 function scShoot(){const v=scQ('scVid');if(!v.videoWidth)return;const live=SC.live;SC.src=scFromEl(v,v.videoWidth,v.videoHeight);SC.q=(live||scDetect(SC.src,SC.src.width,SC.src.height)||scDef()).map(p=>({...p}));scStageSet('crop')}
-function scFromFile(f){const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{SC.src=scFromEl(im,im.naturalWidth,im.naturalHeight);URL.revokeObjectURL(u);SC.q=(scDetect(SC.src,SC.src.width,SC.src.height)||scDef()).map(p=>({...p}));scQ('scOv').classList.remove('hide');scStageSet('crop')};im.onerror=()=>toast('تعذّر قراءة الصورة');im.src=u}
+function scFromFile(f){const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{SC.src=scFromEl(im,im.naturalWidth,im.naturalHeight);URL.revokeObjectURL(u);SC.q=(scDetect(SC.src,SC.src.width,SC.src.height)||scDef()).map(p=>({...p}));scQ('scOv').classList.remove('hide');document.body.style.overflow='hidden';scStageSet('crop')};im.onerror=()=>toast('تعذّر قراءة الصورة');im.src=u}
 function scDrawCrop(){
   const cv=scQ('scCv'),x=cv.getContext('2d'),f=scFit(SC.src.width,SC.src.height),d=window.devicePixelRatio||1;x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,f.W,f.H);
   x.drawImage(SC.src,f.ox,f.oy,SC.src.width*f.s,SC.src.height*f.s);
@@ -2388,13 +2386,13 @@ async function scReadIt(){
   cv.addEventListener('pointermove',e=>{if(SC.stage!=='crop'||SC.drag<0)return;const f=scFit(SC.src.width,SC.src.height),[mx,my]=scPt(e);
     SC.q[SC.drag]={x:Math.min(1,Math.max(0,(mx-f.ox)/(SC.src.width*f.s))),y:Math.min(1,Math.max(0,(my-f.oy)/(SC.src.height*f.s)))};scDrawCrop()});
   const up=()=>{SC.drag=-1};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
-  scQ('scX').onclick=scClose;
+  scQ('scX').onclick=scClose;scQ('scLib').onclick=()=>scQ('scFile').click();
   scQ('scFile').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)scFromFile(f)};
-  scQ('scCap').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)scFromFile(f);else if(SC.stage==='cam'&&!SC.stream)scClose()};
+  scQ('scCap').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)scFromFile(f);};
   window.addEventListener('resize',()=>{if(scQ('scOv').classList.contains('hide'))return;if(SC.stage==='crop')scDrawCrop();else if(SC.stage==='res')scDrawRes()})})();
 $('btnOcr').onclick=()=>{edit=null;
   $('sheet').innerHTML=`<div class="edhead"><div class="edsub">قراءة الصور والمسح الضوئي</div><div class="edtop"><button class="xtop" type="button" id="ocX"><span class="xb">✕</span><span>إغلاق</span></button></div></div>
-  <div class="ocopts"><button class="btn" id="ocScan"><b>📄 مسح ضوئي مباشر</b><small>وجّه الكاميرا نحو الورقة فتُقصّ الحواف وتتحول إلى PDF</small></button>
+  <div class="ocopts"><button class="btn" id="ocScan"><b>📄 مسح ضوئي</b><small>تصوير الورقة بكاميرا الهاتف ثم قصّ الحواف وتحويلها إلى PDF</small></button>
   <button class="btn" id="ocLib"><b>🖼️ مسح من مكتبة الصور</b><small>اختر صورة ورقة لتصحيحها وتحويلها إلى PDF</small></button>
   <button class="btn" id="ocRead"><b>📋 قراءة صور الموقف</b><small>استخراج الحضور من صورة ورقة الموقف (يلزم مفتاح Gemini)</small></button></div>`;
   $('ov').classList.add('show');$('ocX').onclick=closeSheet;$('ocScan').onclick=scOpen;
