@@ -829,6 +829,17 @@ body.tbl .hprint{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe
 body.tbl .hprint svg{stroke:#0b1a2e!important}
 body.subpage .hclose{border:2px solid #4a0d08!important;box-shadow:0 3px 0 #4a0d08,0 5px 8px rgba(0,0,0,.3)!important;font-size:13px!important;padding:0 8px!important;min-width:0!important}
 body.subpage .hclose svg{width:20px!important;height:20px!important}
+
+/* v158 formal home */
+body:not(.tbl):not(.subpage) .monthbar,body:not(.tbl):not(.subpage) #actionBar{display:none!important}
+#homeCard{position:relative;overflow:hidden}
+#homeCard::before{content:"";position:absolute;inset:0;background:url(logo-moe-t.png) center 45%/78% no-repeat;opacity:.1;pointer-events:none}
+.hgrid{position:relative;z-index:1;gap:11px!important;min-height:calc(100vh - 150px)!important}
+.hg{background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(228,238,250,.94))!important;border:3px solid #12315a!important;border-radius:14px!important;box-shadow:0 4px 0 #12315a,inset 0 0 0 2px #fff,inset 0 0 0 3.5px #c9a227,0 8px 12px rgba(0,0,0,.18)!important;min-height:84px!important;gap:6px!important}
+.hg b{font-size:16.5px!important;color:#12315a!important;font-weight:900!important}
+.hg svg{width:42px;height:42px}
+.hg.y{background:linear-gradient(180deg,#fff3c0,#f3cf56)!important}
+.hg:active{transform:translateY(3px);box-shadow:0 1px 0 #12315a,inset 0 0 0 2px #fff,inset 0 0 0 3.5px #c9a227!important}
 </style>
 </head>
 <body>
@@ -863,13 +874,15 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 
 <main id="viewMain">
   <div class="card" id="homeCard"><div class="hgrid" id="hGrid">
-    <button class="hg wide y" data-hg="m"><span>📋</span><b>موقف الحضور</b></button>
-    <button class="hg" data-hg="duty"><span>🌙</span><b>المناوبين</b></button>
-    <button class="hg" data-hg="day"><span>☀️</span><b>الدوام الصباحي</b></button>
-    <button class="hg" data-hg="l"><span>📚</span><b>الكتب الرسمية</b></button>
-    <button class="hg" data-hg="dir"><span>👥</span><b>دليل المنتسبين</b></button>
-    <button class="hg" data-hg="ocr"><span>📷</span><b>قراءة الصور</b></button>
-    <button class="hg" data-hg="s"><span>⚙️</span><b>الإعدادات</b></button>
+    <button class="hg wide y" data-hg="m"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6v3H9zM7 5.5H5v15h14v-15h-2M8 12h8M8 16h5"/></svg><b>موقف الحضور</b></button>
+    <button class="hg " data-hg="duty"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><b>المناوبين</b></button>
+    <button class="hg " data-hg="day"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg><b>الدوام الصباحي</b></button>
+    <button class="hg " data-hg="l"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v14H4zM10 5h4v14h-4zM16 6.5l4 1-3 12-4-1z"/></svg><b>الكتب الرسمية</b></button>
+    <button class="hg " data-hg="dir"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5M17 11a2.5 2.5 0 1 0 0-5M21 18c0-2-1.5-3.5-3.5-4"/></svg><b>دليل المنتسبين</b></button>
+    <button class="hg " data-hg="ready"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6l2 2 3-3M5 13l2 2 3-3M13 7h6M13 14h6M5 20h14"/></svg><b>تحضير الموقف</b></button>
+    <button class="hg " data-hg="daily"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4"/></svg><b>الموقف اليومي</b></button>
+    <button class="hg " data-hg="ocr"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h4l2-3h4l2 3h4v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><b>قراءة الصور</b></button>
+    <button class="hg " data-hg="s"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4"/></svg><b>الإعدادات</b></button>
   </div></div>
   <div class="card" id="statsCard">
     <div class="stats" id="stats"></div>
@@ -993,7 +1006,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 157 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 158 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1937,6 +1950,8 @@ $('hGrid').addEventListener('click',e=>{const b=e.target.closest('[data-hg]');if
  else if(g==='l')$('btnLetters').click();
  else if(g==='s')$('btnSettings').click();
  else if(g==='dir')showDir(true);
+ else if(g==='ready')$('btnReady').click();
+ else if(g==='daily')$('btnCopy').click();
  else if(g==='ocr')$('btnOcr').click()});
 
 function showTable(on){document.body.classList.toggle('tbl',on);window.scrollTo(0,0);navOn()}
