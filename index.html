@@ -788,6 +788,20 @@ body.subpage #viewDir #dirList{flex:1}
 #grid td.c,#grid td.notes{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 .dwbar button{white-space:nowrap;font-size:11.5px!important;padding:0 7px!important}
 .dwbar b{font-size:12px!important;flex:1;min-width:0}
+
+/* v154 header row: print + close beside title */
+.hprint{display:none!important}
+body.tbl .hprint{display:flex!important;flex-direction:row;gap:5px;width:auto!important;min-width:0;padding:0 10px;color:#fff;font-size:13.5px;margin-inline-start:auto!important;margin-inline-end:6px;font-family:inherit}
+body.tbl .hprint b{font-weight:800}
+body.tbl .hclose{margin-inline-start:0!important}
+body.tbl #subPrint{display:none!important}
+body.tbl #hdrClose svg{border:2.5px solid #fff;border-radius:6px;padding:2px;width:22px;height:22px;box-sizing:border-box}
+.subpage .hclose{background:linear-gradient(180deg,#ff8a7a,#d62d20)!important;border:1px solid #fff!important;box-shadow:0 3px 0 #8c1a10;font-size:14.5px!important;font-weight:900}
+.subpage .hclose svg{border:2.5px solid #fff;border-radius:6px;padding:2px;width:22px;height:22px;box-sizing:border-box}
+body.tbl #appTitle,body.subpage #appTitle{font-size:14px!important}
+body.subpage #stationName{font-size:15px!important}
+body.daymode .dwbar{margin:2px 0!important}
+body.daymode .dwbar button{height:26px!important;font-size:11px!important;box-shadow:0 2px 0 #1f4f78!important}
 </style>
 </head>
 <body>
@@ -804,6 +818,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   <div class="brand">
     <div class="bolt"><img src="logo-moe-t.png" alt="" style="width:27px;height:27px;object-fit:contain"></div>
     <div><h1 id="appTitle">محطة كهرباء الموصل الغازية</h1><small id="stationName"></small></div>
+    <button class="burger hprint" id="hdrPrint" aria-label="طباعة" type="button"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M7 14h10v7H7z"/></svg><b>طباعة</b></button>
     <button class="burger hclose" id="hdrClose" aria-label="إغلاق" type="button"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg><b>إغلاق</b></button>
     <button class="burger" id="btnMenu" aria-label="القائمة"><span></span><span></span><span></span></button>
   </div>
@@ -943,7 +958,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 153 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 154 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1910,7 +1925,9 @@ function navOn(){dayWin();fitNames();fitCells();const L=!$('viewLetters').classL
 setInterval(navOn,400);
 $('ltBack').onclick=()=>showLetters(false);
 $('subPrint').onclick=()=>$('btnPrintMenu').click();
+(function(){const w=document.querySelector('.gridwrap');let x0=null,y0=0;w.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});w.addEventListener('touchend',e=>{if(x0===null||MODE!=='day'||!document.body.classList.contains('tbl'))return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;if(Math.abs(dx)>60&&Math.abs(dx)>2*Math.abs(dy)){if(dx<0)DW+=DWN;else DW=Math.max(0,DW-DWN);navOn()}},{passive:true})})();
 $('dwPrev').onclick=()=>{DW=Math.max(0,DW-DWN);navOn()};$('dwNext').onclick=()=>{DW+=DWN;navOn()};$('dwSz').onclick=()=>{DWN=DWN===3?2:3;DW=Math.floor(DW/DWN)*DWN;navOn()};
+$('hdrPrint').onclick=()=>$('btnPrintMenu').click();
 $('hdrClose').onclick=()=>$('subBack').click();
 $('subBack').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);else if(!$('viewSettings').classList.contains('hide'))showSettings(false);else if(!$('viewLetters').classList.contains('hide'))showLetters(false);else showTable(false);navOn()};
 $('ltLogoReset').onclick=()=>{if(!sure('هل تريد الرجوع إلى الشعار الرسمي؟'))return;delete S.logo;save();ltLogo();toast('تمت استعادة الشعار الرسمي')};
