@@ -455,11 +455,40 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 .backbtn:active{transform:translateY(3px);box-shadow:0 1px 0 #1f4f78,0 2px 4px rgba(0,0,0,.2)!important}
 #viewLetters .setbar{margin:0 0 10px}
 /* v116: roomier letter editor */
-#ltBody{min-height:360px!important;padding:14px!important;line-height:1.9!important;font-size:16px!important}
 #ltNames{min-height:130px!important}
 #ltCancel{margin-top:14px!important}
 #viewLetters{padding-bottom:calc(60px + env(safe-area-inset-bottom))}
 #ltPdf,#ltWord{min-height:48px}
+/* v117: rich letter editor + subpage header */
+@font-face{font-family:'Simplified Arabic';src:local('Simplified Arabic'),local('Geeza Pro'),local('Arial')}
+@font-face{font-family:'Traditional Arabic';src:local('Traditional Arabic'),local('Times New Roman'),local('Geeza Pro')}
+@font-face{font-family:'Sakkal Majalla';src:local('Sakkal Majalla'),local('Al Nile'),local('Geeza Pro')}
+@font-face{font-family:'Tahoma';src:local('Tahoma'),local('Damascus'),local('Geeza Pro')}
+.subpage .navtiles{display:none!important}
+.rtb{display:flex;flex-direction:column;gap:8px;margin:4px 0 8px;padding:10px;border-radius:14px;background:linear-gradient(180deg,#eaf5fd,#d3e8f8);border:1px solid #9ccbe8}
+.rtrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.rtrow select{flex:1;min-width:90px;height:38px;border-radius:11px;border:1px solid #3f78a3;background:linear-gradient(180deg,#fff,#e4f3fc);font-weight:800;font-size:14px;color:#0b1a2e;padding:0 6px;box-shadow:0 3px 0 #1f4f78}
+.rtrow button{min-width:40px;height:38px;border-radius:11px;border:1px solid #3f78a3;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%);box-shadow:0 3px 0 #1f4f78,0 4px 7px rgba(0,0,0,.18),inset 0 1px 0 #fff;color:#0b1a2e;font-size:17px;font-weight:900;cursor:pointer;font-family:inherit}
+.rtrow button:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78}
+.rtsep{width:2px;height:26px;background:#9ccbe8;border-radius:2px}
+.rtcol button{min-width:34px;width:34px;height:34px;border-radius:50%;border:2px solid #fff;box-shadow:0 3px 0 rgba(0,0,0,.35),0 4px 7px rgba(0,0,0,.25)}
+.rttbl span{font-weight:800;color:#1F3864;font-size:14px}.rttbl select{flex:0 0 64px;min-width:0}
+.rtok{background:linear-gradient(180deg,#fffbea 0%,#ffe89a 42%,#f7c531 52%,#ffdf70 100%)!important;border-color:#a87900!important;box-shadow:0 3px 0 #8a6200,0 4px 7px rgba(0,0,0,.2),inset 0 1px 0 #fff!important;padding:0 14px}
+.rte{min-height:360px;padding:14px;border:1.5px solid #9ccbe8;border-radius:14px;background:#fff;line-height:1.9;font-size:14pt;font-family:'Simplified Arabic','Geeza Pro',Arial,sans-serif;font-weight:700;color:#000;outline:none;overflow-wrap:anywhere}
+.rte:focus{border-color:#3f78a3;box-shadow:0 0 0 3px rgba(63,120,163,.2)}
+.rte table{border-collapse:collapse;width:100%;margin:6px 0}.rte td{border:1px solid #000;padding:8px;min-width:40px}
+/* v118: legend inline with summary heading, compact raised 3D day rows */
+.sumhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 4px}
+.sumhead h2.sec{margin:0!important;font-size:15px!important}
+.sumleg{margin:0!important;display:flex!important;gap:5px!important;flex-wrap:nowrap}
+.sumleg span{display:flex;align-items:center;gap:3px;font-size:11.5px!important;font-weight:800;color:#0b1a2e;padding:3px 7px 3px 5px;border-radius:9px;border:1px solid #3f78a3;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%);box-shadow:0 2px 0 #1f4f78,0 3px 5px rgba(0,0,0,.18),inset 0 1px 0 #fff;white-space:nowrap}
+.sumleg span i{width:11px!important;height:11px!important;border-radius:4px;display:inline-block;box-shadow:0 1px 1px rgba(0,0,0,.35)}
+.sumnote{font-size:11px;color:#5b6b82;font-weight:700;margin:2px 2px 6px}
+.daysum{border:1px solid #3f78a3!important;border-radius:11px;margin:5px 1px 7px!important;padding:3px 10px!important;font-size:13px!important;line-height:1.5!important;background:linear-gradient(180deg,#f7fcff 0%,#e3f3fc 45%,#cbe6f6 55%,#e6f4fc 100%);box-shadow:0 3px 0 #1f4f78,0 4px 8px rgba(0,0,0,.16),inset 0 1px 0 #fff;transition:transform .08s,box-shadow .08s;cursor:pointer}
+.daysum:nth-child(even){background:linear-gradient(180deg,#e6f4fd 0%,#c8e3f5 45%,#aed3ee 55%,#d0e8f8 100%)}
+.daysum:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78,0 2px 4px rgba(0,0,0,.18),inset 0 1px 0 #fff}
+.daysum b{font-weight:900;text-shadow:0 1px 0 rgba(255,255,255,.8)}
+.daysum .tag{padding:0 5px;margin:1px;border-radius:6px;font-size:11.5px;box-shadow:0 1px 0 rgba(0,0,0,.25)}
 </style>
 </head>
 <body>
@@ -497,15 +526,16 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   <input type="file" id="ocrFile" accept="image/*" multiple class="hide">
   <p class="hint" id="mainHint">اضغط على أي خانة لتأشير الحالة. يؤشّر زر «حضور الجميع» أسفل اليوم بقية المنتسبين حاضرين دفعةً واحدة، ثم تُعدَّل حالات الغياب والإجازة فقط.</p>
   <div class="gridwrap"><table class="grid" id="grid"></table></div>
-  <div class="legend">
+  <p class="hint hide" id="limitNote" style="margin-top:10px;color:var(--bad)"></p>
+  <div class="card" style="margin-top:12px">
+    <div class="sumhead"><h2 class="sec">ملخص الأيام</h2>
+  <div class="legend sumleg">
     <span><i style="background:var(--okbg);border:1px solid var(--ok)"></i>حضور</span>
     <span><i style="background:var(--badbg);border:1px solid var(--bad)"></i>غياب</span>
     <span><i style="background:var(--lvbg);border:1px solid var(--lv)"></i>إجازة</span>
-    <span id="legendParts">ص / م / ل = صباحي / مسائي / ليلي (أرقام أيام الإجازة أو الغياب)</span>
   </div>
-  <p class="hint hide" id="limitNote" style="margin-top:10px;color:var(--bad)"></p>
-  <div class="card" style="margin-top:12px">
-    <h2 class="sec">ملخص الأيام</h2>
+    </div>
+    <div class="sumnote"><span id="legendParts">ص / م / ل = صباحي / مسائي / ليلي (أرقام أيام الإجازة أو الغياب)</span></div>
     <div id="daySummary"></div>
   </div>
 </main>
@@ -525,7 +555,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   <div class="dfoot" id="dVer"></div>
 </aside>
 <main id="viewLetters" class="hide">
-  <div class="setbar"><button id="ltBack" class="backbtn" aria-label="رجوع"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><b>رجوع</b></button><span>الكتب الرسمية</span></div>
+  <div class="setbar"><button id="ltBack" class="backbtn" aria-label="رجوع"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><b>رجوع</b></button></div>
   <div class="card">
     <h3 style="margin:0 0 4px;font-family:Cairo">📚 الكتب الرسمية</h3>
     <div id="ltTypes" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
@@ -544,7 +574,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   </div>
 </main>
 <main id="viewSettings" class="hide">
-  <div class="setbar"><button id="backTop" class="backbtn" aria-label="رجوع"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><b>رجوع</b></button><span>الإعدادات</span></div>
+  <div class="setbar"><button id="backTop" class="backbtn" aria-label="رجوع"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><b>رجوع</b></button></div>
   <div class="card">
     <h2 class="sec">ترويسة الورقة</h2>
     <div class="lbl">السطر الأول</div><input class="txt" id="h1">
@@ -595,7 +625,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 116 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 118 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1263,16 +1293,49 @@ const LT_TYPES=[
 let LT=null;
 function allLtTypes(){const R=S.ltNames||{},Hd=S.ltHidden||[];return LT_TYPES.filter(t=>!Hd.includes(t.k)).map(t=>R[t.k]?{...t,n:R[t.k],subj:t.subj===t.n?R[t.k]:t.subj}:t).concat(S.ltCustom||[])}
 function ltNew(t){const T=allLtTypes().find(x=>x.k===t);if(!T)return;LT={id:'L'+Date.now(),type:T.n,to:T.to,subj:T.subj,body:T.body,names:T.names?[''] :[],namesLbl:T.namesLbl||'الأسماء',close:T.close||'مع التقدير.',created:Date.now()};ltEdit()}
+
+const LT_FONTS=['Simplified Arabic','Traditional Arabic','Sakkal Majalla','Arial','Times New Roman','Tahoma'];
+function plainToHtml(t){return String(t||'').split('\n').map(l=>'<div>'+(l.trim()?esc(l):'<br>')+'</div>').join('')}
+function ltRte(L){const ed=$('ltBody');ed.innerHTML=L.bodyHtml||plainToHtml(L.body);let sr=null;
+  if(window.__rteL)document.removeEventListener('selectionchange',window.__rteL);
+  window.__rteL=()=>{const g=getSelection();if(g.rangeCount&&ed.contains(g.anchorNode))sr=g.getRangeAt(0).cloneRange()};document.addEventListener('selectionchange',window.__rteL);
+  const back=()=>{ed.focus();if(sr){const g=getSelection();g.removeAllRanges();g.addRange(sr)}};
+  const css=v=>{try{document.execCommand('styleWithCSS',false,v)}catch(e){}};
+  let psz=null;
+  const fixSize=()=>{ed.querySelectorAll('font[size="7"]').forEach(f=>{const sp=document.createElement('span');sp.style.fontSize=(psz||14)+'pt';while(f.firstChild)sp.appendChild(f.firstChild);f.replaceWith(sp)})};
+  ed.addEventListener('input',fixSize);
+  ed.addEventListener('paste',e=>{e.preventDefault();const t=(e.clipboardData||window.clipboardData).getData('text/plain');document.execCommand('insertText',false,t)});
+  const rtb=$('rtb');
+  rtb.addEventListener('pointerdown',e=>{if(!e.target.closest('select'))e.preventDefault()});
+  $('rtFont').onchange=e=>{back();css(true);document.execCommand('fontName',false,e.target.value)};
+  $('rtSize').onchange=e=>{psz=+e.target.value;back();css(false);document.execCommand('fontSize',false,'7');fixSize();css(true)};
+  rtb.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+    if(b.dataset.col){back();css(true);document.execCommand('foreColor',false,b.dataset.col);return}
+    const c=b.dataset.c;if(!c)return;
+    if(c==='tbl'){$('rtTbl').classList.toggle('hide');return}
+    if(c==='tblok'){const r=+$('rtR').value,k=+$('rtC').value;let h='<table class="rtt" style="border-collapse:collapse;width:100%"><tbody>';
+      for(let i=0;i<r;i++){h+='<tr>';for(let j=0;j<k;j++)h+='<td style="border:1px solid #000;padding:8px;min-width:40px">&nbsp;</td>';h+='</tr>'}h+='</tbody></table><div><br></div>';
+      back();document.execCommand('insertHTML',false,h);$('rtTbl').classList.add('hide');return}
+    back();css(true);document.execCommand(c,false,null)});
+}
 function ltEdit(){const E=$('ltEditor');E.classList.remove('hide');
   E.innerHTML=`<b style="font-family:Cairo">✏️ ${esc(LT.type)}</b>
   <div class="lbl">الجهة (إلى)</div><input class="txt" id="ltTo" value="${esc(LT.to)}">
   <div class="lbl">الموضوع (م/)</div><input class="txt" id="ltSubj" value="${esc(LT.subj)}" placeholder="مثال: إجابة">
-  <div class="lbl">نص الكتاب</div><textarea class="txt" id="ltBody" rows="14" style="resize:vertical;line-height:1.7;width:100%;box-sizing:border-box;font-family:inherit;font-size:15px">${esc(LT.body)}</textarea>
+  <div class="lbl">نص الكتاب</div>
+  <div class="rtb" id="rtb">
+   <div class="rtrow"><select id="rtFont" title="نوع الخط">${LT_FONTS.map(f=>`<option value="${f}" style="font-family:'${f}'">${f}</option>`).join('')}</select><select id="rtSize" title="حجم الخط">${[10,11,12,13,14,16,18,20,22,24,28,32].map(n=>`<option value="${n}"${n===14?' selected':''}>${n}</option>`).join('')}</select></div>
+   <div class="rtrow"><button type="button" data-c="bold" title="غامق"><b>B</b></button><button type="button" data-c="italic" title="مائل"><i>I</i></button><button type="button" data-c="underline" title="تسطير"><u>U</u></button><span class="rtsep"></span><button type="button" data-c="justifyRight" title="يمين">☰</button><button type="button" data-c="justifyCenter" title="وسط">≡</button><button type="button" data-c="justifyLeft" title="يسار">☷</button><button type="button" data-c="justifyFull" title="ضبط">▤</button><span class="rtsep"></span><button type="button" data-c="undo" title="تراجع">↶</button><button type="button" data-c="redo" title="إعادة">↷</button><button type="button" data-c="tbl" title="إدراج جدول">▦</button></div>
+   <div class="rtrow rtcol" id="rtCol">${['#000000','#1F3864','#0D47A1','#8B0000','#1B5E20','#4A148C','#5D4037','#424242'].map(c=>`<button type="button" data-col="${c}" title="لون الخط" style="background:${c}"></button>`).join('')}</div>
+   <div class="rtrow rttbl hide" id="rtTbl"><span>صفوف</span><select id="rtR">${[1,2,3,4,5,6,8,10].map(n=>`<option>${n}</option>`).join('')}</select><span>أعمدة</span><select id="rtC">${[1,2,3,4,5,6].map(n=>`<option${n===2?' selected':''}>${n}</option>`).join('')}</select><button type="button" data-c="tblok" class="rtok">إدراج</button></div>
+  </div>
+  <div id="ltBody" class="rte" contenteditable="true" dir="rtl" spellcheck="false"></div>
   <div class="lbl">${esc(LT.namesLbl)} (اختياري — اسم في كل سطر)</div><textarea class="txt" id="ltNames" rows="5" style="width:100%;box-sizing:border-box;font-family:inherit;font-size:15px" placeholder="م. حسين احمد حمود">${esc((LT.names||[]).join('\n'))}</textarea>
   <div class="lbl">الخاتمة</div><input class="txt" id="ltClose" value="${esc(LT.close)}">
   <div class="row2" style="margin-top:34px"><button class="btn" id="ltPdf" style="background:#C62828;color:#fff">🖨️ طباعة PDF</button><button class="btn" id="ltWord" style="background:#2B579A;color:#fff">📄 طباعة Word</button></div><button class="btn gh" id="ltCancel" style="width:100%;margin-top:8px">إغلاق</button>`;
-  {const g=el=>{el.style.height='auto';el.style.height=Math.max(el.scrollHeight+6,el.id==='ltBody'?360:130)+'px'};['ltBody','ltNames'].forEach(i=>{const el=$(i);g(el);el.addEventListener('input',()=>g(el))})}
-  const rd=()=>{LT.to=$('ltTo').value;LT.subj=$('ltSubj').value;LT.body=$('ltBody').value;LT.names=$('ltNames').value.split('\n').map(x=>x.trim()).filter(Boolean);LT.close=$('ltClose').value};
+  {const g=el=>{el.style.height='auto';el.style.height=Math.max(el.scrollHeight+6,130)+'px'};const el=$('ltNames');g(el);el.addEventListener('input',()=>g(el))}
+  ltRte(LT);
+  const rd=()=>{LT.to=$('ltTo').value;LT.subj=$('ltSubj').value;LT.bodyHtml=$('ltBody').innerHTML;LT.body=$('ltBody').innerText;LT.names=$('ltNames').value.split('\n').map(x=>x.trim()).filter(Boolean);LT.close=$('ltClose').value};
   $('ltCancel').onclick=()=>{E.classList.add('hide');LT=null};
   $('ltPdf').onclick=()=>{rd();if(!LT.subj.trim()&&!LT.body.trim()){toast('اكتب الموضوع أو النص');return}
     S.letters=S.letters||[];const i=S.letters.findIndex(x=>x.id===LT.id);LT.saved=Date.now();if(i>=0)S.letters[i]={...LT};else S.letters.unshift({...LT});save();ltArchive();
@@ -1322,7 +1385,7 @@ $('ltTypes').addEventListener('contextmenu',e=>{if(e.target.closest('[data-lt]')
 $('ltTypes').onclick=e=>{if(LP_DONE){LP_DONE=false;return}
   const d=e.target.closest('[data-ltdel]');if(d){e.stopPropagation();const T=(S.ltCustom||[]).find(x=>x.k===d.dataset.ltdel);if(T&&sure('هل أنت متأكد من حذف نوع الكتاب «'+T.n+'»؟ (الكتب المحفوظة بالأرشيف تبقى)')){S.ltCustom=S.ltCustom.filter(x=>x.k!==T.k);save();renderLtTypes();toast('تم الحذف')}return}
   if(e.target.closest('[data-ltadd]')){const n=(prompt('اسم نوع الكتاب الجديد (مثلاً: طلب إجازة، شكر وتقدير):')||'').trim();if(!n)return;
-    const open=LT&&!$('ltEditor').classList.contains('hide');const v=id=>{const el=$(id);return el?el.value:''};
+    const open=LT&&!$('ltEditor').classList.contains('hide');const v=id=>{const el=$(id);return el?(el.isContentEditable?el.innerText:el.value):''};
     const useCur=open&&v('ltBody').trim()&&confirm('هل تريد حفظ نص الكتاب المفتوح حالياً نموذجاً لهذا النوع؟');
     const T={k:'c'+Date.now(),n,custom:true,to:useCur?v('ltTo'):'إلى/ ',subj:useCur?v('ltSubj'):n,body:useCur?v('ltBody'):'',close:useCur?(v('ltClose')||'مع التقدير.'):'مع التقدير.'};
     S.ltCustom=(S.ltCustom||[]).concat([T]);save();renderLtTypes();toast('تمت إضافة «'+n+'»');ltNew(T.k);return}
@@ -1347,12 +1410,67 @@ document.querySelector('.navtiles').addEventListener('click',e=>{const b=e.targe
 $('btnLetters').onclick=()=>showLetters(true);
 $('btnMawqif').onclick=()=>{if(!$('viewSettings').classList.contains('hide'))showSettings(false);else showLetters(false)};
 function navOn(){const L=!$('viewLetters').classList.contains('hide'),St=!$('viewSettings').classList.contains('hide');
+  document.body.classList.toggle('subpage',L||St);
   [['btnMawqif',!L&&!St],['btnLetters',L],['btnSettings',St]].forEach(([id,on])=>$(id).classList.toggle('on',on));document.querySelectorAll('.navtiles [data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav==(L?'l':St?'s':'m')))}
 setInterval(navOn,400);
 $('ltBack').onclick=()=>showLetters(false);
 $('ltLogoReset').onclick=()=>{if(!sure('هل تريد الرجوع إلى الشعار الرسمي؟'))return;delete S.logo;save();ltLogo();toast('تمت استعادة الشعار الرسمي')};
 function b64bytes(d){const s=atob(d.split(',')[1]);const u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
 function loadImg(src){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}
+
+/* ---------- rich letter body: parse / canvas layout / Word ---------- */
+function ltHex(c){if(!c)return '#000000';if(c[0]==='#')return c.length===4?'#'+c[1]+c[1]+c[2]+c[2]+c[3]+c[3]:c;const m=c.match(/\d+/g);if(!m)return '#000000';return '#'+m.slice(0,3).map(n=>(+n).toString(16).padStart(2,'0')).join('')}
+function ltParse(html){
+  const root=document.createElement('div');root.innerHTML=html;
+  const BLK=/^(DIV|P|H[1-6]|LI|UL|OL|BLOCKQUOTE)$/;
+  const sty=(el,st)=>{const s=Object.assign({},st),cs=el.style||{},tg=el.tagName;
+    if(tg==='B'||tg==='STRONG')s.b=true;if(tg==='I'||tg==='EM')s.i=true;if(tg==='U')s.u=true;
+    if(tg==='FONT'){if(el.getAttribute('color'))s.c=ltHex(el.getAttribute('color'));if(el.getAttribute('face'))s.f=el.getAttribute('face').split(',')[0].replace(/['"]/g,'').trim()}
+    if(cs.fontWeight)s.b=(cs.fontWeight==='bold'||cs.fontWeight==='bolder'||parseInt(cs.fontWeight)>=600);
+    if(cs.fontStyle)s.i=cs.fontStyle==='italic';
+    if(((cs.textDecorationLine||'')+(cs.textDecoration||'')).includes('underline'))s.u=true;
+    if(cs.color)s.c=ltHex(cs.color);
+    if(cs.fontFamily)s.f=cs.fontFamily.split(',')[0].replace(/['"]/g,'').trim();
+    if(cs.fontSize){const m=cs.fontSize.match(/([\d.]+)(pt|px)/);if(m)s.sz=m[2]==='pt'?+m[1]:+m[1]*0.75}
+    return s};
+  const alOf=n=>{const a=(n.style&&n.style.textAlign)||n.getAttribute&&n.getAttribute('align')||'';return ({left:'left',right:'right',center:'center',justify:'justify'})[a]||null};
+  function parseNode(node,st0,al0){const out=[];let cur=null;
+    const flush=()=>{if(cur&&cur.runs.length){const r=cur.runs;if(r.length>1&&r[r.length-1].br)r.pop();out.push(cur)}cur=null};
+    const np=a=>{flush();cur={t:'p',al:a||'right',runs:[]}};
+    (function walk(n0,st,al){n0.childNodes.forEach(n=>{
+      if(n.nodeType===3){const t=n.nodeValue.replace(/ /g,' ');if(!t)return;if(!cur)np(al);cur.runs.push(Object.assign({},st,{t}))}
+      else if(n.nodeType===1){const tg=n.tagName;
+        if(tg==='BR'){if(!cur)np(al);cur.runs.push(Object.assign({},st,{br:1}))}
+        else if(tg==='TABLE'){flush();const rows=[];n.querySelectorAll('tr').forEach(tr=>{if(tr.closest('table')!==n)return;rows.push([...tr.children].filter(c=>/^T[DH]$/.test(c.tagName)).map(c=>parseNode(c,sty(c,st),alOf(c)||'right')))});out.push({t:'tbl',rows})}
+        else if(BLK.test(tg)){flush();const a=alOf(n)||al;np(a);walk(n,sty(n,st),a);flush()}
+        else walk(n,sty(n,st),al)}})})(node,st0,al0||'right');
+    flush();return out}
+  return parseNode(root,{f:'Simplified Arabic',sz:14,b:true,i:false,u:false,c:'#000000'},'right');
+}
+function ltFont(r){return (r.i?'italic ':'')+(r.b?'bold ':'')+Math.max(8,Math.round(r.sz*PT))+"px '"+r.f+"','Geeza Pro',Arial,sans-serif"}
+function ltLayout(x,p,tw){const lines=[];let cur={items:[],w:0,h:0};const push=last=>{while(cur.items.length&&cur.items[cur.items.length-1].sp){cur.w-=cur.items.pop().w}lines.push({items:cur.items,w:cur.w,h:(cur.h||14)*PT*1.9,al:p.al,last});cur={items:[],w:0,h:0}};
+  p.runs.forEach(r=>{if(r.br){cur.h=Math.max(cur.h,r.sz);push(true);return}
+    r.t.split(/(\s+)/).forEach(w=>{if(w==='')return;x.font=ltFont(r);const wid=x.measureText(w).width,sp=/^\s+$/.test(w);
+      if(sp){if(cur.items.length){cur.items.push({t:' ',w:wid,r,sp:1});cur.w+=wid}return}
+      if(cur.w+wid>tw&&cur.items.length)push(false);
+      cur.items.push({t:w,w:wid,r});cur.w+=wid;cur.h=Math.max(cur.h,r.sz)})});
+  if(cur.items.length||!lines.length)push(true);return lines}
+function ltDrawLine(x,ln,right,left,tw,y){const gaps=ln.items.filter(i=>i.sp).length;const extra=(ln.al==='justify'&&!ln.last&&gaps)?(tw-ln.w)/gaps:0;
+  let xr=ln.al==='left'?left+ln.w:ln.al==='center'?left+tw/2+ln.w/2:right;
+  ln.items.forEach(it=>{const iw=it.w+(it.sp?extra:0);x.font=ltFont(it.r);x.fillStyle=it.r.c;x.textAlign='right';x.textBaseline='middle';
+    if(!it.sp)x.fillText(it.t,xr,y);if(it.r.u)x.fillRect(xr-iw,y+it.r.sz*PT*0.42,iw,Math.max(1.5,0.2*MM));xr-=iw})}
+async function ltFontsReady(blocks){const fs=new Set();const w=b=>b.forEach(k=>{if(k.t==='p')k.runs.forEach(r=>fs.add(r.f));else k.rows.forEach(r=>r.forEach(c=>w(c)))});w(blocks);
+  try{await Promise.all([...fs].map(f=>document.fonts.load("bold 20px '"+f+"'")))}catch(e){}}
+function ltDocxBody(D,html){const W=10200;const al={left:D.AlignmentType.LEFT,right:D.AlignmentType.RIGHT,center:D.AlignmentType.CENTER,justify:D.AlignmentType.BOTH};
+  const mk=p=>{const kids=[];p.runs.forEach(r=>{if(r.br){kids.push(new D.TextRun({break:1}));return}const sz=Math.round(r.sz*2);
+      kids.push(new D.TextRun({text:'‫'+r.t+'‬',bold:!!r.b,boldComplexScript:!!r.b,italics:!!r.i,italicsComplexScript:!!r.i,underline:r.u?{}:undefined,size:sz,sizeComplexScript:sz,color:r.c.replace('#',''),font:{ascii:r.f,hAnsi:r.f,cs:r.f},rightToLeft:true}))});
+    return new D.Paragraph({bidirectional:false,alignment:al[p.al]||D.AlignmentType.RIGHT,spacing:{line:360},children:kids})};
+  const B={style:D.BorderStyle.SINGLE,size:6,color:'000000'};const out=[];
+  ltParse(html).forEach(b=>{if(b.t==='p')out.push(mk(b));else{const n=Math.max(1,...b.rows.map(r=>r.length)),cw=Math.floor(W/n);
+    out.push(new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,width:{size:W,type:D.WidthType.DXA},columnWidths:Array(n).fill(cw),
+      rows:b.rows.map(r=>new D.TableRow({children:r.map(c=>new D.TableCell({width:{size:cw,type:D.WidthType.DXA},borders:{top:B,bottom:B,left:B,right:B},margins:{top:60,bottom:60,left:100,right:100},children:(c.filter(k=>k.t==='p').map(mk)).concat(c.length?[]:[new D.Paragraph({children:[]})])}))}))}));
+    out.push(new D.Paragraph({children:[]}))}});
+  return out}
 async function letterCanvases(L){
   const logo=await loadImg('logo-moe-t.png');const yr=today.getFullYear();
   const pages=[];const np=()=>{const r=cvPage(false);cvFrame(r[1],r[0].width,r[0].height);return r};let [c,x]=np();
@@ -1371,7 +1489,13 @@ async function letterCanvases(L){
   const sigTop=H-m-4*14*PT*1.75-4*MM;
   const need=h=>{if(y+h>sigTop){pages.push(c);[c,x]=np();y=m+6*MM}};
   const lh=14*PT*1.9;
-  String(L.body||'').split('\n').forEach(par=>{const ls=par.trim()?wrapLines(x,par,tw,14):[''];ls.forEach(l=>{need(lh);txt(x,l,right,y,'right',14);y+=lh})});
+  if(L.bodyHtml){const blocks=ltParse(L.bodyHtml);await ltFontsReady(blocks);
+    blocks.forEach(b=>{if(b.t==='p'){ltLayout(x,b,tw).forEach(ln=>{need(ln.h);ltDrawLine(x,ln,right,left,tw,y);y+=ln.h})}
+      else{const n=Math.max(1,...b.rows.map(r=>r.length)),cw=tw/n,pad=2*MM;y+=lh*0.35;
+        b.rows.forEach(r=>{const cl=r.map(c=>c.filter(k=>k.t==='p').flatMap(p=>ltLayout(x,p,cw-2*pad)));const rh=Math.max(8*MM,...cl.map(ls=>ls.reduce((a,l)=>a+l.h,0)+2*pad));need(rh+lh*0.2);
+          const top=y-lh/2;let cx=right;for(let i=0;i<n;i++){const L0=cx-cw;x.strokeStyle='#000';x.lineWidth=Math.max(1.5,0.3*MM);x.strokeRect(L0,top,cw,rh);let yy=top+pad;(cl[i]||[]).forEach(ln=>{ltDrawLine(x,ln,cx-pad,L0+pad,cw-2*pad,yy+ln.h/2);yy+=ln.h});cx=L0}
+          y+=rh});y+=lh*0.4}})}
+  else String(L.body||'').split('\n').forEach(par=>{const ls=par.trim()?wrapLines(x,par,tw,14):[''];ls.forEach(l=>{need(lh);txt(x,l,right,y,'right',14);y+=lh})});
   if(L.names&&L.names.filter(n=>n.trim()).length){y+=4*MM;need(lh);uline(x,(L.namesLbl||'الأسماء')+':',right,y,'right',14);y+=lh;
     L.names.filter(n=>n.trim()).forEach((n,i)=>{need(lh);txt(x,(i+1)+'. '+n,right,y,'right',14);y+=lh})}
   y+=8*MM;need(lh);txt(x,L.close||'مع التقدير.',W/2,y,'center',14);
@@ -1398,7 +1522,7 @@ async function buildLetterDocx(L){
     cell([P([run(' ترشيد استهلاك الكهرباء ظاهرة حضارية ',{sz:18,sh:'BFBFBF'})],{before:80}),P(L.to||'',{sz:28,before:60})],6400),
     cell([P('العدد :',{sz:24,before:80}),P('التاريخ :     /     / '+yr,{sz:24,before:40})],3800)]})]});
   const ch=[head,meta,P('م/ '+(L.subj||''),{sz:30,al:D.AlignmentType.CENTER,u:1,before:240,after:200})];
-  String(L.body||'').split('\n').forEach(t=>ch.push(P(t,{sz:28,al:D.AlignmentType.RIGHT,line:360})));
+  if(L.bodyHtml)ltDocxBody(D,L.bodyHtml).forEach(k=>ch.push(k));else String(L.body||'').split('\n').forEach(t=>ch.push(P(t,{sz:28,al:D.AlignmentType.RIGHT,line:360})));
   if(L.names&&L.names.length){ch.push(P(L.namesLbl+':',{sz:28,u:1,before:200,after:60}));L.names.forEach((n,i)=>ch.push(P((i+1)+'. '+n,{sz:28,line:300,al:D.AlignmentType.RIGHT})))}
   ch.push(P(L.close||'مع التقدير.',{sz:28,al:D.AlignmentType.CENTER,before:360}));
   const sigP=t=>new D.Paragraph({bidirectional:false,alignment:D.AlignmentType.LEFT,spacing:{before:20},children:[run(t,{sz:26})]});
