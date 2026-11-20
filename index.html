@@ -549,6 +549,17 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 #sheet:has(.pfmt:not(.dfmt)) .pfmt button span{font-size:12.5px!important}
 #sheet:has(.pfmt:not(.dfmt)) .btn.gh{margin-top:6px!important;padding:4px!important;font-size:12.5px!important;min-height:0!important}
 #sheet:has(.pfmt:not(.dfmt)) .edtop,#sheet:has(.pfmt:not(.dfmt)) .edhead{margin:0 0 2px!important;padding:0!important}
+/* v127: unified header controls, OCR button inside period bar */
+.navtiles{gap:7px!important}
+.navtiles button,#modeSeg button,#tabs button,#setTabs button{height:36px!important;min-height:0!important;padding:0 8px!important;font-size:13px!important;border-radius:11px!important;display:flex!important;align-items:center;justify-content:center;gap:5px;line-height:1}
+.navtiles button span{font-size:16px!important;line-height:1}
+.monthbar{height:40px!important;padding:2px 4px!important;gap:4px;align-items:center!important}
+.monthbar>button{height:34px!important;width:34px!important;font-size:20px!important}
+.monthbar b{font-size:15px!important;padding:0!important}
+.monthbar #btnOcr{width:auto!important;flex:0 0 auto;height:32px!important;margin:0!important;padding:0 9px!important;font-size:12px!important;font-weight:800;display:flex!important;flex-direction:row!important;align-items:center;gap:4px!important;border-radius:10px!important;background:linear-gradient(180deg,#fff 0%,#e3f3fc 100%)!important;color:#0b1a2e!important;border:1px solid #3f78a3!important;box-shadow:0 2px 0 #1f4f78,inset 0 1px 0 #fff!important;text-shadow:none!important;min-height:0!important}
+.monthbar #btnOcr .cam{font-size:16px!important}
+#modeSeg{gap:7px!important}#tabs{gap:6px!important}
+#stats{display:flex!important;gap:7px!important}#stats .stat{flex:1 1 0!important;min-width:0}
 </style>
 </head>
 <body>
@@ -686,7 +697,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 126 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 127 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -844,7 +855,7 @@ function render(){
   days.forEach(dd=>emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(!r)e0++;else if(r.st==='p')p++;else if(r.st==='a')a++;else l++}));
   {const o=$('btnOcr');if(o&&o.parentNode===$('stats'))document.body.appendChild(o)}
   $('stats').innerHTML=`<div class="stat s-p"><b>${p}</b><span>حضور</span></div><div class="stat s-a"><b>${a}</b><span>غياب</span></div><div class="stat s-l"><b>${l}</b><span>إجازة</span></div><div class="stat s-e"><b>${e0}</b><span>غير مؤشَّر</span></div>`;
-  {const o=$('btnOcr');if(o)$('stats').appendChild(o)}
+  {const o=$('btnOcr'),mb=document.querySelector('.monthbar');if(o&&mb&&o.parentNode!==mb)mb.insertBefore(o,$('nextM'))}
   let s='';
   days.forEach(dd=>{
     const items=[];let done=0;
