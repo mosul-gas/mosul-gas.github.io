@@ -104,7 +104,7 @@ input.txt,select.txt{width:100%;border:1.5px solid var(--line);border-radius:10p
 .emp input{flex:1;min-width:0}
 .emp select{width:auto}
 .ico{border:0;background:#eef2f7;border-radius:8px;width:34px;height:36px;cursor:pointer;flex:none;font-size:15px}
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1c2430;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:60;opacity:0;transition:.25s;pointer-events:none}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1c2430;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:7000;opacity:0;transition:.25s;pointer-events:none}
 .toast.show{opacity:1}
 .hide{display:none!important}
 .modeseg{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:12px;background:rgba(255,255,255,.1);border-radius:12px;padding:4px}
@@ -972,6 +972,14 @@ body.ltedit .hprint svg{width:21px!important;height:21px!important;flex:0 0 auto
 .ltat b{font-size:13px!important}.ltat div{font-size:11px!important;margin-top:0!important}
 .ltab{margin-top:5px!important;gap:5px!important}
 .ltab button{min-height:30px!important;font-size:12px!important;border-width:2px!important;border-radius:9px!important;box-shadow:0 2px 0 #12315a,inset 0 0 0 1px #d4af37!important}
+
+.idimg{margin:6px 0 10px;border:2px dashed #9db3cf;border-radius:12px;padding:8px}
+.idth img{width:100%;max-height:170px;object-fit:contain;border-radius:8px;background:#f1f5fa;display:block}
+.idnone{text-align:center;color:#6b7a8c;font-weight:700;font-size:13px;padding:6px}
+.idab,.idbt{display:flex;gap:6px;margin-top:6px}
+.idab .btn,.idbt .btn{flex:1;min-height:40px;font-size:13px!important;font-weight:900;border:2.5px solid #12315a!important;border-radius:11px!important;box-shadow:0 3px 0 #12315a,inset 0 0 0 1.5px #d4af37!important;padding:4px 2px!important}
+.idfull{position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;gap:10px}
+.idfull img{max-width:100%;max-height:80vh;object-fit:contain}.idfull .btn{min-height:42px}
 </style>
 </head>
 <body>
@@ -1140,7 +1148,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 173 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 174 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1997,6 +2005,17 @@ function renderDir(){
   $('dirList').innerHTML=h||'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج مطابقة.</div></div>'}
 function dirWa(p){let d=String(p||'').replace(/[٠-٩]/g,x=>'٠١٢٣٤٥٦٧٨٩'.indexOf(x)).replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);else if(d.startsWith('0'))d='964'+d.slice(1);else if(d.length===10&&d[0]==='7')d='964'+d;return d?'https://wa.me/'+d:'#'}
 const DIR_IDS=[['unified','البطاقة الوطنية الموحدة'],['civil','هوية الأحوال المدنية'],['passport','جواز السفر']];
+/* صور المستمسكات (IndexedDB) */
+const idDB=()=>new Promise((ok,no)=>{const r=indexedDB.open('mawqif_img',1);r.onupgradeneeded=()=>r.result.createObjectStore('i');r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)});
+async function idPut(k,u){const d=await idDB();return new Promise((ok,no)=>{const t=d.transaction('i','readwrite');t.objectStore('i').put(u,k);t.oncomplete=()=>ok();t.onerror=()=>no(t.error)})}
+async function idGet(k){const d=await idDB();return new Promise((ok,no)=>{const q=d.transaction('i').objectStore('i').get(k);q.onsuccess=()=>ok(q.result||'');q.onerror=()=>no(q.error)})}
+async function idDel(k){const d=await idDB();return new Promise((ok,no)=>{const t=d.transaction('i','readwrite');t.objectStore('i').delete(k);t.oncomplete=()=>ok();t.onerror=()=>no(t.error)})}
+function idCompress(file){return new Promise((ok,no)=>{const u=URL.createObjectURL(file),im=new Image();im.onload=()=>{const k=Math.min(1,1600/Math.max(im.naturalWidth,im.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(im.naturalWidth*k);c.height=Math.round(im.naturalHeight*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL('image/jpeg',.85))};im.onerror=no;im.src=u})}
+async function idShow(v,k){const box=document.getElementById('idth_'+k);if(!box)return;let u='';try{u=await idGet(v.id+'|'+k)}catch(e){}
+  box.innerHTML=u?`<img src="${u}" alt=""><div class="idab"><button type="button" class="btn" data-iv="${k}">عرض</button><button type="button" class="btn red" data-id2="${k}">حذف الصورة</button></div>`:'<div class="idnone">لا توجد صورة محفوظة</div>';
+  box.onclick=async e=>{const a=e.target.closest('button');if(!a)return;
+    if(a.dataset.iv){const o=document.createElement('div');o.className='idfull';o.innerHTML=`<button type="button" class="btn">✕ إغلاق</button><img src="${u}" alt="">`;o.onclick=()=>o.remove();document.body.appendChild(o)}
+    else if(a.dataset.id2&&confirm('حذف الصورة المحفوظة؟')){await idDel(v.id+'|'+k);if(v.idImg)delete v.idImg[k];save();idShow(v,k)}}}
 function dirSheet(id){
   const v=(S.dir||[]).find(x=>x.id===id);if(!v)return;edit=null;
   const T=v.st=v.st||{f:'',c:'',z:'',b:0,u:0};
@@ -2018,27 +2037,23 @@ function dirSheet(id){
   <div class="lbl">المستمسكات الشخصية (اختر ما يلزم)</div>
   <div class="dseg dseg3" id="dIdSeg">${DIR_IDS.map(([k,l])=>`<button type="button" data-id="${k}" class="${(v.idOn||{})[k]||(v.idv||{})[k]?'on':''}">${l}</button>`).join('')}</div>
   <div id="dIdBox"></div>
-  <div class="lbl">شكل الاسم (خط / لون / حجم)</div>
-  <div class="dirfmt"><select class="txt" data-s="f">${DIR_FONTS.map(x=>`<option value="${esc(x)}" ${T.f===x?'selected':''}>${esc(x||'الخط الافتراضي')}</option>`).join('')}</select>
-  <select class="txt" data-s="z">${['','12','14','16','18','20','22'].map(x=>`<option value="${x}" ${String(T.z)===x?'selected':''}>${x?'حجم '+x:'الحجم'}</option>`).join('')}</select>
-  <button class="btn ${T.b?'on':''}" data-s="b"><b>B</b></button><button class="btn ${T.u?'on':''}" data-s="u"><u>U</u></button></div>
-  <div class="dcolbar"><button type="button" id="dcolBtn" class="btn"><span class="dcsw" id="dcsw" style="background:${T.c||'#fff'}"></span><span>لون الاسم</span><i>▾</i></button></div>
-  <div class="dircols hide" id="dcolList">${DIR_COL.map(c=>`<button class="dcol ${T.c===c?'on':''}" data-c="${c}" style="background:${c||'#fff'}">${c?'':'✕'}</button>`).join('')}</div>`;
+  `;
   $('ov').classList.add('show');
   const sh=$('sheet'),upd=()=>{save();$('dirNm').setAttribute('style',dirStyle(v));$('dirNm').textContent=v.name;renderDir()};
   sh.querySelectorAll('[data-f]').forEach(el=>{el.oninput=el.onchange=()=>{v[el.dataset.f]=el.value;if(el.dataset.f==='phone'){$('dirCall').href='tel:'+el.value;$('dirWa').href=dirWa(el.value)}upd()}});
-  sh.querySelectorAll('select[data-s]').forEach(el=>{el.onchange=()=>{T[el.dataset.s]=el.value;upd()}});
-  sh.querySelectorAll('button[data-s]').forEach(el=>{el.onclick=()=>{const k=el.dataset.s;T[k]=T[k]?0:1;el.classList.toggle('on',!!T[k]);upd()}});
   v.idOn=v.idOn||{};v.idv=v.idv||{};
-  const drawIds=()=>{$('dIdBox').innerHTML=DIR_IDS.filter(([k])=>v.idOn[k]||v.idv[k]).map(([k,l])=>`<div class="lbl">رقم ${l}</div><input class="txt" data-idv="${k}" inputmode="numeric" value="${esc(v.idv[k]||'')}">`).join('');
-    $('dIdBox').querySelectorAll('[data-idv]').forEach(el=>{el.oninput=()=>{v.idv[el.dataset.idv]=el.value;upd()}})};
+  const drawIds=()=>{$('dIdBox').innerHTML=DIR_IDS.filter(([k])=>v.idOn[k]||v.idv[k]).map(([k,l])=>`<div class="lbl">رقم ${l}</div><input class="txt" data-idv="${k}" inputmode="numeric" value="${esc(v.idv[k]||'')}">
+    <div class="idimg" data-k="${k}"><div class="idth" id="idth_${k}"></div><div class="idbt"><button type="button" class="btn" data-ia="cam">📷 كاميرا الهاتف</button><button type="button" class="btn" data-ia="scan">📄 مسح ضوئي</button><button type="button" class="btn" data-ia="lib">🖼️ من الهاتف</button></div></div>`).join('');
+    $('dIdBox').querySelectorAll('[data-idv]').forEach(el=>{el.oninput=()=>{v.idv[el.dataset.idv]=el.value;upd()}});
+    DIR_IDS.forEach(([k])=>idShow(v,k))};
   drawIds();
+  $('dIdBox').onclick=e=>{const b=e.target.closest('[data-ia]');if(!b)return;const k=b.closest('.idimg').dataset.k,a=b.dataset.ia,done=()=>idShow(v,k);
+    if(a==='scan'){scStartTarget({id:v.id,k},done);return}
+    const f=document.createElement('input');f.type='file';f.accept='image/*';if(a==='cam')f.setAttribute('capture','environment');f.onchange=async()=>{const x=f.files[0];if(!x)return;try{const u=await idCompress(x);await idPut(v.id+'|'+k,u);v.idImg=v.idImg||{};v.idImg[k]=1;save();done();toast('تم حفظ الصورة')}catch(er){toast('تعذّر حفظ الصورة')}};f.click()};
   $('dIdSeg').onclick=e=>{const b=e.target.closest('[data-id]');if(!b)return;const k=b.dataset.id;v.idOn[k]=!(v.idOn[k]||v.idv[k]);if(!v.idOn[k])v.idv[k]='';b.classList.toggle('on',!!v.idOn[k]);drawIds();upd()};
   $('dMar').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;v.marital=b.dataset.m;sh.querySelectorAll('#dMar button').forEach(x=>x.classList.toggle('on',x===b));$('dKidsBox').classList.toggle('hide',v.marital!=='m');if(v.marital!=='m')v.kids=0,$('kidN').textContent=0;upd()};
   $('kidAdd').onclick=()=>{v.kids=(+v.kids||0)+1;$('kidN').textContent=v.kids;upd()};
   $('kidDel').onclick=()=>{v.kids=Math.max(0,(+v.kids||0)-1);$('kidN').textContent=v.kids;upd()};
-  $('dcolBtn').onclick=()=>$('dcolList').classList.toggle('hide');
-  sh.querySelectorAll('.dcol').forEach(el=>{el.onclick=()=>{T.c=el.dataset.c;sh.querySelectorAll('.dcol').forEach(x=>x.classList.toggle('on',x===el));$('dcsw').style.background=T.c||'#fff';$('dcolList').classList.add('hide');upd()}});
   $('dirX').onclick=()=>closeSheet();
 }
 function dirDelSheet(){
@@ -2372,13 +2387,14 @@ function scStageSet(st){
   if(st==='crop'){T.textContent='المسح الضوئي';
     foot.innerHTML='<div class="schint">اسحب النقاط الأربع لتحديد حدود الورقة</div>'+scBtn('scRe','↺ تصوير من جديد')+scBtn('scGo','✔ متابعة','y');scQ('scRe').onclick=()=>scBack();scQ('scGo').onclick=scApply;scDrawCrop()}
   if(st==='res'){T.textContent='المسح الضوئي';
-    foot.innerHTML=`<div class="scm"><button data-m="orig" class="${SC.mode==='orig'?'on':''}">الأصل</button><button data-m="color" class="${SC.mode==='color'?'on':''}">ملوّن</button><button data-m="bw" class="${SC.mode==='bw'?'on':''}">أبيض وأسود</button></div><div class="scrow">`+scBtn('scAdd','＋ صفحة أخرى')+scBtn('scCrop','✂ تعديل الحدود')+scBtn('scSave','حفظ PDF','y')+scBtn('scRead','قراءة الموقف')+`</div>`;
+    foot.innerHTML=`<div class="scm"><button data-m="orig" class="${SC.mode==='orig'?'on':''}">الأصل</button><button data-m="color" class="${SC.mode==='color'?'on':''}">ملوّن</button><button data-m="bw" class="${SC.mode==='bw'?'on':''}">أبيض وأسود</button></div><div class="scrow">`+(SC.target?scBtn('scSv','✔ حفظ في ملف المنتسب','y'):'')+scBtn('scAdd','＋ صفحة أخرى')+scBtn('scCrop','✂ تعديل الحدود')+scBtn('scSave','حفظ PDF','y')+scBtn('scRead','قراءة الموقف')+`</div>`;
     foot.querySelector('.scm').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;SC.mode=b.dataset.m;scFinal();scStageSet('res')};
-    scQ('scAdd').onclick=()=>{scKeep();scBack()};scQ('scCrop').onclick=()=>scStageSet('crop');scQ('scSave').onclick=()=>{scKeep();scPdf()};scQ('scRead').onclick=scReadIt;scDrawRes()}
+    scQ('scAdd').onclick=()=>{scKeep();scBack()};if(SC.target)scQ('scSv').onclick=async()=>{const t=SC.target,cb=SC.onSaved;try{await idPut(t.id+'|'+t.k,SC.fin.toDataURL('image/jpeg',.9));const v=(S.dir||[]).find(x=>x.id===t.id);if(v){v.idImg=v.idImg||{};v.idImg[t.k]=1;save()}scClose();toast('تم حفظ الصورة في ملف المنتسب');cb&&cb()}catch(e){toast('تعذّر حفظ الصورة')}};scQ('scCrop').onclick=()=>scStageSet('crop');scQ('scSave').onclick=()=>{scKeep();scPdf()};scQ('scRead').onclick=scReadIt;scDrawRes()}
 }
 function scBack(){scQ('scCap').click()}
-function scOpen(){closeSheet();SC.pages=[];SC.src=null;scQ('scCap').click()}
-function scClose(){scLive(false);if(SC.stream){SC.stream.getTracks().forEach(t=>t.stop());SC.stream=null}scQ('scVid').srcObject=null;scQ('scOv').classList.add('hide');document.body.style.overflow='';SC.src=null;SC.pages=[]}
+function scOpen(){closeSheet();SC.target=null;SC.pages=[];SC.src=null;scQ('scCap').click()}
+function scStartTarget(t,cb){SC.target=t;SC.onSaved=cb;SC.pages=[];SC.src=null;scQ('scCap').click()}
+function scClose(){SC.target=null;scLive(false);if(SC.stream){SC.stream.getTracks().forEach(t=>t.stop());SC.stream=null}scQ('scVid').srcObject=null;scQ('scOv').classList.add('hide');document.body.style.overflow='';SC.src=null;SC.pages=[]}
 function scLive(on){clearInterval(SC.tm);SC.tm=0;const cv=scQ('scCv'),x=cv.getContext('2d');
   if(!on){if(SC.stage==='cam')x.clearRect(0,0,cv.width,cv.height);return}
   SC.live=null;SC.tm=setInterval(()=>{const v=scQ('scVid');if(SC.stage!=='cam'||!v.videoWidth)return;
