@@ -930,6 +930,9 @@ body:not(.tbl):not(.subpage) .hg b{font-size:20.5px!important;font-weight:900!im
 .ocopts{display:flex;flex-direction:column;gap:10px;margin-top:8px}
 .ocopts .btn{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:12px 14px;border:3px solid #12315a;border-radius:14px;background:linear-gradient(180deg,#fff,#e4eefa);box-shadow:0 4px 0 #12315a,inset 0 0 0 2px #d4af37;color:#12315a;text-align:right;font-family:inherit}
 .ocopts .btn b{font-size:17px;font-weight:900}.ocopts .btn small{font-size:12.5px;font-weight:700;color:#43546b}
+#dirTotal:empty{display:none!important}
+#viewDir .dstats{margin:0 0 10px!important}
+#viewDir .dirhead{padding-top:10px}
 </style>
 </head>
 <body>
@@ -1035,8 +1038,8 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 </main>
 <main id="viewDir" class="hide">
   <div class="card dirhead">
-    <div class="dsearch"><button id="dirGo" type="button" aria-label="بحث"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg></button><input id="dirQ" type="search" inputmode="search" autocomplete="off" placeholder="ابحثي بالاسم أو رقم الهاتف…"><button id="dirClr" class="hide" type="button" aria-label="مسح">✕</button></div>
     <div class="dstats" id="dirStats"></div>
+    <div class="dsearch"><button id="dirGo" type="button" aria-label="بحث"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg></button><input id="dirQ" type="search" inputmode="search" autocomplete="off" placeholder="ابحث بالاسم أو رقم الهاتف…"><button id="dirClr" class="hide" type="button" aria-label="مسح">✕</button></div>
     <div class="dirsec" id="dirSecs"></div>
     <div class="dfound" id="dirFound"></div>
   </div>
@@ -1099,7 +1102,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 166 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 167 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1352,9 +1355,9 @@ let GLP_T=null,GLP_X=0,GLP_Y=0,GLP_DONE=false;
  const cancel=()=>{clearTimeout(GLP_T);GLP_T=null};
  g.addEventListener('pointerdown',ev=>{const td=ev.target.closest('td.c,td.notes[data-ov]');if(!td)return;GLP_DONE=false;GLP_X=ev.clientX;GLP_Y=ev.clientY;cancel();
   GLP_T=setTimeout(()=>{GLP_T=null;GLP_DONE=true;
-   if(td.dataset.ov){const k=td.dataset.ov;S.ov=S.ov||{};const cur=S.ov[k]!==undefined?S.ov[k]:td.dataset.cur;const v=prompt('تعديل القيمة (اتركيه فارغاً للرجوع للقيمة التلقائية):',cur);if(v===null)return;const t=v.trim();if(t)S.ov[k]=t;else delete S.ov[k];save();render();toast(t?'تم التعديل':'رجعت القيمة التلقائية');return}
+   if(td.dataset.ov){const k=td.dataset.ov;S.ov=S.ov||{};const cur=S.ov[k]!==undefined?S.ov[k]:td.dataset.cur;const v=prompt('تعديل القيمة (اتركه فارغاً للرجوع للقيمة التلقائية):',cur);if(v===null)return;const t=v.trim();if(t)S.ov[k]=t;else delete S.ov[k];save();render();toast(t?'تم التعديل':'رجعت القيمة التلقائية');return}
    const k=rk(td.dataset.d,td.dataset.e);const r=S.rec[k];const cur=r&&r.txt?r.txt:(r?td.innerText.replace(/\s+/g,' ').trim():'');
-   const v=prompt('تعديل نص الخلية (اتركيه فارغاً للرجوع للحالة الأصلية):',cur==='—'?'':cur);
+   const v=prompt('تعديل نص الخلية (اتركه فارغاً للرجوع للحالة الأصلية):',cur==='—'?'':cur);
    if(v===null)return;const t=v.trim();
    if(t){S.rec[k]=Object.assign({st:'p'},r||{},{txt:t})}else if(r){delete r.txt;if(r.st==='p'&&!r.note)S.rec[k]={st:'p'}}
    save();render();toast(t?'تم تعديل النص':'رجعت الخلية للحالة الأصلية')},550)});
@@ -1946,7 +1949,7 @@ function renderDir(){
   $('dirFound').innerHTML=(q||DIRSEC||DIRTYPE)?`عدد النتائج: <b>${f.length}</b> من ${D.length}`:'';
   const nB=D.filter(v=>!String(v.name||'').trim()||String(v.name).trim()==='منتسب جديد').length;
   $('dirTotal').innerHTML=D.length?`<div class="dtt">إحصائية الدليل</div><div class="dtr"><span>العدد الكلي</span><b>${D.length}</b></div><div class="dtr"><span>الدوام الصباحي</span><b>${nM}</b></div><div class="dtr"><span>المناوبين</span><b>${nS}</b></div>`+(nB?`<button type="button" class="btn" id="dirBlank">حذف الأسماء الفارغة («منتسب جديد»: ${nB})</button>`:''):'';
-  if(!D.length){$('dirList').innerHTML='<div class="card"><div class="hint" style="text-align:center">القاعدة فارغة. استخدمي «استيراد ملف القاعدة» أو «إضافة منتسب» في أسفل الصفحة.</div></div>';return}
+  if(!D.length){$('dirList').innerHTML='';return}
   if(words.length){const FL=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['phone','رقم الهاتف'],['status','الصفة'],['addrCard','السكن حسب البطاقة'],['addrNow','السكن الحالي'],['mother','اسم الأم'],['_mar','الحالة الزوجية'],['_kids','عدد الأطفال (المخصصات الزوجية)'],['_ids','المستمسكات']];
     const VV=v=>({...v,_mar:v.marital==='m'?'متزوج':v.marital==='s'?'أعزب':'',_kids:v.marital==='m'?String(+v.kids||0):'',_ids:DIR_IDS.filter(([k])=>(v.idv||{})[k]).map(([k,l])=>l+': '+v.idv[k]).join(' — ')||v.spouseAllow&&''});
     $('dirList').innerHTML=f.length?f.map(v=>`<div class="card dres"><div class="dresn" style="${dirStyle(v)}">${esc(v.name)}</div><table class="drest">`+FL.filter(([k])=>VV(v)[k]).map(([k,l])=>`<tr><th>${l}</th><td>${esc(VV(v)[k])}</td></tr>`).join('')+`</table><div class="diract">${v.phone?`<a class="btn dcall" href="tel:${esc(v.phone)}">اتصال</a><a class="btn dwa" target="_blank" rel="noopener" href="${dirWa(v.phone)}">واتساب</a>`:''}</div><button class="btn dedit" data-di="${v.id}">✎ فتح وتعديل البيانات</button></div>`).join(''):'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج مطابقة.</div></div>';return}
@@ -1974,7 +1977,7 @@ function dirSheet(id){
   <div class="lbl">الحالة الزوجية</div>
   <div class="dseg" id="dMar"><button type="button" data-m="s" class="${v.marital==='s'?'on':''}">أعزب</button><button type="button" data-m="m" class="${v.marital==='m'?'on':''}">متزوج</button></div>
   <div id="dKidsBox" class="${v.marital==='m'?'':'hide'}"><div class="lbl">المخصصات الزوجية — عدد الأطفال</div><div class="dkids"><button type="button" class="btn" id="kidAdd">＋ إضافة طفل</button><b id="kidN">${+v.kids||0}</b><button type="button" class="btn" id="kidDel">− حذف طفل</button></div></div>
-  <div class="lbl">المستمسكات الشخصية (اختاري ما يلزم)</div>
+  <div class="lbl">المستمسكات الشخصية (اختر ما يلزم)</div>
   <div class="dseg dseg3" id="dIdSeg">${DIR_IDS.map(([k,l])=>`<button type="button" data-id="${k}" class="${(v.idOn||{})[k]||(v.idv||{})[k]?'on':''}">${l}</button>`).join('')}</div>
   <div id="dIdBox"></div>
   <div class="lbl">شكل الاسم (خط / لون / حجم)</div>
@@ -2002,10 +2005,10 @@ function dirSheet(id){
 }
 function dirDelSheet(){
   edit=null;let q='';
-  $('sheet').innerHTML=`<div class="edhead"><div class="edsub">حذف منتسب من القاعدة</div><div class="edtop"><button class="xtop" type="button" id="ddX"><span class="xb">✕</span><span>إغلاق</span></button></div></div><div class="dsearch"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg><input id="ddQ" type="search" autocomplete="off" placeholder="اكتبي اسم المنتسب المراد حذفه…"></div><div class="dfound" id="ddF"></div><div id="ddL"></div>`;
+  $('sheet').innerHTML=`<div class="edhead"><div class="edsub">حذف منتسب من القاعدة</div><div class="edtop"><button class="xtop" type="button" id="ddX"><span class="xb">✕</span><span>إغلاق</span></button></div></div><div class="dsearch"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg><input id="ddQ" type="search" autocomplete="off" placeholder="اكتب اسم المنتسب المراد حذفه…"></div><div class="dfound" id="ddF"></div><div id="ddL"></div>`;
   $('ov').classList.add('show');
   const draw=()=>{const w=dirNorm(q).split(' ').filter(Boolean);const L=(S.dir||[]).filter(v=>w.length&&(h=>w.every(x=>h.includes(x)))(dirNorm([v.name,v.phone].join(' '))));
-    $('ddF').textContent=w.length?'عدد النتائج: '+L.length:'اكتبي حرفاً أو أكثر لتظهر الأسماء';
+    $('ddF').textContent=w.length?'عدد النتائج: '+L.length:'اكتب حرفاً أو أكثر لتظهر الأسماء';
     $('ddL').innerHTML=L.slice(0,40).map(v=>`<button class="dirrow ddrow" data-dd="${v.id}"><span class="dn">${esc(v.name)}</span><small>${esc(v.sec||'بدون شعبة')}${v.phone?' · '+esc(v.phone):''}</small><em>🗑 حذف</em></button>`).join('')};
   $('ddQ').oninput=e=>{q=e.target.value;draw()};draw();
   $('ddX').onclick=()=>closeSheet();
@@ -2324,11 +2327,11 @@ function scEnhance(src,mode){
 function scBtn(id,t,cls){return `<button id="${id}" class="scb ${cls||''}" type="button">${t}</button>`}
 function scStageSet(st){
   SC.stage=st;const foot=scQ('scFoot'),T=scQ('scT');scQ('scVid').style.display=st==='cam'?'block':'none';
-  if(st==='cam'){T.textContent='المسح الضوئي — وجّهي الكاميرا نحو الورقة'+(SC.pages.length?' ('+SC.pages.length+' صفحة)':'');
+  if(st==='cam'){T.textContent='المسح الضوئي — وجّه الكاميرا نحو الورقة'+(SC.pages.length?' ('+SC.pages.length+' صفحة)':'');
     foot.innerHTML=scBtn('scLib','🖼️ من المكتبة')+`<button id="scShot" class="scshot" type="button" aria-label="التقاط"><i></i></button>`+(SC.pages.length?scBtn('scDone','حفظ PDF ('+SC.pages.length+')','y'):'<span class="scsp"></span>');
     scQ('scLib').onclick=()=>scQ('scFile').click();scQ('scShot').onclick=scShoot;if(SC.pages.length)scQ('scDone').onclick=()=>scPdf();scLive(true)}
   else{scLive(false)}
-  if(st==='crop'){T.textContent='اسحبي النقاط الأربع لتحديد حدود الورقة';
+  if(st==='crop'){T.textContent='اسحب النقاط الأربع لتحديد حدود الورقة';
     foot.innerHTML=scBtn('scRe','↺ إعادة')+scBtn('scGo','✔ متابعة','y');scQ('scRe').onclick=()=>scBack();scQ('scGo').onclick=scApply;scDrawCrop()}
   if(st==='res'){T.textContent='نتيجة المسح';
     foot.innerHTML=`<div class="scm"><button data-m="orig" class="${SC.mode==='orig'?'on':''}">الأصل</button><button data-m="color" class="${SC.mode==='color'?'on':''}">ملوّن</button><button data-m="bw" class="${SC.mode==='bw'?'on':''}">أبيض وأسود</button></div><div class="scrow">`+scBtn('scAdd','＋ صفحة أخرى')+scBtn('scCrop','✂ تعديل الحدود')+scBtn('scSave','حفظ PDF','y')+scBtn('scRead','قراءة الموقف')+`</div>`;
@@ -2342,7 +2345,7 @@ async function scOpen(){
   try{if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw 0;
     SC.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}},audio:false});
     const v=scQ('scVid');v.srcObject=SC.stream;await v.play().catch(()=>{});scLive(true)}
-  catch(e){toast('تعذّر تشغيل الكاميرا المباشرة — اختاري صورة من المكتبة أو التقطي صورة');scQ('scCap').click()}}
+  catch(e){toast('تعذّر تشغيل الكاميرا المباشرة — اختر صورة من المكتبة أو التقطي صورة');scQ('scCap').click()}}
 function scClose(){scLive(false);if(SC.stream){SC.stream.getTracks().forEach(t=>t.stop());SC.stream=null}scQ('scVid').srcObject=null;scQ('scOv').classList.add('hide');document.body.style.overflow='';SC.src=null;SC.pages=[]}
 function scLive(on){clearInterval(SC.tm);SC.tm=0;const cv=scQ('scCv'),x=cv.getContext('2d');
   if(!on){if(SC.stage==='cam')x.clearRect(0,0,cv.width,cv.height);return}
@@ -2391,8 +2394,8 @@ async function scReadIt(){
   window.addEventListener('resize',()=>{if(scQ('scOv').classList.contains('hide'))return;if(SC.stage==='crop')scDrawCrop();else if(SC.stage==='res')scDrawRes()})})();
 $('btnOcr').onclick=()=>{edit=null;
   $('sheet').innerHTML=`<div class="edhead"><div class="edsub">قراءة الصور والمسح الضوئي</div><div class="edtop"><button class="xtop" type="button" id="ocX"><span class="xb">✕</span><span>إغلاق</span></button></div></div>
-  <div class="ocopts"><button class="btn" id="ocScan"><b>📄 مسح ضوئي مباشر</b><small>وجّهي الكاميرا نحو الورقة فتُقصّ الحواف وتتحول إلى PDF</small></button>
-  <button class="btn" id="ocLib"><b>🖼️ مسح من مكتبة الصور</b><small>اختاري صورة ورقة لتصحيحها وتحويلها إلى PDF</small></button>
+  <div class="ocopts"><button class="btn" id="ocScan"><b>📄 مسح ضوئي مباشر</b><small>وجّه الكاميرا نحو الورقة فتُقصّ الحواف وتتحول إلى PDF</small></button>
+  <button class="btn" id="ocLib"><b>🖼️ مسح من مكتبة الصور</b><small>اختر صورة ورقة لتصحيحها وتحويلها إلى PDF</small></button>
   <button class="btn" id="ocRead"><b>📋 قراءة صور الموقف</b><small>استخراج الحضور من صورة ورقة الموقف (يلزم مفتاح Gemini)</small></button></div>`;
   $('ov').classList.add('show');$('ocX').onclick=closeSheet;$('ocScan').onclick=scOpen;
   $('ocLib').onclick=()=>{closeSheet();scQ('scFile').click()};
