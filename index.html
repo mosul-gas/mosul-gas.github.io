@@ -382,6 +382,11 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 #actionBar #btnReady{background:linear-gradient(180deg,#fffbea 0%,#ffe89a 42%,#f7c531 52%,#ffdf70 100%)!important;border:1px solid #a87900!important;box-shadow:0 3px 0 #8a6200,0 5px 9px rgba(0,0,0,.22),inset 0 1px 0 #fff!important;color:#000!important}
 .stat.s-p b{color:#1B6B3A!important}.stat.s-a b{color:#B30000!important}.stat.s-l b{color:#a86a00!important}.stat.s-e b{color:#4a5568!important}
 .spin{border-top-color:#f7c531!important}
+.setkind{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}
+.setkind button{font-family:Cairo;font-weight:800;font-size:15px;padding:10px 6px;border-radius:12px;cursor:pointer;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff!important}
+.setkind button.on{background:linear-gradient(180deg,#fffbea 0%,#ffe89a 42%,#f7c531 52%,#ffdf70 100%)!important;border-color:#a87900!important;box-shadow:0 3px 0 #8a6200,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff!important;color:#000!important}
+.setcap{font-family:Cairo;font-weight:800;font-size:13.5px;color:#fff;background:linear-gradient(135deg,#1F3864,#2c4f94);border-radius:10px 10px 0 0;padding:6px 12px;margin:0}
+#setTabs.settabs{background:#f3f7fc;border:1.5px solid #1F3864;border-top:0;border-radius:0 0 12px 12px;padding:10px;margin:0 0 12px}
 </style>
 </head>
 <body>
@@ -486,8 +491,10 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input class="txt" id="gkey" type="password" placeholder="مفتاح Gemini (AIza…)" autocomplete="off">
   </div>
   <div class="card">
-    <h2 class="sec">الأسماء (الوجبات والشُعب)</h2>
+    <h2 class="sec">الأسماء (الوجبات والشُعب والمواقع)</h2>
     <p class="hint">يُصحَّح الاسم بالكتابة عليه مباشرة. يرفع السهم الاسم إلى الأعلى، وتنقله القائمة إلى وجبة أو شعبة أخرى، ويحذفه الرمز ✕.</p>
+    <div class="setkind" id="setKind"><button data-kind="d">المناوبين</button><button data-kind="m">الدوام الصباحي</button></div>
+    <div class="setcap" id="setCap"></div>
     <div class="settabs" id="setTabs"></div>
     <div id="empList"></div>
     <div style="display:flex;gap:6px;margin-top:10px">
@@ -514,7 +521,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 109 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 110 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1105,14 +1112,17 @@ function groupList(){return [1,2,3,4].map(i=>({k:'d'+i,label:'الوجبة '+SHI
 function inGroup(e,k){return k[0]==='d'?e.shift===+k.slice(1):e.sec===k}
 function setGroup(e,k){if(k[0]==='d'){e.shift=+k.slice(1);delete e.sec}else{e.sec=k;delete e.shift}}
 function renderEmps(){
-  const G=groupList();
-  $('setTabs').innerHTML=G.map(g=>`<button data-ssh="${g.k}" class="${g.k===SET_SH?'on':''}">${esc(g.label)}</button>`).join('');
+  const G=groupList();const kind=SET_SH[0]==='d'?'d':'m';
+  document.querySelectorAll('#setKind button').forEach(b=>b.classList.toggle('on',b.dataset.kind===kind));
+  $('setCap').textContent=kind==='d'?'الوجبات':'الشُّعب والمواقع';
+  $('setTabs').innerHTML=G.filter(g=>(g.k[0]==='d')===(kind==='d')).map(g=>`<button data-ssh="${g.k}" class="${g.k===SET_SH?'on':''}">${esc(kind==='d'?g.label:g.label.replace(/^صباحي : /,''))}</button>`).join('');
   const list=S.emps.filter(e=>inGroup(e,SET_SH));
   $('empList').innerHTML=list.map((e,i)=>`<div class="emp"><input class="txt" data-name="${e.id}" value="${esc(e.name)}">
   <button class="ico" data-up="${e.id}" ${i===0?'disabled':''}>↑</button>
   <select class="txt" data-move="${e.id}" style="width:92px;padding:8px 4px">${G.map(g=>`<option value="${g.k}" ${g.k===SET_SH?'selected':''}>${esc(g.label)}</option>`).join('')}</select>
   <button class="ico" data-del="${e.id}" style="color:var(--bad)">✕</button></div>`).join('')||'<div class="hint">لا توجد أسماء هنا</div>';
 }
+$('setKind').addEventListener('click',ev=>{const b=ev.target.closest('[data-kind]');if(!b)return;SET_SH=b.dataset.kind==='d'?'d1':(S.sections[0]||{}).id||'d1';renderEmps()});
 $('setTabs').addEventListener('click',ev=>{const b=ev.target.closest('[data-ssh]');if(b){SET_SH=b.dataset.ssh;renderEmps()}});
 $('empList').addEventListener('input',ev=>{const id=ev.target.dataset.name;if(id){S.emps.find(e=>e.id===id).name=ev.target.value;save()}});
 $('empList').addEventListener('change',ev=>{const id=ev.target.dataset.move;if(id){setGroup(S.emps.find(e=>e.id===id),ev.target.value);save();renderEmps();toast('تم النقل')}});
