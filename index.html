@@ -785,6 +785,9 @@ body.subpage #viewDir .dirtools2 .btn,body.subpage #viewDir .dirtools2 button{mi
 body.subpage #viewDir{min-height:calc(100vh - 110px);display:flex;flex-direction:column}
 body.subpage #viewDir #dirList{flex:1}
 .dwbar b{white-space:nowrap}
+#grid td.c,#grid td.notes{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.dwbar button{white-space:nowrap;font-size:11.5px!important;padding:0 7px!important}
+.dwbar b{font-size:12px!important;flex:1;min-width:0}
 </style>
 </head>
 <body>
@@ -940,7 +943,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 152 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 153 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1031,6 +1034,7 @@ function dateLbl(dd){return dd.y+'/'+pad(dd.m+1)+'/'+pad(dd.d)}
 
 function cellShort(r){
   if(!r)return '';
+  if(r.txt)return esc(r.txt);
   if(r.st==='p')return 'حاضر';
   const part=(MODE==='duty'&&r.parts&&r.parts.length<3)?'<br><small>'+partsLabel(r.parts)+'</small>':'';
   if(r.st==='a')return abName(r)+part;
@@ -1054,6 +1058,7 @@ function cellInfo(r){
   if(r.st==='p'){t='';c='000000'}
   else if(r.st==='a'){t=abName(r)+(MODE==='duty'&&r.parts.length<3?' '+partsLabel(r.parts):'');c='B30000'}
   else{t=lvName(r.type)+(MODE==='duty'&&r.parts.length<3?' '+partsLabel(r.parts):'');c='B35F00'}
+  if(r.txt)t=r.txt;
   if(r.note)t+=' ('+r.note+')';
   return {t,c};
 }
@@ -1089,8 +1094,9 @@ function render(){
     const over=MODE==='day'&&cnt>LEAVE_LIMIT;
     h+=`<tr><td class="nocol">${i+1}</td><td class="namecol${over?' over':''}">${esc(e.name)}</td>`;
     days.forEach(dd=>{const r=S.rec[rk(dd.s,e.id)];const cls=r?r.st:'e';h+=`<td class="c ${cls}" data-d="${dd.s}" data-e="${e.id}">${r?cellShort(r):'—'}</td>`});
-    if(MODE==='duty'){const n=notesOf(e,days);PARTS.forEach(p=>h+=`<td class="notes">${n[p].join('، ')}</td>`)}
-    else h+=`<td class="notes cnt${over?' overc':''}">${cnt||''}</td>`;
+    const OV=(k,d)=>{const o=(S.ov||{})[k];return o===undefined?d:esc(o)};
+    if(MODE==='duty'){const n=notesOf(e,days);PARTS.forEach(p=>{const kk='n|'+days[0].s+'|'+e.id+'|'+p;h+=`<td class="notes" data-ov="${kk}" data-cur="${esc(n[p].join('، '))}">${OV(kk,n[p].join('، '))}</td>`})}
+    else{const kk='c|'+days[0].s+'|'+e.id;h+=`<td class="notes cnt${over?' overc':''}" data-ov="${kk}" data-cur="${cnt||''}">${OV(kk,cnt||'')}</td>`}
     h+='</tr>';
   });
   $('grid').innerHTML=h+'</tbody>';
@@ -1182,8 +1188,23 @@ $('ov').addEventListener('click',ev=>{if(ev.target.id==='ov')closeSheet()});
 $('grid').addEventListener('click',ev=>{
   const all=ev.target.closest('[data-all]');
   if(all){let c=0;curEmps().forEach(e=>{const k=rk(all.dataset.all,e.id);if(!S.rec[k]){S.rec[k]={st:'p'};c++}});save();render();toast(c?'تم تأشير '+c+' حاضر':'جميع الأسماء مؤشَّرة مسبقاً');return}
+  if(GLP_DONE){GLP_DONE=false;return}
   const td=ev.target.closest('td.c');if(td)openCell(td.dataset.d,td.dataset.e);
 });
+let GLP_T=null,GLP_X=0,GLP_Y=0,GLP_DONE=false;
+(function(){const g=$('grid');
+ const cancel=()=>{clearTimeout(GLP_T);GLP_T=null};
+ g.addEventListener('pointerdown',ev=>{const td=ev.target.closest('td.c,td.notes[data-ov]');if(!td)return;GLP_DONE=false;GLP_X=ev.clientX;GLP_Y=ev.clientY;cancel();
+  GLP_T=setTimeout(()=>{GLP_T=null;GLP_DONE=true;
+   if(td.dataset.ov){const k=td.dataset.ov;S.ov=S.ov||{};const cur=S.ov[k]!==undefined?S.ov[k]:td.dataset.cur;const v=prompt('تعديل القيمة (اتركيه فارغاً للرجوع للقيمة التلقائية):',cur);if(v===null)return;const t=v.trim();if(t)S.ov[k]=t;else delete S.ov[k];save();render();toast(t?'تم التعديل':'رجعت القيمة التلقائية');return}
+   const k=rk(td.dataset.d,td.dataset.e);const r=S.rec[k];const cur=r&&r.txt?r.txt:(r?td.innerText.replace(/\s+/g,' ').trim():'');
+   const v=prompt('تعديل نص الخلية (اتركيه فارغاً للرجوع للحالة الأصلية):',cur==='—'?'':cur);
+   if(v===null)return;const t=v.trim();
+   if(t){S.rec[k]=Object.assign({st:'p'},r||{},{txt:t})}else if(r){delete r.txt;if(r.st==='p'&&!r.note)S.rec[k]={st:'p'}}
+   save();render();toast(t?'تم تعديل النص':'رجعت الخلية للحالة الأصلية')},550)});
+ g.addEventListener('pointermove',ev=>{if(GLP_T&&(Math.abs(ev.clientX-GLP_X)>10||Math.abs(ev.clientY-GLP_Y)>10))cancel()});
+ ['pointerup','pointercancel','pointerleave'].forEach(n=>g.addEventListener(n,cancel));
+ g.addEventListener('contextmenu',ev=>{if(ev.target.closest('td.c,td.notes'))ev.preventDefault()})})();
 let SLP_T=null,SLP_DONE=false;
 function secAdd(){const n=(prompt('اسم القسم أو الشعبة الجديدة:')||'').trim();if(!n)return;const id='s'+Date.now();S.sections.push({id,name:n,short:n});SEC=id;save();render();toast('تمت إضافة «'+n+'»')}
 function secMenu(id){const sc=S.sections.find(x=>x.id===id);if(!sc)return;edit=null;const cnt=empsSec(id).length;
