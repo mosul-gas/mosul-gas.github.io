@@ -728,6 +728,17 @@ body.tbl .grid th.namecol,body.tbl .grid td.namecol{font-size:12px!important;pad
 .dcolbar .dcsw{width:22px;height:22px;border-radius:50%;border:2px solid #1F3864;box-shadow:0 2px 0 rgba(0,0,0,.3)}
 .dcolbar i{margin-inline-start:auto;font-style:normal;font-size:15px}
 .ddrow{position:relative}.ddrow em{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-style:normal;font-weight:900;font-size:12px;color:#a8322a}
+
+/* v143 directory search results */
+.dsearch #dirGo{border:0;background:transparent;color:#1F3864;padding:0;display:grid;place-items:center;width:30px;height:30px;cursor:pointer}
+.dres{padding:10px!important;margin-top:10px}
+.dresn{font-weight:900;font-size:17px;color:#0b1a2e;padding:6px 10px;margin-bottom:6px;border-radius:11px;background:linear-gradient(180deg,#5fb8f0 0%,#2f7fd6 48%,#1d5fb5 52%,#2f7fd6 100%);color:#fff!important;border:1px solid #0f3a73;box-shadow:0 3px 0 #0b2f63}
+.drest{width:100%;border-collapse:collapse;font-size:14px}
+.drest th{width:36%;text-align:right;padding:6px 8px;background:#d3e8f8;border:1px solid #9ccbe8;color:#1F3864;font-weight:800;font-size:12.5px;vertical-align:top}
+.drest td{padding:6px 8px;border:1px solid #9ccbe8;background:#fff;font-weight:700;color:#0b1a2e;word-break:break-word}
+.dres .diract{margin-top:8px}.dres .diract .btn{height:40px!important;font-size:14.5px!important}
+.dres .dedit{width:100%;margin-top:6px;height:38px;font-weight:800}
+.dres .dedit{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,inset 0 1px 0 #fff!important;color:#0b1a2e!important;border-radius:11px!important;margin-top:10px!important}
 </style>
 </head>
 <body>
@@ -818,7 +829,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 </main>
 <main id="viewDir" class="hide">
   <div class="card dirhead">
-    <div class="dsearch"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg><input id="dirQ" type="search" inputmode="search" autocomplete="off" placeholder="ابحثي بالاسم أو رقم الهاتف…"><button id="dirClr" class="hide" type="button" aria-label="مسح">✕</button></div>
+    <div class="dsearch"><button id="dirGo" type="button" aria-label="بحث"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg></button><input id="dirQ" type="search" inputmode="search" autocomplete="off" placeholder="ابحثي بالاسم أو رقم الهاتف…"><button id="dirClr" class="hide" type="button" aria-label="مسح">✕</button></div>
     <div class="dstats" id="dirStats"></div>
     <div class="dirsec" id="dirSecs"></div>
     <div class="dfound" id="dirFound"></div>
@@ -881,7 +892,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 142 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 143 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1696,13 +1707,15 @@ function renderDir(){
   const cnt={};base.forEach(v=>{const k=dirName(v);cnt[k]=(cnt[k]||0)+1});
   const order=DIR_SECS.map(x=>x||'بدون شعبة').concat(Object.keys(cnt)).filter((x,i,a)=>a.indexOf(x)===i&&cnt[x]);
   if(DIRSEC&&!cnt[DIRSEC])DIRSEC='';
-  $('dirSecs').innerHTML=`<button data-ds="" class="${DIRSEC===''?'on':''}">كل الشعب <b>${base.length}</b></button>`+order.map(k=>`<button data-ds="${esc(k)}" class="${DIRSEC===k?'on':''}">${esc(k)} <b>${cnt[k]}</b></button>`).join('');
+  $('dirSecs').innerHTML=`<button data-ds="" class="${DIRSEC===''?'on':''}">كل الشعب <b>${base.length}</b></button>`+order.filter(k=>k!=='بدون شعبة').map(k=>`<button data-ds="${esc(k)}" class="${DIRSEC===k?'on':''}">${esc(k)} <b>${cnt[k]}</b></button>`).join('');
   const words=q?q.split(' ').filter(Boolean):[];
   const hay=v=>dirNorm([v.name,v.phone,v.title,v.sec,v.shift,v.mother,v.status].join(' '));
   const f=base.filter(v=>(!DIRSEC||dirName(v)===DIRSEC)&&(!words.length||(h=>words.every(w=>h.includes(w)))(hay(v))));
   $('dirClr').classList.toggle('hide',!DIRQ);
   $('dirFound').innerHTML=(q||DIRSEC||DIRTYPE)?`عدد النتائج: <b>${f.length}</b> من ${D.length}`:`إجمالي المنتسبين في القاعدة: <b>${D.length}</b>`;
   if(!D.length){$('dirList').innerHTML='<div class="card"><div class="hint" style="text-align:center">القاعدة فارغة. استخدمي «استيراد ملف القاعدة» أو «إضافة منتسب» في أسفل الصفحة.</div></div>';return}
+  if(words.length){const FL=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['phone','رقم الهاتف'],['status','الصفة'],['addrCard','السكن حسب البطاقة'],['addrNow','السكن الحالي'],['mother','اسم الأم'],['spouseAllow','المخصصات الزوجية']];
+    $('dirList').innerHTML=f.length?f.map(v=>`<div class="card dres"><div class="dresn" style="${dirStyle(v)}">${esc(v.name)}</div><table class="drest">`+FL.filter(([k])=>v[k]).map(([k,l])=>`<tr><th>${l}</th><td>${esc(v[k])}</td></tr>`).join('')+`</table><div class="diract">${v.phone?`<a class="btn dcall" href="tel:${esc(v.phone)}">اتصال</a><a class="btn dwa" target="_blank" rel="noopener" href="${dirWa(v.phone)}">واتساب</a>`:''}</div><button class="btn dedit" data-di="${v.id}">✎ فتح وتعديل البيانات</button></div>`).join(''):'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج مطابقة.</div></div>';return}
   let h='';
   order.forEach(k=>{const g=f.filter(v=>dirName(v)===k);if(!g.length)return;
     h+=`<div class="card dirgrp"><h3 class="dirgh"><span>${esc(k)}</span><b>${g.length}</b></h3>`+g.map(v=>`<button class="dirrow" data-di="${v.id}"><span class="dn" style="${dirStyle(v)}">${esc(v.name)}</span><small>${esc(v.title||'')}${v.shift?' · '+esc(v.shift):''}${v.phone?' · '+esc(v.phone):''}</small></button>`).join('')+'</div>'});
@@ -1753,6 +1766,8 @@ function dirDelSheet(){
 $('dirDelMode').onclick=dirDelSheet;
 $('dirQ').addEventListener('input',e=>{DIRQ=e.target.value;renderDir()});
 $('dirStats').addEventListener('click',e=>{const b=e.target.closest('[data-dt]');if(!b)return;DIRTYPE=b.dataset.dt;renderDir()});
+$('dirGo').onclick=()=>{$('dirQ').blur();renderDir();$('dirList').scrollIntoView({behavior:'smooth',block:'start'})};
+$('dirQ').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('dirGo').click()}});
 $('dirClr').onclick=()=>{DIRQ='';$('dirQ').value='';renderDir();$('dirQ').focus()};
 $('dirSecs').addEventListener('click',e=>{const b=e.target.closest('[data-ds]');if(!b)return;DIRSEC=b.dataset.ds;renderDir()});
 $('dirList').addEventListener('click',e=>{const b=e.target.closest('[data-di]');if(b)dirSheet(b.dataset.di)});
