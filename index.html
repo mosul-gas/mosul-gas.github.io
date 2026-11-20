@@ -627,6 +627,11 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 .sumleg span i{display:inline-block;width:10px;height:10px;border-radius:3px;margin:0 0 1px}
 .sumleg .lgc{font-size:16px;color:#1F3864}
 .sumleg span:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78}
+/* v134: daily preview — tip on top, larger add/remove buttons */
+#sheet:has(#dPrev) .dtip{font-size:11px!important;text-align:center;margin:2px 0 3px!important;color:#33506b}
+#sheet:has(#dPrev) .dadd{gap:6px!important;margin:0 0 6px!important}
+#sheet:has(#dPrev) .dadd .btn{height:38px!important;padding:0 4px!important;font-size:12.5px!important;font-weight:800!important;border-radius:12px!important;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,0 4px 7px rgba(0,0,0,.16),inset 0 1px 0 #fff!important;line-height:1.1!important}
+#sheet:has(#dPrev) .dadd .btn:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78!important}
 </style>
 </head>
 <body>
@@ -774,7 +779,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 133 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 134 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1372,9 +1377,9 @@ $('btnCopy').onclick=()=>{
   edit=null;
   const def=MODE==='day'?(()=>{const t=ymd(today),w=weekDays().map(x=>x.s);return w.includes(t)?t:w[0]})():ymd(today);
   $('sheet').innerHTML=`<div class="edhead dhd"><h3 style="margin:0;white-space:nowrap">📋 الموقف اليومي</h3><label class="dlbl"><span id="dDateLbl"></span><input type="date" id="dDate" value="${def}"></label><div class="edtop"></div></div>
+  <div class="hint dtip">اضغط على أي خانة في الورقة لتعديلها قبل الطباعة، وللإضافة استعمل أزرار «سطر» أسفل الورقة.</div>
   <div id="dPrev" style="overflow:hidden;background:#f6f8fb;border-radius:8px;padding:2px;margin:3px 0 4px;display:flex;justify-content:center"></div>
-  <div class="dadd"><button class="btn" data-add="0">＋ سطر في الموقف</button><button class="btn" data-add="1">＋ سطر في المناوبين</button><button class="btn" data-rm="1">− حذف آخر سطر مضاف</button></div>
-  <div class="hint" style="margin:2px 0 6px;font-size:11.5px;text-align:center">✏️ اضغط على أي خانة في الورقة لتعديلها قبل الطباعة، وللإضافة استعمل أزرار «سطر» أعلاه.</div>
+  <div class="dadd"><button class="btn" data-add="0">＋ سطر في الموقف</button><button class="btn" data-add="1">＋ سطر في المناوبين</button><button class="btn" data-rm="1">− حذف آخر سطر</button></div>
   <div class="pfmt dfmt"><button data-d="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button><button data-d="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button><button data-d="xl"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button></div>
   <button class="btn dwa dwa2" data-d="copy" title="نسخ نصاً لواتساب"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#25D366"/><path d="M8.6 6.8c.3-.3.8-.3 1 .1l1 2c.2.3.1.7-.1 1l-.6.6c.5 1.2 1.5 2.2 2.7 2.8l.6-.6c.3-.3.7-.3 1-.1l2 1c.4.2.4.7.1 1l-.9.9c-.6.6-1.6.7-2.4.3-2.3-1.1-4.1-2.9-5.2-5.2-.4-.8-.3-1.8.3-2.4z" fill="#fff"/></svg><span>نسخ لواتساب</span></button>
   <button class="btn gh" data-d="x" style="display:none">إلغاء</button>`;
@@ -1387,7 +1392,7 @@ $('btnCopy').onclick=()=>{
     if(!w.length)w.push('✅ تم التأشير على الجميع، والموقف جاهز للطباعة.');
     {const dt=new Date(utc(v));$('dDateLbl').textContent=DAYS[dt.getUTCDay()]+' '+dt.getUTCDate()+'/'+(dt.getUTCMonth()+1)+'/'+dt.getUTCFullYear()}
     const pv=$('dPrev');pv.innerHTML='<div id="dPage" style="background:#fff;border:1px solid #ccc;border-radius:4px;padding:12mm 10mm;width:210mm;height:297mm;box-sizing:border-box;overflow:hidden">'+dailyHTML(dd,true)+'</div>';
-    requestAnimationFrame(()=>{const pg=$('dPage');if(!pg)return;const sh=$('sheet');const avail=window.innerHeight*0.97-(sh.scrollHeight-pv.clientHeight)-6;const W=pv.clientWidth-4;const k=Math.max(.25,Math.min(W/pg.offsetWidth,avail/pg.offsetHeight));pg.style.zoom=k})};prev();$('dDate').onchange=()=>prev(false);
+    requestAnimationFrame(()=>{const pg=$('dPage');if(!pg)return;const sh=$('sheet');const avail=window.innerHeight*0.97-(sh.scrollHeight-pv.clientHeight)-46;const W=pv.clientWidth-4;const k=Math.max(.25,Math.min(W/pg.offsetWidth,avail/pg.offsetHeight));pg.style.zoom=k})};prev();$('dDate').onchange=()=>prev(false);
   $('sheet').onclick=ev=>{const ad=ev.target.closest('[data-add],[data-rm]');if(ad&&dM){applyEdits({morning:dM[0],duty:dM[1]});let k=ad.dataset.add;if(ad.dataset.rm){k=dLast;if(k==null||!dM[k].length||!dM[k][dM[k].length-1].x){toast('لا توجد أسطر مضافة');return}dM[k].pop()}else{k=+k;dM[k].push({name:'',st:'',x:1});dLast=k}
       prev(true);if(ad.dataset.add!=null)setTimeout(()=>{const c=document.querySelectorAll('#dPrev [data-t="'+k+'"][data-f="name"]');const l=c[c.length-1];if(l)l.focus()},60);return}
     const b=ev.target.closest('[data-d]');if(!b)return;const v=$('dDate').value;if(!v)return;const dd=dailyData(v);if(dM){dd.morning=dM[0];dd.duty=dM[1]}applyEdits(dd);dd.morning=dd.morning.filter(r=>r.name||r.st);dd.duty=dd.duty.filter(r=>r.name||r.st);const nm='الموقف اليومي '+v;
