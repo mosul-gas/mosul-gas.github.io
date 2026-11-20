@@ -989,6 +989,11 @@ body.ltedit .hprint svg{width:21px!important;height:21px!important;flex:0 0 auto
 #viewDir .dirrow:last-child{border-bottom:0}
 #viewDir .dirrow .dn{font-size:16.5px;font-weight:900;color:#12315a}
 #viewDir .dirrow small{font-size:12px;color:#5d6b7e;font-weight:700}
+
+#viewDir .dirrow .dn.dnew{font-size:19px;font-weight:900;color:#b3261e;background:#fff4c2;border:2.5px solid #12315a;box-shadow:0 3px 0 #12315a,inset 0 0 0 1.5px #d4af37;border-radius:11px;padding:3px 12px}
+#viewDir .dnores{text-align:center;display:flex;flex-direction:column;gap:8px;font-weight:900;color:#12315a}
+#viewDir .dnores small{font-weight:700;color:#5d6b7e}
+#viewDir .dnores .btn{min-height:46px;font-weight:900;border:2.5px solid #12315a!important;box-shadow:0 3px 0 #12315a,inset 0 0 0 1.5px #d4af37!important}
 </style>
 </head>
 <body>
@@ -1157,7 +1162,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 176 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 177 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2007,10 +2012,10 @@ function renderDir(){
   if(!D.length){$('dirList').innerHTML='';return}
   if(words.length){const FL=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['phone','رقم الهاتف'],['status','الصفة'],['addrCard','السكن حسب البطاقة'],['addrNow','السكن الحالي'],['mother','اسم الأم'],['_mar','الحالة الزوجية'],['_kids','عدد الأطفال (المخصصات الزوجية)'],['_ids','المستمسكات']];
     const VV=v=>({...v,_mar:({m:'متزوج',s:'أعزب',w:'أرمل',d:'مطلق'})[v.marital]||'',_kids:v.marital==='m'?String(+v.kids||0):'',_ids:DIR_IDS.filter(([k])=>(v.idv||{})[k]).map(([k,l])=>l+': '+v.idv[k]).join(' — ')||v.spouseAllow&&''});
-    $('dirList').innerHTML=f.length?f.map(v=>`<div class="card dres"><div class="dresn" style="${dirStyle(v)}">${esc(v.name)}</div><table class="drest">`+FL.filter(([k])=>VV(v)[k]).map(([k,l])=>`<tr><th>${l}</th><td>${esc(VV(v)[k])}</td></tr>`).join('')+`</table><div class="diract">${v.phone?`<a class="btn dcall" href="tel:${esc(v.phone)}">اتصال</a><a class="btn dwa" target="_blank" rel="noopener" href="${dirWa(v.phone)}">واتساب</a>`:''}</div><button class="btn dedit" data-di="${v.id}">✎ فتح وتعديل البيانات</button></div>`).join(''):'<div class="card"><div class="hint" style="text-align:center">لا يوجد اسم مطابق لـ «'+esc(DIRQ)+'» في القاعدة.</div></div>';return}
+    $('dirList').innerHTML=f.length?f.map(v=>`<div class="card dres"><div class="dresn" style="${dirStyle(v)}">${esc(v.name)}</div><table class="drest">`+FL.filter(([k])=>VV(v)[k]).map(([k,l])=>`<tr><th>${l}</th><td>${esc(VV(v)[k])}</td></tr>`).join('')+`</table><div class="diract">${v.phone?`<a class="btn dcall" href="tel:${esc(v.phone)}">اتصال</a><a class="btn dwa" target="_blank" rel="noopener" href="${dirWa(v.phone)}">واتساب</a>`:''}</div><button class="btn dedit" data-di="${v.id}">✎ فتح وتعديل البيانات</button></div>`).join(''):'<div class="card dnores"><div>لا يوجد اسم مطابق لـ «'+esc(DIRQ)+'» في القاعدة</div><small>القاعدة فيها '+D.length+' اسم فقط. إذا الأسماء ما كاملة، استورد ملف القاعدة.</small><button type="button" class="btn" id="dirImp2">استيراد ملف القاعدة</button></div>';return}
   let h='';
   order.forEach(k=>{const g=f.filter(v=>dirName(v)===k);if(!g.length)return;
-    h+=`<div class="card dirgrp">`+(k==='بدون شعبة'?'':`<h3 class="dirgh"><span>${esc(k)}</span><b>${g.length}</b></h3>`)+g.map(v=>`<button class="dirrow" data-di="${v.id}"><span class="dn" style="${dirStyle(v)}">${esc(v.name)}</span><small>${esc(v.title||'')}${v.shift?' · '+esc(v.shift):''}${v.phone?' · '+esc(v.phone):''}</small></button>`).join('')+'</div>'});
+    h+=`<div class="card dirgrp">`+(k==='بدون شعبة'?'':`<h3 class="dirgh"><span>${esc(k)}</span><b>${g.length}</b></h3>`)+g.map(v=>`<button class="dirrow" data-di="${v.id}"><span class="dn${String(v.name).trim()==='منتسب جديد'?' dnew':''}" style="${dirStyle(v)}">${esc(v.name)}</span><small>${esc(v.title||'')}${v.shift?' · '+esc(v.shift):''}${v.phone?' · '+esc(v.phone):''}</small></button>`).join('')+'</div>'});
   $('dirList').innerHTML=h||'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج مطابقة.</div></div>'}
 function dirWa(p){let d=String(p||'').replace(/[٠-٩]/g,x=>'٠١٢٣٤٥٦٧٨٩'.indexOf(x)).replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);else if(d.startsWith('0'))d='964'+d.slice(1);else if(d.length===10&&d[0]==='7')d='964'+d;return d?'https://wa.me/'+d:'#'}
 const DIR_IDS=[['unified','البطاقة الوطنية الموحدة'],['civil','هوية الأحوال المدنية'],['passport','جواز السفر']];
@@ -2081,6 +2086,7 @@ $('dirQ').addEventListener('input',e=>{DIRQ=e.target.value;renderDir()});
 $('dirStats').addEventListener('click',e=>{const b=e.target.closest('[data-dt]');if(!b)return;DIRTYPE=b.dataset.dt;renderDir()});
 $('dirGo').onclick=()=>{$('dirQ').blur();renderDir();$('dirList').scrollIntoView({behavior:'smooth',block:'start'})};
 $('dirQ').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('dirGo').click()}});
+$('dirList').addEventListener('click',e=>{if(e.target.closest('#dirImp2'))$('dirImp').click()});
 $('dirClr').onclick=()=>{DIRQ='';$('dirQ').value='';renderDir();$('dirQ').focus()};
 $('dirSecs').addEventListener('click',e=>{const b=e.target.closest('[data-ds]');if(!b)return;DIRSEC=b.dataset.ds;renderDir()});
 $('dirList').addEventListener('click',e=>{const b=e.target.closest('[data-di]');if(b)dirSheet(b.dataset.di)});
