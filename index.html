@@ -753,6 +753,12 @@ body.tbl .grid th.namecol,body.tbl .grid td.namecol{font-size:12px!important;pad
 .dkids .btn{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,inset 0 1px 0 #fff!important;color:#0b1a2e!important;border-radius:11px!important}
 .backbtn{min-width:72px!important;height:36px!important;padding:0 12px!important;font-size:14px!important}
 .subpage .subbar .backbtn{height:34px!important;min-width:70px!important}
+
+/* v146 title bar: transparent bar, yellow 3D title button */
+.subpage .subbar{background:transparent!important;border:0!important;box-shadow:none!important;margin-top:2px!important;padding:2px 4px!important}
+.subpage .subbar span#subTitle{background:linear-gradient(180deg,#fff6c9 0%,#ffe27a 45%,#f5be1d 55%,#ffd75a 100%);border:1px solid #b98a00;border-radius:12px;box-shadow:0 4px 0 #b98a00,0 6px 9px rgba(0,0,0,.22),inset 0 1px 0 #fff;padding:6px 16px!important;font-size:16px!important;font-weight:900;color:#000;margin-inline-end:auto}
+.subbar .prbtn{width:auto!important;min-width:0!important;padding:0 12px!important;gap:6px}
+.subpage .subbar .prbtn{width:auto!important;min-width:0!important}
 </style>
 </head>
 <body>
@@ -778,7 +784,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <b id="monthLbl"></b>
     <button id="nextM" aria-label="الشهر التالي">‹</button>
   </div>
-  <div class="subbar" id="subBar"><span id="subTitle"></span><button id="subPrint" class="backbtn prbtn" aria-label="طباعة"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="9" rx="2"/><path d="M7 14h10v7H7z"/></svg></button><button id="subBack" class="backbtn" aria-label="إغلاق"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg><b>إغلاق</b></button></div>
+  <div class="subbar" id="subBar"><span id="subTitle"></span><button id="subPrint" class="backbtn prbtn" aria-label="طباعة"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="9" rx="2"/><path d="M7 14h10v7H7z"/></svg><b>طباعة</b></button><button id="subBack" class="backbtn" aria-label="إغلاق"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg><b>إغلاق</b></button></div>
   <div class="modeseg" id="modeSeg"><button data-mode="duty">المناوبين</button><button data-mode="day">الدوام الصباحي</button></div>
   <div class="tabs" id="tabs"></div>
 </header>
@@ -906,7 +912,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 145 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 146 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
