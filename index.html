@@ -387,6 +387,10 @@ td.c{height:auto!important;min-width:56px;padding:8px 4px!important}
 .setkind button.on{background:linear-gradient(180deg,#fffbea 0%,#ffe89a 42%,#f7c531 52%,#ffdf70 100%)!important;border-color:#a87900!important;box-shadow:0 3px 0 #8a6200,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff!important;color:#000!important}
 .setcap{font-family:Cairo;font-weight:800;font-size:13.5px;color:#fff;background:linear-gradient(135deg,#1F3864,#2c4f94);border-radius:10px 10px 0 0;padding:6px 12px;margin:0}
 #setTabs.settabs{background:#f3f7fc;border:1.5px solid #1F3864;border-top:0;border-radius:0 0 12px 12px;padding:10px;margin:0 0 12px}
+.setbar{position:sticky;top:0;z-index:15;display:flex;align-items:center;gap:10px;background:#fff;padding:8px 2px;margin:0 0 8px;border-bottom:1px solid #d9dee6}
+.setbar span{font-family:Cairo;font-weight:800;font-size:17px;color:#1F3864}
+#backTop{width:46px;height:40px;display:grid;place-items:center;border-radius:12px;cursor:pointer;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%);color:#0b1a2e;border:1px solid #3f78a3;box-shadow:0 3px 0 #1f4f78,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff}
+#backTop:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78}
 </style>
 </head>
 <body>
@@ -471,6 +475,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   <button class="btn gh" id="ltBack" style="width:100%;margin-bottom:20px">⬅︎ رجوع للموقف</button>
 </main>
 <main id="viewSettings" class="hide">
+  <div class="setbar"><button id="backTop" aria-label="رجوع للموقف" title="رجوع للموقف"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button><span>الإعدادات</span></div>
   <div class="card">
     <h2 class="sec">ترويسة الورقة</h2>
     <div class="lbl">السطر الأول</div><input class="txt" id="h1">
@@ -521,7 +526,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع للموقف</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 110 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 111 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1293,7 +1298,7 @@ async function buildLetterDocx(L){
 }
 
 $('btnSettings').onclick=()=>showSettings(true);
-$('doneSettings').onclick=()=>showSettings(false);
+$('doneSettings').onclick=()=>showSettings(false);$('backTop').onclick=()=>showSettings(false);
 $('backup').onclick=()=>{const name='نسخة احتياطية السيطرة الذاتية '+ymd(new Date())+'.json';const blob=new Blob([JSON.stringify(S)],{type:'application/json'});let f=null;try{f=new File([blob],name,{type:'application/json'})}catch(e){}
   if(f&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).then(()=>toast('تم حفظ النسخة')).catch(e=>{if(e&&e.name!=='AbortError')download(name,blob)});return}
   download(name,blob);toast('تم تنزيل النسخة')};
