@@ -703,7 +703,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 </header>
 
 <main id="viewMain">
-  <div class="card" id="homeCard"><div class="homeh">موقف الحضور</div><p class="hint" style="text-align:center;margin:4px 0 2px">اختاري الأسبوع من الأعلى، ثم اضغطي «المناوبين» أو «الدوام الصباحي» لفتح الجدول.</p></div>
+  <div class="card" id="homeCard"><div class="homeh">موقف الحضور</div><p class="hint" style="text-align:center;margin:4px 0 2px">اضغطي «موقف الحضور» لفتح الجدول مباشرة، أو اختاري «المناوبين» أو «الدوام الصباحي».</p></div>
   <div class="card" id="statsCard">
     <div class="stats" id="stats"></div>
   </div>
@@ -820,7 +820,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 137 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 138 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1689,7 +1689,7 @@ $('drawer').addEventListener('click',e=>{const b=e.target.closest('.ditem');if(!
   else if(g==='backup')$('backup').click()},true);
 try{const v=[...document.querySelectorAll('#viewSettings p.hint')].find(x=>x.textContent.includes('نسخة الأداة'));$('dVer').textContent=v?v.textContent:''}catch(e){}
 
-document.querySelector('.navtiles').addEventListener('click',e=>{const b=e.target.closest('[data-nav]');if(!b)return;({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]&&$(({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]).click()});
+document.querySelector('.navtiles').addEventListener('click',e=>{const b=e.target.closest('[data-nav]');if(!b)return;if(b.dataset.nav==='m'){$('btnMawqif').click();showTable(true);return}({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]&&$(({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]).click()});
 $('btnLetters').onclick=()=>showLetters(true);
 function showTable(on){document.body.classList.toggle('tbl',on);window.scrollTo(0,0);navOn()}
 $('btnMawqif').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);if(!$('viewSettings').classList.contains('hide'))showSettings(false);if(!$('viewLetters').classList.contains('hide'))showLetters(false);showTable(false)};
