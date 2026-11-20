@@ -926,7 +926,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 149 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 150 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1862,7 +1862,7 @@ function dayWin(){try{const T=document.body.classList.contains('tbl'),isDay=MODE
     $('dwLbl').textContent=dn(a)===dn(b)?dn(a):dn(a)+' ← '+dn(b);$('dwPrev').disabled=DW<=0;$('dwNext').disabled=DW+DWN>=N;$('dwSz').textContent='عرض: '+DWN+' أيام'}}catch(e){}}
 function fitNames(){try{if(!document.body.classList.contains('tbl'))return;const on=document.querySelector('#modeSeg .on');if(!on)return;
   document.querySelectorAll('#grid td.namecol:not([data-fit])').forEach(td=>{td.dataset.fit='1';const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','nowrap');P('word-break','normal');P('font-size','13.5px');let f=13.5;while(td.scrollWidth>td.clientWidth+1&&f>8.5){f-=.5;P('font-size',f+'px')}if(td.parentNode)td.parentNode.style.height='44px'});
-  {const all=[...document.querySelectorAll('#grid td.namecol[data-fit]')];if(all.length){const m=Math.min(...all.map(t=>parseFloat(t.style.fontSize)||13.5));all.forEach(t=>t.style.setProperty('font-size',m+'px','important'))}}}catch(e){}}
+  {const all=[...document.querySelectorAll('#grid td.namecol[data-fit]')];if(all.length){const m0=Math.min(...all.map(t=>parseFloat(t.style.fontSize)||13.5));if(m0>=10.5){const m=Math.min(...all.map(t=>parseFloat(t.style.fontSize)||13.5));all.forEach(t=>t.style.setProperty('font-size',m+'px','important'))}}}}catch(e){}}
 function fitCells(){try{if(!document.body.classList.contains('tbl'))return;
   document.querySelectorAll('#grid td.c:not([data-fit2]),#grid td.notes:not([data-fit2])').forEach(td=>{td.dataset.fit2='1';if(!td.textContent.trim()||td.textContent.trim()==='—'||td.textContent.trim()==='حاضر')return;
     const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','normal');P('overflow-wrap','normal');P('word-break','normal');P('overflow','visible');P('padding-inline','2px');P('line-height','1.2');
