@@ -641,7 +641,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 120 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 121 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1275,7 +1275,7 @@ function renderEmps(){
   const G=groupList();const kind=SET_SH[0]==='d'?'d':'m';
   document.querySelectorAll('#setKind button').forEach(b=>b.classList.toggle('on',b.dataset.kind===kind));
   $('setCap').textContent=kind==='d'?'الوجبات':'الشُّعب والمواقع';
-  $('setTabs').innerHTML=G.filter(g=>(g.k[0]==='d')===(kind==='d')).map(g=>`<button data-ssh="${g.k}" class="${g.k===SET_SH?'on':''}">${esc(kind==='d'?g.label:g.label.replace(/^صباحي : /,''))}</button>`).join('');
+  $('setTabs').innerHTML=G.filter(g=>(g.k[0]==='d')===(kind==='d')).map((g,i)=>[g,i]).sort((p,q)=>((p[0].k==='s3')-(q[0].k==='s3'))||(p[1]-q[1])).map(p=>p[0]).map(g=>`<button data-ssh="${g.k}" class="${g.k===SET_SH?'on':''}">${esc(kind==='d'?g.label:g.label.replace(/^صباحي : /,''))}</button>`).join('');
   const list=S.emps.filter(e=>inGroup(e,SET_SH));
   $('empList').innerHTML=list.map((e,i)=>`<div class="emp"><input class="txt" data-name="${e.id}" value="${esc(e.name)}">
   <button class="ico" data-up="${e.id}" ${i===0?'disabled':''}>↑</button>
