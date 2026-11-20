@@ -1007,14 +1007,12 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 
 <main id="viewMain">
   <div class="card" id="homeCard"><div class="hgrid" id="hGrid">
+    <button class="hg " data-hg="dir"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5M17 11a2.5 2.5 0 1 0 0-5M21 18c0-2-1.5-3.5-3.5-4"/></svg><b>دليل المنتسبين</b></button>
+    <button class="hg " data-hg="l"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v14H4zM10 5h4v14h-4zM16 6.5l4 1-3 12-4-1z"/></svg><b>الكتب الرسمية</b></button>
+    <button class="hg " data-hg="ocr"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h4l2-3h4l2 3h4v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><b>قراءة الصور</b></button>
     <button class="hg y" data-hg="m"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6v3H9zM7 5.5H5v15h14v-15h-2M8 12h8M8 16h5"/></svg><b>موقف الحضور</b></button>
     <button class="hg " data-hg="duty"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><b>المناوبين</b></button>
     <button class="hg " data-hg="day"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg><b>الدوام الصباحي</b></button>
-    <button class="hg " data-hg="l"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v14H4zM10 5h4v14h-4zM16 6.5l4 1-3 12-4-1z"/></svg><b>الكتب الرسمية</b></button>
-    <button class="hg " data-hg="dir"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5M17 11a2.5 2.5 0 1 0 0-5M21 18c0-2-1.5-3.5-3.5-4"/></svg><b>دليل المنتسبين</b></button>
-    <button class="hg " data-hg="ready"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6l2 2 3-3M5 13l2 2 3-3M13 7h6M13 14h6M5 20h14"/></svg><b>تحضير الموقف</b></button>
-    <button class="hg " data-hg="daily"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4"/></svg><b>الموقف اليومي</b></button>
-    <button class="hg " data-hg="ocr"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h4l2-3h4l2 3h4v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><b>قراءة الصور</b></button>
     <button class="hg " data-hg="s"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4"/></svg><b>الإعدادات</b></button>
     <button class="hg" data-hg="backup"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg><b>نسخة احتياطية</b></button>
   </div></div>
@@ -1142,7 +1140,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 172 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 173 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2090,7 +2088,7 @@ try{const v=[...document.querySelectorAll('#viewSettings p.hint')].find(x=>x.tex
 document.querySelector('.navtiles').addEventListener('click',e=>{const b=e.target.closest('[data-nav]');if(!b)return;if(b.dataset.nav==='m'){$('btnMawqif').click();showTable(true);return}({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]&&$(({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]).click()});
 $('btnLetters').onclick=()=>showLetters(true);
 $('hGrid').addEventListener('click',e=>{const b=e.target.closest('[data-hg]');if(!b)return;const g=b.dataset.hg;
- if(g==='m'){$('btnMawqif').click();showTable(true)}
+ if(g==='m'){edit=null;$('sheet').innerHTML=`<div class="edhead"><div class="edsub">موقف الحضور</div><div class="edtop"><button class="xtop" type="button" id="mwX"><span class="xb">✕</span><span>إغلاق</span></button></div></div><div class="ocopts"><button class="btn" id="mwT"><b>📋 جدول الموقف</b><small>عرض وتأشير حضور المنتسبين</small></button><button class="btn" id="mwD"><b>📅 الموقف اليومي</b><small>الموقف اليومي للمنتسبين</small></button><button class="btn" id="mwR"><b>✅ تحضير الموقف</b><small>تحضير الموقف وتهيئته</small></button></div>`;$('ov').classList.add('show');$('mwX').onclick=closeSheet;$('mwT').onclick=()=>{closeSheet();$('btnMawqif').click();showTable(true)};$('mwD').onclick=()=>{closeSheet();setTimeout(()=>$('btnCopy').click(),80)};$('mwR').onclick=()=>{closeSheet();setTimeout(()=>$('btnReady').click(),80)}}
  else if(g==='duty'||g==='day'){const m=document.querySelector('#modeSeg [data-mode="'+g+'"]');m&&m.click()}
  else if(g==='l')$('btnLetters').click();
  else if(g==='s')$('btnSettings').click();
