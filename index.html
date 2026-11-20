@@ -779,7 +779,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 134 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 135 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1381,7 +1381,7 @@ $('btnCopy').onclick=()=>{
   <div id="dPrev" style="overflow:hidden;background:#f6f8fb;border-radius:8px;padding:2px;margin:3px 0 4px;display:flex;justify-content:center"></div>
   <div class="dadd"><button class="btn" data-add="0">＋ سطر في الموقف</button><button class="btn" data-add="1">＋ سطر في المناوبين</button><button class="btn" data-rm="1">− حذف آخر سطر</button></div>
   <div class="pfmt dfmt"><button data-d="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button><button data-d="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button><button data-d="xl"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button></div>
-  <button class="btn dwa dwa2" data-d="copy" title="نسخ نصاً لواتساب"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#25D366"/><path d="M8.6 6.8c.3-.3.8-.3 1 .1l1 2c.2.3.1.7-.1 1l-.6.6c.5 1.2 1.5 2.2 2.7 2.8l.6-.6c.3-.3.7-.3 1-.1l2 1c.4.2.4.7.1 1l-.9.9c-.6.6-1.6.7-2.4.3-2.3-1.1-4.1-2.9-5.2-5.2-.4-.8-.3-1.8.3-2.4z" fill="#fff"/></svg><span>نسخ لواتساب</span></button>
+  <button class="btn dwa dwa2" data-d="copy" title="نسخ الورقة كصورة لواتساب"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#25D366"/><path d="M8.6 6.8c.3-.3.8-.3 1 .1l1 2c.2.3.1.7-.1 1l-.6.6c.5 1.2 1.5 2.2 2.7 2.8l.6-.6c.3-.3.7-.3 1-.1l2 1c.4.2.4.7.1 1l-.9.9c-.6.6-1.6.7-2.4.3-2.3-1.1-4.1-2.9-5.2-5.2-.4-.8-.3-1.8.3-2.4z" fill="#fff"/></svg><span>نسخ لواتساب</span></button>
   <button class="btn gh" data-d="x" style="display:none">إلغاء</button>`;
   $('ov').classList.add('show');
   let dM=null,dLast=null;const prev=keep=>{const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const w=[];if(keep&&dM){dd.morning=dM[0];dd.duty=dM[1]}else dM=[dd.morning,dd.duty];
@@ -1399,9 +1399,18 @@ $('btnCopy').onclick=()=>{
     if(b.dataset.d==='pdf'){savePDF(dailyCanvases(dd),false,nm+'.pdf')}
     else if(b.dataset.d==='word'){if(!window.docx){toast('يُرجى تحديث الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل ملف Word')})}
     else if(b.dataset.d==='xl'){if(!window.ExcelJS){toast('يُرجى تحديث الصفحة');return}buildDailyXlsx(dd).then(x=>{download(nm+'.xlsx',x);toast('تم تنزيل ملف Excel')})}
-    else if(b.dataset.d==='copy'){const t=dailyText(dd);const ok=()=>toast('تم النسخ');if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,()=>fallbackCopy(t,ok));else fallbackCopy(t,ok)}
+    else if(b.dataset.d==='copy'){copyDailyImage(dd,nm)}
     else{$('sheet').onclick=null;closeSheet()}};
 };
+function cvBlob(c){return new Promise(r=>c.toBlob(r,'image/png'))}
+async function copyDailyImage(dd,nm){
+  let cs;try{cs=dailyCanvases(dd)}catch(e){toast('تعذّر إنشاء الصورة');return}
+  const shareOrSave=async()=>{const bl=await Promise.all(cs.map(cvBlob));const files=bl.map((x,i)=>new File([x],nm+(bl.length>1?' ص'+(i+1):'')+'.png',{type:'image/png'}));
+    try{if(navigator.canShare&&navigator.canShare({files})){await navigator.share({files});return}}catch(e){if(e&&e.name==='AbortError')return}
+    files.forEach(f=>download(f.name,f));toast('تم حفظ الصورة')};
+  if(cs.length===1&&navigator.clipboard&&window.ClipboardItem){
+    try{await navigator.clipboard.write([new ClipboardItem({'image/png':cvBlob(cs[0])})]);toast('تم نسخ الورقة كصورة — الصقها في واتساب');return}catch(e){}}
+  shareOrSave()}
 function fallbackCopy(t,ok){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){toast('تعذّر النسخ')}ta.remove()}
 
 /* ---------- settings ---------- */
