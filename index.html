@@ -713,6 +713,12 @@ body.tbl table.grid th.nocol{width:20px!important}
 body.tbl table.grid th:not(.nocol):not(.namecol):not(.daycell){width:38px!important;font-size:9px!important;letter-spacing:-.2px}
 body.tbl table.grid th.daycell{font-size:11px!important;width:40px!important}
 body.tbl .grid th.namecol,body.tbl .grid td.namecol{font-size:12px!important;padding:3px 4px!important}
+
+.diract{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:8px 0 4px}
+.diract .btn{display:flex!important;align-items:center;justify-content:center;gap:8px;height:46px!important;border-radius:13px!important;font-weight:900!important;font-size:16px!important;text-decoration:none;font-family:Cairo,inherit}
+.diract .dcall{background:linear-gradient(180deg,#e9f7ff 0%,#8fd0f5 45%,#2f93d6 55%,#5db6ec 100%)!important;color:#fff!important;border:1px solid #0f5a99!important;box-shadow:0 4px 0 #0b447a,0 6px 10px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.7)!important;text-shadow:0 1px 1px rgba(0,0,0,.35)}
+.diract .dwa{background:linear-gradient(180deg,#d9fbe3 0%,#6fdc8f 45%,#1ea952 55%,#43c46f 100%)!important;color:#fff!important;border:1px solid #0d6b30!important;box-shadow:0 4px 0 #0a5226,0 6px 10px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.7)!important;text-shadow:0 1px 1px rgba(0,0,0,.35)}
+.diract .btn:active{transform:translateY(3px);box-shadow:0 1px 0 #0b447a!important}
 </style>
 </head>
 <body>
@@ -798,7 +804,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <b style="font-family:Cairo">شعار وزارة الكهرباء</b>
     <div class="hint" style="margin:4px 0"></div>
     <div style="display:flex;gap:8px;align-items:center"><img id="ltLogoPrev" style="height:54px;display:none;border:1px solid #ddd;border-radius:6px"><label class="btn gh" style="flex:1">🖼️ اختيار صورة الشعار<input type="file" id="ltLogoFile" accept="image/*" class="hide"></label></div>
-    <button class="btn gh" id="ltLogoReset" style="width:100%;margin-top:6px;font-size:13px">↩︎ رجوع للشعار الرسمي</button>
+    <button class="btn gh" id="ltLogoReset" style="width:100%;margin-top:6px;font-size:13px">رجوع للشعار الرسمي</button>
   </div>
 </main>
 <main id="viewDir" class="hide">
@@ -866,7 +872,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 140 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 141 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1055,7 +1061,7 @@ function drawSheet(){
     if(E.st==='l')h+=`<div class="lbl">نوع الإجازة</div><div class="chips">${lvList().map(t=>`<button data-type="${esc(t)}" class="${E.type===t?'on':''}">${esc(LB('lv:'+t,t))}</button>`).join('')}<button data-lvadd="1" class="addchip">＋ نوع جديد</button></div><div class="hint" style="margin:-4px 0 8px;font-size:11.5px">للتعديل على أي خيار: اضغط عليه ضغطةً مطوّلة.</div>`;
     h+=`<input class="txt" id="noteIn" placeholder="${E.st==='a'?'سبب الغياب (اختياري)':'ملاحظة (اختياري)'}" value="${esc(E.note)}">`;
   }
-  h+=`<button class="clrlink" data-act="clear">مسح التأشيرة عن هذه الخانة</button><button class="btn gh" style="display:none" data-act="close">إلغاء</button>`;
+  h+=`<button class="clrlink" data-act="clear">مسح التأشيرة عن هذه الخانة</button><button class="btn gh" style="display:none" data-act="close">إغلاق</button>`;
   $('sheet').innerHTML=h;
 }
 function statSheet(k){
@@ -1097,9 +1103,9 @@ $('sheet').addEventListener('click',ev=>{
   }else if(b.dataset.act==='clear'){if(!sure('هل أنت متأكد من مسح هذه الخانة؟'))return;delete S.rec[k];save();closeSheet();render()}
   else if(b.dataset.act==='close')closeSheet();
 });
-(function(){const sh=$('sheet');new MutationObserver(()=>{if(sh.querySelector('.xtop'))return;const bs=[...sh.querySelectorAll('button')].filter(b=>b.textContent.trim()==='إلغاء');if(!bs.length)return;const t=bs[bs.length-1];
+(function(){const sh=$('sheet');new MutationObserver(()=>{if(sh.querySelector('.xtop'))return;const bs=[...sh.querySelectorAll('button')].filter(b=>b.textContent.trim()==='إغلاق');if(!bs.length)return;const t=bs[bs.length-1];
   bs.forEach(b=>{b.style.display='none';const p=b.parentElement;if(p&&p.classList.contains('row2'))p.style.gridTemplateColumns='1fr'});
-  const x=document.createElement('button');x.className='xtop';x.type='button';x.innerHTML='<span class="xb">✕</span><span>إلغاء</span>';x.onclick=e=>{e.stopPropagation();t.click()};const et=sh.querySelector('.edtop');if(et)et.append(x);else sh.prepend(x)}).observe(sh,{childList:true})})();
+  const x=document.createElement('button');x.className='xtop';x.type='button';x.innerHTML='<span class="xb">✕</span><span>إغلاق</span>';x.onclick=e=>{e.stopPropagation();t.click()};const et=sh.querySelector('.edtop');if(et)et.append(x);else sh.prepend(x)}).observe(sh,{childList:true})})();
 $('sheet').addEventListener('input',e=>{if(e.target.id==='noteIn'&&edit)autoSave()});
 function closeSheet(){$('ov').classList.remove('show');$('sheet').classList.remove('wide')}
 $('ov').addEventListener('click',ev=>{if(ev.target.id==='ov')closeSheet()});
@@ -1117,7 +1123,7 @@ function secMenu(id){const sc=S.sections.find(x=>x.id===id);if(!sc)return;edit=n
   <button class="btn pri" style="width:100%;margin-bottom:8px" data-sm="open">📋 فتح</button>
   <button class="btn amb" style="width:100%;margin-bottom:8px" data-sm="ren">✏️ تغيير الاسم</button>
   <button class="btn red" style="width:100%;margin-bottom:8px" data-sm="del">🗑️ حذف</button>
-  <button class="btn gh" style="width:100%" data-sm="x">إلغاء</button>`;
+  <button class="btn gh" style="width:100%" data-sm="x">إغلاق</button>`;
   $('ov').classList.add('show');
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-sm]');if(!b)return;const a=b.dataset.sm;closeSheet();
     if(a==='open'){SEC=id;render()}
@@ -1149,7 +1155,7 @@ function draw(){const first=new Date(cy,cm,1),n=new Date(cy,cm+1,0).getDate();le
   const lbl=a?(b&&b!==a?rangeLabel(new Date(utc(a)+(new Date().getTimezoneOffset()*0)),new Date(utc(b))).replace(/ – /g,' إلى '):'اختر يوم النهاية'):'اختر يوم البداية';
   h+=`<div class="calsum">${a&&b&&a!==b?'من '+rangeLabel(pd(a),pd(b)).replace(' – ',' إلى '):(a?'البداية: '+pd(a).getDate()+' '+MONTHS[pd(a).getMonth()]+' — اضغط يوم النهاية':'اضغط يوم البداية ثم يوم النهاية')}</div>
   <div class="calq"><button data-q="week">هذا الأسبوع</button><button data-q="month">هذا الشهر كاملاً</button><button data-q="reset">رجوع للأسبوع</button></div>
-  <div class="calact"><button class="btn gh" data-ca="x">إلغاء</button><button class="btn pri" data-ca="ok">تطبيق</button></div>`;
+  <div class="calact"><button class="btn gh" data-ca="x">إغلاق</button><button class="btn pri" data-ca="ok">تطبيق</button></div>`;
   $('sheet').innerHTML='<h3>اختيار فترة</h3>'+h}
 function pd(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d)}
 function openCal(){edit=null;const r=viewRange();cy=r.a.getFullYear();cm=r.a.getMonth();sa=ymd(r.a);sb=ymd(r.b);draw();$('ov').classList.add('show');
@@ -1226,7 +1232,7 @@ function chooseScope(cb){
   $('sheet').innerHTML=`<h3>اختر نطاق الطباعة</h3><div class="sub">${periodName()}</div>
   <button class="btn pri" style="width:100%;margin-bottom:8px" data-scope="one">${one}</button>
   <button class="btn amb" style="width:100%;margin-bottom:8px" data-scope="all">${all}</button>
-  <button class="btn gh" style="width:100%" data-scope="x">إلغاء</button>`;
+  <button class="btn gh" style="width:100%" data-scope="x">إغلاق</button>`;
   $('ov').classList.add('show');
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-scope]');if(!b)return;$('sheet').onclick=null;closeSheet();if(b.dataset.scope!=='x')cb(b.dataset.scope==='all')};
 }
@@ -1243,7 +1249,7 @@ $('btnReady').onclick=()=>{
   <div class="row2"><button class="btn" data-r="week|pdf" style="background:#C62828;color:#fff">🖨️ PDF</button><button class="btn" data-r="week|word" style="background:#2B579A;color:#fff">📄 Word</button></div>
   <div class="lbl" style="margin-top:12px">موقف شهري — المناوبين، شهر ${MONTHS[nm.getMonth()]} ${nm.getFullYear()}</div>
   <div class="row2"><button class="btn" data-r="month|pdf" style="background:#C62828;color:#fff">🖨️ PDF</button><button class="btn" data-r="month|word" style="background:#2B579A;color:#fff">📄 Word</button></div>
-  <button class="btn gh" style="width:100%;margin-top:12px" data-r="x">إلغاء</button>`;
+  <button class="btn gh" style="width:100%;margin-top:12px" data-r="x">إغلاق</button>`;
   $('ov').classList.add('show');
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-r]');if(!b)return;if(b.dataset.r==='x'){$('sheet').onclick=null;closeSheet();return}
     const [k,f]=b.dataset.r.split('|');const R=readySpecs(k);if(!R.specs.length){toast('لا توجد أسماء');return}
@@ -1469,7 +1475,7 @@ $('btnCopy').onclick=()=>{
   <div class="dadd"><button class="btn" data-add="0">＋ سطر في الموقف</button><button class="btn" data-add="1">＋ سطر في المناوبين</button><button class="btn" data-rm="1">− حذف آخر سطر</button></div>
   <div class="pfmt dfmt"><button data-d="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button><button data-d="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button><button data-d="xl"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button></div>
   <button class="btn dwa dwa2" data-d="copy" title="نسخ الورقة كصورة لواتساب"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#25D366"/><path d="M8.6 6.8c.3-.3.8-.3 1 .1l1 2c.2.3.1.7-.1 1l-.6.6c.5 1.2 1.5 2.2 2.7 2.8l.6-.6c.3-.3.7-.3 1-.1l2 1c.4.2.4.7.1 1l-.9.9c-.6.6-1.6.7-2.4.3-2.3-1.1-4.1-2.9-5.2-5.2-.4-.8-.3-1.8.3-2.4z" fill="#fff"/></svg><span>نسخ لواتساب</span></button>
-  <button class="btn gh" data-d="x" style="display:none">إلغاء</button>`;
+  <button class="btn gh" data-d="x" style="display:none">إغلاق</button>`;
   $('ov').classList.add('show');
   let dM=null,dLast=null;const prev=keep=>{const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const w=[];if(keep&&dM){dd.morning=dM[0];dd.duty=dM[1]}else dM=[dd.morning,dd.duty];
     const fd=dd.from,td=new Date(utc(v));const rng=fd.getDate()===td.getUTCDate()&&fd.getMonth()===td.getUTCMonth()?'':' (المناوبين من يوم '+DAYS[fd.getDay()]+' '+(fd.getMonth()+1)+'/'+fd.getDate()+' لهذا اليوم)';
@@ -1634,8 +1640,8 @@ function ltMenu(k){const t=allLtTypes().find(x=>x.k===k);if(!t)return;edit=null;
   <button class="btn pri" style="width:100%;margin-bottom:8px" data-lm="open">📄 فتح الكتاب</button>
   <button class="btn amb" style="width:100%;margin-bottom:8px" data-lm="ren">✏️ تغيير الاسم</button>
   <button class="btn red" style="width:100%;margin-bottom:8px" data-lm="del">🗑️ حذف هذا النوع</button>
-  ${hid?`<button class="btn gh" style="width:100%;margin-bottom:8px" data-lm="restore">↩︎ إرجاع الأنواع المحذوفة (${hid})</button>`:''}
-  <button class="btn gh" style="width:100%" data-lm="x">إلغاء</button>`;
+  ${hid?`<button class="btn gh" style="width:100%;margin-bottom:8px" data-lm="restore">إرجاع الأنواع المحذوفة (${hid})</button>`:''}
+  <button class="btn gh" style="width:100%" data-lm="x">إغلاق</button>`;
   $('ov').classList.add('show');
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-lm]');if(!b)return;const a=b.dataset.lm;closeSheet();
     if(a==='open')ltNew(k);else if(a==='ren')setTimeout(()=>ltRename(k),50);else if(a==='del')setTimeout(()=>ltDelete(k),50);
@@ -1692,6 +1698,7 @@ function renderDir(){
   order.forEach(k=>{const g=f.filter(v=>dirName(v)===k);if(!g.length)return;
     h+=`<div class="card dirgrp"><h3 class="dirgh"><span>${esc(k)}</span><b>${g.length}</b></h3>`+g.map(v=>`<button class="dirrow" data-di="${v.id}"><span class="dn" style="${dirStyle(v)}">${esc(v.name)}</span><small>${esc(v.title||'')}${v.shift?' · '+esc(v.shift):''}${v.phone?' · '+esc(v.phone):''}</small></button>`).join('')+'</div>'});
   $('dirList').innerHTML=h||'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج مطابقة.</div></div>'}
+function dirWa(p){let d=String(p||'').replace(/[٠-٩]/g,x=>'٠١٢٣٤٥٦٧٨٩'.indexOf(x)).replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);else if(d.startsWith('0'))d='964'+d.slice(1);else if(d.length===10&&d[0]==='7')d='964'+d;return d?'https://wa.me/'+d:'#'}
 function dirSheet(id){
   const v=(S.dir||[]).find(x=>x.id===id);if(!v)return;edit=null;
   const T=v.st=v.st||{f:'',c:'',z:'',b:0,u:0};
@@ -1702,7 +1709,7 @@ function dirSheet(id){
   ${F('title','العنوان الوظيفي')}
   <div class="lbl">الشعبة</div><select class="txt" data-f="sec">${DIR_SECS.map(x=>`<option value="${esc(x)}" ${v.sec===x?'selected':''}>${esc(x||'بدون شعبة')}</option>`).join('')}</select>
   <div class="lbl">الوجبة</div><select class="txt" data-f="shift">${DIR_SHIFTS.map(x=>`<option value="${esc(x)}" ${v.shift===x?'selected':''}>${esc(x||'بدون وجبة')}</option>`).join('')}</select>
-  <div class="lbl">رقم الهاتف</div><div class="dirph"><input class="txt" data-f="phone" inputmode="tel" value="${esc(v.phone||'')}"><a class="btn" id="dirCall" href="tel:${esc(v.phone||'')}">اتصال</a></div>
+  <div class="lbl">رقم الهاتف</div><div class="dirph"><input class="txt" data-f="phone" inputmode="tel" value="${esc(v.phone||'')}"></div><div class="diract"><a class="btn dcall" id="dirCall" href="tel:${esc(v.phone||'')}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><span>اتصال</span></a><a class="btn dwa" id="dirWa" target="_blank" rel="noopener" href="${dirWa(v.phone)}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.9L2 22l5.25-1.38A9.9 9.9 0 1 0 12.04 2zm0 1.8a8.1 8.1 0 1 1-4.2 15.03l-.3-.18-3.1.82.83-3.02-.2-.31A8.1 8.1 0 0 1 12.04 3.8zM8.6 7.5c-.2 0-.5.07-.75.35-.26.28-1 .98-1 2.4s1.02 2.78 1.17 2.97c.14.2 2 3.2 4.95 4.35 2.45.96 2.95.77 3.48.72.53-.05 1.7-.7 1.94-1.37.24-.68.24-1.26.17-1.38-.07-.12-.26-.2-.55-.34-.29-.15-1.7-.84-1.97-.94-.26-.1-.46-.14-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.07-.29-.14-1.22-.45-2.32-1.43-.86-.77-1.44-1.7-1.6-2-.17-.28-.02-.44.13-.58.13-.13.29-.34.43-.5.15-.17.2-.29.29-.48.1-.2.05-.36-.02-.5-.07-.15-.65-1.58-.9-2.16-.23-.56-.47-.48-.65-.49h-.55z"/></svg><span>واتساب</span></a></div>
   ${F('status','الصفة (ملاك / عقد…)')}
   ${F('addrCard','عنوان السكن حسب البطاقة')}
   ${F('addrNow','عنوان السكن الحالي')}
@@ -1716,7 +1723,7 @@ function dirSheet(id){
   <button class="clrlink" id="dirDel">حذف هذا الاسم من القاعدة</button>`;
   $('ov').classList.add('show');
   const sh=$('sheet'),upd=()=>{save();$('dirNm').setAttribute('style',dirStyle(v));$('dirNm').textContent=v.name;renderDir()};
-  sh.querySelectorAll('[data-f]').forEach(el=>{el.oninput=el.onchange=()=>{v[el.dataset.f]=el.value;if(el.dataset.f==='phone')$('dirCall').href='tel:'+el.value;upd()}});
+  sh.querySelectorAll('[data-f]').forEach(el=>{el.oninput=el.onchange=()=>{v[el.dataset.f]=el.value;if(el.dataset.f==='phone'){$('dirCall').href='tel:'+el.value;$('dirWa').href=dirWa(el.value)}upd()}});
   sh.querySelectorAll('select[data-s]').forEach(el=>{el.onchange=()=>{T[el.dataset.s]=el.value;upd()}});
   sh.querySelectorAll('button[data-s]').forEach(el=>{el.onclick=()=>{const k=el.dataset.s;T[k]=T[k]?0:1;el.classList.toggle('on',!!T[k]);upd()}});
   sh.querySelectorAll('.dcol').forEach(el=>{el.onclick=()=>{T.c=el.dataset.c;sh.querySelectorAll('.dcol').forEach(x=>x.classList.toggle('on',x===el));upd()}});
@@ -1919,7 +1926,7 @@ $('btnPrintMenu').onclick=()=>{edit=null;
    <button data-pf="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button>
    <button data-pf="excel"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button>
   </div>
-  <button class="btn gh" style="width:100%;margin-top:10px" data-pf="x">إلغاء</button>`;
+  <button class="btn gh" style="width:100%;margin-top:10px" data-pf="x">إغلاق</button>`;
   $('ov').classList.add('show');
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-pf]');if(!b)return;const f=b.dataset.pf;closeSheet();
     if(f!=='x')setTimeout(()=>$({pdf:'btnPrint',word:'btnWord',excel:'btnExcel'}[f]).click(),60)}};
@@ -2038,7 +2045,7 @@ function drawReview(thumbs,fails){
       h+=`<td class="c ${c.st==='e'?'e':c.st}${c.low?' low':''}" data-s="${si}" data-r="${ri}" data-j="${j}">${esc(revLabel(c))}${c.low?' ؟':''}</td>`});h+='</tr>'});
     h+='</tbody></table></div>';
   });
-  h+=`<div class="row2"><button class="btn pri" data-rev="ok">✔ اعتماد</button><button class="btn gh" data-rev="x">إلغاء</button></div>`;
+  h+=`<div class="row2"><button class="btn pri" data-rev="ok">✔ اعتماد</button><button class="btn gh" data-rev="x">إغلاق</button></div>`;
   edit=null;$('sheet').innerHTML=h;$('sheet').classList.add('wide');$('ov').classList.add('show');
   $('sheet').onclick=ev=>{
     const td=ev.target.closest('td[data-s]');
