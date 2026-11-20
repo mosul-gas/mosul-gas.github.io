@@ -937,6 +937,19 @@ body:not(.tbl):not(.subpage) .hg b{font-size:20.5px!important;font-weight:900!im
 #scLib{padding:7px 12px;border-radius:12px;border:3px solid #12315a;background:linear-gradient(180deg,#fff,#dfe9f6);color:#000;font-family:inherit;font-weight:900;font-size:15px;box-shadow:0 3px 0 #12315a,inset 0 0 0 1.5px #d4af37;cursor:pointer;white-space:nowrap}
 #scT{font-weight:900!important;font-size:16px!important}
 .schint{width:100%;text-align:center;color:#f3cf56;font-weight:800;font-size:13.5px}
+
+body.subpage #viewLetters{display:flex;flex-direction:column;min-height:calc(100vh - 110px)}
+#ltArchCard{flex:1;border:3px solid #12315a!important;box-shadow:0 4px 0 #12315a,inset 0 0 0 2px #d4af37!important;border-radius:16px!important;margin-top:12px}
+#ltArchCard .ltah{font-family:Cairo;font-weight:900;font-size:18px;color:#12315a;margin-bottom:8px}
+#ltArchCard .dsearch{margin-bottom:8px}
+#ltArchCard .dsearch #ltGo{border:0;background:transparent;color:#1F3864;padding:0;display:grid;place-items:center;width:30px;height:30px;cursor:pointer}
+.ltar{padding:10px 2px;border-bottom:1px solid #c9d6e6}
+.ltat b{font-size:16px;color:#0b1a2e}.ltat div{font-size:12.5px;color:#43546b;margin-top:2px;font-weight:700}
+.ltab{display:flex;gap:7px;margin-top:8px}
+.ltab button{flex:1;min-height:42px;border-radius:12px;border:2.5px solid #12315a;font-family:inherit;font-weight:900;font-size:14.5px;color:#12315a;cursor:pointer;box-shadow:0 3px 0 #12315a,inset 0 0 0 1.5px #d4af37;background:linear-gradient(180deg,#fff,#dfe9f6)}
+.ltab button.o{background:linear-gradient(180deg,#fff3c0,#f3cf56)}
+.ltab button.d{background:linear-gradient(180deg,#ffe0dc,#f4a79d);color:#7a1208}
+.ltab button:active{transform:translateY(2px)}
 </style>
 </head>
 <body>
@@ -1029,8 +1042,9 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <button class="btn bev bevbk" type="button" onclick="document.getElementById('backup').click()">💾 عمل نسخة احتياطية</button>
   </div>
   <div class="card hide" id="ltEditor"></div>
-  <div class="card">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><b style="font-family:Cairo">🗂️ الأرشيف</b><input class="txt" id="ltSearch" placeholder="بحث بالموضوع أو الجهة…" style="flex:1;margin:0"></div>
+  <div class="card" id="ltArchCard">
+    <div class="ltah">🗂️ الأرشيف</div>
+    <div class="dsearch"><button id="ltGo" type="button" aria-label="بحث"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg></button><input id="ltSearch" type="search" autocomplete="off" placeholder="ابحث بالموضوع أو الجهة…"></div>
     <div id="ltArchive"></div>
   </div>
   <div class="card hide" style="display:none">
@@ -1106,7 +1120,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 168 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 169 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1877,9 +1891,9 @@ function ltEdit(){const E=$('ltEditor');E.classList.remove('hide');
   E.scrollIntoView({behavior:'smooth'});
 }
 function ltArchive(){const q=($('ltSearch').value||'').trim();const L=(S.letters||[]).filter(x=>!q||(x.subj+' '+x.to+' '+x.type+' '+x.body).includes(q));
-  $('ltArchive').innerHTML=L.length?L.map(x=>{const d=new Date(x.saved||x.created);return `<div style="display:flex;align-items:center;gap:6px;padding:7px 2px;border-bottom:1px solid var(--line)">
-   <div style="flex:1;min-width:0"><b style="font-size:13.5px">${esc(x.subj||x.type)}</b><div style="font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(x.type)} · ${esc(x.to)} · ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}</div></div>
-   <button class="btn gh" data-lo="${x.id}" style="padding:5px 9px;font-size:12px">فتح</button><button class="btn" data-lc="${x.id}" style="padding:5px 9px;font-size:12px;background:#eef2f7">نسخة</button><button class="btn red" data-ld="${x.id}" style="padding:5px 8px;font-size:12px">🗑</button></div>`}).join(''):'<div class="hint">لا توجد كتب محفوظة بعد.</div>';
+  $('ltArchive').innerHTML=L.length?L.map(x=>{const d=new Date(x.saved||x.created);return `<div class="ltar">
+   <div class="ltat"><b>${esc(x.subj||x.type)}</b><div>${esc(x.type)} · ${esc(x.to)} · ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}</div></div>
+   <div class="ltab"><button type="button" class="o" data-lo="${x.id}">فتح</button><button type="button" class="c" data-lc="${x.id}">تكرار</button><button type="button" class="d" data-ld="${x.id}">🗑 حذف</button></div></div>`}).join(''):'<div class="hint">لا توجد كتب محفوظة بعد.</div>';
 }
 $('ltArchive').onclick=e=>{const b=e.target.closest('button');if(!b)return;const L=S.letters||[];
   if(b.dataset.lo){LT={...L.find(x=>x.id===b.dataset.lo)};ltEdit()}
@@ -1887,7 +1901,7 @@ $('ltArchive').onclick=e=>{const b=e.target.closest('button');if(!b)return;const
   else if(b.dataset.ld){if(confirmDel(b)){S.letters=L.filter(x=>x.id!==b.dataset.ld);save();ltArchive()}}};
 function sure(msg){try{return window.confirm(msg||'هل أنت متأكد من الحذف؟')}catch(e){return true}}
 function confirmDel(b){return sure('هل أنت متأكد من حذف هذا الكتاب من الأرشيف؟')}
-$('ltSearch').oninput=ltArchive;
+$('ltSearch').oninput=ltArchive;$('ltGo').onclick=()=>{$('ltSearch').blur();ltArchive()};$('ltSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('ltGo').click()}});
 function renderLtTypes(){$('ltTypes').innerHTML=allLtTypes().map(t=>`<button class="btn" data-lt="${t.k}"${t.custom?' data-cu="1"':''} style="position:relative;background:${t.k==='free'?'#e0ecff':t.custom?'linear-gradient(135deg,#0ea5e9,#2563eb)':'linear-gradient(135deg,#3b82f6,#6366f1)'};color:${t.k==='free'?'#1d4ed8':'#fff'};padding:9px 4px;font-size:13px">${esc(t.n)}</button>`).join('')+`<button class="btn" data-ltadd="1" style="background:#fff;border:1.5px dashed #2563eb;color:#2563eb;padding:9px 4px;font-size:13px">＋ نوع جديد</button>`}
 renderLtTypes();
 let LP_T=null,LP_DONE=false;
