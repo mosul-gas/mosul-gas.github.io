@@ -560,6 +560,14 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 .monthbar #btnOcr .cam{font-size:16px!important}
 #modeSeg{gap:7px!important}#tabs{gap:6px!important}
 #stats{display:flex!important;gap:7px!important}#stats .stat{flex:1 1 0!important;min-width:0}
+/* v128: auto-saving cell sheet, tidy */
+.clrlink{display:block;margin:10px auto 0;background:none;border:0;color:#b42318;font-weight:800;font-size:12.5px;text-decoration:underline;padding:4px 8px;cursor:pointer;font-family:inherit}
+.edsub{font-size:14px!important;font-weight:900!important;color:#1F3864}
+.edname{margin:2px 0 6px!important;padding:7px 10px!important;border-radius:12px!important;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,inset 0 1px 0 #fff!important;font-weight:900!important;font-size:14px!important;color:#0b1a2e!important}
+.sheet .lbl{font-size:12px!important;margin:8px 2px 4px!important;font-weight:800;color:#1F3864}
+.sheet .chips{gap:6px!important}
+.sheet .chips button{padding:6px 10px!important;font-size:13px!important;min-height:0!important}
+.sheet .edseg button{padding:7px 4px!important;font-size:14px!important}
 </style>
 </head>
 <body>
@@ -697,7 +705,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 127 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 128 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -878,16 +886,18 @@ function openCell(ds,eid){
 function drawSheet(){
   const E=edit;
   const segH=`<div class="seg edseg">${[['l','إجازة'],['a','غياب'],['p','حاضر']].map(([k,t])=>`<button data-st="${k}" class="${k} ${E.st===k?'on':''}">${esc(LB('st:'+k,t))}</button>`).join('')}</div>`;
-  let h=`<div class="edhead"><div class="edsub">${E.sub}</div><div class="edtop"><button class="btn" data-act="save" title="حفظ">💾</button><button class="btn" data-act="clear" title="مسح الخانة">🗑️</button></div></div><div class="edname">${E.title} <span class="edgrp">/ ${E.grp}</span></div>`;
+  let h=`<div class="edhead"><div class="edsub">${E.sub}</div><div class="edtop"></div></div><div class="edname">${E.title} <span class="edgrp">/ ${E.grp}</span></div>`;
   if(E.st!=='p'){
     if(MODE==='duty')h+=`<div class="lbl">أي جزء من المناوبة؟</div><div class="chips">${PARTS.map(p=>`<button data-part="${p}" class="${E.parts.includes(p)?'on':''}">${PART_NAME[p]} (${p})</button>`).join('')}<button data-part="all">يوم كامل</button></div>`;
     if(E.st==='a')h+=`<div class="lbl">نوع الغياب</div><div class="chips">${[['','غياب'],['موقوف','موقوف']].map(([v,t])=>`<button data-ab="${v}" class="${(E.ab||'')===v?'on':''}">${esc(LB('ab:'+v,t))}</button>`).join('')}</div>`;
     if(E.st==='l')h+=`<div class="lbl">نوع الإجازة</div><div class="chips">${lvList().map(t=>`<button data-type="${esc(t)}" class="${E.type===t?'on':''}">${esc(LB('lv:'+t,t))}</button>`).join('')}<button data-lvadd="1" class="addchip">➕ نوع جديد</button></div><div class="hint" style="margin:-4px 0 8px;font-size:11.5px">للتعديل على أي خيار: اضغط عليه ضغطةً مطوّلة.</div>`;
     h+=`<input class="txt" id="noteIn" placeholder="${E.st==='a'?'سبب الغياب (اختياري)':'ملاحظة (اختياري)'}" value="${esc(E.note)}">`;
   }
-  h+=segH+`<button class="btn gh" style="display:none" data-act="close">إلغاء</button>`;
+  h+=segH+`<button class="clrlink" data-act="clear">مسح التأشيرة عن هذه الخانة</button><button class="btn gh" style="display:none" data-act="close">إلغاء</button>`;
   $('sheet').innerHTML=h;
 }
+function autoSave(){const E=edit;if(!E)return false;const ni=$('noteIn');if(ni)E.note=ni.value;if(E.st!=='p'&&!E.parts.length)return false;
+  S.rec[rk(E.ds,E.eid)]=E.st==='p'?{st:'p'}:{st:E.st,parts:MODE==='duty'?E.parts:PARTS.slice(),type:E.st==='l'?E.type:E.st==='a'?(E.ab||''):'',note:E.note.trim()};save();render();return true}
 let CLP_T=null,CLP_DONE=false;
 function chipEdit(b){const E=edit;if(!E)return;const ni=$('noteIn');if(ni)E.note=ni.value;
   let key,def,isLv=false,t;
@@ -904,11 +914,11 @@ $('sheet').addEventListener('contextmenu',e=>{if(e.target.closest('[data-st],[da
 $('sheet').addEventListener('click',ev=>{
   const b=ev.target.closest('button');if(!b||!edit)return;const E=edit;if(CLP_DONE&&(b.dataset.st||b.dataset.ab!==undefined||b.dataset.type)){CLP_DONE=false;return}
   const ni=$('noteIn');if(ni)E.note=ni.value;
-  if(b.dataset.st){E.st=b.dataset.st;drawSheet();return}
-  if(b.dataset.part){if(b.dataset.part==='all')E.parts=PARTS.slice();else{const p=b.dataset.part;E.parts=E.parts.includes(p)?E.parts.filter(x=>x!==p):PARTS.filter(x=>x===p||E.parts.includes(x))}drawSheet();return}
+  if(b.dataset.st){E.st=b.dataset.st;autoSave();if(E.st==='p'){closeSheet();toast('تم الحفظ');return}drawSheet();return}
+  if(b.dataset.part){if(b.dataset.part==='all')E.parts=PARTS.slice();else{const p=b.dataset.part;E.parts=E.parts.includes(p)?E.parts.filter(x=>x!==p):PARTS.filter(x=>x===p||E.parts.includes(x))}autoSave();drawSheet();return}
   if(b.dataset.lvadd){const n=(prompt('اسم نوع الإجازة الجديد:')||'').trim();if(!n)return;if(lvList().includes(n)){toast('هذا النوع موجود مسبقاً');return}S.lvCustom=(S.lvCustom||[]).concat([n]);save();E.type=n;drawSheet();toast('تمت إضافة «'+n+'»');return}
-  if(b.dataset.type){E.type=b.dataset.type;drawSheet();return}
-  if(b.dataset.ab!==undefined){E.ab=b.dataset.ab;drawSheet();return}
+  if(b.dataset.type){E.type=b.dataset.type;if(autoSave()){closeSheet();toast('تم الحفظ');return}drawSheet();return}
+  if(b.dataset.ab!==undefined){E.ab=b.dataset.ab;if(autoSave()){closeSheet();toast('تم الحفظ');return}drawSheet();return}
   const k=rk(E.ds,E.eid);
   if(b.dataset.act==='save'){
     if(E.st!=='p'&&!E.parts.length){toast('اختر جزءاً واحداً على الأقل');return}
@@ -920,6 +930,7 @@ $('sheet').addEventListener('click',ev=>{
 (function(){const sh=$('sheet');new MutationObserver(()=>{if(sh.querySelector('.xtop'))return;const bs=[...sh.querySelectorAll('button')].filter(b=>b.textContent.trim()==='إلغاء');if(!bs.length)return;const t=bs[bs.length-1];
   bs.forEach(b=>{b.style.display='none';const p=b.parentElement;if(p&&p.classList.contains('row2'))p.style.gridTemplateColumns='1fr'});
   const x=document.createElement('button');x.className='xtop';x.type='button';x.innerHTML='<span class="xb">✕</span><span>إلغاء</span>';x.onclick=e=>{e.stopPropagation();t.click()};const et=sh.querySelector('.edtop');if(et)et.append(x);else sh.prepend(x)}).observe(sh,{childList:true})})();
+$('sheet').addEventListener('input',e=>{if(e.target.id==='noteIn'&&edit)autoSave()});
 function closeSheet(){$('ov').classList.remove('show');$('sheet').classList.remove('wide')}
 $('ov').addEventListener('click',ev=>{if(ev.target.id==='ov')closeSheet()});
 
