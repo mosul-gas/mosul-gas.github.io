@@ -840,6 +840,18 @@ body:not(.tbl):not(.subpage) .monthbar,body:not(.tbl):not(.subpage) #actionBar{d
 .hg svg{width:42px;height:42px}
 .hg.y{background:linear-gradient(180deg,#fff3c0,#f3cf56)!important}
 .hg:active{transform:translateY(3px);box-shadow:0 1px 0 #12315a,inset 0 0 0 2px #fff,inset 0 0 0 3.5px #c9a227!important}
+
+/* v159 drawer cards */
+.drawer{width:min(78vw,310px)!important;background:linear-gradient(180deg,#eef4fb,#dfe9f6)!important;padding:10px 12px!important;border-left:3px solid #12315a}
+.dhead{background:#fff;border:2.5px solid #12315a!important;border-radius:14px;box-shadow:0 3px 0 #12315a,inset 0 0 0 2px #fff,inset 0 0 0 3.5px #c9a227;padding:10px!important;margin-bottom:12px!important}
+.dhead b{color:#12315a!important;font-size:14.5px!important}
+.ditem{background:linear-gradient(180deg,#fff,#e6eefa)!important;border:2.5px solid #12315a!important;border-radius:13px!important;box-shadow:0 3px 0 #12315a,inset 0 0 0 2px #fff,inset 0 0 0 3.5px #c9a227;margin:0 0 11px!important;padding:11px 10px!important;color:#12315a!important;font-weight:900!important;width:calc(100% - 2px)}
+.ditem .di{background:#12315a!important;color:#fff!important;border-radius:10px!important}
+.ditem em{color:#12315a!important}
+.ditem:active{transform:translateY(2px);box-shadow:0 1px 0 #12315a,inset 0 0 0 2px #fff,inset 0 0 0 3.5px #c9a227}
+.ditem.on{background:linear-gradient(180deg,#fff3c0,#f3cf56)!important}
+.dsep{color:#12315a!important;font-weight:900;font-family:Cairo;margin:12px 4px 8px!important;border-top:0!important}
+.dfoot{color:#12315a!important;font-weight:700}
 </style>
 </head>
 <body>
@@ -1006,7 +1018,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 158 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 159 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
