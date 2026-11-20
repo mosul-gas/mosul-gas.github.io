@@ -612,6 +612,13 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 .monthbar .mcal b{font-size:14px!important;white-space:nowrap}
 .monthbar #btnOcr{flex:1 1 0!important;min-width:0;height:40px!important;justify-content:center;padding:0 4px!important;font-size:12.5px!important;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;border:1px solid #3f78a3!important;border-radius:12px!important;box-shadow:0 3px 0 #1f4f78,0 4px 8px rgba(0,0,0,.2),inset 0 1px 0 #fff!important;color:#0b1a2e!important;white-space:nowrap}
 .monthbar #btnOcr:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78!important}
+/* v132: interactive counters */
+#stats .stat[data-k],.sumleg span[data-k]{cursor:pointer}
+#stats .stat[data-k]:active,.sumleg span[data-k]:active{transform:translateY(2px)}
+.stlist{max-height:62vh;overflow:auto;margin-top:6px}
+.strow{display:block;width:100%;text-align:right;margin:0 0 6px;padding:6px 10px;border-radius:11px;border:1px solid #3f78a3;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%);box-shadow:0 3px 0 #1f4f78,inset 0 1px 0 #fff;font-family:inherit;cursor:pointer}
+.strow:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78}
+.strow .sn{display:block;font-weight:800;font-size:14px;color:#0b1a2e}.strow small{color:#33506b;font-size:11.5px}
 </style>
 </head>
 <body>
@@ -654,9 +661,9 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   <div class="card" style="margin-top:12px">
     <div class="sumhead"><h2 class="sec">ملخص الأيام</h2>
   <div class="legend sumleg">
-    <span><i style="background:var(--okbg);border:1px solid var(--ok)"></i>حضور</span>
-    <span><i style="background:var(--badbg);border:1px solid var(--bad)"></i>غياب</span>
-    <span><i style="background:var(--lvbg);border:1px solid var(--lv)"></i>إجازة</span>
+    <span data-k="p"><i style="background:var(--okbg);border:1px solid var(--ok)"></i>حضور</span>
+    <span data-k="a"><i style="background:var(--badbg);border:1px solid var(--bad)"></i>غياب</span>
+    <span data-k="l"><i style="background:var(--lvbg);border:1px solid var(--lv)"></i>إجازة</span>
   </div>
     </div>
     <div class="sumnote"><span id="legendParts">ص / م / ل = صباحي / مسائي / ليلي (أرقام أيام الإجازة أو الغياب)</span></div>
@@ -758,7 +765,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 131 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 132 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -915,7 +922,7 @@ function render(){
   let p=0,a=0,l=0,e0=0;
   days.forEach(dd=>emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];if(!r)e0++;else if(r.st==='p')p++;else if(r.st==='a')a++;else l++}));
   {const o=$('btnOcr');if(o&&o.parentNode===$('stats'))document.body.appendChild(o)}
-  $('stats').innerHTML=`<div class="stat s-p"><b>${p}</b><span>حضور</span></div><div class="stat s-a"><b>${a}</b><span>غياب</span></div><div class="stat s-l"><b>${l}</b><span>إجازة</span></div><div class="stat s-e"><b>${e0}</b><span>غير مؤشَّر</span></div>`;
+  $('stats').innerHTML=`<div class="stat s-p" data-k="p"><b>${p}</b><span>حضور</span></div><div class="stat s-a" data-k="a"><b>${a}</b><span>غياب</span></div><div class="stat s-l" data-k="l"><b>${l}</b><span>إجازة</span></div><div class="stat s-e" data-k="e"><b>${e0}</b><span>غير مؤشَّر</span></div>`;
   {const o=$('btnOcr'),mb=document.querySelector('.monthbar');if(mb&&!mb.querySelector('.mcal')){const w=document.createElement('div');w.className='mcal';[$('prevM'),$('monthLbl'),$('nextM')].forEach(x=>w.appendChild(x));mb.appendChild(w)}if(o&&mb&&o.parentNode!==mb)mb.appendChild(o)}
   let s='';
   days.forEach(dd=>{
@@ -949,6 +956,14 @@ function drawSheet(){
   h+=`<button class="clrlink" data-act="clear">مسح التأشيرة عن هذه الخانة</button><button class="btn gh" style="display:none" data-act="close">إلغاء</button>`;
   $('sheet').innerHTML=h;
 }
+function statSheet(k){
+  const days=curDays(),emps=curEmps(),T={p:'الحاضرون',a:'الغائبون',l:'المجازون',e:'غير المؤشَّر عليهم'}[k];let rows=[];
+  days.forEach(dd=>emps.forEach(e=>{const r=S.rec[rk(dd.s,e.id)];const st=r?r.st:'e';if(st!==k)return;
+    rows.push(`<button class="strow ${k}" data-d="${dd.s}" data-e="${e.id}"><span class="sn">${esc(e.name)}</span><small>${DAYS[dd.w]} ${dd.d}/${dd.m+1}${r&&k!=='p'?' — '+esc(cellShort(r)):''}${r&&r.note?' — '+esc(r.note):''}</small></button>`)}));
+  edit=null;$('sheet').innerHTML=`<div class="edhead"><div class="edsub">${T} <b>(${rows.length})</b></div><div class="edtop"><button class="xtop" type="button" id="stX"><span class="xb">✕</span><span>إغلاق</span></button></div></div><div class="stlist">${rows.join('')||'<div class="hint" style="text-align:center">لا توجد حالات.</div>'}</div>`;
+  $('ov').classList.add('show');$('stX').onclick=()=>closeSheet();
+  $('sheet').querySelector('.stlist').onclick=ev=>{const b=ev.target.closest('.strow');if(b){closeSheet();setTimeout(()=>openCell(b.dataset.d,b.dataset.e),80)}}}
+document.addEventListener('click',ev=>{const b=ev.target.closest('#stats .stat[data-k],.sumleg span[data-k]');if(b)statSheet(b.dataset.k)});
 function autoSave(){const E=edit;if(!E)return false;const ni=$('noteIn');if(ni)E.note=ni.value;if(E.st!=='p'&&!E.parts.length)return false;
   S.rec[rk(E.ds,E.eid)]=E.st==='p'?{st:'p'}:{st:E.st,parts:MODE==='duty'?E.parts:PARTS.slice(),type:E.st==='l'?E.type:E.st==='a'?(E.ab||''):'',note:E.note.trim()};save();render();return true}
 let CLP_T=null,CLP_DONE=false;
