@@ -1017,6 +1017,12 @@ body.ltedit .hprint svg{width:21px!important;height:21px!important;flex:0 0 auto
 
 body.tbl #grid th.namecol,body.tbl #grid td.namecol{width:150px!important;min-width:150px!important;max-width:150px!important;font-size:13px!important}
 body.tbl #grid td.c,body.tbl #grid th.dh{min-width:72px}
+
+body.tbl.daymode #grid{width:100%!important;min-width:0!important;table-layout:auto}
+body.tbl.daymode #grid th.namecol,body.tbl.daymode #grid td.namecol{width:112px!important;min-width:112px!important;max-width:112px!important;font-size:12.5px!important}
+body.tbl.daymode #grid td.c,body.tbl.daymode #grid th.daycell{min-width:0!important;width:auto!important;padding-inline:2px!important}
+body.tbl.daymode #grid th.nocol,body.tbl.daymode #grid td.nocol{width:22px!important;min-width:22px!important;padding:2px!important}
+body.tbl.daymode .gridwrap{overflow-x:hidden}
 </style>
 </head>
 <body>
@@ -1185,7 +1191,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 182 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 183 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
