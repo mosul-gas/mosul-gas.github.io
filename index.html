@@ -980,6 +980,8 @@ body.ltedit .hprint svg{width:21px!important;height:21px!important;flex:0 0 auto
 .idab .btn,.idbt .btn{flex:1;min-height:40px;font-size:13px!important;font-weight:900;border:2.5px solid #12315a!important;border-radius:11px!important;box-shadow:0 3px 0 #12315a,inset 0 0 0 1.5px #d4af37!important;padding:4px 2px!important}
 .idfull{position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;gap:10px}
 .idfull img{max-width:100%;max-height:80vh;object-fit:contain}.idfull .btn{min-height:42px}
+
+.dsel{appearance:auto;-webkit-appearance:menulist;min-height:46px;font-weight:800;border:2.5px solid #12315a!important;box-shadow:0 3px 0 #12315a,inset 0 0 0 1.5px #d4af37!important;border-radius:12px!important;background:#fff}
 </style>
 </head>
 <body>
@@ -1148,7 +1150,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 174 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 175 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1997,7 +1999,7 @@ function renderDir(){
   $('dirTotal').innerHTML=D.length?`<div class="dtt">إحصائية الدليل</div><div class="dtr"><span>العدد الكلي</span><b>${D.length}</b></div><div class="dtr"><span>الدوام الصباحي</span><b>${nM}</b></div><div class="dtr"><span>المناوبين</span><b>${nS}</b></div>`+(nB?`<button type="button" class="btn" id="dirBlank">حذف الأسماء الفارغة («منتسب جديد»: ${nB})</button>`:''):'';
   if(!D.length){$('dirList').innerHTML='';return}
   if(words.length){const FL=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['phone','رقم الهاتف'],['status','الصفة'],['addrCard','السكن حسب البطاقة'],['addrNow','السكن الحالي'],['mother','اسم الأم'],['_mar','الحالة الزوجية'],['_kids','عدد الأطفال (المخصصات الزوجية)'],['_ids','المستمسكات']];
-    const VV=v=>({...v,_mar:v.marital==='m'?'متزوج':v.marital==='s'?'أعزب':'',_kids:v.marital==='m'?String(+v.kids||0):'',_ids:DIR_IDS.filter(([k])=>(v.idv||{})[k]).map(([k,l])=>l+': '+v.idv[k]).join(' — ')||v.spouseAllow&&''});
+    const VV=v=>({...v,_mar:({m:'متزوج',s:'أعزب',w:'أرمل',d:'مطلق'})[v.marital]||'',_kids:v.marital==='m'?String(+v.kids||0):'',_ids:DIR_IDS.filter(([k])=>(v.idv||{})[k]).map(([k,l])=>l+': '+v.idv[k]).join(' — ')||v.spouseAllow&&''});
     $('dirList').innerHTML=f.length?f.map(v=>`<div class="card dres"><div class="dresn" style="${dirStyle(v)}">${esc(v.name)}</div><table class="drest">`+FL.filter(([k])=>VV(v)[k]).map(([k,l])=>`<tr><th>${l}</th><td>${esc(VV(v)[k])}</td></tr>`).join('')+`</table><div class="diract">${v.phone?`<a class="btn dcall" href="tel:${esc(v.phone)}">اتصال</a><a class="btn dwa" target="_blank" rel="noopener" href="${dirWa(v.phone)}">واتساب</a>`:''}</div><button class="btn dedit" data-di="${v.id}">✎ فتح وتعديل البيانات</button></div>`).join(''):'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج مطابقة.</div></div>';return}
   let h='';
   order.forEach(k=>{const g=f.filter(v=>dirName(v)===k);if(!g.length)return;
@@ -2032,8 +2034,8 @@ function dirSheet(id){
   ${F('addrNow','عنوان السكن الحالي')}
   ${F('mother','اسم الأم')}
   <div class="lbl">الحالة الزوجية</div>
-  <div class="dseg" id="dMar"><button type="button" data-m="s" class="${v.marital==='s'?'on':''}">أعزب</button><button type="button" data-m="m" class="${v.marital==='m'?'on':''}">متزوج</button></div>
-  <div id="dKidsBox" class="${v.marital==='m'?'':'hide'}"><div class="lbl">المخصصات الزوجية — عدد الأطفال</div><div class="dkids"><button type="button" class="btn" id="kidAdd">＋ إضافة طفل</button><b id="kidN">${+v.kids||0}</b><button type="button" class="btn" id="kidDel">− حذف طفل</button></div></div>
+  <select class="txt dsel" id="dMar"><option value="">— اختر الحالة الاجتماعية —</option>${[['s','أعزب'],['m','متزوج'],['w','أرمل'],['d','مطلق']].map(([k,l])=>`<option value="${k}" ${v.marital===k?'selected':''}>${l}</option>`).join('')}</select>
+  <div id="dKidsBox" class="${v.marital==='m'?'':'hide'}"><div class="lbl">المخصصات الزوجية — عدد الأطفال</div><select class="txt dsel" id="dKids">${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}" ${(+v.kids||0)===n?'selected':''}>${n===0?'بدون أطفال':n}</option>`).join('')}</select></div>
   <div class="lbl">المستمسكات الشخصية (اختر ما يلزم)</div>
   <div class="dseg dseg3" id="dIdSeg">${DIR_IDS.map(([k,l])=>`<button type="button" data-id="${k}" class="${(v.idOn||{})[k]||(v.idv||{})[k]?'on':''}">${l}</button>`).join('')}</div>
   <div id="dIdBox"></div>
@@ -2051,9 +2053,8 @@ function dirSheet(id){
     if(a==='scan'){scStartTarget({id:v.id,k},done);return}
     const f=document.createElement('input');f.type='file';f.accept='image/*';if(a==='cam')f.setAttribute('capture','environment');f.onchange=async()=>{const x=f.files[0];if(!x)return;try{const u=await idCompress(x);await idPut(v.id+'|'+k,u);v.idImg=v.idImg||{};v.idImg[k]=1;save();done();toast('تم حفظ الصورة')}catch(er){toast('تعذّر حفظ الصورة')}};f.click()};
   $('dIdSeg').onclick=e=>{const b=e.target.closest('[data-id]');if(!b)return;const k=b.dataset.id;v.idOn[k]=!(v.idOn[k]||v.idv[k]);if(!v.idOn[k])v.idv[k]='';b.classList.toggle('on',!!v.idOn[k]);drawIds();upd()};
-  $('dMar').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;v.marital=b.dataset.m;sh.querySelectorAll('#dMar button').forEach(x=>x.classList.toggle('on',x===b));$('dKidsBox').classList.toggle('hide',v.marital!=='m');if(v.marital!=='m')v.kids=0,$('kidN').textContent=0;upd()};
-  $('kidAdd').onclick=()=>{v.kids=(+v.kids||0)+1;$('kidN').textContent=v.kids;upd()};
-  $('kidDel').onclick=()=>{v.kids=Math.max(0,(+v.kids||0)-1);$('kidN').textContent=v.kids;upd()};
+  $('dMar').onchange=e=>{v.marital=e.target.value;$('dKidsBox').classList.toggle('hide',v.marital!=='m');if(v.marital!=='m'){v.kids=0;$('dKids').value='0'}upd()};
+  $('dKids').onchange=e=>{v.kids=+e.target.value;upd()};
   $('dirX').onclick=()=>closeSheet();
 }
 function dirDelSheet(){
