@@ -1012,7 +1012,7 @@ body.ltedit .hprint svg{width:21px!important;height:21px!important;flex:0 0 auto
 .dtab td.nm{font-weight:900;color:#12315a;font-size:14px}
 .dtab td.dnew{color:#b3261e;background:#fff4c2!important}
 
-#grid th.pn,#grid td.notes{width:26px!important;min-width:0!important;max-width:30px!important;padding:2px 0!important;font-size:11px!important;text-align:center}
+#grid th.pn,#grid td.notes{width:21px!important;min-width:0!important;max-width:24px!important;padding:2px 0!important;font-size:10px!important;text-align:center}
 #grid td.namecol{font-size:13.5px!important}
 
 body.tbl #grid th.namecol,body.tbl #grid td.namecol{width:150px!important;min-width:150px!important;max-width:150px!important;font-size:13px!important}
@@ -1185,7 +1185,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 181 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 182 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1304,7 +1304,7 @@ function cellInfo(r){
   if(r.note)t+=' ('+r.note+')';
   return {t,c};
 }
-function curDays(){return MODE==='duty'?dutyDays(Y,M,SH):weekDays()}
+function curDays(){if(MODE==='duty'){if(RNG)return dutyDays(Y,M,SH);const r=viewRange();return dutyDaysOld(r.a.getFullYear(),r.a.getMonth(),SH)}return weekDays()}
 
 /* ---------- main render ---------- */
 function render(){
@@ -2154,7 +2154,7 @@ $('hGrid').addEventListener('click',e=>{const b=e.target.closest('[data-hg]');if
 function showTable(on){document.body.classList.toggle('tbl',on);window.scrollTo(0,0);navOn()}
 $('btnMawqif').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);if(!$('viewSettings').classList.contains('hide'))showSettings(false);if(!$('viewLetters').classList.contains('hide'))showLetters(false);showTable(false)};
 let DW=0,DWN=2,DWKEY='';
-function dayWin(){try{const T=document.body.classList.contains('tbl'),isDay=MODE==='day';document.body.classList.toggle('daymode',T&&isDay);if(!T||!isDay)return;
+function dayWin(){try{const T=document.body.classList.contains('tbl'),isDay=MODE==='day'||MODE==='duty';document.body.classList.toggle('daymode',T&&isDay);if(!T||!isDay)return;
   const ths=[...document.querySelectorAll('#grid thead th.daycell')];const N=ths.length;if(!N)return;
   const key=ths[0].querySelector('[data-all]')?ths[0].querySelector('[data-all]').dataset.all:'';
   if(key!==DWKEY){DWKEY=key;const td=new Date();const ts=td.getFullYear()+'-'+String(td.getMonth()+1).padStart(2,'0')+'-'+String(td.getDate()).padStart(2,'0');let ti=ths.findIndex(t=>t.querySelector('[data-all]')&&t.querySelector('[data-all]').dataset.all===ts);DW=ti>=0?Math.floor(ti/DWN)*DWN:0}
@@ -2166,7 +2166,7 @@ function dayWin(){try{const T=document.body.classList.contains('tbl'),isDay=MODE
     const a=ths[DW],b=ths[Math.min(N-1,DW+DWN-1)];const dn=x=>x.querySelector('.dn')?x.querySelector('.dn').textContent:'';
     $('dwLbl').textContent=dn(a)===dn(b)?dn(a):dn(a)+' ← '+dn(b);$('dwPrev').disabled=DW<=0;$('dwNext').disabled=DW+DWN>=N;$('dwSz').textContent='المعروض: '+DWN+' أيام'}}catch(e){}}
 function fitNames(){try{if(!document.body.classList.contains('tbl'))return;const on=document.querySelector('#modeSeg .on');if(!on)return;
-  const f0=document.body.classList.contains('daymode')?15:13.5;
+  const f0=MODE==='day'&&document.body.classList.contains('daymode')?15:13.5;
   document.querySelectorAll('#grid td.namecol:not([data-fit])').forEach(td=>{td.dataset.fit='1';const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','normal');P('word-break','normal');P('overflow-wrap','break-word');P('font-weight','900');P('font-size',f0+'px');P('line-height','1.2');P('color','#000');if(td.parentNode)td.parentNode.style.height='46px'})}catch(e){}}
 function fitCells(){try{if(!document.body.classList.contains('tbl'))return;
   document.querySelectorAll('#grid td.c:not([data-fit2]),#grid td.notes:not([data-fit2])').forEach(td=>{td.dataset.fit2='1';if(!td.textContent.trim()||td.textContent.trim()==='—'||td.textContent.trim()==='حاضر')return;
