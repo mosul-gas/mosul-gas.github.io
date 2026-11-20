@@ -994,6 +994,14 @@ body.ltedit .hprint svg{width:21px!important;height:21px!important;flex:0 0 auto
 #viewDir .dnores{text-align:center;display:flex;flex-direction:column;gap:8px;font-weight:900;color:#12315a}
 #viewDir .dnores small{font-weight:700;color:#5d6b7e}
 #viewDir .dnores .btn{min-height:46px;font-weight:900;border:2.5px solid #12315a!important;box-shadow:0 3px 0 #12315a,inset 0 0 0 1.5px #d4af37!important}
+
+.dsel2{min-height:38px!important;height:38px;font-size:14px!important;font-weight:800;padding:2px 12px!important;border-width:2px!important;border-color:#1f3864!important;color:#1f3864;background:linear-gradient(#f4f8fe,#dce8f7)!important;box-shadow:0 2px 0 #1f3864,inset 0 0 0 1px #c9a227!important;border-radius:9px!important}
+.dsel2.ms{background:linear-gradient(#eef4ff,#cfe0f7)!important}
+.dsel2.ks{background:linear-gradient(#fff8e1,#f3e2a8)!important;color:#5a4300;border-color:#7a5c00!important}
+.dsel2.st-a{background:linear-gradient(#e9f7ee,#c3e6cf)!important;color:#145a32;border-color:#145a32!important}
+.dsel2.st-b{background:linear-gradient(#fff1e0,#f6d3a6)!important;color:#7a3d00;border-color:#7a3d00!important}
+.dsel2.st-c{background:linear-gradient(#f1e9fb,#d8c6f0)!important;color:#4a1f7a;border-color:#4a1f7a!important}
+#sheet .lbl{margin-top:7px}
 </style>
 </head>
 <body>
@@ -1162,7 +1170,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 177 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 178 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2041,20 +2049,20 @@ function dirSheet(id){
   <div class="lbl">الشعبة</div><select class="txt" data-f="sec">${DIR_SECS.map(x=>`<option value="${esc(x)}" ${v.sec===x?'selected':''}>${esc(x||'بدون شعبة')}</option>`).join('')}</select>
   <div class="lbl">الوجبة</div><select class="txt" data-f="shift">${DIR_SHIFTS.map(x=>`<option value="${esc(x)}" ${v.shift===x?'selected':''}>${esc(x||'بدون وجبة')}</option>`).join('')}</select>
   <div class="lbl">رقم الهاتف</div><div class="dirph"><input class="txt" data-f="phone" inputmode="tel" value="${esc(v.phone||'')}"></div><div class="diract"><a class="btn dcall" id="dirCall" href="tel:${esc(v.phone||'')}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><span>اتصال</span></a><a class="btn dwa" id="dirWa" target="_blank" rel="noopener" href="${dirWa(v.phone)}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.9L2 22l5.25-1.38A9.9 9.9 0 1 0 12.04 2zm0 1.8a8.1 8.1 0 1 1-4.2 15.03l-.3-.18-3.1.82.83-3.02-.2-.31A8.1 8.1 0 0 1 12.04 3.8zM8.6 7.5c-.2 0-.5.07-.75.35-.26.28-1 .98-1 2.4s1.02 2.78 1.17 2.97c.14.2 2 3.2 4.95 4.35 2.45.96 2.95.77 3.48.72.53-.05 1.7-.7 1.94-1.37.24-.68.24-1.26.17-1.38-.07-.12-.26-.2-.55-.34-.29-.15-1.7-.84-1.97-.94-.26-.1-.46-.14-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.07-.29-.14-1.22-.45-2.32-1.43-.86-.77-1.44-1.7-1.6-2-.17-.28-.02-.44.13-.58.13-.13.29-.34.43-.5.15-.17.2-.29.29-.48.1-.2.05-.36-.02-.5-.07-.15-.65-1.58-.9-2.16-.23-.56-.47-.48-.65-.49h-.55z"/></svg><span>واتساب</span></a></div>
-  ${F('status','الصفة (ملاك / عقد…)')}
+  <div class="lbl">الصفة</div><select class="txt dsel dsel2 st-${v.status==='ملاك'?'a':v.status==='عقد'?'b':v.status==='أجر يومي'?'c':'n'}" data-f="status">${['','ملاك','عقد','أجر يومي'].concat(v.status&&!['ملاك','عقد','أجر يومي'].includes(v.status)?[v.status]:[]).map(x=>`<option value="${esc(x)}" ${(v.status||'')===x?'selected':''}>${esc(x||'— اختر الصفة —')}</option>`).join('')}</select>
   ${F('addrCard','عنوان السكن حسب البطاقة')}
   ${F('addrNow','عنوان السكن الحالي')}
   ${F('mother','اسم الأم')}
   <div class="lbl">الحالة الزوجية</div>
-  <select class="txt dsel" id="dMar"><option value="">— اختر الحالة الاجتماعية —</option>${[['s','أعزب'],['m','متزوج'],['w','أرمل'],['d','مطلق']].map(([k,l])=>`<option value="${k}" ${v.marital===k?'selected':''}>${l}</option>`).join('')}</select>
-  <div id="dKidsBox" class="${v.marital==='m'?'':'hide'}"><div class="lbl">المخصصات الزوجية — عدد الأطفال</div><select class="txt dsel" id="dKids">${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}" ${(+v.kids||0)===n?'selected':''}>${n===0?'بدون أطفال':n}</option>`).join('')}</select></div>
+  <select class="txt dsel dsel2 ms" id="dMar"><option value="">— اختر الحالة الاجتماعية —</option>${[['s','أعزب'],['m','متزوج'],['w','أرمل'],['d','مطلق']].map(([k,l])=>`<option value="${k}" ${v.marital===k?'selected':''}>${l}</option>`).join('')}</select>
+  <div id="dKidsBox" class="${v.marital==='m'?'':'hide'}"><div class="lbl">المخصصات الزوجية — عدد الأطفال</div><select class="txt dsel dsel2 ks" id="dKids">${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}" ${(+v.kids||0)===n?'selected':''}>${n===0?'بدون أطفال':n}</option>`).join('')}</select></div>
   <div class="lbl">المستمسكات الشخصية (اختر ما يلزم)</div>
   <div class="dseg dseg3" id="dIdSeg">${DIR_IDS.map(([k,l])=>`<button type="button" data-id="${k}" class="${(v.idOn||{})[k]||(v.idv||{})[k]?'on':''}">${l}</button>`).join('')}</div>
   <div id="dIdBox"></div>
   `;
   $('ov').classList.add('show');
   const sh=$('sheet'),upd=()=>{save();$('dirNm').setAttribute('style',dirStyle(v));$('dirNm').textContent=v.name;renderDir()};
-  sh.querySelectorAll('[data-f]').forEach(el=>{el.oninput=el.onchange=()=>{v[el.dataset.f]=el.value;if(el.dataset.f==='phone'){$('dirCall').href='tel:'+el.value;$('dirWa').href=dirWa(el.value)}upd()}});
+  sh.querySelectorAll('[data-f]').forEach(el=>{el.oninput=el.onchange=()=>{v[el.dataset.f]=el.value;if(el.dataset.f==='status')el.className='txt dsel dsel2 st-'+({'ملاك':'a','عقد':'b','أجر يومي':'c'}[el.value]||'n');if(el.dataset.f==='phone'){$('dirCall').href='tel:'+el.value;$('dirWa').href=dirWa(el.value)}upd()}});
   v.idOn=v.idOn||{};v.idv=v.idv||{};
   const drawIds=()=>{$('dIdBox').innerHTML=DIR_IDS.filter(([k])=>v.idOn[k]||v.idv[k]).map(([k,l])=>`<div class="lbl">رقم ${l}</div><input class="txt" data-idv="${k}" inputmode="numeric" value="${esc(v.idv[k]||'')}">
     <div class="idimg" data-k="${k}"><div class="idth" id="idth_${k}"></div><div class="idbt"><button type="button" class="btn" data-ia="cam">📷 كاميرا الهاتف</button><button type="button" class="btn" data-ia="scan">📄 مسح ضوئي</button><button type="button" class="btn" data-ia="lib">🖼️ من الهاتف</button></div></div>`).join('');
