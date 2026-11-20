@@ -527,6 +527,18 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 .pfmt button svg{width:20px!important;height:23px!important;transform:none!important}
 .pfmt button span{font-size:13px!important;font-weight:900}
 .pfmt button::before{height:50%!important}
+/* v125: bigger daily preview paper */
+#sheet:has(#dPrev){padding:8px 10px calc(8px + env(safe-area-inset-bottom))!important;max-height:97vh!important}
+#sheet:has(#dPrev) .edhead{margin:0 0 2px!important;padding:0!important}
+#sheet:has(#dPrev) h3{font-size:14px!important}
+.dadd{gap:5px!important;margin:0 0 2px!important}
+.dadd .btn{padding:3px 2px!important;font-size:11px!important;line-height:1.2!important;border-radius:9px!important;box-shadow:0 2px 0 #1f4f78!important}
+#sheet:has(#dPrev) .hint{font-size:10px!important;margin:0 0 3px!important;line-height:1.3!important}
+.dfmt{gap:6px!important;margin:2px auto 0!important}
+.dfmt button{height:34px!important;border-radius:11px!important;padding:0 4px!important}
+.dfmt button svg{width:15px!important;height:18px!important}
+.dfmt button span{font-size:12px!important}
+.btn.dwa.dwa2{padding:2px!important;margin-top:4px!important;font-size:12px!important;border-radius:10px!important}
 </style>
 </head>
 <body>
@@ -664,7 +676,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 124 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 125 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1250,7 +1262,7 @@ $('btnCopy').onclick=()=>{
   edit=null;
   const def=MODE==='day'?(()=>{const t=ymd(today),w=weekDays().map(x=>x.s);return w.includes(t)?t:w[0]})():ymd(today);
   $('sheet').innerHTML=`<div class="edhead dhd"><h3 style="margin:0;white-space:nowrap">📋 الموقف اليومي</h3><label class="dlbl"><span id="dDateLbl"></span><input type="date" id="dDate" value="${def}"></label><div class="edtop"></div></div>
-  <div id="dPrev" style="overflow:hidden;background:#f6f8fb;border-radius:10px;padding:6px;margin:6px 0 8px;display:flex;justify-content:center"></div>
+  <div id="dPrev" style="overflow:hidden;background:#f6f8fb;border-radius:8px;padding:2px;margin:3px 0 4px;display:flex;justify-content:center"></div>
   <div class="dadd"><button class="btn" data-add="0">＋ سطر في الموقف</button><button class="btn" data-add="1">＋ سطر في المناوبين</button><button class="btn" data-rm="1">− حذف آخر سطر مضاف</button></div>
   <div class="hint" style="margin:2px 0 6px;font-size:11.5px;text-align:center">✏️ اضغط على أي خانة في الورقة لتعديلها قبل الطباعة، وللإضافة استعمل أزرار «سطر» أعلاه.</div>
   <div class="pfmt dfmt"><button data-d="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button><button data-d="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button><button data-d="xl"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button></div>
@@ -1265,7 +1277,7 @@ $('btnCopy').onclick=()=>{
     if(!w.length)w.push('✅ تم التأشير على الجميع، والموقف جاهز للطباعة.');
     {const dt=new Date(utc(v));$('dDateLbl').textContent=DAYS[dt.getUTCDay()]+' '+dt.getUTCDate()+'/'+(dt.getUTCMonth()+1)+'/'+dt.getUTCFullYear()}
     const pv=$('dPrev');pv.innerHTML='<div id="dPage" style="background:#fff;border:1px solid #ccc;border-radius:4px;padding:12mm 10mm;width:210mm;height:297mm;box-sizing:border-box;overflow:hidden">'+dailyHTML(dd,true)+'</div>';
-    requestAnimationFrame(()=>{const pg=$('dPage');if(!pg)return;const sh=$('sheet');const avail=window.innerHeight*0.9-(sh.scrollHeight-pv.clientHeight)-14;const W=pv.clientWidth-12;const k=Math.max(.25,Math.min(W/pg.offsetWidth,avail/pg.offsetHeight));pg.style.zoom=k})};prev();$('dDate').onchange=()=>prev(false);
+    requestAnimationFrame(()=>{const pg=$('dPage');if(!pg)return;const sh=$('sheet');const avail=window.innerHeight*0.97-(sh.scrollHeight-pv.clientHeight)-6;const W=pv.clientWidth-4;const k=Math.max(.25,Math.min(W/pg.offsetWidth,avail/pg.offsetHeight));pg.style.zoom=k})};prev();$('dDate').onchange=()=>prev(false);
   $('sheet').onclick=ev=>{const ad=ev.target.closest('[data-add],[data-rm]');if(ad&&dM){applyEdits({morning:dM[0],duty:dM[1]});let k=ad.dataset.add;if(ad.dataset.rm){k=dLast;if(k==null||!dM[k].length||!dM[k][dM[k].length-1].x){toast('لا توجد أسطر مضافة');return}dM[k].pop()}else{k=+k;dM[k].push({name:'',st:'',x:1});dLast=k}
       prev(true);if(ad.dataset.add!=null)setTimeout(()=>{const c=document.querySelectorAll('#dPrev [data-t="'+k+'"][data-f="name"]');const l=c[c.length-1];if(l)l.focus()},60);return}
     const b=ev.target.closest('[data-d]');if(!b)return;const v=$('dDate').value;if(!v)return;const dd=dailyData(v);if(dM){dd.morning=dM[0];dd.duty=dM[1]}applyEdits(dd);dd.morning=dd.morning.filter(r=>r.name||r.st);dd.duty=dd.duty.filter(r=>r.name||r.st);const nm='الموقف اليومي '+v;
