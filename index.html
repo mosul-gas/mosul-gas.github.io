@@ -912,7 +912,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 146 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 147 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1834,7 +1834,9 @@ document.querySelector('.navtiles').addEventListener('click',e=>{const b=e.targe
 $('btnLetters').onclick=()=>showLetters(true);
 function showTable(on){document.body.classList.toggle('tbl',on);window.scrollTo(0,0);navOn()}
 $('btnMawqif').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);if(!$('viewSettings').classList.contains('hide'))showSettings(false);if(!$('viewLetters').classList.contains('hide'))showLetters(false);showTable(false)};
-function navOn(){const L=!$('viewLetters').classList.contains('hide'),St=!$('viewSettings').classList.contains('hide'),Dr=!$('viewDir').classList.contains('hide');
+function fitNames(){try{if(!document.body.classList.contains('tbl'))return;const on=document.querySelector('#modeSeg .on');if(!on||on.dataset.mode!=='duty')return;
+  document.querySelectorAll('#grid td.namecol:not([data-fit])').forEach(td=>{td.dataset.fit='1';const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','nowrap');P('word-break','normal');P('font-size','13.5px');let f=13.5;while(td.scrollWidth>td.clientWidth+1&&f>8.5){f-=.5;P('font-size',f+'px')}if(td.parentNode)td.parentNode.style.height='42px'})}catch(e){}}
+function navOn(){fitNames();const L=!$('viewLetters').classList.contains('hide'),St=!$('viewSettings').classList.contains('hide'),Dr=!$('viewDir').classList.contains('hide');
   const T=document.body.classList.contains('tbl');document.body.classList.toggle('subpage',L||St||Dr||T);
   {const t=$('subTitle');if(t){let h='';if(L)h='الكتب الرسمية';else if(St)h='الإعدادات';else if(Dr)h='دليل المنتسبين';else if(T){let x=[];try{x=[$('monthLbl').textContent,document.querySelector('#modeSeg .on').textContent.trim(),(document.querySelector('#tabs .on')||{textContent:''}).textContent.trim()].filter(Boolean)}catch(e){}h=(x[1]||'موقف الحضور')}if(t.dataset.h!==h){t.dataset.h=h;t.innerHTML=h}}}
   [['btnMawqif',!L&&!St&&!Dr&&T],['btnLetters',L],['btnSettings',St]].forEach(([id,on])=>$(id).classList.toggle('on',on));document.querySelectorAll('.navtiles [data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav==(L?'l':St?'s':'m')))}
