@@ -819,6 +819,16 @@ body:not(.tbl):not(.subpage) .navtiles,body:not(.tbl):not(.subpage) #modeSeg,bod
 .hg.wide{grid-column:1/-1}
 .hg.y{background:linear-gradient(180deg,#fff6c9 0%,#ffe27a 45%,#f5be1d 55%,#ffd75a 100%);border-color:#b98a00;box-shadow:0 5px 0 #b98a00,0 8px 12px rgba(0,0,0,.18)}
 .hg:active{transform:translateY(3px);box-shadow:0 2px 0 #1f4f78}
+
+/* v157 one-line title, 3D print/close */
+body.subpage .brand>div:not(.bolt){flex:1 1 auto;min-width:0}
+body.subpage #stationName{white-space:nowrap!important;font-size:13px!important;overflow:hidden;text-overflow:ellipsis;display:block}
+body.subpage #appTitle{display:none!important}
+.hprint,.subpage .hclose{height:36px!important;border-radius:11px!important;font-weight:900!important}
+body.tbl .hprint{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;border:2px solid #0f2a44!important;box-shadow:0 3px 0 #0f2a44,0 5px 8px rgba(0,0,0,.3)!important;font-size:13px!important}
+body.tbl .hprint svg{stroke:#0b1a2e!important}
+body.subpage .hclose{border:2px solid #4a0d08!important;box-shadow:0 3px 0 #4a0d08,0 5px 8px rgba(0,0,0,.3)!important;font-size:13px!important;padding:0 8px!important;min-width:0!important}
+body.subpage .hclose svg{width:20px!important;height:20px!important}
 </style>
 </head>
 <body>
@@ -983,7 +993,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 156 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 157 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
