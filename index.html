@@ -672,6 +672,29 @@ body:not(.tbl):not(.subpage) #btnPrintMenu{display:none!important}
 body.tbl #actionBar{display:flex!important}
 body.tbl #btnReady,body.tbl #btnCopy{display:none!important}
 body.tbl #btnPrintMenu{flex:1 1 100%;width:100%}
+
+/* v139 letters toolbar compact + directory search */
+#ltTypes{gap:6px!important}
+#ltTypes .btn{height:34px!important;min-height:0!important;padding:0 4px!important;font-size:12.5px!important;border-radius:10px!important;box-shadow:0 3px 0 #2f6690,inset 0 1px 0 #fff!important}
+.rtb{gap:5px!important;padding:7px!important;border-radius:12px!important}
+.rtrow{gap:5px!important}
+.rtrow select{height:32px!important;min-width:80px!important;font-size:12.5px!important;border-radius:9px!important;box-shadow:0 2px 0 #1f4f78!important}
+.rtrow button{min-width:32px!important;height:32px!important;padding:0 4px!important;font-size:13px!important;border-radius:9px!important;box-shadow:0 2px 0 #1f4f78,inset 0 1px 0 #fff!important}
+.rtsep{height:20px!important}
+.rtcol button{min-width:28px!important;width:28px!important;height:28px!important;border-radius:50%!important}
+.rtcol{justify-content:center;padding:4px 0}
+.dsearch{display:flex;align-items:center;gap:8px;height:46px;padding:0 12px;border-radius:14px;border:2px solid #1F3864;background:linear-gradient(180deg,#fff,#e8f4fc);box-shadow:0 3px 0 #1f4f78,inset 0 1px 3px rgba(0,0,0,.08);color:#1F3864}
+.dsearch input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;font-weight:700;color:#0b1a2e;-webkit-appearance:none;appearance:none}
+.dsearch input::-webkit-search-cancel-button{display:none}
+.dsearch button{border:0;background:#c5d6e6;color:#1F3864;width:26px;height:26px;border-radius:50%;font-size:13px;font-weight:900;cursor:pointer}
+.dstats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0 2px}
+.dstats button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 2px;border-radius:12px;border:1px solid #3f78a3;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%);box-shadow:0 3px 0 #1f4f78,inset 0 1px 0 #fff;font-family:inherit;color:#0b1a2e;cursor:pointer}
+.dstats button b{font-size:20px;line-height:1.1;color:#1F3864}.dstats button span{font-size:11.5px;font-weight:800}
+.dstats button.on{background:linear-gradient(180deg,#fff6c9 0%,#ffe27a 45%,#f5be1d 55%,#ffd75a 100%);border-color:#b98a00;box-shadow:0 3px 0 #b98a00}
+.dstats button:active{transform:translateY(2px)}
+.dfound{font-size:12.5px;color:#43546b;font-weight:700;margin-top:2px}.dfound b{color:#1F3864}
+.dirtools2{margin-top:14px}.dirtools2 .dtl{font-weight:900;color:#1F3864;margin-bottom:8px;font-size:13.5px}
+.dirtools2 #dirAdd{width:100%;margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -762,11 +785,16 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 </main>
 <main id="viewDir" class="hide">
   <div class="card dirhead">
-    <div class="dirtop"><input class="txt" id="dirQ" placeholder="ابحث بالاسم أو الرقم أو الشعبة"><button class="btn" id="dirAdd">إضافة منتسب</button></div>
+    <div class="dsearch"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg><input id="dirQ" type="search" inputmode="search" autocomplete="off" placeholder="ابحثي بالاسم أو رقم الهاتف…"><button id="dirClr" class="hide" type="button" aria-label="مسح">✕</button></div>
+    <div class="dstats" id="dirStats"></div>
     <div class="dirsec" id="dirSecs"></div>
-    <div class="dirtools"><button class="btn" id="dirImp">استيراد ملف القاعدة</button><button class="btn" id="dirExp">تصدير القاعدة</button><input type="file" id="dirFile" accept=".json,application/json" class="hide"></div>
+    <div class="dfound" id="dirFound"></div>
   </div>
   <div id="dirList"></div>
+  <div class="card dirhead dirtools2"><div class="dtl">إدارة القاعدة</div>
+    <button class="btn" id="dirAdd">＋ إضافة منتسب</button>
+    <div class="dirtools"><button class="btn" id="dirImp">استيراد ملف القاعدة</button><button class="btn" id="dirExp">تصدير القاعدة</button><input type="file" id="dirFile" accept=".json,application/json" class="hide"></div>
+  </div>
 </main>
 <main id="viewSettings" class="hide">
   <div class="setbar"><button id="backTop" class="backbtn" aria-label="رجوع"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><b>رجوع</b></button></div>
@@ -820,7 +848,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 138 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 139 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1525,9 +1553,13 @@ function ltRte(L){const ed=$('ltBody');ed.innerHTML=L.bodyHtml||plainToHtml(L.bo
   rtb.addEventListener('pointerdown',e=>{if(!e.target.closest('select'))e.preventDefault()});
   $('rtFont').onchange=e=>{back();css(true);document.execCommand('fontName',false,e.target.value)};
   $('rtSize').onchange=e=>{psz=+e.target.value;back();css(false);document.execCommand('fontSize',false,'7');fixSize();css(true)};
+  $('rtImgF').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,900/im.width),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);back();document.execCommand('insertHTML',false,'<img src="'+c.toDataURL('image/jpeg',.85)+'" style="max-width:60%;height:auto"><div><br></div>')};im.src=r.result};r.readAsDataURL(f);ev.target.value=''};
   rtb.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
-    if(b.dataset.col){back();css(true);document.execCommand('foreColor',false,b.dataset.col);return}
+    if(b.dataset.col){back();css(true);document.execCommand('foreColor',false,b.dataset.col);$('rtCol').classList.add('hide');return}
     const c=b.dataset.c;if(!c)return;
+    if(c==='box'){back();document.execCommand('insertHTML',false,'<div class="rtbox" style="border:1px solid #fff;padding:8px;min-height:40px;margin:4px 0">&nbsp;</div><div><br></div>');return}
+    if(c==='img'){$('rtImgF').click();return}
+    if(c==='col'){$('rtCol').classList.toggle('hide');return}
     if(c==='tbl'){$('rtTbl').classList.toggle('hide');return}
     if(c==='tblok'){const r=+$('rtR').value,k=+$('rtC').value;let h='<table class="rtt" style="border-collapse:collapse;width:100%"><tbody>';
       for(let i=0;i<r;i++){h+='<tr>';for(let j=0;j<k;j++)h+='<td style="border:1px solid #000;padding:8px;min-width:40px">&nbsp;</td>';h+='</tr>'}h+='</tbody></table><div><br></div>';
@@ -1541,8 +1573,8 @@ function ltEdit(){const E=$('ltEditor');E.classList.remove('hide');
   <div class="lbl">نص الكتاب</div>
   <div class="rtb" id="rtb">
    <div class="rtrow"><select id="rtFont" title="نوع الخط">${LT_FONTS.map(f=>`<option value="${f}" style="font-family:'${f}'">${f}</option>`).join('')}</select><select id="rtSize" title="حجم الخط">${[10,11,12,13,14,16,18,20,22,24,28,32].map(n=>`<option value="${n}"${n===14?' selected':''}>${n}</option>`).join('')}</select></div>
-   <div class="rtrow"><button type="button" data-c="bold" title="غامق"><b>B</b></button><button type="button" data-c="italic" title="مائل"><i>I</i></button><button type="button" data-c="underline" title="تسطير"><u>U</u></button><span class="rtsep"></span><button type="button" data-c="justifyRight" title="يمين">☰</button><button type="button" data-c="justifyCenter" title="وسط">≡</button><button type="button" data-c="justifyLeft" title="يسار">☷</button><button type="button" data-c="justifyFull" title="ضبط">▤</button><span class="rtsep"></span><button type="button" data-c="undo" title="تراجع">↶</button><button type="button" data-c="redo" title="إعادة">↷</button><button type="button" data-c="tbl" title="إدراج جدول">▦</button></div>
-   <div class="rtrow rtcol" id="rtCol">${['#000000','#1F3864','#0D47A1','#8B0000','#1B5E20','#4A148C','#5D4037','#424242'].map(c=>`<button type="button" data-col="${c}" title="لون الخط" style="background:${c}"></button>`).join('')}</div>
+   <div class="rtrow"><button type="button" data-c="bold" title="غامق"><b>B</b></button><button type="button" data-c="italic" title="مائل"><i>I</i></button><button type="button" data-c="underline" title="تسطير"><u>U</u></button><span class="rtsep"></span><button type="button" data-c="justifyRight" title="يمين">☰</button><button type="button" data-c="justifyCenter" title="وسط">≡</button><button type="button" data-c="justifyLeft" title="يسار">☷</button><button type="button" data-c="justifyFull" title="ضبط">▤</button><span class="rtsep"></span><button type="button" data-c="undo" title="تراجع">↶</button><button type="button" data-c="redo" title="إعادة">↷</button><button type="button" data-c="tbl" title="إدراج جدول">▦</button><button type="button" data-c="box" title="إدراج مربع نص">⬜</button><button type="button" data-c="img" title="إدراج صورة">🖼️</button><button type="button" data-c="col" title="ألوان الخط">🎨</button><input type="file" id="rtImgF" accept="image/*" class="hide"></div>
+   <div class="rtrow rtcol hide" id="rtCol">${['#000000','#1F3864','#0D47A1','#8B0000','#1B5E20','#4A148C','#5D4037','#424242'].map(c=>`<button type="button" data-col="${c}" title="لون الخط" style="background:${c}"></button>`).join('')}</div>
    <div class="rtrow rttbl hide" id="rtTbl"><span>صفوف</span><select id="rtR">${[1,2,3,4,5,6,8,10].map(n=>`<option>${n}</option>`).join('')}</select><span>أعمدة</span><select id="rtC">${[1,2,3,4,5,6].map(n=>`<option${n===2?' selected':''}>${n}</option>`).join('')}</select><button type="button" data-c="tblok" class="rtok">إدراج</button></div>
   </div>
   <div id="ltBody" class="rte" contenteditable="true" dir="rtl" spellcheck="false"></div>
@@ -1613,7 +1645,7 @@ const DIR_SECS=['الإدارة','الورشة','المختبر','السيطرة
 const DIR_SHIFTS=['','الوجبة الأولى','الوجبة الثانية','الوجبة الثالثة','الوجبة الرابعة'];
 const DIR_FONTS=['','Cairo','Arial','Tahoma','Times New Roman','Simplified Arabic','Traditional Arabic','Sakkal Majalla'];
 const DIR_COL=['','#0b1a2e','#b42318','#1a7f37','#1F4E9A','#7a3db8','#b45309'];
-let DIRQ='',DIRSEC='';
+let DIRQ='',DIRSEC='',DIRTYPE='';
 const dirName=v=>v.sec||'بدون شعبة';
 function dirStyle(v){const t=v.st||{};return (t.f?'font-family:'+t.f+';':'')+(t.c?'color:'+t.c+';':'')+(t.z?'font-size:'+t.z+'px;':'')+(t.b?'font-weight:900;':'')+(t.u?'text-decoration:underline;':'')}
 function showDir(on){
@@ -1621,17 +1653,27 @@ function showDir(on){
   $('viewLetters').classList.add('hide');$('viewSettings').classList.add('hide');$('viewDir').classList.toggle('hide',!on);$('viewMain').classList.toggle('hide',on);$('actionBar').classList.toggle('hide',on);
   document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
   if(on)renderDir();else render();window.scrollTo(0,0)}
+const dirNorm=t=>String(t||'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[ً-ٰٟـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[\s\-+().]+/g,' ').trim().toLowerCase();
+const dirIsShift=v=>!!(v.shift&&String(v.shift).trim());
 function renderDir(){
-  S.dir=S.dir||[];const D=S.dir,q=DIRQ.trim();
-  const cnt={};D.forEach(v=>{const k=dirName(v);cnt[k]=(cnt[k]||0)+1});
-  const order=DIR_SECS.map(dirName).filter((x,i,a)=>a.indexOf(x)===i&&cnt[x]);
-  $('dirSecs').innerHTML=`<button data-ds="" class="${DIRSEC===''?'on':''}">الكل <b>${D.length}</b></button>`+order.map(k=>`<button data-ds="${esc(k)}" class="${DIRSEC===k?'on':''}">${esc(k)} <b>${cnt[k]}</b></button>`).join('');
-  const f=D.filter(v=>(!DIRSEC||dirName(v)===DIRSEC)&&(!q||[v.name,v.phone,v.title,v.sec,v.shift,v.mother].join(' ').includes(q)));
-  if(!D.length){$('dirList').innerHTML='<div class="card"><div class="hint" style="text-align:center">القاعدة فارغة. استخدم «استيراد ملف القاعدة» أو «إضافة اسم».</div></div>';return}
+  S.dir=S.dir||[];const D=S.dir,q=dirNorm(DIRQ);
+  const nM=D.filter(v=>!dirIsShift(v)).length,nS=D.length-nM;
+  $('dirStats').innerHTML=`<button data-dt="" class="${DIRTYPE===''?'on':''}"><b>${D.length}</b><span>العدد الكلي</span></button><button data-dt="m" class="${DIRTYPE==='m'?'on':''}"><b>${nM}</b><span>الدوام الصباحي</span></button><button data-dt="s" class="${DIRTYPE==='s'?'on':''}"><b>${nS}</b><span>المناوبون</span></button>`;
+  const base=D.filter(v=>!DIRTYPE||(DIRTYPE==='s')===dirIsShift(v));
+  const cnt={};base.forEach(v=>{const k=dirName(v);cnt[k]=(cnt[k]||0)+1});
+  const order=DIR_SECS.map(x=>x||'بدون شعبة').concat(Object.keys(cnt)).filter((x,i,a)=>a.indexOf(x)===i&&cnt[x]);
+  if(DIRSEC&&!cnt[DIRSEC])DIRSEC='';
+  $('dirSecs').innerHTML=`<button data-ds="" class="${DIRSEC===''?'on':''}">كل الشعب <b>${base.length}</b></button>`+order.map(k=>`<button data-ds="${esc(k)}" class="${DIRSEC===k?'on':''}">${esc(k)} <b>${cnt[k]}</b></button>`).join('');
+  const words=q?q.split(' ').filter(Boolean):[];
+  const hay=v=>dirNorm([v.name,v.phone,v.title,v.sec,v.shift,v.mother,v.status].join(' '));
+  const f=base.filter(v=>(!DIRSEC||dirName(v)===DIRSEC)&&(!words.length||(h=>words.every(w=>h.includes(w)))(hay(v))));
+  $('dirClr').classList.toggle('hide',!DIRQ);
+  $('dirFound').innerHTML=(q||DIRSEC||DIRTYPE)?`عدد النتائج: <b>${f.length}</b> من ${D.length}`:`إجمالي المنتسبين في القاعدة: <b>${D.length}</b>`;
+  if(!D.length){$('dirList').innerHTML='<div class="card"><div class="hint" style="text-align:center">القاعدة فارغة. استخدمي «استيراد ملف القاعدة» أو «إضافة منتسب» في أسفل الصفحة.</div></div>';return}
   let h='';
   order.forEach(k=>{const g=f.filter(v=>dirName(v)===k);if(!g.length)return;
-    h+=`<div class="card dirgrp"><h3 class="dirgh"><span>${esc(k)}</span><b>${g.length}</b></h3>`+g.map(v=>`<button class="dirrow" data-di="${v.id}"><span class="dn" style="${dirStyle(v)}">${esc(v.name)}</span><small>${esc(v.title||'')}${v.shift?' · '+esc(v.shift):''}</small></button>`).join('')+'</div>'});
-  $('dirList').innerHTML=h||'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج.</div></div>'}
+    h+=`<div class="card dirgrp"><h3 class="dirgh"><span>${esc(k)}</span><b>${g.length}</b></h3>`+g.map(v=>`<button class="dirrow" data-di="${v.id}"><span class="dn" style="${dirStyle(v)}">${esc(v.name)}</span><small>${esc(v.title||'')}${v.shift?' · '+esc(v.shift):''}${v.phone?' · '+esc(v.phone):''}</small></button>`).join('')+'</div>'});
+  $('dirList').innerHTML=h||'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج مطابقة.</div></div>'}
 function dirSheet(id){
   const v=(S.dir||[]).find(x=>x.id===id);if(!v)return;edit=null;
   const T=v.st=v.st||{f:'',c:'',z:'',b:0,u:0};
@@ -1663,6 +1705,8 @@ function dirSheet(id){
   $('dirX').onclick=()=>closeSheet();
   $('dirDel').onclick=()=>{if(!confirm('حذف «'+v.name+'» من قاعدة البيانات؟'))return;S.dir=S.dir.filter(x=>x.id!==id);save();closeSheet();renderDir();toast('تم الحذف')}}
 $('dirQ').addEventListener('input',e=>{DIRQ=e.target.value;renderDir()});
+$('dirStats').addEventListener('click',e=>{const b=e.target.closest('[data-dt]');if(!b)return;DIRTYPE=b.dataset.dt;renderDir()});
+$('dirClr').onclick=()=>{DIRQ='';$('dirQ').value='';renderDir();$('dirQ').focus()};
 $('dirSecs').addEventListener('click',e=>{const b=e.target.closest('[data-ds]');if(!b)return;DIRSEC=b.dataset.ds;renderDir()});
 $('dirList').addEventListener('click',e=>{const b=e.target.closest('[data-di]');if(b)dirSheet(b.dataset.di)});
 $('dirAdd').onclick=()=>{S.dir=S.dir||[];const id='d'+Date.now();S.dir.push({id,name:'منتسب جديد',title:'',sec:DIRSEC==='بدون شعبة'?'':DIRSEC,shift:'',phone:'',status:'',addrCard:'',addrNow:'',mother:'',spouseAllow:'',st:{f:'',c:'',z:'',b:0,u:0}});save();renderDir();dirSheet(id)};
