@@ -647,7 +647,7 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 #homeCard{display:none;text-align:center;margin-top:12px}
 body:not(.tbl):not(.subpage) #homeCard{display:block}
 body:not(.tbl):not(.subpage) #viewMain>:not(#homeCard):not(#ocrFile):not(#btnOcr):not(.card:has(.sumhead)){display:none!important}
-body.tbl #actionBar,body.tbl #viewMain>:not(.gridwrap):not(#limitNote):not(#ocrFile):not(#btnOcr){display:none!important}
+body.tbl #viewMain>:not(.gridwrap):not(#limitNote):not(#ocrFile):not(#btnOcr){display:none!important}
 body.tbl #limitNote.hide{display:none!important}
 #homeCard .homeh{font-family:Cairo;font-weight:800;font-size:17px;color:#1F3864}
 #btnOpenTbl{width:100%;height:44px;font-size:15px!important;font-weight:800;border-radius:13px!important;background:linear-gradient(180deg,#fff6c9 0%,#ffe27a 45%,#f5be1d 55%,#ffd75a 100%)!important;color:#000!important;border:1px solid #b98a00!important;box-shadow:0 3px 0 #b98a00,0 5px 9px rgba(0,0,0,.2),inset 0 1px 0 #fff!important}
@@ -663,6 +663,15 @@ table.grid th.namecol{width:auto!important}
 table.grid th.daycell{width:43px!important}
 table.grid th.nocol,table.grid td.nocol{width:22px!important}
 table.grid th:not(.nocol):not(.namecol):not(.daycell){width:34px!important;font-size:9.5px!important}
+/* v137: المناوبين / الدوام الصباحي each open their own page */
+body:not(.tbl):not(.subpage) #viewMain>:not(#homeCard):not(#ocrFile):not(#btnOcr){display:none!important}
+#viewMain>.card:has(.sumhead){display:none!important}
+body.tbl .tabs{display:flex!important}
+body:not(.tbl):not(.subpage) .tabs{display:none!important}
+body:not(.tbl):not(.subpage) #btnPrintMenu{display:none!important}
+body.tbl #actionBar{display:flex!important}
+body.tbl #btnReady,body.tbl #btnCopy{display:none!important}
+body.tbl #btnPrintMenu{flex:1 1 100%;width:100%}
 </style>
 </head>
 <body>
@@ -694,7 +703,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 </header>
 
 <main id="viewMain">
-  <div class="card" id="homeCard"><div class="homeh">موقف الحضور</div><p class="hint" style="text-align:center;margin:4px 0 10px">اختاري الأسبوع، ثم المناوبين أو الدوام الصباحي، ثم الوجبة أو الشعبة من الأزرار أعلاه، وبعدها اضغطي «موقف الحضور» لعرض الجدول.</p><button class="btn" id="btnOpenTbl">عرض الجدول</button></div>
+  <div class="card" id="homeCard"><div class="homeh">موقف الحضور</div><p class="hint" style="text-align:center;margin:4px 0 2px">اختاري الأسبوع من الأعلى، ثم اضغطي «المناوبين» أو «الدوام الصباحي» لفتح الجدول.</p></div>
   <div class="card" id="statsCard">
     <div class="stats" id="stats"></div>
   </div>
@@ -811,7 +820,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 136 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 137 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1075,7 +1084,7 @@ $('tabs').addEventListener('pointerdown',e=>{const b=e.target.closest('[data-sec
 $('tabs').addEventListener('pointermove',e=>{if(Math.abs(e.movementX||0)+Math.abs(e.movementY||0)>6)clearTimeout(SLP_T)});
 $('tabs').addEventListener('contextmenu',e=>{if(e.target.closest('[data-sec]'))e.preventDefault()});
 $('tabs').addEventListener('click',ev=>{if(SLP_DONE){SLP_DONE=false;return}if(ev.target.closest('[data-secadd]')){secAdd();return}const b=ev.target.closest('button');if(!b)return;if(b.dataset.sh)SH=+b.dataset.sh;if(b.dataset.sec)SEC=b.dataset.sec;render()});
-$('modeSeg').addEventListener('click',ev=>{const b=ev.target.closest('[data-mode]');if(!b)return;MODE=b.dataset.mode;try{localStorage.setItem(KEY+'_mode',MODE)}catch(e){}render()});
+$('modeSeg').addEventListener('click',ev=>{const b=ev.target.closest('[data-mode]');if(!b)return;MODE=b.dataset.mode;try{localStorage.setItem(KEY+'_mode',MODE)}catch(e){}render();showTable(true)});
 function step(n){if(RNG){const span=Math.round((RNG.b-RNG.a)/864e5)+1;const a=new Date(RNG.a),b=new Date(RNG.b);a.setDate(a.getDate()+span*n);b.setDate(b.getDate()+span*n);RNG={a,b};WK=sundayOf(a)}else{WK=new Date(WK);WK.setDate(WK.getDate()+7*n)}{const r=viewRange();Y=r.a.getFullYear();M=r.a.getMonth()}render()}
 $('prevM').onclick=()=>step(-1);
 $('nextM').onclick=()=>step(1);
@@ -1674,7 +1683,7 @@ function openDrawer(on){$('drawer').classList.toggle('open',on);$('drawerOv').cl
 $('btnMenu').onclick=()=>{navOn();openDrawer(true)};
 $('drawerOv').onclick=()=>openDrawer(false);
 $('drawer').addEventListener('click',e=>{const b=e.target.closest('.ditem');if(!b)return;openDrawer(false);const g=b.dataset.go;
-  if(g==='daily'||g==='ready'){showLetters(false);showTable(true);if(!$('viewSettings').classList.contains('hide'))showSettings(false);setTimeout(()=>$(g==='daily'?'btnCopy':'btnReady').click(),60)}
+  if(g==='daily'||g==='ready'){showLetters(false);if(!$('viewSettings').classList.contains('hide'))showSettings(false);setTimeout(()=>$(g==='daily'?'btnCopy':'btnReady').click(),60)}
   else if(g==='month'||g==='week'){$('btnMawqif').click();setTimeout(()=>{const m=document.querySelector('#modeSeg [data-mode="'+(g==='month'?'duty':'day')+'"]');m&&m.click()},60)}
   else if(g==='dir')showDir(true)
   else if(g==='backup')$('backup').click()},true);
@@ -1683,11 +1692,10 @@ try{const v=[...document.querySelectorAll('#viewSettings p.hint')].find(x=>x.tex
 document.querySelector('.navtiles').addEventListener('click',e=>{const b=e.target.closest('[data-nav]');if(!b)return;({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]&&$(({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]).click()});
 $('btnLetters').onclick=()=>showLetters(true);
 function showTable(on){document.body.classList.toggle('tbl',on);window.scrollTo(0,0);navOn()}
-$('btnMawqif').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);if(!$('viewSettings').classList.contains('hide'))showSettings(false);if(!$('viewLetters').classList.contains('hide'))showLetters(false);showTable(true)};
-$('btnOpenTbl').onclick=()=>showTable(true);
+$('btnMawqif').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);if(!$('viewSettings').classList.contains('hide'))showSettings(false);if(!$('viewLetters').classList.contains('hide'))showLetters(false);showTable(false)};
 function navOn(){const L=!$('viewLetters').classList.contains('hide'),St=!$('viewSettings').classList.contains('hide'),Dr=!$('viewDir').classList.contains('hide');
   const T=document.body.classList.contains('tbl');document.body.classList.toggle('subpage',L||St||Dr||T);
-  {const t=$('subTitle');if(t){let h='';if(L)h='الكتب الرسمية';else if(St)h='الإعدادات';else if(Dr)h='دليل المنتسبين';else if(T){let x=[];try{x=[$('monthLbl').textContent,document.querySelector('#modeSeg .on').textContent.trim(),(document.querySelector('#tabs .on')||{textContent:''}).textContent.trim()].filter(Boolean)}catch(e){}h='موقف الحضور'+(x.length?'<small> — '+x.join(' · ')+'</small>':'')}if(t.dataset.h!==h){t.dataset.h=h;t.innerHTML=h}}}
+  {const t=$('subTitle');if(t){let h='';if(L)h='الكتب الرسمية';else if(St)h='الإعدادات';else if(Dr)h='دليل المنتسبين';else if(T){let x=[];try{x=[$('monthLbl').textContent,document.querySelector('#modeSeg .on').textContent.trim(),(document.querySelector('#tabs .on')||{textContent:''}).textContent.trim()].filter(Boolean)}catch(e){}h=(x[1]||'موقف الحضور')+(x.length?'<small> — '+x[0]+'</small>':'')}if(t.dataset.h!==h){t.dataset.h=h;t.innerHTML=h}}}
   [['btnMawqif',!L&&!St&&!Dr&&T],['btnLetters',L],['btnSettings',St]].forEach(([id,on])=>$(id).classList.toggle('on',on));document.querySelectorAll('.navtiles [data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav==(L?'l':St?'s':'m')))}
 setInterval(navOn,400);
 $('ltBack').onclick=()=>showLetters(false);
