@@ -539,6 +539,16 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 .dfmt button svg{width:15px!important;height:18px!important}
 .dfmt button span{font-size:12px!important}
 .btn.dwa.dwa2{padding:2px!important;margin-top:4px!important;font-size:12px!important;border-radius:10px!important}
+/* v126: compact print-format sheet */
+#sheet:has(.pfmt:not(.dfmt)){padding:8px 12px calc(10px + env(safe-area-inset-bottom))!important}
+#sheet:has(.pfmt:not(.dfmt)) h3{font-size:15px!important;margin:0!important;display:inline-block}
+#sheet:has(.pfmt:not(.dfmt)) .sub{display:inline-block;font-size:11.5px!important;margin:0 8px!important;opacity:.8}
+#sheet:has(.pfmt:not(.dfmt)) .pfmt{margin:6px auto 2px!important;gap:8px!important}
+#sheet:has(.pfmt:not(.dfmt)) .pfmt button{height:38px!important;border-radius:12px!important;padding:0 4px!important;gap:5px!important}
+#sheet:has(.pfmt:not(.dfmt)) .pfmt button svg{width:14px!important;height:17px!important}
+#sheet:has(.pfmt:not(.dfmt)) .pfmt button span{font-size:12.5px!important}
+#sheet:has(.pfmt:not(.dfmt)) .btn.gh{margin-top:6px!important;padding:4px!important;font-size:12.5px!important;min-height:0!important}
+#sheet:has(.pfmt:not(.dfmt)) .edtop,#sheet:has(.pfmt:not(.dfmt)) .edhead{margin:0 0 2px!important;padding:0!important}
 </style>
 </head>
 <body>
@@ -676,7 +686,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 125 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 126 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
