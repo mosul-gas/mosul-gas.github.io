@@ -568,6 +568,43 @@ button:active .ic3,.ditem:active .ic3{transform:translateY(1px) scale(1);filter:
 .sheet .chips{gap:6px!important}
 .sheet .chips button{padding:6px 10px!important;font-size:13px!important;min-height:0!important}
 .sheet .edseg button{padding:7px 4px!important;font-size:14px!important}
+/* v129: status buttons under the name, smaller */
+.edseg{margin:0 0 4px!important;gap:6px!important}
+.sheet .edseg button{padding:5px 4px!important;font-size:13px!important;min-height:0!important;border-radius:10px!important}
+/* v129: directory page */
+#viewDir{padding:0 10px calc(60px + env(safe-area-inset-bottom))}
+.dirhead{padding:10px!important;margin-top:8px}
+.dirtop{display:flex;gap:7px;align-items:center}.dirtop .txt{flex:1;min-width:0}
+#dirAdd,.dirtools .btn{background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;font-weight:800!important;border:1px solid #3f78a3!important;box-shadow:0 3px 0 #1f4f78,inset 0 1px 0 #fff!important;border-radius:11px!important;padding:8px 10px!important;font-size:13px!important;white-space:nowrap;min-height:0!important}
+.dirsec{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.dirsec button{border:1px solid #3f78a3;border-radius:10px;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%);box-shadow:0 2px 0 #1f4f78;font-weight:800;font-size:12.5px;padding:4px 9px;color:#0b1a2e;font-family:inherit;cursor:pointer}
+.dirsec button.on{background:linear-gradient(180deg,#fff6c9 0%,#ffe27a 45%,#f5be1d 55%,#ffd75a 100%);box-shadow:0 2px 0 #b98a00}
+.dirsec b{color:#1F3864;margin-right:3px}
+.dirtools{display:flex;gap:7px}.dirtools .btn{flex:1}
+.dirgrp{padding:8px 10px!important;margin-top:10px}
+.dirgh{margin:0 0 6px;padding:5px 10px;border-radius:11px;background:linear-gradient(180deg,#5fb8f0 0%,#2f7fd6 48%,#1d5fb5 52%,#2f7fd6 100%);border:1px solid #0f3a73;box-shadow:0 3px 0 #0b2f63;color:#fff;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+.dirrow{display:block;width:100%;text-align:right;margin:0 0 6px;padding:7px 10px;border-radius:12px;border:2px solid #1F3864;background:linear-gradient(180deg,#fff 0%,#e3f3fc 100%);box-shadow:0 3px 0 #1f4f78,0 4px 8px rgba(0,0,0,.14),inset 0 1px 0 #fff;font-family:inherit;cursor:pointer}
+.dirrow:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78}
+.dirrow .dn{display:block;font-weight:800;font-size:15px;color:#0b1a2e}
+.dirrow small{color:#5b6779;font-size:11.5px}
+.dirph{display:flex;gap:7px}.dirph .txt{flex:1;min-width:0}.dirph .btn{white-space:nowrap;text-decoration:none;display:grid;place-items:center;padding:0 12px;min-height:0}
+.dirfmt{display:flex;gap:6px;align-items:center}.dirfmt .txt{flex:1;min-width:0;padding:6px!important}.dirfmt .btn{width:38px;padding:6px 0!important;min-height:0!important}.dirfmt .btn.on{background:#ffe27a!important}
+.dircols{display:flex;gap:8px;margin:8px 0 2px}.dcol{width:30px;height:30px;border-radius:50%;border:2px solid #9aa6b5;cursor:pointer;font-size:12px}.dcol.on{border-color:#1F3864;box-shadow:0 0 0 2px #ffd75a}
+.subpage #viewDir{display:block}
+/* v130: compact 3D editor sheet */
+#sheet:not(:has(#dPrev)):not(:has(.pfmt)):not(:has(#dirNm)){padding:12px 14px calc(12px + env(safe-area-inset-bottom))!important;max-height:78vh!important}
+.edseg{position:static!important;border-top:0!important;background:transparent!important;padding:0!important;margin:0 0 6px!important;gap:6px!important;display:grid!important;grid-template-columns:repeat(3,1fr)!important}
+#sheet .edname{font-size:13.5px!important;padding:5px 9px!important;margin:0 0 6px!important}
+#sheet .edsub{font-size:13px!important}
+#sheet .lbl{font-size:12.5px!important;margin:6px 0 4px!important}
+#sheet .chips{gap:6px!important;margin-bottom:6px!important}
+#sheet .chips button,#sheet .edseg button{height:34px!important;padding:0 6px!important;font-size:13px!important;border-radius:10px!important;line-height:1!important;border:1px solid #3f78a3!important;background:linear-gradient(180deg,#f7fcff 0%,#d6eefa 42%,#9ccbe8 52%,#c4e4f6 100%)!important;color:#0b1a2e!important;font-weight:800!important;box-shadow:0 3px 0 #1f4f78,0 4px 7px rgba(0,0,0,.16),inset 0 1px 0 #fff!important}
+#sheet .chips button:active,#sheet .edseg button:active{transform:translateY(2px);box-shadow:0 1px 0 #1f4f78!important}
+#sheet .chips button.on,#sheet .edseg button.on{background:linear-gradient(180deg,#fff6c9 0%,#ffe27a 45%,#f5be1d 55%,#ffd75a 100%)!important;border-color:#b98a00!important;box-shadow:0 3px 0 #b98a00,0 4px 7px rgba(0,0,0,.18),inset 0 1px 0 #fff!important}
+#sheet .addchip{border:1.5px dashed #3f78a3!important;background:#fff!important;box-shadow:none!important}
+#sheet input#noteIn{padding:7px 10px!important;font-size:13px!important;margin:2px 0 4px!important}
+#sheet .hint{font-size:11px!important;margin:0 0 4px!important}
+#sheet .clrlink{font-size:12px!important;margin-top:2px!important;padding:2px!important}
 </style>
 </head>
 <body>
@@ -624,6 +661,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 <aside id="drawer" class="drawer" aria-hidden="true">
   <div class="dhead"><img src="logo-moe-t.png" alt=""><div><b>محطة كهرباء الموصل الغازية</b><small>قسم السيطرة الذاتية</small></div></div>
   <button class="ditem" id="btnMawqif"><i class="di"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></i>الرئيسية<em>‹</em></button>
+  <button class="ditem" data-go="dir"><i class="di"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v6.5c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V5.5"/><path d="M4.5 12v6.5c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V12"/></svg></i><span>دليل المنتسبين</span><span class="dchev">›</span></button>
   <button class="ditem" data-go="month"><i class="di"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M7 14h2M11 14h2M15 14h2M7 17h2M11 17h2"/></svg></i>الموقف الشهري<em>‹</em></button>
   <button class="ditem" data-go="week"><i class="di"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M7 15h10"/></svg></i>الموقف الأسبوعي<em>‹</em></button>
   <button class="ditem" data-go="daily"><i class="di"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v3h6V3"/><path d="M8 11h8M8 15h5"/></svg></i>الموقف اليومي<em>‹</em></button>
@@ -652,6 +690,14 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <div style="display:flex;gap:8px;align-items:center"><img id="ltLogoPrev" style="height:54px;display:none;border:1px solid #ddd;border-radius:6px"><label class="btn gh" style="flex:1">🖼️ اختيار صورة الشعار<input type="file" id="ltLogoFile" accept="image/*" class="hide"></label></div>
     <button class="btn gh" id="ltLogoReset" style="width:100%;margin-top:6px;font-size:13px">↩︎ رجوع للشعار الرسمي</button>
   </div>
+</main>
+<main id="viewDir" class="hide">
+  <div class="card dirhead">
+    <div class="dirtop"><input class="txt" id="dirQ" placeholder="ابحث بالاسم أو الرقم أو الشعبة"><button class="btn" id="dirAdd">إضافة منتسب</button></div>
+    <div class="dirsec" id="dirSecs"></div>
+    <div class="dirtools"><button class="btn" id="dirImp">استيراد ملف القاعدة</button><button class="btn" id="dirExp">تصدير القاعدة</button><input type="file" id="dirFile" accept=".json,application/json" class="hide"></div>
+  </div>
+  <div id="dirList"></div>
 </main>
 <main id="viewSettings" class="hide">
   <div class="setbar"><button id="backTop" class="backbtn" aria-label="رجوع"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><b>رجوع</b></button></div>
@@ -705,7 +751,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">رجوع</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 128 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 130 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -745,7 +791,7 @@ const LEAVE_LIMIT=3;
 function freshState(){
   return {v:2,anchor:'2026-11-01',anchorShift:1,
     h1:'وزارة الكهرباء',h2:'الشركة العامة لإنتاج الطاقة الكهربائية / الشمالية',h3:'محطة كهرباء الموصل الغازية',
-    sigR:'منظم الموقف',sigL:'مدير القسم',note:DEF_NOTE,dTitle:'قسم السيطرة الذاتية',dSig:'المهندس',sections:JSON.parse(JSON.stringify(DEF_SECS)),emps:[],nextId:1,rec:{}};
+    sigR:'منظم الموقف',sigL:'مدير القسم',note:DEF_NOTE,dTitle:'قسم السيطرة الذاتية',dSig:'المهندس',sections:JSON.parse(JSON.stringify(DEF_SECS)),emps:[],nextId:1,rec:{},dir:[]};
 }
 function normalize(s){
   const f=freshState();
@@ -886,14 +932,14 @@ function openCell(ds,eid){
 function drawSheet(){
   const E=edit;
   const segH=`<div class="seg edseg">${[['l','إجازة'],['a','غياب'],['p','حاضر']].map(([k,t])=>`<button data-st="${k}" class="${k} ${E.st===k?'on':''}">${esc(LB('st:'+k,t))}</button>`).join('')}</div>`;
-  let h=`<div class="edhead"><div class="edsub">${E.sub}</div><div class="edtop"></div></div><div class="edname">${E.title} <span class="edgrp">/ ${E.grp}</span></div>`;
+  let h=`<div class="edhead"><div class="edsub">${E.sub}</div><div class="edtop"></div></div><div class="edname">${E.title} <span class="edgrp">/ ${E.grp}</span></div>${segH}`;
   if(E.st!=='p'){
     if(MODE==='duty')h+=`<div class="lbl">أي جزء من المناوبة؟</div><div class="chips">${PARTS.map(p=>`<button data-part="${p}" class="${E.parts.includes(p)?'on':''}">${PART_NAME[p]} (${p})</button>`).join('')}<button data-part="all">يوم كامل</button></div>`;
     if(E.st==='a')h+=`<div class="lbl">نوع الغياب</div><div class="chips">${[['','غياب'],['موقوف','موقوف']].map(([v,t])=>`<button data-ab="${v}" class="${(E.ab||'')===v?'on':''}">${esc(LB('ab:'+v,t))}</button>`).join('')}</div>`;
-    if(E.st==='l')h+=`<div class="lbl">نوع الإجازة</div><div class="chips">${lvList().map(t=>`<button data-type="${esc(t)}" class="${E.type===t?'on':''}">${esc(LB('lv:'+t,t))}</button>`).join('')}<button data-lvadd="1" class="addchip">➕ نوع جديد</button></div><div class="hint" style="margin:-4px 0 8px;font-size:11.5px">للتعديل على أي خيار: اضغط عليه ضغطةً مطوّلة.</div>`;
+    if(E.st==='l')h+=`<div class="lbl">نوع الإجازة</div><div class="chips">${lvList().map(t=>`<button data-type="${esc(t)}" class="${E.type===t?'on':''}">${esc(LB('lv:'+t,t))}</button>`).join('')}<button data-lvadd="1" class="addchip">＋ نوع جديد</button></div><div class="hint" style="margin:-4px 0 8px;font-size:11.5px">للتعديل على أي خيار: اضغط عليه ضغطةً مطوّلة.</div>`;
     h+=`<input class="txt" id="noteIn" placeholder="${E.st==='a'?'سبب الغياب (اختياري)':'ملاحظة (اختياري)'}" value="${esc(E.note)}">`;
   }
-  h+=segH+`<button class="clrlink" data-act="clear">مسح التأشيرة عن هذه الخانة</button><button class="btn gh" style="display:none" data-act="close">إلغاء</button>`;
+  h+=`<button class="clrlink" data-act="clear">مسح التأشيرة عن هذه الخانة</button><button class="btn gh" style="display:none" data-act="close">إلغاء</button>`;
   $('sheet').innerHTML=h;
 }
 function autoSave(){const E=edit;if(!E)return false;const ni=$('noteIn');if(ni)E.note=ni.value;if(E.st!=='p'&&!E.parts.length)return false;
@@ -1323,7 +1369,7 @@ function fallbackCopy(t,ok){const ta=document.createElement('textarea');ta.value
 
 /* ---------- settings ---------- */
 function storeInfo(){try{const kb=Math.round(JSON.stringify(S).length*2/1024);const n=(S.letters||[]).length;const pc=Math.max(1,Math.round(kb/50));$('storeInfo').innerHTML='💾 <b>الذاكرة:</b> مستخدم '+kb+' كيلوبايت من أصل 5 ميغابايت متاحة للأداة (نحو '+pc+'٪)، والمساحة كافية لسنوات.<br>🗂️ <b>أرشيف الكتب:</b> '+n+' كتاب. يشغل الكتاب الواحد نحو 1 كيلوبايت، إذ يُحفظ نصّه فقط ويُنشأ الملف عند الطباعة.'}catch(e){}}
-function showSettings(on){if(on)setTimeout(storeInfo,0);
+function showSettings(on){if(on)setTimeout(storeInfo,0);$('viewDir').classList.add('hide');
   $('viewLetters').classList.add('hide');$('viewMain').classList.toggle('hide',on);$('viewSettings').classList.toggle('hide',!on);$('actionBar').classList.toggle('hide',on);
   document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
   if(on){['h1','h2','h3','sigR','sigL','note','dTitle','dSig','dSigN','sigT'].forEach(k=>$(k).value=S[k]||'');$('anchorDate').value=S.anchor;$('anchorShift').value=S.anchorShift;
@@ -1441,7 +1487,7 @@ $('ltArchive').onclick=e=>{const b=e.target.closest('button');if(!b)return;const
 function sure(msg){try{return window.confirm(msg||'هل أنت متأكد من الحذف؟')}catch(e){return true}}
 function confirmDel(b){return sure('هل أنت متأكد من حذف هذا الكتاب من الأرشيف؟')}
 $('ltSearch').oninput=ltArchive;
-function renderLtTypes(){$('ltTypes').innerHTML=allLtTypes().map(t=>`<button class="btn" data-lt="${t.k}"${t.custom?' data-cu="1"':''} style="position:relative;background:${t.k==='free'?'#e0ecff':t.custom?'linear-gradient(135deg,#0ea5e9,#2563eb)':'linear-gradient(135deg,#3b82f6,#6366f1)'};color:${t.k==='free'?'#1d4ed8':'#fff'};padding:9px 4px;font-size:13px">${esc(t.n)}</button>`).join('')+`<button class="btn" data-ltadd="1" style="background:#fff;border:1.5px dashed #2563eb;color:#2563eb;padding:9px 4px;font-size:13px">➕ نوع جديد</button>`}
+function renderLtTypes(){$('ltTypes').innerHTML=allLtTypes().map(t=>`<button class="btn" data-lt="${t.k}"${t.custom?' data-cu="1"':''} style="position:relative;background:${t.k==='free'?'#e0ecff':t.custom?'linear-gradient(135deg,#0ea5e9,#2563eb)':'linear-gradient(135deg,#3b82f6,#6366f1)'};color:${t.k==='free'?'#1d4ed8':'#fff'};padding:9px 4px;font-size:13px">${esc(t.n)}</button>`).join('')+`<button class="btn" data-ltadd="1" style="background:#fff;border:1.5px dashed #2563eb;color:#2563eb;padding:9px 4px;font-size:13px">＋ نوع جديد</button>`}
 renderLtTypes();
 let LP_T=null,LP_DONE=false;
 function ltDelete(k){const t=allLtTypes().find(x=>x.k===k);if(!t)return;if(!sure('هل أنت متأكد من حذف نوع الكتاب «'+t.n+'»؟ (الكتب المحفوظة بالأرشيف تبقى)'))return;
@@ -1474,8 +1520,73 @@ $('ltTypes').onclick=e=>{if(LP_DONE){LP_DONE=false;return}
     S.ltCustom=(S.ltCustom||[]).concat([T]);save();renderLtTypes();toast('تمت إضافة «'+n+'»');ltNew(T.k);return}
   const b=e.target.closest('[data-lt]');if(b)ltNew(b.dataset.lt)};
 $('ltLogoFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),k=Math.min(1,300/Math.max(im.width,im.height));c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);S.logo=c.toDataURL('image/png');save();ltLogo();toast('تم حفظ الشعار')};im.src=r.result};r.readAsDataURL(f)};
+
+/* ---------- دليل المنتسبين (قاعدة البيانات) ---------- */
+const DIR_SECS=['الإدارة','الورشة','المختبر','السيطرة والنظم','الاتصالات','الآلات الدقيقة','خدمات',''];
+const DIR_SHIFTS=['','الوجبة الأولى','الوجبة الثانية','الوجبة الثالثة','الوجبة الرابعة'];
+const DIR_FONTS=['','Cairo','Arial','Tahoma','Times New Roman','Simplified Arabic','Traditional Arabic','Sakkal Majalla'];
+const DIR_COL=['','#0b1a2e','#b42318','#1a7f37','#1F4E9A','#7a3db8','#b45309'];
+let DIRQ='',DIRSEC='';
+const dirName=v=>v.sec||'بدون شعبة';
+function dirStyle(v){const t=v.st||{};return (t.f?'font-family:'+t.f+';':'')+(t.c?'color:'+t.c+';':'')+(t.z?'font-size:'+t.z+'px;':'')+(t.b?'font-weight:900;':'')+(t.u?'text-decoration:underline;':'')}
+function showDir(on){
+  $('viewLetters').classList.add('hide');$('viewSettings').classList.add('hide');$('viewDir').classList.toggle('hide',!on);$('viewMain').classList.toggle('hide',on);$('actionBar').classList.toggle('hide',on);
+  document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
+  if(on)renderDir();else render();window.scrollTo(0,0)}
+function renderDir(){
+  S.dir=S.dir||[];const D=S.dir,q=DIRQ.trim();
+  const cnt={};D.forEach(v=>{const k=dirName(v);cnt[k]=(cnt[k]||0)+1});
+  const order=DIR_SECS.map(dirName).filter((x,i,a)=>a.indexOf(x)===i&&cnt[x]);
+  $('dirSecs').innerHTML=`<button data-ds="" class="${DIRSEC===''?'on':''}">الكل <b>${D.length}</b></button>`+order.map(k=>`<button data-ds="${esc(k)}" class="${DIRSEC===k?'on':''}">${esc(k)} <b>${cnt[k]}</b></button>`).join('');
+  const f=D.filter(v=>(!DIRSEC||dirName(v)===DIRSEC)&&(!q||[v.name,v.phone,v.title,v.sec,v.shift,v.mother].join(' ').includes(q)));
+  if(!D.length){$('dirList').innerHTML='<div class="card"><div class="hint" style="text-align:center">القاعدة فارغة. استخدم «استيراد ملف القاعدة» أو «إضافة اسم».</div></div>';return}
+  let h='';
+  order.forEach(k=>{const g=f.filter(v=>dirName(v)===k);if(!g.length)return;
+    h+=`<div class="card dirgrp"><h3 class="dirgh"><span>${esc(k)}</span><b>${g.length}</b></h3>`+g.map(v=>`<button class="dirrow" data-di="${v.id}"><span class="dn" style="${dirStyle(v)}">${esc(v.name)}</span><small>${esc(v.title||'')}${v.shift?' · '+esc(v.shift):''}</small></button>`).join('')+'</div>'});
+  $('dirList').innerHTML=h||'<div class="card"><div class="hint" style="text-align:center">لا توجد نتائج.</div></div>'}
+function dirSheet(id){
+  const v=(S.dir||[]).find(x=>x.id===id);if(!v)return;edit=null;
+  const T=v.st=v.st||{f:'',c:'',z:'',b:0,u:0};
+  const F=(k,l,ph)=>`<div class="lbl">${l}</div><input class="txt" data-f="${k}" value="${esc(v[k]||'')}" ${ph?'placeholder="'+ph+'"':''}>`;
+  $('sheet').innerHTML=`<div class="edhead"><div class="edsub">بيانات المنتسب</div><div class="edtop"><button class="xtop" type="button" id="dirX"><span class="xb">✕</span><span>إغلاق</span></button></div></div>
+  <div class="edname" id="dirNm" style="${dirStyle(v)}">${esc(v.name)}</div>
+  ${F('name','الاسم')}
+  ${F('title','العنوان الوظيفي')}
+  <div class="lbl">الشعبة</div><select class="txt" data-f="sec">${DIR_SECS.map(x=>`<option value="${esc(x)}" ${v.sec===x?'selected':''}>${esc(x||'بدون شعبة')}</option>`).join('')}</select>
+  <div class="lbl">الوجبة</div><select class="txt" data-f="shift">${DIR_SHIFTS.map(x=>`<option value="${esc(x)}" ${v.shift===x?'selected':''}>${esc(x||'بدون وجبة')}</option>`).join('')}</select>
+  <div class="lbl">رقم الهاتف</div><div class="dirph"><input class="txt" data-f="phone" inputmode="tel" value="${esc(v.phone||'')}"><a class="btn" id="dirCall" href="tel:${esc(v.phone||'')}">اتصال</a></div>
+  ${F('status','الصفة (ملاك / عقد…)')}
+  ${F('addrCard','عنوان السكن حسب البطاقة')}
+  ${F('addrNow','عنوان السكن الحالي')}
+  ${F('mother','اسم الأم')}
+  ${F('spouseAllow','المخصصات الزوجية')}
+  <div class="lbl">شكل الاسم (خط / لون / حجم)</div>
+  <div class="dirfmt"><select class="txt" data-s="f">${DIR_FONTS.map(x=>`<option value="${esc(x)}" ${T.f===x?'selected':''}>${esc(x||'الخط الافتراضي')}</option>`).join('')}</select>
+  <select class="txt" data-s="z">${['','12','14','16','18','20','22'].map(x=>`<option value="${x}" ${String(T.z)===x?'selected':''}>${x?'حجم '+x:'الحجم'}</option>`).join('')}</select>
+  <button class="btn ${T.b?'on':''}" data-s="b"><b>B</b></button><button class="btn ${T.u?'on':''}" data-s="u"><u>U</u></button></div>
+  <div class="dircols">${DIR_COL.map(c=>`<button class="dcol ${T.c===c?'on':''}" data-c="${c}" style="background:${c||'#fff'}">${c?'':'✕'}</button>`).join('')}</div>
+  <button class="clrlink" id="dirDel">حذف هذا الاسم من القاعدة</button>`;
+  $('ov').classList.add('show');
+  const sh=$('sheet'),upd=()=>{save();$('dirNm').setAttribute('style',dirStyle(v));$('dirNm').textContent=v.name;renderDir()};
+  sh.querySelectorAll('[data-f]').forEach(el=>{el.oninput=el.onchange=()=>{v[el.dataset.f]=el.value;if(el.dataset.f==='phone')$('dirCall').href='tel:'+el.value;upd()}});
+  sh.querySelectorAll('select[data-s]').forEach(el=>{el.onchange=()=>{T[el.dataset.s]=el.value;upd()}});
+  sh.querySelectorAll('button[data-s]').forEach(el=>{el.onclick=()=>{const k=el.dataset.s;T[k]=T[k]?0:1;el.classList.toggle('on',!!T[k]);upd()}});
+  sh.querySelectorAll('.dcol').forEach(el=>{el.onclick=()=>{T.c=el.dataset.c;sh.querySelectorAll('.dcol').forEach(x=>x.classList.toggle('on',x===el));upd()}});
+  $('dirX').onclick=()=>closeSheet();
+  $('dirDel').onclick=()=>{if(!confirm('حذف «'+v.name+'» من قاعدة البيانات؟'))return;S.dir=S.dir.filter(x=>x.id!==id);save();closeSheet();renderDir();toast('تم الحذف')}}
+$('dirQ').addEventListener('input',e=>{DIRQ=e.target.value;renderDir()});
+$('dirSecs').addEventListener('click',e=>{const b=e.target.closest('[data-ds]');if(!b)return;DIRSEC=b.dataset.ds;renderDir()});
+$('dirList').addEventListener('click',e=>{const b=e.target.closest('[data-di]');if(b)dirSheet(b.dataset.di)});
+$('dirAdd').onclick=()=>{S.dir=S.dir||[];const id='d'+Date.now();S.dir.push({id,name:'منتسب جديد',title:'',sec:DIRSEC==='بدون شعبة'?'':DIRSEC,shift:'',phone:'',status:'',addrCard:'',addrNow:'',mother:'',spouseAllow:'',st:{f:'',c:'',z:'',b:0,u:0}});save();renderDir();dirSheet(id)};
+$('dirImp').onclick=()=>$('dirFile').click();
+$('dirFile').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{let a=JSON.parse(rd.result);if(a&&a.dir)a=a.dir;if(!Array.isArray(a))throw 0;
+  const key=n=>String(n||'').replace(/[\sـ]/g,'');S.dir=S.dir||[];let add=0,upd=0;
+  a.forEach(x=>{if(!x||!x.name)return;const o=S.dir.find(y=>key(y.name)===key(x.name));if(o){Object.keys(x).forEach(k=>{if(k!=='id'&&x[k]&&!(k==='st'))o[k]=x[k]});upd++}else{S.dir.push(Object.assign({id:'d'+Date.now()+Math.random().toString(36).slice(2,6),st:{f:'',c:'',z:'',b:0,u:0}},x));add++}});
+  save();renderDir();toast('أُضيف '+add+' وحُدّث '+upd)}catch(e){toast('الملف غير صالح')}};rd.readAsText(f);ev.target.value=''};
+$('dirExp').onclick=()=>{const b=new Blob([JSON.stringify({dir:S.dir||[]},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='دليل-المنتسبين.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)};
+
 function ltLogo(){const i=$('ltLogoPrev');i.src=S.logo||'logo-moe.png';i.style.display='block'}
-function showLetters(on){$('viewMain').classList.toggle('hide',on);$('viewLetters').classList.toggle('hide',!on);$('viewSettings').classList.add('hide');$('actionBar').classList.toggle('hide',on);
+function showLetters(on){$('viewDir').classList.add('hide');$('viewMain').classList.toggle('hide',on);$('viewLetters').classList.toggle('hide',!on);$('viewSettings').classList.add('hide');$('actionBar').classList.toggle('hide',on);
   document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
   if(on){ltArchive();ltLogo()}else render();window.scrollTo(0,0)}
 
@@ -1486,16 +1597,17 @@ $('drawerOv').onclick=()=>openDrawer(false);
 $('drawer').addEventListener('click',e=>{const b=e.target.closest('.ditem');if(!b)return;openDrawer(false);const g=b.dataset.go;
   if(g==='daily'||g==='ready'){showLetters(false);if(!$('viewSettings').classList.contains('hide'))showSettings(false);setTimeout(()=>$(g==='daily'?'btnCopy':'btnReady').click(),60)}
   else if(g==='month'||g==='week'){$('btnMawqif').click();setTimeout(()=>{const m=document.querySelector('#modeSeg [data-mode="'+(g==='month'?'duty':'day')+'"]');m&&m.click()},60)}
+  else if(g==='dir')showDir(true)
   else if(g==='backup')$('backup').click()},true);
 try{const v=[...document.querySelectorAll('#viewSettings p.hint')].find(x=>x.textContent.includes('نسخة الأداة'));$('dVer').textContent=v?v.textContent:''}catch(e){}
 
 document.querySelector('.navtiles').addEventListener('click',e=>{const b=e.target.closest('[data-nav]');if(!b)return;({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]&&$(({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]).click()});
 $('btnLetters').onclick=()=>showLetters(true);
-$('btnMawqif').onclick=()=>{if(!$('viewSettings').classList.contains('hide'))showSettings(false);else showLetters(false)};
-function navOn(){const L=!$('viewLetters').classList.contains('hide'),St=!$('viewSettings').classList.contains('hide');
-  document.body.classList.toggle('subpage',L||St);
-  {const t=$('subTitle');if(t)t.textContent=L?'الكتب الرسمية':St?'الإعدادات':''}
-  [['btnMawqif',!L&&!St],['btnLetters',L],['btnSettings',St]].forEach(([id,on])=>$(id).classList.toggle('on',on));document.querySelectorAll('.navtiles [data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav==(L?'l':St?'s':'m')))}
+$('btnMawqif').onclick=()=>{if(!$('viewDir').classList.contains('hide'))showDir(false);else if(!$('viewSettings').classList.contains('hide'))showSettings(false);else showLetters(false)};
+function navOn(){const L=!$('viewLetters').classList.contains('hide'),St=!$('viewSettings').classList.contains('hide'),Dr=!$('viewDir').classList.contains('hide');
+  document.body.classList.toggle('subpage',L||St||Dr);
+  {const t=$('subTitle');if(t)t.textContent=L?'الكتب الرسمية':St?'الإعدادات':Dr?'دليل المنتسبين':''}
+  [['btnMawqif',!L&&!St&&!Dr],['btnLetters',L],['btnSettings',St]].forEach(([id,on])=>$(id).classList.toggle('on',on));document.querySelectorAll('.navtiles [data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav==(L?'l':St?'s':'m')))}
 setInterval(navOn,400);
 $('ltBack').onclick=()=>showLetters(false);
 $('subBack').onclick=()=>$('btnMawqif').click();
