@@ -1011,6 +1011,9 @@ body.ltedit .hprint svg{width:21px!important;height:21px!important;flex:0 0 auto
 .dtab tbody tr:active td{background:#fff2b8}
 .dtab td.nm{font-weight:900;color:#12315a;font-size:14px}
 .dtab td.dnew{color:#b3261e;background:#fff4c2!important}
+
+#grid th.pn,#grid td.notes{width:26px!important;min-width:0!important;max-width:30px!important;padding:2px 0!important;font-size:11px!important;text-align:center}
+#grid td.namecol{font-size:13.5px!important}
 </style>
 </head>
 <body>
@@ -1179,7 +1182,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 179 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 180 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1274,7 +1277,7 @@ function cellShort(r){
   if(r.st==='p')return 'حاضر';
   const part=(MODE==='duty'&&r.parts&&r.parts.length<3)?'<br><small>'+partsLabel(r.parts)+'</small>':'';
   if(r.st==='a')return abName(r)+part;
-  return esc(lvName(r.type))+(MODE==='duty'?'<br><small>'+partsLabel(r.parts)+'</small>':'');
+  return esc(lvName(r.type))+part;
 }
 function notesOf(emp,days){
   const o={'ص':[],'م':[],'ل':[]};
@@ -1320,7 +1323,7 @@ function render(){
   const days=curDays(),emps=curEmps();
   let h='<thead><tr><th class="nocol">ت</th><th class="namecol">الاسم</th>';
   days.forEach(dd=>{h+=`<th class="daycell">${DAYS[dd.w]}<span class="dn">${dd.d}/${dd.m+1}</span><button class="allok" data-all="${dd.s}">حضور الجميع</button></th>`});
-  h+=MODE==='duty'?'<th>ص</th><th>م</th><th>ل</th>':'<th>عدد<br>الإجازات</th>';
+  h+=MODE==='duty'?'<th class="pn">ص</th><th class="pn">م</th><th class="pn">ل</th>':'<th>عدد<br>الإجازات</th>';
   h+='</tr></thead><tbody>';
   if(!emps.length)h+=`<tr><td class="namecol" colspan="${days.length+5}" style="white-space:normal">لا توجد أسماء بعد.<br><button class="btn amb sm" style="margin-top:8px" onclick="document.getElementById('restoreFile').click()">📂 فتح ملف الأسماء</button><br><span style="font-weight:400;font-size:13px;color:var(--muted)">أو أضفها من الإعدادات</span></td></tr>`;
   const upto=MODE==='day'?days[days.length-1].s:null;
@@ -1438,6 +1441,7 @@ let GLP_T=null,GLP_X=0,GLP_Y=0,GLP_DONE=false;
    if(v===null)return;const t=v.trim();
    if(t){S.rec[k]=Object.assign({st:'p'},r||{},{txt:t})}else if(r){delete r.txt;if(r.st==='p'&&!r.note)S.rec[k]={st:'p'}}
    save();render();toast(t?'تم تعديل النص':'رجعت الخلية للحالة الأصلية')},550)});
+ g.addEventListener('dblclick',ev=>{const td=ev.target.closest('td.c');if(!td)return;ev.preventDefault();const k=rk(td.dataset.d,td.dataset.e);const r=S.rec[k];const cur=r&&r.txt?r.txt:(r?td.innerText.replace(/\s+/g,' ').trim():'');const v=prompt('تعديل نص الخلية (اتركه فارغاً للرجوع للحالة الأصلية):',cur==='—'?'':cur);if(v===null)return;const t=v.trim();if(t){S.rec[k]=Object.assign({st:'p'},r||{},{txt:t})}else if(r){delete r.txt;if(r.st==='p'&&!r.note)S.rec[k]={st:'p'}}save();render();toast(t?'تم تعديل النص':'رجعت الخلية للحالة الأصلية')});
  g.addEventListener('pointermove',ev=>{if(GLP_T&&(Math.abs(ev.clientX-GLP_X)>10||Math.abs(ev.clientY-GLP_Y)>10))cancel()});
  ['pointerup','pointercancel','pointerleave'].forEach(n=>g.addEventListener(n,cancel));
  g.addEventListener('contextmenu',ev=>{if(ev.target.closest('td.c,td.notes'))ev.preventDefault()})})();
@@ -2159,8 +2163,8 @@ function dayWin(){try{const T=document.body.classList.contains('tbl'),isDay=MODE
     const a=ths[DW],b=ths[Math.min(N-1,DW+DWN-1)];const dn=x=>x.querySelector('.dn')?x.querySelector('.dn').textContent:'';
     $('dwLbl').textContent=dn(a)===dn(b)?dn(a):dn(a)+' ← '+dn(b);$('dwPrev').disabled=DW<=0;$('dwNext').disabled=DW+DWN>=N;$('dwSz').textContent='المعروض: '+DWN+' أيام'}}catch(e){}}
 function fitNames(){try{if(!document.body.classList.contains('tbl'))return;const on=document.querySelector('#modeSeg .on');if(!on)return;
-  document.querySelectorAll('#grid td.namecol:not([data-fit])').forEach(td=>{td.dataset.fit='1';const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','nowrap');P('word-break','normal');const f0=document.body.classList.contains('daymode')?16.5:14.5;P('font-weight','900');P('font-size',f0+'px');let f=f0;while(td.scrollWidth>td.clientWidth+1&&f>8.5){f-=.5;P('font-size',f+'px')}if(td.parentNode)td.parentNode.style.height='44px'});
-  {const all=[...document.querySelectorAll('#grid td.namecol[data-fit]')];if(all.length){const m0=Math.min(...all.map(t=>parseFloat(t.style.fontSize)||13.5));if(m0>=11.5){const m=Math.min(...all.map(t=>parseFloat(t.style.fontSize)||13.5));all.forEach(t=>t.style.setProperty('font-size',m+'px','important'))}}}}catch(e){}}
+  const f0=document.body.classList.contains('daymode')?15:13.5;
+  document.querySelectorAll('#grid td.namecol:not([data-fit])').forEach(td=>{td.dataset.fit='1';const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','normal');P('word-break','normal');P('overflow-wrap','break-word');P('font-weight','900');P('font-size',f0+'px');P('line-height','1.2');P('color','#000');if(td.parentNode)td.parentNode.style.height='46px'})}catch(e){}}
 function fitCells(){try{if(!document.body.classList.contains('tbl'))return;
   document.querySelectorAll('#grid td.c:not([data-fit2]),#grid td.notes:not([data-fit2])').forEach(td=>{td.dataset.fit2='1';if(!td.textContent.trim()||td.textContent.trim()==='—'||td.textContent.trim()==='حاضر')return;
     const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','normal');P('overflow-wrap','normal');P('word-break','normal');P('overflow','visible');P('padding-inline','2px');P('line-height','1.2');
