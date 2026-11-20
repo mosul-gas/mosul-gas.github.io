@@ -907,9 +907,33 @@ body:not(.tbl):not(.subpage) .hgrid{min-height:calc(100vh - 128px)!important;gap
 body:not(.tbl):not(.subpage) .hg{gap:9px!important}
 body:not(.tbl):not(.subpage) .hg svg{width:68px!important;height:68px!important;padding:14px!important}
 body:not(.tbl):not(.subpage) .hg b{font-size:20.5px!important;font-weight:900!important;letter-spacing:0}
+
+#scOv{position:fixed;inset:0;z-index:5000;background:#0b1a2e;display:flex;flex-direction:column;direction:rtl;font-family:Cairo,Arial,sans-serif}
+#scOv.hide{display:none!important}
+.scbar{display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) 10px 8px;background:linear-gradient(180deg,#1d4a85,#0b2447);border-bottom:2px solid #d4af37}
+#scT{flex:1;color:#f3cf56;font-weight:800;font-size:14.5px;line-height:1.3}
+#scX{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:12px;border:3px solid #12315a;background:linear-gradient(180deg,#ff7a6a,#d23a28);color:#fff;font-family:inherit;font-weight:900;font-size:15px;box-shadow:0 3px 0 #12315a;cursor:pointer}
+#scX .xb{display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;border:2px solid #fff;border-radius:6px;font-size:14px}
+#scStage{flex:1;position:relative;overflow:hidden;background:#000;touch-action:none}
+#scVid{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+#scCv{position:absolute;inset:0;width:100%;height:100%}
+.scfoot{padding:10px 10px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(180deg,#0b2447,#071a36);border-top:2px solid #d4af37;display:flex;align-items:center;justify-content:space-around;gap:8px;flex-wrap:wrap}
+.scb{flex:1 1 40%;padding:11px 8px;border-radius:13px;border:3px solid #12315a;background:linear-gradient(180deg,#fff,#dfe9f6);color:#12315a;font-family:inherit;font-weight:900;font-size:15px;box-shadow:0 3px 0 #12315a,inset 0 0 0 1.5px #d4af37;cursor:pointer}
+.scb.y{background:linear-gradient(180deg,#fff3c0,#f3cf56)}
+.scb:active{transform:translateY(2px)}
+.scrow{display:flex;flex-wrap:wrap;gap:8px;width:100%}.scrow .scb{flex:1 1 44%}
+.scsp{flex:1 1 40%}
+.scshot{width:74px;height:74px;border-radius:50%;border:4px solid #f3cf56;background:#12315a;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 0 #000;cursor:pointer;flex:0 0 auto}
+.scshot i{width:54px;height:54px;border-radius:50%;background:#fff;display:block}.scshot:active i{background:#f3cf56}
+.scm{display:flex;width:100%;gap:6px}.scm button{flex:1;padding:8px 4px;border-radius:11px;border:2.5px solid #12315a;background:#e9eef7;color:#12315a;font-family:inherit;font-weight:800;font-size:14px;cursor:pointer}
+.scm button.on{background:linear-gradient(180deg,#fff3c0,#f3cf56);box-shadow:0 2px 0 #12315a}
+.ocopts{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.ocopts .btn{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:12px 14px;border:3px solid #12315a;border-radius:14px;background:linear-gradient(180deg,#fff,#e4eefa);box-shadow:0 4px 0 #12315a,inset 0 0 0 2px #d4af37;color:#12315a;text-align:right;font-family:inherit}
+.ocopts .btn b{font-size:17px;font-weight:900}.ocopts .btn small{font-size:12.5px;font-weight:700;color:#43546b}
 </style>
 </head>
 <body>
+<div id="scOv" class="hide"><div class="scbar"><button id="scX" type="button"><span class="xb">✕</span><span>إغلاق</span></button><span id="scT"></span></div><div id="scStage"><video id="scVid" playsinline muted autoplay></video><canvas id="scCv"></canvas></div><div class="scfoot" id="scFoot"></div><input type="file" id="scFile" accept="image/*" class="hide"><input type="file" id="scCap" accept="image/*" capture="environment" class="hide"></div>
 <div id="gate" style="display:none;position:fixed;inset:0;z-index:99999;background:linear-gradient(160deg,#0f2a5c,#1F3864 60%,#2c4f94);color:#fff;font-family:Cairo,Arial,sans-serif;direction:rtl;align-items:center;justify-content:center;text-align:center;padding:24px"><div style="max-width:330px;width:100%"><img src="logo-moe-t.png" alt="" style="width:92px;filter:drop-shadow(0 2px 6px #0006)"><div style="margin:14px 0 16px;font-size:14.5px;opacity:.9">أدخل رمز الدخول للمتابعة</div><input id="gateIn" type="password" inputmode="numeric" autocomplete="off" placeholder="رمز الدخول" style="width:100%;box-sizing:border-box;padding:13px;border-radius:12px;border:0;font-size:20px;text-align:center;letter-spacing:6px"><div id="gateErr" style="min-height:22px;margin:8px 0;color:#ffd0d0;font-size:13px"></div><button id="gateBtn" style="width:100%;padding:13px;border-radius:12px;border:0;font-size:17px;font-weight:800;background:#fff;color:#1F3864">دخول</button></div></div>
 <script>(function(){const H='2a3b3915a8af21768064aa64489967cb5f579a6e08c4a974dfc25a12621949c4',K='mawqif_gate';
 async function h(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('mawqif-salt-'+t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
@@ -1075,7 +1099,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 165 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 166 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2228,8 +2252,153 @@ $('btnPrintMenu').onclick=()=>{edit=null;
   $('ov').classList.add('show');
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-pf]');if(!b)return;const f=b.dataset.pf;closeSheet();
     if(f!=='x')setTimeout(()=>$({pdf:'btnPrint',word:'btnWord',excel:'btnExcel'}[f]).click(),60)}};
-$('btnOcr').onclick=()=>{if(!gkey()){toast('يُرجى إدخال مفتاح Gemini في الإعدادات أولاً');showSettings(true);setTimeout(()=>$('gkey').focus(),300);return}$('ocrFile').click()};
-$('ocrFile').onchange=async ev=>{const files=[...ev.target.files];ev.target.value='';if(!files.length)return;
+/* ---------- المسح الضوئي (كاميرا مباشرة → PDF) ---------- */
+window.SC=window.SC||{};const SC=window.SC;Object.assign(SC,{pages:[],stream:null,tm:0,src:null,q:null,live:null,mode:'color',stage:'cam',drag:-1,warp:null,fin:null,cap:null});
+const scQ=id=>document.getElementById(id);
+function scSize(){const st=scQ('scStage'),cv=scQ('scCv'),d=window.devicePixelRatio||1,W=st.clientWidth,H=st.clientHeight;if(cv.width!==Math.round(W*d)||cv.height!==Math.round(H*d)){cv.width=Math.round(W*d);cv.height=Math.round(H*d)}return {W,H,d}}
+function scFit(w,h){const {W,H}=scSize(),s=Math.min(W/w,H/h);return {s,ox:(W-w*s)/2,oy:(H-h*s)/2,W,H}}
+/* كشف حواف الورقة: عتبة أوتسو + أكبر مساحة متصلة + أقصى الزوايا */
+function scDetect(src,sw,sh){
+  const w=160,h=Math.max(40,Math.round(w*sh/sw)),c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(src,0,0,w,h);
+  const d=x.getImageData(0,0,w,h).data,g=new Float32Array(w*h);
+  for(let i=0;i<w*h;i++)g[i]=.299*d[i*4]+.587*d[i*4+1]+.114*d[i*4+2];
+  const b=new Float32Array(w*h);
+  for(let j=1;j<h-1;j++)for(let i=1;i<w-1;i++){let s=0;for(let a=-1;a<=1;a++)for(let e=-1;e<=1;e++)s+=g[(j+a)*w+i+e];b[j*w+i]=s/9}
+  const hist=new Array(256).fill(0);for(let i=0;i<w*h;i++)hist[b[i]|0]++;
+  let tot=w*h,sum=0;for(let i=0;i<256;i++)sum+=i*hist[i];let sB=0,wB=0,mx=0,th=128;
+  for(let t=0;t<256;t++){wB+=hist[t];if(!wB)continue;const wF=tot-wB;if(!wF)break;sB+=t*hist[t];const mB=sB/wB,mF=(sum-sB)/wF,v=wB*wF*(mB-mF)*(mB-mF);if(v>mx){mx=v;th=t}}
+  const tryMask=bright=>{
+    const m=new Uint8Array(w*h);for(let i=0;i<w*h;i++)m[i]=(bright?b[i]>th:b[i]<=th)?1:0;
+    const lab=new Int32Array(w*h);let best=null,bestN=0,id=0;const st=[];
+    for(let s0=0;s0<w*h;s0++){if(!m[s0]||lab[s0])continue;id++;let n=0,pts=[];st.length=0;st.push(s0);lab[s0]=id;
+      while(st.length){const p=st.pop();n++;pts.push(p);const px=p%w,py=(p/w)|0;
+        if(px>0&&m[p-1]&&!lab[p-1]){lab[p-1]=id;st.push(p-1)}if(px<w-1&&m[p+1]&&!lab[p+1]){lab[p+1]=id;st.push(p+1)}
+        if(py>0&&m[p-w]&&!lab[p-w]){lab[p-w]=id;st.push(p-w)}if(py<h-1&&m[p+w]&&!lab[p+w]){lab[p+w]=id;st.push(p+w)}}
+      if(n>bestN){bestN=n;best=pts}}
+    if(!best)return null;const fr=bestN/(w*h);if(fr<.12||fr>.9)return null;
+    let tl=null,tr=null,br=null,bl=null,a=1e9,bb=-1e9,cc=-1e9,dd=1e9;
+    for(const p of best){const px=p%w,py=(p/w)|0,s=px+py,df=px-py;
+      if(s<a){a=s;tl=[px,py]}if(s>bb){bb=s;br=[px,py]}if(df>cc){cc=df;tr=[px,py]}if(df<dd){dd=df;bl=[px,py]}}
+    const q=[tl,tr,br,bl].map(p=>({x:Math.min(1,Math.max(0,(p[0]+.5)/w)),y:Math.min(1,Math.max(0,(p[1]+.5)/h))}));
+    let ar=0;for(let i=0;i<4;i++){const A=q[i],B=q[(i+1)%4];ar+=A.x*B.y-B.x*A.y}if(Math.abs(ar)/2<.1)return null;
+    return q};
+  return tryMask(true)||tryMask(false)}
+const scDef=()=>[{x:.08,y:.08},{x:.92,y:.08},{x:.92,y:.92},{x:.08,y:.92}];
+/* التحويل المنظوري */
+function scSolve(A,B){const n=8;for(let i=0;i<n;i++){let p=i;for(let r=i+1;r<n;r++)if(Math.abs(A[r][i])>Math.abs(A[p][i]))p=r;[A[i],A[p]]=[A[p],A[i]];[B[i],B[p]]=[B[p],B[i]];
+  for(let r=i+1;r<n;r++){const f=A[r][i]/A[i][i];for(let c=i;c<n;c++)A[r][c]-=f*A[i][c];B[r]-=f*B[i]}}
+  const X=new Array(n);for(let i=n-1;i>=0;i--){let s=B[i];for(let c=i+1;c<n;c++)s-=A[i][c]*X[c];X[i]=s/A[i][i]}return X}
+function scWarp(src,q){
+  const sw=src.width,sh=src.height,P=q.map(p=>({x:p.x*sw,y:p.y*sh})),L=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+  let W=(L(P[0],P[1])+L(P[3],P[2]))/2,H=(L(P[0],P[3])+L(P[1],P[2]))/2;const k=Math.min(1,1800/Math.max(W,H));W=Math.max(50,Math.round(W*k));H=Math.max(50,Math.round(H*k));
+  const D=[[0,0],[W,0],[W,H],[0,H]],A=[],B=[];
+  for(let i=0;i<4;i++){const [u,v]=D[i],X=P[i].x,Y=P[i].y;A.push([u,v,1,0,0,0,-u*X,-v*X]);B.push(X);A.push([0,0,0,u,v,1,-u*Y,-v*Y]);B.push(Y)}
+  const h=scSolve(A,B),o=document.createElement('canvas');o.width=W;o.height=H;
+  const sd=src.getContext('2d',{willReadFrequently:true}).getImageData(0,0,sw,sh).data,ox=o.getContext('2d'),od=ox.createImageData(W,H),out=od.data;
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){const z=h[6]*x+h[7]*y+1,sx=(h[0]*x+h[1]*y+h[2])/z,sy=(h[3]*x+h[4]*y+h[5])/z,i=(y*W+x)*4;
+    if(sx<0||sy<0||sx>=sw-1||sy>=sh-1){out[i]=out[i+1]=out[i+2]=255;out[i+3]=255;continue}
+    const x0=sx|0,y0=sy|0,fx=sx-x0,fy=sy-y0,p=(y0*sw+x0)*4,p2=p+sw*4;
+    for(let c=0;c<3;c++){out[i+c]=(sd[p+c]*(1-fx)+sd[p+4+c]*fx)*(1-fy)+(sd[p2+c]*(1-fx)+sd[p2+4+c]*fx)*fy}out[i+3]=255}
+  ox.putImageData(od,0,0);return o}
+/* تحسين المسح */
+function scEnhance(src,mode){
+  const W=src.width,H=src.height,o=document.createElement('canvas');o.width=W;o.height=H;const x=o.getContext('2d',{willReadFrequently:true});x.drawImage(src,0,0);
+  if(mode==='orig')return o;
+  const id=x.getImageData(0,0,W,H),d=id.data,N=W*H,L=new Uint8Array(N);
+  for(let i=0;i<N;i++)L[i]=(.299*d[i*4]+.587*d[i*4+1]+.114*d[i*4+2])|0;
+  if(mode==='bw'){
+    const I=new Float64Array((W+1)*(H+1));
+    for(let y=0;y<H;y++){let r=0;for(let xx=0;xx<W;xx++){r+=L[y*W+xx];I[(y+1)*(W+1)+xx+1]=I[y*(W+1)+xx+1]+r}}
+    const R=Math.max(8,Math.round(W/22));
+    for(let y=0;y<H;y++){const y1=Math.max(0,y-R),y2=Math.min(H,y+R+1);for(let xx=0;xx<W;xx++){const x1=Math.max(0,xx-R),x2=Math.min(W,xx+R+1);
+      const s=I[y2*(W+1)+x2]-I[y1*(W+1)+x2]-I[y2*(W+1)+x1]+I[y1*(W+1)+x1],m=s/((x2-x1)*(y2-y1)),v=L[y*W+xx]>m*.9?255:0,i=(y*W+xx)*4;d[i]=d[i+1]=d[i+2]=v}}
+  }else{
+    const hs=new Array(256).fill(0);for(let i=0;i<N;i++)hs[L[i]]++;
+    let c=0,hi=255;for(let i=0;i<256;i++){c+=hs[i];if(c>=N*.9){hi=Math.max(120,i);break}}
+    let lo=0;c=0;for(let i=0;i<256;i++){c+=hs[i];if(c>=N*.01){lo=Math.min(i,hi-60);break}}
+    const f=255/(hi-lo);
+    for(let i=0;i<N;i++)for(let k=0;k<3;k++){let v=(d[i*4+k]-lo)*f;d[i*4+k]=v<0?0:v>255?255:v}
+  }
+  x.putImageData(id,0,0);return o}
+/* الواجهة */
+function scBtn(id,t,cls){return `<button id="${id}" class="scb ${cls||''}" type="button">${t}</button>`}
+function scStageSet(st){
+  SC.stage=st;const foot=scQ('scFoot'),T=scQ('scT');scQ('scVid').style.display=st==='cam'?'block':'none';
+  if(st==='cam'){T.textContent='المسح الضوئي — وجّهي الكاميرا نحو الورقة'+(SC.pages.length?' ('+SC.pages.length+' صفحة)':'');
+    foot.innerHTML=scBtn('scLib','🖼️ من المكتبة')+`<button id="scShot" class="scshot" type="button" aria-label="التقاط"><i></i></button>`+(SC.pages.length?scBtn('scDone','حفظ PDF ('+SC.pages.length+')','y'):'<span class="scsp"></span>');
+    scQ('scLib').onclick=()=>scQ('scFile').click();scQ('scShot').onclick=scShoot;if(SC.pages.length)scQ('scDone').onclick=()=>scPdf();scLive(true)}
+  else{scLive(false)}
+  if(st==='crop'){T.textContent='اسحبي النقاط الأربع لتحديد حدود الورقة';
+    foot.innerHTML=scBtn('scRe','↺ إعادة')+scBtn('scGo','✔ متابعة','y');scQ('scRe').onclick=()=>scBack();scQ('scGo').onclick=scApply;scDrawCrop()}
+  if(st==='res'){T.textContent='نتيجة المسح';
+    foot.innerHTML=`<div class="scm"><button data-m="orig" class="${SC.mode==='orig'?'on':''}">الأصل</button><button data-m="color" class="${SC.mode==='color'?'on':''}">ملوّن</button><button data-m="bw" class="${SC.mode==='bw'?'on':''}">أبيض وأسود</button></div><div class="scrow">`+scBtn('scAdd','＋ صفحة أخرى')+scBtn('scCrop','✂ تعديل الحدود')+scBtn('scSave','حفظ PDF','y')+scBtn('scRead','قراءة الموقف')+`</div>`;
+    foot.querySelector('.scm').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;SC.mode=b.dataset.m;scFinal();scStageSet('res')};
+    scQ('scAdd').onclick=()=>{scKeep();scBack()};scQ('scCrop').onclick=()=>scStageSet('crop');scQ('scSave').onclick=()=>{scKeep();scPdf()};scQ('scRead').onclick=scReadIt;scDrawRes()}
+}
+function scBack(){SC.src=null;scStageSet('cam')}
+async function scOpen(){
+  closeSheet();SC.pages=[];SC.src=null;scQ('scOv').classList.remove('hide');document.body.style.overflow='hidden';
+  scQ('scStage').style.visibility='visible';scStageSet('cam');
+  try{if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw 0;
+    SC.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}},audio:false});
+    const v=scQ('scVid');v.srcObject=SC.stream;await v.play().catch(()=>{});scLive(true)}
+  catch(e){toast('تعذّر تشغيل الكاميرا المباشرة — اختاري صورة من المكتبة أو التقطي صورة');scQ('scCap').click()}}
+function scClose(){scLive(false);if(SC.stream){SC.stream.getTracks().forEach(t=>t.stop());SC.stream=null}scQ('scVid').srcObject=null;scQ('scOv').classList.add('hide');document.body.style.overflow='';SC.src=null;SC.pages=[]}
+function scLive(on){clearInterval(SC.tm);SC.tm=0;const cv=scQ('scCv'),x=cv.getContext('2d');
+  if(!on){if(SC.stage==='cam')x.clearRect(0,0,cv.width,cv.height);return}
+  SC.live=null;SC.tm=setInterval(()=>{const v=scQ('scVid');if(SC.stage!=='cam'||!v.videoWidth)return;
+    const q=scDetect(v,v.videoWidth,v.videoHeight);
+    if(q){SC.live=SC.live?SC.live.map((p,i)=>({x:p.x*.5+q[i].x*.5,y:p.y*.5+q[i].y*.5})):q}else SC.live=null;
+    const {s,ox,oy,W,H}=scFit(v.videoWidth,v.videoHeight),d=window.devicePixelRatio||1;x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,W,H);
+    if(SC.live){const P=SC.live.map(p=>[ox+p.x*v.videoWidth*s,oy+p.y*v.videoHeight*s]);x.beginPath();P.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();x.fillStyle='rgba(212,175,55,.18)';x.fill();x.lineWidth=3.5;x.strokeStyle='#f3cf56';x.stroke()}},260)}
+function scFromEl(el,w,h){const k=Math.min(1,2400/Math.max(w,h)),c=document.createElement('canvas');c.width=Math.round(w*k);c.height=Math.round(h*k);c.getContext('2d',{willReadFrequently:true}).drawImage(el,0,0,c.width,c.height);return c}
+function scShoot(){const v=scQ('scVid');if(!v.videoWidth)return;const live=SC.live;SC.src=scFromEl(v,v.videoWidth,v.videoHeight);SC.q=(live||scDetect(SC.src,SC.src.width,SC.src.height)||scDef()).map(p=>({...p}));scStageSet('crop')}
+function scFromFile(f){const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{SC.src=scFromEl(im,im.naturalWidth,im.naturalHeight);URL.revokeObjectURL(u);SC.q=(scDetect(SC.src,SC.src.width,SC.src.height)||scDef()).map(p=>({...p}));scQ('scOv').classList.remove('hide');scStageSet('crop')};im.onerror=()=>toast('تعذّر قراءة الصورة');im.src=u}
+function scDrawCrop(){
+  const cv=scQ('scCv'),x=cv.getContext('2d'),f=scFit(SC.src.width,SC.src.height),d=window.devicePixelRatio||1;x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,f.W,f.H);
+  x.drawImage(SC.src,f.ox,f.oy,SC.src.width*f.s,SC.src.height*f.s);
+  const P=SC.q.map(p=>[f.ox+p.x*SC.src.width*f.s,f.oy+p.y*SC.src.height*f.s]);
+  x.save();x.fillStyle='rgba(8,20,40,.55)';x.beginPath();x.rect(0,0,f.W,f.H);P.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();x.fill('evenodd');x.restore();
+  x.beginPath();P.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();x.lineWidth=3;x.strokeStyle='#f3cf56';x.stroke();
+  P.forEach(p=>{x.beginPath();x.arc(p[0],p[1],15,0,7);x.fillStyle='#f3cf56';x.fill();x.lineWidth=3;x.strokeStyle='#12315a';x.stroke()})}
+function scPt(e){const r=scQ('scCv').getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top]}
+function scApply(){SC.warp=scWarp(SC.src,SC.q);scFinal();scStageSet('res')}
+function scFinal(){SC.fin=scEnhance(SC.warp,SC.mode)}
+function scDrawRes(){const cv=scQ('scCv'),x=cv.getContext('2d'),f=scFit(SC.fin.width,SC.fin.height),d=window.devicePixelRatio||1;x.setTransform(d,0,0,d,0,0);x.fillStyle='#0b1a2e';x.fillRect(0,0,f.W,f.H);
+  const pad=10,s=Math.min((f.W-pad*2)/SC.fin.width,(f.H-pad*2)/SC.fin.height),w=SC.fin.width*s,h=SC.fin.height*s;x.shadowColor='rgba(0,0,0,.6)';x.shadowBlur=14;x.drawImage(SC.fin,(f.W-w)/2,(f.H-h)/2,w,h);x.shadowBlur=0}
+function scKeep(){if(SC.fin&&!SC.fin._kept){SC.pages.push(SC.fin.toDataURL('image/jpeg',.92));SC.fin._kept=1}}
+async function scPdf(){
+  if(!window.jspdf){toast('تعذّر تحميل مكتبة PDF — يُرجى تحديث الصفحة');return}
+  const pdf=new window.jspdf.jsPDF({unit:'mm',format:'a4',orientation:'p',compress:true});
+  for(let i=0;i<SC.pages.length;i++){const im=await new Promise(r=>{const m=new Image();m.onload=()=>r(m);m.src=SC.pages[i]}),land=im.width>im.height,pw=land?297:210,ph=land?210:297;
+    if(i)pdf.addPage('a4',land?'l':'p');else if(land){pdf.deletePage(1);pdf.addPage('a4','l')}
+    const k=Math.min(pw/im.width,ph/im.height),w=im.width*k,h=im.height*k;pdf.addImage(SC.pages[i],'JPEG',(pw-w)/2,(ph-h)/2,w,h,undefined,'FAST')}
+  const n=new Date(),p=v=>String(v).padStart(2,'0'),name='scan-'+n.getFullYear()+p(n.getMonth()+1)+p(n.getDate())+'-'+p(n.getHours())+p(n.getMinutes())+'.pdf',blob=pdf.output('blob'),file=new File([blob],name,{type:'application/pdf'});
+  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});toast('تم');return}}catch(e){if(e&&e.name==='AbortError')return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000);toast('تم حفظ الملف')}
+async function scReadIt(){
+  if(!gkey()){toast('يُرجى إدخال مفتاح Gemini في الإعدادات أولاً');return}
+  scKeep();const files=await Promise.all(SC.pages.map(u=>fetch(u).then(r=>r.blob()).then(b=>new File([b],'scan.jpg',{type:'image/jpeg'}))));scClose();runOcr(files)}
+(function(){const cv=scQ('scCv');
+  cv.addEventListener('pointerdown',e=>{if(SC.stage!=='crop')return;const f=scFit(SC.src.width,SC.src.height),[mx,my]=scPt(e);let b=-1,bd=48;
+    SC.q.forEach((p,i)=>{const d=Math.hypot(f.ox+p.x*SC.src.width*f.s-mx,f.oy+p.y*SC.src.height*f.s-my);if(d<bd){bd=d;b=i}});SC.drag=b;if(b>=0)cv.setPointerCapture(e.pointerId)});
+  cv.addEventListener('pointermove',e=>{if(SC.stage!=='crop'||SC.drag<0)return;const f=scFit(SC.src.width,SC.src.height),[mx,my]=scPt(e);
+    SC.q[SC.drag]={x:Math.min(1,Math.max(0,(mx-f.ox)/(SC.src.width*f.s))),y:Math.min(1,Math.max(0,(my-f.oy)/(SC.src.height*f.s)))};scDrawCrop()});
+  const up=()=>{SC.drag=-1};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+  scQ('scX').onclick=scClose;
+  scQ('scFile').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)scFromFile(f)};
+  scQ('scCap').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)scFromFile(f);else if(SC.stage==='cam'&&!SC.stream)scClose()};
+  window.addEventListener('resize',()=>{if(scQ('scOv').classList.contains('hide'))return;if(SC.stage==='crop')scDrawCrop();else if(SC.stage==='res')scDrawRes()})})();
+$('btnOcr').onclick=()=>{edit=null;
+  $('sheet').innerHTML=`<div class="edhead"><div class="edsub">قراءة الصور والمسح الضوئي</div><div class="edtop"><button class="xtop" type="button" id="ocX"><span class="xb">✕</span><span>إغلاق</span></button></div></div>
+  <div class="ocopts"><button class="btn" id="ocScan"><b>📄 مسح ضوئي مباشر</b><small>وجّهي الكاميرا نحو الورقة فتُقصّ الحواف وتتحول إلى PDF</small></button>
+  <button class="btn" id="ocLib"><b>🖼️ مسح من مكتبة الصور</b><small>اختاري صورة ورقة لتصحيحها وتحويلها إلى PDF</small></button>
+  <button class="btn" id="ocRead"><b>📋 قراءة صور الموقف</b><small>استخراج الحضور من صورة ورقة الموقف (يلزم مفتاح Gemini)</small></button></div>`;
+  $('ov').classList.add('show');$('ocX').onclick=closeSheet;$('ocScan').onclick=scOpen;
+  $('ocLib').onclick=()=>{closeSheet();scQ('scFile').click()};
+  $('ocRead').onclick=()=>{closeSheet();if(!gkey()){toast('يُرجى إدخال مفتاح Gemini في الإعدادات أولاً');showSettings(true);setTimeout(()=>$('gkey').focus(),300);return}$('ocrFile').click()}};
+$('ocrFile').onchange=ev=>{const f=[...ev.target.files];ev.target.value='';runOcr(f)};
+async function runOcr(files){if(!files.length)return;
   ocrBusy(true,files.length);
   const sheets=[];let thumbs=[],fails=0;
   for(let i=0;i<files.length;i++){
@@ -2244,7 +2413,7 @@ $('ocrFile').onchange=async ev=>{const files=[...ev.target.files];ev.target.valu
   ocrBusy(false);
   if(!sheets.length){showErr(OCR_ERR);return}
   openReview(sheets,thumbs,fails);
-};
+}
 /* تطبيع الأسماء العربية للمطابقة */
 function norm(t){return String(t||'').replace(/^\s*م\s*\.?\s*/,'').replace(/[أإآا]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/[ً-ْـ.]/g,'').replace(/عبد\s+/g,'عبد').replace(/\s+/g,' ').trim()}
 function nameScore(a,b){a=norm(a);b=norm(b);if(a===b)return 1;const A=a.split(' '),B=b.split(' ');let hit=0;A.forEach(w=>{if(B.includes(w))hit++});return hit/Math.max(A.length,B.length)}
