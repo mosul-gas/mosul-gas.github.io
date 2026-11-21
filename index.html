@@ -1705,6 +1705,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <div class="lbl">تنبيه أسفل أوراق الدوام الصباحي</div><input class="txt" id="note">
     <div class="lbl">عنوان الموقف اليومي</div><input class="txt" id="dTitle">
     <div class="lbl">التوقيع أسفل يسار الأوراق — السطر الأول</div><input class="txt" id="dSig" placeholder="المهندس">
+    <div class="lbl">اسم مدير المحطة</div><input class="txt" id="mgrN" placeholder="المهندس عمار خلف الحديدي">
     <div class="lbl">اسم الموقّع</div><input class="txt" id="dSigN" placeholder="حسين أحمد حمود">
     <div class="lbl">الصفة (تحت الاسم)</div><input class="txt" id="sigT" placeholder="ر. قسم السيطرة الذاتية">
     <div class="hint">ويُضاف التاريخ تلقائياً أسفلها عند الطباعة.</div>
@@ -1745,7 +1746,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 235 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 236 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2406,12 +2407,12 @@ function storeInfo(){try{const kb=Math.round(JSON.stringify(S).length*2/1024);co
 function showSettings(on){if(on){document.body.classList.remove('tbl');setTimeout(storeInfo,0)}$('viewDir').classList.add('hide');
   $('viewLetters').classList.add('hide');$('viewMain').classList.toggle('hide',on);$('viewSettings').classList.toggle('hide',!on);$('actionBar').classList.toggle('hide',on);
   document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
-  if(on){['h1','h2','h3','sigR','sigL','note','dTitle','dSig','dSigN','sigT'].forEach(k=>$(k).value=S[k]||'');$('anchorDate').value=S.anchor;$('anchorShift').value=S.anchorShift;
+  if(on){['h1','h2','h3','sigR','sigL','note','dTitle','dSig','dSigN','sigT'].forEach(k=>$(k).value=S[k]||'');$('mgrN').value=S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN;$('anchorDate').value=S.anchor;$('anchorShift').value=S.anchorShift;
     SET_SH=MODE==='duty'?'d'+SH:SEC;renderEmps()}
   else render();
   window.scrollTo(0,0);
 }
-['h1','h2','h3','sigR','sigL','note','dTitle','dSig','dSigN','sigT'].forEach(k=>$(k).addEventListener('input',ev=>{S[k]=ev.target.value;save()}));
+['h1','h2','h3','sigR','sigL','note','dTitle','dSig','dSigN','sigT'].forEach(k=>$(k).addEventListener('input',ev=>{S[k]=ev.target.value;save()}));$('mgrN').addEventListener('input',ev=>{S.mgrN=ev.target.value;save()});
 $('anchorDate').onchange=ev=>{if(ev.target.value){S.anchor=ev.target.value;save()}};
 $('anchorShift').onchange=ev=>{S.anchorShift=+ev.target.value;save()};
 /* group keys: 'd1'..'d4' for duty shifts, section ids for morning sections */
@@ -2464,7 +2465,7 @@ const LT_TYPES=[
  {k:'free',n:'كتاب فارغ',to:'إلى/ ',subj:'',body:''}];
 let LT=null;
 function allLtTypes(){const R=S.ltNames||{},Hd=S.ltHidden||[];return LT_TYPES.filter(t=>!Hd.includes(t.k)).map(t=>R[t.k]?{...t,n:R[t.k],subj:t.subj===t.n?R[t.k]:t.subj}:t).concat(S.ltCustom||[])}
-function ltNew(t){const T=allLtTypes().find(x=>x.k===t);if(!T)return;LT={id:'L'+Date.now(),type:T.n,to:T.to,subj:T.subj,body:T.body,names:T.names?[''] :[],namesLbl:T.namesLbl||'الأسماء',close:T.close||'مع التقدير.',created:Date.now()};ltEdit()}
+function ltNew(t){const T=allLtTypes().find(x=>x.k===t);if(!T)return;LT={id:'L'+Date.now(),type:T.n,to:(S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)&&/السيد مدير المحطة المحترم/.test(T.to)?T.to.replace('السيد مدير المحطة المحترم','السيد مدير المحطة '+(S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN).trim()+' المحترم').replace('  ',' '):T.to,subj:T.subj,body:T.body,names:T.names?[''] :[],namesLbl:T.namesLbl||'الأسماء',close:T.close||'مع التقدير.',created:Date.now()};ltEdit()}
 
 const LT_FONTS=['Simplified Arabic','Traditional Arabic','Sakkal Majalla','Arial','Times New Roman','Tahoma'];
 function plainToHtml(t){return String(t||'').split('\n').map(l=>'<div>'+(l.trim()?esc(l):'<br>')+'</div>').join('')}
