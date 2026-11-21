@@ -1627,6 +1627,10 @@ body .brand .bpill #appTitle{width:100%!important;max-width:none!important;flex:
 #acadOv .dvr b{color:#ffe9a6!important;text-shadow:0 1px 3px #000}
 #acadOv .dvr i{background:#0b2447!important;border:2px solid #d4af37!important}
 #acadOv .acf{background:linear-gradient(180deg,#ffe08a,#b8901f)!important;border:0!important}
+#acadOv .dvbtn{display:block;width:100%;margin-top:10px;text-align:center;text-decoration:none;border:2px solid #d4af37;background:linear-gradient(180deg,#1f4e9a,#12315a);color:#ffe9a6;font:900 16px Cairo,Arial;padding:11px;border-radius:16px;box-shadow:0 4px 0 #8a6a12,0 8px 14px rgba(0,0,0,.45)}
+#acadOv .dvq{margin:14px auto 0;background:#fff;border:3px solid #d4af37;border-radius:18px;padding:10px;width:min(240px,70%);box-shadow:0 6px 16px rgba(0,0,0,.5)}#acadOv .dvq img{width:100%;display:block;-webkit-touch-callout:default;user-select:auto}
+#acadOv .dvn2{margin-top:12px;text-align:center;color:#dbe5ff;font:700 12.5px Cairo,Arial}
+#acadOv .dvr b#apU{font-size:13px;word-break:break-all}
 </style>
 </head>
 <body>
@@ -1820,7 +1824,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 244 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 245 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3464,8 +3468,16 @@ function devAbout(){let o=document.getElementById('acadOv');if(o)o.remove();o=do
  o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>عن مطوّرة الأداة</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><div class="acf"><div class="acf2 dvb"><div class="dvl"><img src="logo-gold3d.png" alt=""></div><div class="dvk">إعداد وتصميم</div><div class="dvn"><span class="rcred">المهندسة ريم هيثم جمال</span></div><div class="dvs"><span class="dl1">وزارة الكهرباء</span><span class="dl2">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية</span><span class="dl3">محطة كهرباء الموصل الغازية</span><span class="dl4">قسم السيطرة الذاتية</span></div></div></div>'
  +'<div class="acf"><div class="acf2"><div class="dvh">بيانات المحطة الرسمية</div>'
  +'<div class="dvr"><i>📍</i><div><small>العنوان</small><b>العراق / الموصل / شارع بغداد</b></div></div>'
- +'<a class="dvr" href="mailto:mousal_gas_turbin@moelc.gov.iq"><i>✉️</i><div><small>البريد الإلكتروني</small><b dir="ltr">mousal_gas_turbin@moelc.gov.iq</b></div></a></div></div></div>';
- document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove()}
+ +'<a class="dvr" href="mailto:mousal_gas_turbin@moelc.gov.iq"><i>✉️</i><div><small>البريد الإلكتروني</small><b dir="ltr">mousal_gas_turbin@moelc.gov.iq</b></div></a></div></div>'
+ +'<div class="acf"><div class="acf2"><div class="dvh">معلومات التطبيق</div>'
+ +'<div class="dvr"><i>🔗</i><div><small>رابط الأداة</small><b dir="ltr" id="apU">https://mosul-gas.github.io/</b></div></div>'
+ +'<button type="button" class="dvbtn" id="apCp">📋 نسخ الرابط</button>'
+ +'<div class="dvq"><img id="apQ" src="mosul-gas-qr.png" alt="باركود الأداة"></div>'
+ +'<a class="dvbtn" id="apSv" href="mosul-gas-qr.png" download="mosul-gas-qr.png">💾 حفظ صورة الباركود</a>'
+ +'<div class="dvn2">لا يمكن فتح الأداة إلا برمز الدخول.</div></div></div></div>';
+ document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove();
+ document.getElementById('apCp').onclick=()=>{const t='https://mosul-gas.github.io/';(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('تم نسخ الرابط'),()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast('تم نسخ الرابط')}catch(_){toast(t)}a.remove()})};
+ document.getElementById('apSv').onclick=e=>{if(navigator.canShare){e.preventDefault();fetch('mosul-gas-qr.png').then(r=>r.blob()).then(b=>{const f=new File([b],'mosul-gas-qr.png',{type:'image/png'});if(navigator.canShare({files:[f]}))return navigator.share({files:[f]});const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='mosul-gas-qr.png';a.click()}).catch(()=>{})}}}
 window.devAbout=devAbout;
 function devLadder(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
  const R=[['معاون مهندس','الدرجة السابعة',4,'#3b3fd1,#1f23a0'],['مهندس','الدرجة السادسة',4,'#3fbfb4,#238f87'],['مهندس أقدم','الدرجة الخامسة',5,'#f5b82e,#d98a12'],['معاون رئيس مهندسين','الدرجة الرابعة',5,'#7fd35a,#4aa532'],['رئيس مهندسين','الدرجة الثالثة',5,'#58a8f0,#2a72c9'],['رئيس مهندسين أقدم','الدرجة الثانية',5,'#b25be0,#7a2fb0'],['رئيس مهندسين أقدم أول','الدرجة الأولى',0,'#ffd24a,#e0a410']];
