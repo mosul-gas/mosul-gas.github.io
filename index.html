@@ -1339,6 +1339,32 @@ html,body{overflow-x:hidden!important}
 #uoOv .rpb{margin-top:6px}
 #uoOv .ucard,#uoOv .us{box-shadow:0 5px 0 #b8901f,0 10px 16px rgba(0,0,0,.3),inset 0 2px 0 #fff!important}
 #uoOv .wfl .ust{font-size:12.5px}
+/* v207 station dashboard */
+#uoOv .udash{background:linear-gradient(160deg,#12315a,#0b2447 70%);border:2px solid #d4af37;border-radius:22px;padding:14px;margin-bottom:14px;box-shadow:0 5px 0 #8a6a12,0 12px 20px rgba(0,0,0,.4),inset 0 2px 0 rgba(255,255,255,.18),0 0 18px rgba(212,175,55,.25)}
+#uoOv .udtop{display:flex;align-items:center;gap:14px}
+#uoOv .udr{width:104px;height:104px;flex:none;filter:drop-shadow(0 0 7px rgba(255,214,102,.65))}
+#uoOv .udp{font:900 22px Cairo,Arial;fill:#fff}
+#uoOv .udt{flex:1;min-width:0;text-align:right}
+#uoOv .udl{font-size:14px;color:#ffe9a6;font-weight:700}
+#uoOv .udn{font-size:46px;font-weight:900;color:#fff;line-height:1.1;text-shadow:0 3px 8px rgba(0,0,0,.5)}
+#uoOv .udn small{font-size:18px;color:#ffe9a6}
+#uoOv .uds{font-size:13.5px;color:#b9c7e6;margin-top:2px}
+#uoOv .udg{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:14px;direction:rtl}
+#uoOv .utl{aspect-ratio:1;border:2px solid var(--c,#4a90e2);border-radius:12px;font:900 18px Cairo,Arial;color:#fff;cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(0deg,var(--fc,transparent) var(--f,0%),rgba(255,255,255,.06) var(--f,0%));box-shadow:0 4px 0 rgba(0,0,0,.45),inset 0 2px 0 rgba(255,255,255,.28),0 0 8px var(--g,transparent);padding:0}
+#uoOv .utl span{position:relative;text-shadow:0 2px 3px rgba(0,0,0,.6)}
+#uoOv .utl:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.45)}
+#uoOv .utl.t-run{--c:#34c76a;--fc:#1f9d4f;--g:rgba(52,199,106,.5)}
+#uoOv .utl.t-res{--c:#5b9bf0;background:linear-gradient(180deg,#2c5ea8,#163a75)}
+#uoOv .utl.t-mnt{--c:#d4af37;background:linear-gradient(180deg,#b8901f,#7a5c0e);--g:rgba(212,175,55,.5)}
+#uoOv .utl.t-bad{--c:#ef5a5a;background:linear-gradient(180deg,#b91c1c,#7f1313);--g:rgba(239,90,90,.55)}
+#uoOv .udh{text-align:center;font-size:13px;color:#b9c7e6;margin-top:12px}
+#uoPk{position:fixed;inset:0;z-index:5100;background:rgba(5,15,35,.6);display:flex;align-items:flex-end;justify-content:center}
+#uoPk .uoPb{width:100%;max-width:560px;background:linear-gradient(180deg,#fff,#faf6ea);border-top:3px solid #d4af37;border-radius:22px 22px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.5);color:#0b2447;animation:up .18s ease}
+#uoPk .uoPh{display:flex;align-items:center;gap:10px;margin-bottom:12px;direction:rtl}
+#uoPk .uoPh .uname{flex:1;font-size:22px;color:#0b2447;font-weight:900}
+#uoPk .uoPx{border:2px solid #b91c1c;background:#fff;color:#b91c1c;font:800 16px inherit;width:38px;height:38px;border-radius:50%;cursor:pointer}
+#uoPk input[type=range]{width:100%;margin:10px 0;accent-color:#d4af37;direction:ltr}
+#uoPk .uload,#uoPk .uts{color:#5a6b8c}
 </style>
 </head>
 <body>
@@ -1523,7 +1549,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 206 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 207 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3042,7 +3068,10 @@ function init(){if(!Array.isArray(S.units)||S.units.length<NU){const o=Array.isA
  if(!(S.cap>0))S.cap=100;if(!Array.isArray(S.mnt))S.mnt=[]}
 function badge(k){const x=ST.find(a=>a[0]===k)||ST[1];return '<span class="ubadge '+x[2]+'" data-lk="st_'+x[0]+'" data-d="'+x[1]+'">'+esc2(L('st_'+x[0],x[1]))+'</span>'}
 function viewU(){const U=S.units,cap=S.cap;let load=0,run=0,mnt=0,bad=0;U.forEach(u=>{if(u.st==='run'){run++;load+=+u.load||0}else if(u.st==='mnt')mnt++;else if(u.st==='bad')bad++});
- let h='<div class="ustats"><div class="us"><b>'+load+'</b>'+LK('s_load','م.و الحمل')+'</div><div class="us"><b>'+run+'</b>'+LK('s_run','شغالة')+'</div><div class="us"><b>'+mnt+'</b>'+LK('s_mnt','صيانة')+'</div><div class="us"><b>'+bad+'</b>'+LK('s_bad','عطل')+'</div></div>'
+ const tot=cap*NU,pct=tot?Math.min(100,Math.round(load/tot*100)):0,C=2*Math.PI*44;
+ let h='<div class="udash"><div class="udtop"><svg class="udr" viewBox="0 0 100 100"><defs><linearGradient id="udg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2b8"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#a87d12"/></linearGradient></defs><circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="9"/><circle cx="50" cy="50" r="44" fill="none" stroke="url(#udg)" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-pct/100)).toFixed(1)+'" transform="rotate(-90 50 50)"/><text x="50" y="57" text-anchor="middle" class="udp">'+pct+'%</text></svg><div class="udt"><div class="udl">'+LK('d_cur','الحمل الحالي للمحطة')+'</div><div class="udn">'+load+' <small>م.و</small></div><div class="uds">من '+tot+' م.و · '+run+' '+LK('d_run','وحدة شغالة')+'</div></div></div>'
+ +'<div class="udg">'+U.map((u,i)=>{const ld=Math.min(cap,Math.max(0,+u.load||0)),f=u.st==='run'?Math.max(8,Math.round(ld/cap*100)):0;return '<button type="button" class="utl t-'+u.st+'" data-ut="'+i+'" style="--f:'+f+'%"><span>'+(i+1)+'</span></button>'}).join('')+'</div><div class="udh">'+LK('d_hint','اضغط أي وحدة لتغيير حالتها وحملها')+'</div></div>'
+ +'<div class="ustats"><div class="us"><b>'+load+'</b>'+LK('s_load','م.و الحمل')+'</div><div class="us"><b>'+run+'</b>'+LK('s_run','شغالة')+'</div><div class="us"><b>'+mnt+'</b>'+LK('s_mnt','صيانة')+'</div><div class="us"><b>'+bad+'</b>'+LK('s_bad','عطل')+'</div></div>'
  +'<div class="ucard ucap"><span class="uname" style="font-size:17px" data-lk="cap" data-d="السعة الاسمية للوحدة (م.و)">'+esc2(L('cap','السعة الاسمية للوحدة (م.و)'))+'</span><input type="number" inputmode="numeric" id="uoCap" min="1" value="'+cap+'"></div>';
  U.forEach((u,i)=>{const run=u.st==='run',ld=Math.min(cap,Math.max(0,+u.load||0));
   h+='<div class="ucard" data-u="'+i+'"><div class="urow"><span class="uname" data-lk="un:'+i+'" data-d="الوحدة '+(i+1)+'">'+esc2(UN(i))+'</span>'+badge(u.st)+'</div>'
@@ -3090,6 +3119,7 @@ function viewR(){const t=repText();return '<div class="ucard"><div class="uname"
 $('uoBody').addEventListener('input',e=>{const t=e.target;if(t.id==='woT')wv.t=t.value;else if(t.id==='woN')wv.n=t.value;else if(t.id==='woD')wv.d=t.value;else if(t.id==='woU')wv.u=t.value});
 $('uoBody').addEventListener('change',e=>{if(e.target.id==='woU')wv.u=e.target.value});
 $('uoBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.ut!==undefined){pick(+b.dataset.ut);return}
  if(b.dataset.wp!==undefined){wp=b.dataset.wp;b.parentNode.querySelectorAll('.ust').forEach(x=>x.classList.toggle('on',x===b));return}
  if(b.dataset.wf!==undefined){wf=b.dataset.wf;draw(true);return}
  if(b.id==='woA'){if(!wv.t.trim()){toast('اكتب وصف أمر العمل');return}S.wo=S.wo||[];S.woN=(S.woN||0)+1;S.wo.push({id:'w'+Date.now(),n:S.woN,u:+wv.u||1,t:wv.t.trim(),note:wv.n.trim(),p:wp,st:'new',d:wv.d||iso(new Date())});wv.t='';wv.n='';save();draw(true);toast('أُضيف أمر العمل');return}
@@ -3098,6 +3128,15 @@ $('uoBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!
  if(b.id==='rpC'){const t=repText();(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('نُسخ التقرير'),()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast('نُسخ التقرير')}catch(_){toast('تعذّر النسخ')}a.remove()})}
  else if(b.id==='rpS'){navigator.share({title:L('r_title','تقرير الوضع التشغيلي'),text:repText()}).catch(()=>{})}
  else if(b.id==='rpP'){const w=window.open('','_blank');if(!w){toast('اسمح بالنوافذ المنبثقة للطباعة');return}w.document.write('<!doctype html><meta charset=utf-8><title>تقرير</title><body dir=rtl style="font-family:Arial;font-size:16px;line-height:1.9;padding:24px"><pre style="font-family:inherit;white-space:pre-wrap">'+esc2(repText())+'</pre>');w.document.close();w.focus();setTimeout(()=>w.print(),300)}});
+/* v207 unit picker */
+function pick(i){const u=S.units[i],ld=Math.min(S.cap,Math.max(0,+u.load||0));let m=$('uoPk');if(m)m.remove();m=document.createElement('div');m.id='uoPk';
+ m.innerHTML='<div class="uoPb" data-i="'+i+'"><div class="uoPh"><button type="button" class="uoPx" id="uoPx" aria-label="إغلاق">✕</button><span class="uname" data-lk="un:'+i+'" data-d="الوحدة '+(i+1)+'">'+esc2(UN(i))+'</span>'+badge(u.st)+'</div>'
+ +'<div class="ustg c4">'+ST.map(a=>'<button type="button" class="ust '+a[2]+(a[0]===u.st?' on':'')+'" data-pk="'+a[0]+'" data-lk="st_'+a[0]+'" data-d="'+a[1]+'">'+esc2(L('st_'+a[0],a[1]))+'</button>').join('')+'</div>'
+ +(u.st==='run'?'<div class="uload" style="margin-top:12px">'+LK('l_load','الحمل')+': <span class="ulv">'+ld+'</span> / '+S.cap+' م.و</div><input type="range" id="uoPr" min="0" max="'+S.cap+'" value="'+ld+'">':'')
+ +'<div class="uts">'+(u.ts?LK('l_last','آخر تغيير')+': '+stamp(u.ts):LK('l_none','لم تُسجَّل حالة بعد'))+'</div></div>';
+ $('uoOv').appendChild(m);m.onclick=e=>{if(e.target===m)m.remove()};$('uoPx').onclick=()=>m.remove();
+ m.querySelectorAll('[data-pk]').forEach(b=>b.onclick=()=>{if(Date.now()-(window.__lpT||0)<900)return;const k=b.dataset.pk;if(u.st!==k){u.st=k;if(k!=='run')u.load=0;u.ts=Date.now();save();draw(true)}pick(i)});
+ const r=$('uoPr');if(r){r.oninput=()=>{m.querySelector('.ulv').textContent=r.value};r.onchange=()=>{setLoad(i,r.value);draw(true);pick(i)}}}
 function draw(keep){const y=keep?$('uoOv').scrollTop:0;$('uoTU').classList.toggle('on',tab==='u');$('uoTM').classList.toggle('on',tab==='m');$('uoTU').textContent=L('tabU','تشغيل الوحدات');$('uoTM').textContent=L('tabM','جدولة الصيانة');$('uoTU').dataset.lk='tabU';$('uoTU').dataset.d='تشغيل الوحدات';$('uoTM').dataset.lk='tabM';$('uoTM').dataset.d='جدولة الصيانة';{const TT={u:'تشغيل الوحدات',m:'صيانة الوحدات',w:'أوامر العمل',r:'التقارير'},k='tTitle'+tab,d=TT[tab];$('uoT').textContent=L(k,d);$('uoT').dataset.lk=k;$('uoT').dataset.d=d}$('uoBody').innerHTML=tab==='u'?viewU():tab==='m'?viewM():tab==='w'?viewW():viewR();$('uoOv').scrollTop=y}
 function open(t){init();tab=t;$('uoOv').classList.add('show');$('uoOv').setAttribute('aria-hidden','false');draw(false);document.body.style.overflow='hidden'}
 function close(){$('uoOv').classList.remove('show');$('uoOv').setAttribute('aria-hidden','true');document.body.style.overflow=''}
@@ -3109,12 +3148,12 @@ function ed(el){const k=el.dataset.lk,d=el.dataset.d||'';const cur=k.indexOf('un
  let m=$('uoEd');if(m)m.remove();m=document.createElement('div');m.id='uoEd';
  m.innerHTML='<div class="uoEb"><div class="uoEt">تعديل الاسم</div><input type="text" id="uoEi" maxlength="60"><div class="uoEr"><button type="button" class="udo" id="uoEs">حفظ</button><button type="button" class="uoEg" id="uoEz">الاسم الأصلي</button><button type="button" class="uoEg" id="uoEc">إلغاء</button></div></div>';
  ov.appendChild(m);const i=$('uoEi');i.value=cur;setTimeout(()=>{i.focus();i.select()},50);
- const done=()=>{m.remove();draw(true)};
+ const done=()=>{m.remove();draw(true);const pk=$('uoPk');if(pk){const bi=pk.querySelector('[data-i]');if(bi)pick(+bi.dataset.i)}};
  $('uoEc').onclick=()=>m.remove();
  $('uoEs').onclick=()=>{const v=i.value.trim();if(k.indexOf('un:')===0){S.units[+k.slice(3)].n=(v===d?'':v)}else{S.uL=S.uL||{};if(!v||v===d)delete S.uL[k];else S.uL[k]=v}save();done();toast('تم التعديل')};
  $('uoEz').onclick=()=>{if(k.indexOf('un:')===0)S.units[+k.slice(3)].n='';else if(S.uL)delete S.uL[k];save();done();toast('أُعيد الاسم الأصلي')};
  i.addEventListener('keydown',e=>{if(e.key==='Enter')$('uoEs').click()})}
-ov.addEventListener('pointerdown',e=>{const el=e.target.closest('[data-lk]');if(!el||e.target.closest('#uoEd'))return;sx=e.clientX;sy=e.clientY;clearTimeout(tm);tm=setTimeout(()=>{sup=Date.now();if(navigator.vibrate)try{navigator.vibrate(30)}catch(_){}ed(el)},650)});
+ov.addEventListener('pointerdown',e=>{const el=e.target.closest('[data-lk]');if(!el||e.target.closest('#uoEd'))return;sx=e.clientX;sy=e.clientY;clearTimeout(tm);tm=setTimeout(()=>{sup=Date.now();window.__lpT=sup;if(navigator.vibrate)try{navigator.vibrate(30)}catch(_){}ed(el)},650)});
 ['pointerup','pointercancel','pointerleave'].forEach(t=>ov.addEventListener(t,()=>clearTimeout(tm)));
 ov.addEventListener('pointermove',e=>{if(Math.abs(e.clientX-sx)>10||Math.abs(e.clientY-sy)>10)clearTimeout(tm)});
 ov.addEventListener('click',e=>{if(Date.now()-sup<900){e.stopPropagation();e.preventDefault()}},true);
