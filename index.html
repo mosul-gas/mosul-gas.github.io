@@ -1566,6 +1566,15 @@ body.subpage .bpill,body.tbl .bpill{border:0;box-shadow:none;padding:0;text-alig
 .mhc b{font:900 20px Cairo,sans-serif;color:#ffd24a;text-shadow:0 2px 6px rgba(0,0,0,.7)}
 .mhc small{font:700 12.5px Cairo,sans-serif;color:#fff}
 @media(min-width:900px){#homeCard{flex-direction:row!important;align-items:flex-start;gap:22px}.mhero{flex:0 0 340px;max-height:none;aspect-ratio:auto;height:min(560px,calc(100vh - 140px));position:sticky;top:12px}#hGrid{flex:1 1 0;min-width:0}#hGrid .hg,#hGrid .hg.y{flex-basis:calc((100% - 18px)/2)!important;max-width:calc((100% - 18px)/2)!important}.mhc b{font-size:22px}}
+/* v238 career ladder */
+#acadOv .ldt{text-align:center;color:#ffe9a6;font-weight:800;font-size:15px;margin:0 0 14px}
+#acadOv .ldr{display:flex;align-items:center;gap:8px}
+#acadOv .ldb{flex:1;display:flex;align-items:center;gap:12px;border-radius:30px;padding:8px 12px;border:2px solid #d4af37;box-shadow:0 4px 0 rgba(0,0,0,.35)}
+#acadOv .ldn{width:38px;height:38px;flex:none;border-radius:50%;background:#0b2447;color:#fff;font:900 20px Cairo,Arial;display:grid;place-items:center;border:2px solid #fff}
+#acadOv .ldx{flex:1;text-align:center;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}#acadOv .ldx b{display:block;font:900 17px/1.3 Cairo,Arial}#acadOv .ldx small{display:inline-block;background:rgba(255,255,255,.85);color:#12315a;border-radius:12px;padding:1px 12px;font:800 12px Cairo,Arial;margin-top:2px;text-shadow:none}
+#acadOv .ldy{width:78px;flex:none;text-align:center;background:#12315a;border:2px solid #d4af37;border-radius:10px;color:#ffe9a6;font:900 14px Cairo,Arial;padding:7px 2px}
+#acadOv .lda{text-align:center;color:#d4af37;font-size:15px;line-height:1.3;margin:2px 0 2px 0;padding-inline-start:calc(100% - 78px)}
+#acadOv .ldf{margin-top:16px;text-align:center;border:2px solid #d4af37;border-radius:16px;padding:10px;background:#0b2447}#acadOv .ldf small{display:block;color:#dbe5ff;font-weight:700;font-size:12.5px}#acadOv .ldf b{color:#ffd24a;font:900 30px Cairo,Arial}
 </style>
 </head>
 <body>
@@ -1612,6 +1621,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <button class="hg" data-hg="l"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v14H4zM10 5h4v14h-4zM16 6.5l4 1-3 12-4-1z"/></svg><span class="hgt"><b>الكتب الرسمية</b><small>صياغة الكتب وطباعتها</small></span></button>
     <button class="hg" data-hg="ocr"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h4l2-3h4l2 3h4v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span class="hgt"><b>قراءة المستندات</b><small>تصوير واستخراج النص</small></span></button>
     <button class="hg" data-hg="acad"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.2V16c0 1.4 2.7 3 6 3s6-1.6 6-3v-4.8"/><path d="M22 9v6"/></svg><span class="hgt"><b>الأكاديمية</b><small>المنهاج التدريبي</small></span></button>
+    <button class="hg" data-hg="lad"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h4v-4h4v-4h4V8h4V4"/><path d="M17 4h4v4"/></svg><span class="hgt"><b>التدرج الوظيفي</b><small>درجات المهندس وسنواتها</small></span></button>
     <button class="hg" data-hg="guide"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 8h7M9 12h5"/></svg><span class="hgt"><b>دليل الاستخدام</b><small>طريقة عمل الأداة</small></span></button>
     <button class="hg" data-hg="s"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4"/></svg><span class="hgt"><b>الإعدادات</b><small>ضبط الأداة</small></span></button>
     <button class="hg" data-hg="backup"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg><span class="hgt"><b>نسخة احتياطية</b><small>حفظ واسترجاع البيانات</small></span></button>
@@ -1755,7 +1765,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 237 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 238 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2783,7 +2793,7 @@ $('hGrid').addEventListener('click',e=>{const b=e.target.closest('[data-hg]');if
  else if(g==='backup')$('backup').click();
  else if(g==='guide')guide();
  else if(g==='acad')acad();
- else if(g==='about')devAbout();
+ else if(g==='about')devAbout(); else if(g==='lad')devLadder();
  else if(g==='out'){if(confirm('تسجيل الخروج وقفل الأداة على هذا الجهاز؟')){try{localStorage.removeItem('mawqif_gate')}catch(e){}location.reload()}}
  else if(g==='ocr')$('btnOcr').click()});
 
@@ -3374,6 +3384,15 @@ function devAbout(){let o=document.getElementById('acadOv');if(o)o.remove();o=do
  +'<a class="dvr" href="mailto:mousal_gas_turbin@moelc.gov.iq"><i>✉️</i><div><small>البريد الإلكتروني</small><b dir="ltr">mousal_gas_turbin@moelc.gov.iq</b></div></a></div></div></div>';
  document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove()}
 window.devAbout=devAbout;
+function devLadder(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
+ const R=[['معاون مهندس','الدرجة السابعة',4,'#3b3fd1,#1f23a0'],['مهندس','الدرجة السادسة',4,'#3fbfb4,#238f87'],['مهندس أقدم','الدرجة الخامسة',5,'#f5b82e,#d98a12'],['معاون رئيس مهندسين','الدرجة الرابعة',5,'#7fd35a,#4aa532'],['رئيس مهندسين','الدرجة الثالثة',5,'#58a8f0,#2a72c9'],['رئيس مهندسين أقدم','الدرجة الثانية',5,'#b25be0,#7a2fb0'],['رئيس مهندسين أقدم أول','الدرجة الأولى',0,'#ffd24a,#e0a410']];
+ let h='<div class="ldt">من معاون مهندس إلى رئيس مهندسين أقدم أول</div><div class="ldl">';
+ for(let k=R.length-1;k>=0;k--){const r=R[k],c=r[3].split(',');h+='<div class="ldr"><div class="ldb" style="background:linear-gradient(135deg,'+c[0]+','+c[1]+')"><span class="ldn">'+(k+1)+'</span><div class="ldx"><b>'+r[0]+'</b><small>'+r[1]+'</small></div></div><div class="ldy">'+(r[2]?r[2]+' سنوات':'—')+'</div></div>'+(k?'<div class="lda">▲</div>':'')}
+ h+='</div><div class="ldf"><small>إجمالي سنوات الخدمة من معاون مهندس إلى رئيس مهندسين أقدم أول</small><b>28 سنة</b></div>';
+ o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>التدرج الوظيفي للمهندس</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb">'+h+'</div>';
+ document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove()}
+window.devLadder=devLadder;
+
 function woPrint(m){const w=window.open('','_blank');if(!w){toast('اسمح بالنوافذ المنبثقة للطباعة');return}
  const no=(m.id||'').replace(/\D/g,'').slice(-6),row=(a,b)=>'<tr><th>'+a+'</th><td>'+b+'</td></tr>';
  w.document.write('<!doctype html><meta charset=utf-8><title>أمر عمل</title><style>body{font-family:Arial,Tahoma;padding:28px;direction:rtl;color:#111}h1{text-align:center;font-size:22px;margin:4px 0}h2{text-align:center;font-size:16px;margin:2px 0 18px;font-weight:600}table{width:100%;border-collapse:collapse;font-size:17px}th,td{border:1.5px solid #222;padding:11px 12px;text-align:right}th{width:30%;background:#eee}.sg{display:flex;justify-content:space-between;margin-top:60px;font-size:16px}.sg div{width:30%;text-align:center;border-top:1.5px solid #222;padding-top:6px}</style><body><h1>محطة كهرباء الموصل الغازية</h1><h2>قسم السيطرة الذاتية — أمر عمل صيانة</h2><table>'
