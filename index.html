@@ -1013,11 +1013,14 @@ body.ltedit .hprint svg{width:21px!important;height:21px!important;flex:0 0 auto
 .dtab td.dnew{color:#b3261e;background:#fff4c2!important}
 
 #grid th.pn,#grid td.notes{width:21px!important;min-width:0!important;max-width:24px!important;padding:2px 0!important;font-size:10px!important;text-align:center}
+#grid td.namecol{font-size:13.5px!important}
 
+body.tbl #grid th.namecol,body.tbl #grid td.namecol{width:150px!important;min-width:150px!important;max-width:150px!important;font-size:13px!important}
+body.tbl #grid td.c,body.tbl #grid th.dh{min-width:72px}
 
 body.tbl.daymode #grid{width:100%!important;min-width:0!important;table-layout:auto}
-body.tbl.daymode #grid th.namecol,body.tbl.daymode #grid td.namecol{width:auto!important;min-width:0!important;max-width:none!important}
-body.tbl.daymode #grid td.c,body.tbl.daymode #grid th.daycell{min-width:0!important;width:70px!important;padding-inline:2px!important}
+body.tbl.daymode #grid th.namecol,body.tbl.daymode #grid td.namecol{width:112px!important;min-width:112px!important;max-width:112px!important;font-size:12.5px!important}
+body.tbl.daymode #grid td.c,body.tbl.daymode #grid th.daycell{min-width:0!important;width:auto!important;padding-inline:2px!important}
 body.tbl.daymode #grid th.nocol,body.tbl.daymode #grid td.nocol{width:22px!important;min-width:22px!important;padding:2px!important}
 body.tbl.daymode .gridwrap{overflow-x:hidden}
 
@@ -1192,7 +1195,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 186 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 185 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2173,7 +2176,7 @@ function dayWin(){try{const T=document.body.classList.contains('tbl'),isDay=MODE
     const a=ths[DW],b=ths[Math.min(N-1,DW+DWN-1)];const dn=x=>x.querySelector('.dn')?x.querySelector('.dn').textContent:'';
     $('dwLbl').textContent=dn(a)===dn(b)?dn(a):dn(a)+' ← '+dn(b);$('dwPrev').disabled=DW<=0;$('dwNext').disabled=DW+DWN>=N;$('dwSz').textContent='المعروض: '+DWN+' أيام'}}catch(e){}}
 function fitNames(){try{if(!document.body.classList.contains('tbl'))return;const on=document.querySelector('#modeSeg .on');if(!on)return;
-  const f0=document.body.classList.contains('daymode')?15:13.5;
+  const f0=MODE==='day'&&document.body.classList.contains('daymode')?15:13.5;
   document.querySelectorAll('#grid td.namecol:not([data-fit])').forEach(td=>{td.dataset.fit='1';const P=(k,v)=>td.style.setProperty(k,v,'important');P('white-space','normal');P('word-break','normal');P('overflow-wrap','break-word');P('font-weight','900');P('font-size',f0+'px');P('line-height','1.2');P('color','#000');if(td.parentNode)td.parentNode.style.height='46px'})}catch(e){}}
 function fitCells(){try{if(!document.body.classList.contains('tbl'))return;
   document.querySelectorAll('#grid td.c:not([data-fit2]),#grid td.notes:not([data-fit2])').forEach(td=>{td.dataset.fit2='1';if(!td.textContent.trim()||td.textContent.trim()==='—'||td.textContent.trim()==='حاضر')return;
