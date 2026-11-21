@@ -1489,6 +1489,20 @@ html,body{overflow-x:hidden!important}
 @media(min-width:700px){#hGrid .hg,#hGrid .hg.y{flex-basis:calc((100% - 36px)/3)!important;max-width:calc((100% - 36px)/3)!important;flex-direction:row!important;gap:16px!important;min-height:96px!important;padding:12px 22px!important;justify-content:flex-start!important}
 #hGrid .hg .hgt{align-items:flex-start;text-align:right}#hGrid .hg .hgt b{font-size:19px!important}#hGrid .hg .hgt small{font-size:12.5px!important}}
 @media(min-width:1500px){#hGrid .hg,#hGrid .hg.y{flex-basis:calc((100% - 36px)/3)!important;max-width:calc((100% - 36px)/3)!important}}
+/* v223 interactive status rectangles + alerts */
+#uoOv .usb{cursor:pointer;font-family:inherit;border:2.5px solid #d4af37!important;border-radius:16px!important;padding:12px 2px!important;box-shadow:0 5px 0 #b8901f,0 8px 14px rgba(0,0,0,.25)!important;transition:transform .12s,box-shadow .12s}
+#uoOv .usb:active{transform:translateY(4px);box-shadow:0 1px 0 #b8901f!important}
+#uoOv .usb.on{outline:3px solid #fff3b0;outline-offset:2px}
+#uoOv .usb b{font-size:30px!important}
+#uoOv .usb.s-run b{color:#15803d!important}#uoOv .usb.s-res b{color:#1F4E9A!important}#uoOv .usb.s-mnt b{color:#a16207!important}#uoOv .usb.s-bad b{color:#b91c1c!important}
+#uoOv .utn,#uoOv .uflt{margin:12px 0;display:flex;flex-direction:column;gap:9px}
+#uoOv .utnh,#uoOv .ufh{font:900 17px Cairo,sans-serif;color:#ffe9a6;padding:0 4px}
+#uoOv .uar{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:right;font-family:inherit;padding:13px 14px;border-radius:14px;border:2px solid #d4af37;background:linear-gradient(135deg,#12315a,#1F4E9A);color:#fff;cursor:pointer;box-shadow:0 4px 0 #8a6a12}
+#uoOv .uar:active{transform:translateY(3px);box-shadow:0 1px 0 #8a6a12}
+#uoOv .uar b{font:800 16px Cairo,sans-serif;flex:1}
+#uoOv .uar.a-bad{border-color:#ef5a5a;box-shadow:0 4px 0 #7f1313}
+#uoOv .uemp{padding:12px;text-align:center;color:#c7d3ec;font:700 14px Cairo,sans-serif;border:2px dashed rgba(212,175,55,.5);border-radius:14px}
+#uoOv .uar .ubadge{background:#fff;flex:none}
 </style>
 </head>
 <body>
@@ -1677,7 +1691,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 222 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 223 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3202,11 +3216,14 @@ function stamp(t){const d=new Date(t);return p2(d.getDate())+'/'+p2(d.getMonth()
 function init(){if(!Array.isArray(S.units)||S.units.length<NU){const o=Array.isArray(S.units)?S.units:[];S.units=[];for(let i=0;i<NU;i++)S.units.push(o[i]||{st:'res',load:0,ts:0})}
  if(!(S.cap>0))S.cap=100;if(!Array.isArray(S.mnt))S.mnt=[]}
 function badge(k){const x=ST.find(a=>a[0]===k)||ST[1];return '<span class="ubadge '+x[2]+'" data-lk="st_'+x[0]+'" data-d="'+x[1]+'">'+esc2(L('st_'+x[0],x[1]))+'</span>'}
+let ufil=null;
 function viewU(){const U=S.units,cap=S.cap;let load=0,run=0,mnt=0,bad=0;U.forEach(u=>{if(u.st==='run'){run++;load+=+u.load||0}else if(u.st==='mnt')mnt++;else if(u.st==='bad')bad++});
  const tot=cap*NU,pct=tot?Math.min(100,Math.round(load/tot*100)):0,C=2*Math.PI*44;
  let h='<div class="udash"><div class="udtop"><svg class="udr" viewBox="0 0 100 100"><defs><linearGradient id="udg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2b8"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#a87d12"/></linearGradient></defs><circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="9"/><circle cx="50" cy="50" r="44" fill="none" stroke="url(#udg)" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-pct/100)).toFixed(1)+'" transform="rotate(-90 50 50)"/><text x="50" y="57" text-anchor="middle" class="udp">'+pct+'%</text></svg><div class="udt"><div class="udl">'+LK('d_cur','الحمل الحالي للمحطة')+'</div><div class="udn">'+load+' <small>م.و</small></div><div class="uds">من '+tot+' م.و · '+run+' '+LK('d_run','وحدة شغالة')+'</div></div></div>'
  +'<div class="udg">'+U.map((u,i)=>{const ld=Math.min(cap,Math.max(0,+u.load||0)),f=u.st==='run'?Math.max(8,Math.round(ld/cap*100)):0;return '<button type="button" class="utl t-'+u.st+'" data-ut="'+i+'" style="--f:'+f+'%"><span>'+(i+1)+'</span></button>'}).join('')+'</div><div class="udh">'+LK('d_hint','اضغط أي وحدة لتغيير حالتها وحملها')+'</div></div>'
- +'<div class="ustats"><div class="us"><b>'+load+'</b>'+LK('s_load','م.و الحمل')+'</div><div class="us"><b>'+run+'</b>'+LK('s_run','شغالة')+'</div><div class="us"><b>'+mnt+'</b>'+LK('s_mnt','صيانة')+'</div><div class="us"><b>'+bad+'</b>'+LK('s_bad','عطل')+'</div></div>'
+ +'<div class="ustats usf">'+[['run','شغالة',run],['res','احتياط',U.length-run-mnt-bad],['mnt','صيانة',mnt],['bad','عطل',bad]].map(a=>'<button type="button" class="us usb s-'+a[0]+(ufil===a[0]?' on':'')+'" data-sf="'+a[0]+'"><b>'+a[2]+'</b><span>'+a[1]+'</span></button>').join('')+'</div>'
+ +(ufil?'<div class="uflt"><div class="ufh">'+esc2((ST.find(x=>x[0]===ufil)||[])[1])+' — اضغط أي وحدة لتغيير حالتها</div>'+(U.map((u,i)=>u.st===ufil?'<button type="button" class="uar a-'+u.st+'" data-al="'+i+'"><span class="ubadge '+(ST.find(x=>x[0]===u.st)||[])[2]+'">'+esc2((ST.find(x=>x[0]===u.st)||[])[1])+'</span><b>'+esc2(UN(i))+'</b></button>':'').join('')||'<div class="uemp">لا توجد وحدات بهذه الحالة</div>')+'</div>':'')
+ +'<div class="utn"><div class="utnh">تنبيهات</div>'+(U.map((u,i)=>u.st==='bad'?'<button type="button" class="uar a-bad" data-al="'+i+'"><span class="ubadge b-bad">عطل</span><b>'+esc2(UN(i))+' خارج الخدمة بسبب عطل</b></button>':u.st==='mnt'?'<button type="button" class="uar a-mnt" data-al="'+i+'"><span class="ubadge b-mnt">صيانة</span><b>'+esc2(UN(i))+' في الصيانة</b></button>':'').join('')||'<div class="uemp">لا توجد تنبيهات — كل الوحدات سليمة</div>')+'</div>'
  +'<div class="ucard ucap"><span class="uname" style="font-size:17px" data-lk="cap" data-d="السعة الاسمية للوحدة (م.و)">'+esc2(L('cap','السعة الاسمية للوحدة (م.و)'))+'</span><input type="number" inputmode="numeric" id="uoCap" min="1" value="'+cap+'"></div>';
  U.forEach((u,i)=>{const run=u.st==='run',ld=Math.min(cap,Math.max(0,+u.load||0));
   h+='<div class="ucard" data-u="'+i+'"><div class="urow"><span class="uname" data-lk="un:'+i+'" data-d="الوحدة '+(i+1)+'">'+esc2(UN(i))+'</span>'+badge(u.st)+'</div>'
@@ -3361,6 +3378,7 @@ $('uoBody').addEventListener('change',e=>{const t=e.target,c=t.closest('[data-u]
  else if(t.classList.contains('uo-ld')){setLoad(i,t.value);draw(true)}});
 $('uoBody').addEventListener('input',e=>{const t=e.target;if(!t.classList.contains('uo-rg'))return;const c=t.closest('[data-u]'),i=+c.dataset.u,v=Math.round(+t.value);c.querySelector('.ubar i').style.width=(S.cap?v/S.cap*100:0)+'%';c.querySelector('.ulv').textContent=v;const n=c.querySelector('.uo-ld');if(n)n.value=v});
 $('uoBody').addEventListener('pointerup',e=>{const t=e.target;if(t.classList&&t.classList.contains('uo-rg')){setLoad(+t.closest('[data-u]').dataset.u,t.value);draw(true)}});
+$('uoBody').addEventListener('click',e=>{const f=e.target.closest('[data-sf]');if(f){ufil=ufil===f.dataset.sf?null:f.dataset.sf;draw(true);return}const al=e.target.closest('[data-al]');if(al){pick(+al.dataset.al)}});
 $('uoBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
  if(b.classList.contains('ust')){const c=b.closest('[data-u]');if(!c)return;const u=S.units[+c.dataset.u],k=b.dataset.st;if(u.st===k)return;u.st=k;if(k!=='run')u.load=0;u.ts=Date.now();save();draw(true);return}
  if(b.id==='uoMa'){const d=$('uoMd').value;if(!d){toast('اختر التاريخ');return}S.mnt.push({id:'m'+Date.now(),u:+$('uoMu').value,t:$('uoMt').value,d,note:$('uoMn').value.trim(),done:false});save();draw(true);toast('أُضيفت إلى الجدول');return}
