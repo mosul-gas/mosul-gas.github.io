@@ -1040,6 +1040,60 @@ body.tbl.daymode .gridwrap{overflow-x:hidden}
 .brand #btnMenu span{width:22px!important;height:3px!important;background:#fff!important}
 .brand .hprint,.brand .hclose{margin-inline-start:0!important}
 .brand h1{margin-inline-end:auto}
+/* v191 unit operation + maintenance */
+#uoOv{position:fixed;inset:0;z-index:5000;background:#111a35;color:#e9edf7;overflow-y:auto;-webkit-overflow-scrolling:touch;display:none;font-family:inherit;direction:rtl}
+#uoOv.show{display:block}
+#uoOv *{box-sizing:border-box}
+#uoOv .uh{display:flex;align-items:center;gap:12px;padding:calc(14px + env(safe-area-inset-top)) 14px 14px;background:linear-gradient(90deg,#5b9bd5,#667eea 60%,#6a5acd);position:sticky;top:0;z-index:2}
+#uoOv .ulogo{width:54px;height:54px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+#uoOv .ut{flex:1;min-width:0}
+#uoOv .ut b{display:block;font-size:20px;color:#fff;font-weight:800;line-height:1.3}
+#uoOv .ut small{display:block;font-size:14px;color:#eaf0ff;opacity:.92}
+#uoOv .ubk{border:0;background:linear-gradient(180deg,#d9604c,#b3402f);color:#fff;font:inherit;font-weight:800;font-size:16px;padding:10px 18px;border-radius:12px;box-shadow:0 4px 0 #7d2a1f;cursor:pointer}
+#uoOv .ubk:active{transform:translateY(3px);box-shadow:0 1px 0 #7d2a1f}
+#uoOv .ubd{padding:14px 14px 40px;max-width:640px;margin:0 auto}
+#uoOv .utabs{display:flex;gap:12px;margin-bottom:14px}
+#uoOv .utab{flex:1;border:0;font:inherit;font-weight:800;font-size:17px;padding:13px 6px;border-radius:14px;cursor:pointer;color:#8ea0c8;background:linear-gradient(180deg,#e6eefc,#b9c9ec);box-shadow:0 4px 0 #6f85b8;opacity:.85}
+#uoOv .utab.on{color:#14224a;background:linear-gradient(180deg,#f2e19a,#d7b658);box-shadow:0 4px 0 #a98a2c;opacity:1}
+#uoOv .ustats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+#uoOv .us{border:2.5px solid #d4af37;border-radius:16px;background:#1a2554;text-align:center;padding:10px 2px}
+#uoOv .us b{display:block;font-size:30px;line-height:1.1}
+#uoOv .us span{font-size:14px;color:#aab6d8}
+#uoOv .ucard{background:#1c2858;border-radius:20px;padding:14px;margin-bottom:12px;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+#uoOv .urow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#uoOv .uname{font-size:20px;font-weight:800;color:#fff}
+#uoOv .ubadge{border:2px solid;border-radius:999px;padding:3px 14px;font-weight:800;font-size:15px}
+#uoOv .b-run{color:#6fcf97;border-color:#6fcf97}.b-res{color:#7fb0f0;border-color:#7fb0f0}.b-mnt{color:#e3b84a;border-color:#e3b84a}.b-bad{color:#e8806c;border-color:#e8806c}
+#uoOv .ubar{height:14px;border-radius:9px;background:#2e3b73;margin:10px 0 6px;overflow:hidden;direction:ltr}
+#uoOv .ubar i{display:block;height:100%;background:#67bb8d;border-radius:9px}
+#uoOv .uload{font-size:14px;color:#aab6d8;text-align:right}
+#uoOv input[type=range]{width:100%;margin:10px 0;accent-color:#3b82f6;direction:ltr}
+#uoOv select,#uoOv input[type=number],#uoOv input[type=date],#uoOv input[type=text]{width:100%;font:inherit;font-size:17px;color:#e9edf7;background:#1c2858;border:2.5px solid #0f1733;border-radius:16px;padding:14px 16px;margin-top:8px;-webkit-appearance:none;appearance:none;min-height:54px}
+#uoOv select{background-image:linear-gradient(45deg,transparent 50%,#cfd8f2 50%),linear-gradient(135deg,#cfd8f2 50%,transparent 50%);background-position:18px 24px,24px 24px;background-size:6px 6px;background-repeat:no-repeat;padding-left:44px}
+#uoOv .ucols{display:flex;gap:10px}#uoOv .ucols>*{flex:1}
+#uoOv .uts{font-size:13px;color:#8fa0c9;margin-top:8px;text-align:right}
+#uoOv .ucap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#uoOv .ucap input{width:110px;margin:0;text-align:center}
+#uoOv .uh2{font-size:19px;font-weight:800;color:#fff;margin:16px 4px 8px}
+#uoOv .unote{font-size:14px;color:#9fb0d8;margin:6px 4px}
+#uoOv .mitem{display:flex;align-items:center;gap:10px}
+#uoOv .mitem .mi{flex:1;min-width:0;text-align:right}
+#uoOv .mitem .mi b{font-size:17px;color:#fff}#uoOv .mitem .mi div{color:#9fb0d8;font-size:15px;margin-top:4px;direction:ltr;text-align:right}
+#uoOv .mitem .mi em{display:block;font-style:normal;font-size:13px;color:#8fa0c9;margin-top:2px}
+#uoOv .udo{border:0;font:inherit;font-weight:800;font-size:18px;padding:12px 22px;border-radius:14px;color:#14224a;background:linear-gradient(180deg,#eef3ff,#b9c9ec);box-shadow:0 4px 0 #6f85b8;cursor:pointer}
+#uoOv .udo:active{transform:translateY(3px);box-shadow:0 1px 0 #6f85b8}
+#uoOv .udel{border:0;background:none;color:#8fa0c9;font-size:18px;padding:4px 8px;cursor:pointer}
+#uoOv .uadd{margin-top:12px;display:block;margin-inline-start:auto;border:0;font:inherit;font-weight:800;font-size:18px;padding:13px 22px;border-radius:14px;color:#14224a;background:linear-gradient(180deg,#eef3ff,#b9c9ec);box-shadow:0 4px 0 #6f85b8;cursor:pointer}
+#uoOv .uadd:active{transform:translateY(3px);box-shadow:0 1px 0 #6f85b8}
+/* v191 letter folders */
+#ltTypes .ltf{grid-column:1/-1}
+#ltTypes .ltfh{display:flex!important;align-items:center;gap:10px;width:100%;padding:10px 14px!important;min-height:50px;border:2.5px solid #12315a!important;border-radius:14px!important;background:linear-gradient(180deg,#fff7d1,#f3d56b)!important;color:#12315a!important;font:inherit;font-size:16px!important;font-weight:800;box-shadow:0 3px 0 #12315a,inset 0 0 0 2px #fff!important;cursor:pointer;text-align:right}
+#ltTypes .ltfh:active{transform:translateY(2px);box-shadow:0 1px 0 #12315a,inset 0 0 0 2px #fff!important}
+#ltTypes .ltfh b{flex:1}#ltTypes .ltfh em{font-style:normal;background:#12315a;color:#fff;border-radius:999px;min-width:26px;padding:2px 8px;font-size:14px;text-align:center}
+#ltTypes .ltfi{font-size:22px}#ltTypes .ltfa{font-size:16px}
+#ltTypes .ltfg{display:none;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px 4px 6px}
+#ltTypes .ltf.open .ltfg{display:grid}
+#ltTypes .ltfg .btn{height:auto!important;min-height:38px!important;padding:6px 4px!important;font-size:13.5px!important;line-height:1.3}
 </style>
 </head>
 <body>
@@ -1081,6 +1135,8 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <button class="hg y" data-hg="m"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6v3H9zM7 5.5H5v15h14v-15h-2M8 12h8M8 16h5"/></svg><b>جدول موقف الحضور</b></button>
     <button class="hg " data-hg="duty"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><b>المناوبين</b></button>
     <button class="hg " data-hg="day"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg><b>الدوام الصباحي</b></button>
+    <button class="hg " data-hg="units"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 2 5 13.5h5.5L9.5 22 19 9.5h-5.8z"/></svg><b>تشغيل الوحدات</b></button>
+    <button class="hg " data-hg="mnt"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4.5a4.5 4.5 0 0 0-4.2 6L4.4 16.9a2.1 2.1 0 0 0 3 3l6.4-6.4a4.5 4.5 0 0 0 6-4.2l-2.8 2.8-2.6-.6-.6-2.6L16.6 6A4.5 4.5 0 0 0 15 4.5z"/></svg><b>صيانة الوحدات</b></button>
     <button class="hg " data-hg="s"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4"/></svg><b>الإعدادات</b></button>
     <button class="hg" data-hg="backup"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg><b>نسخة احتياطية</b></button>
   </div></div>
@@ -1208,7 +1264,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 189 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 191 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1219,6 +1275,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 </div>
 
 <div class="overlay" id="ov"><div class="sheet" id="sheet"></div></div>
+<div id="uoOv" aria-hidden="true"><div class="uh"><button class="ubk" id="uoBk" type="button">رجوع</button><div class="ut"><b id="uoT">تشغيل الوحدات والصيانة</b><small>محطة كهرباء الموصل الغازية</small></div><span class="ulogo"><svg viewBox="0 0 24 24" width="34" height="34"><path d="M13.5 2 5 13.5h5.5L9.5 22 19 9.5h-5.8z" fill="#fff4c2" stroke="#e0a526" stroke-width="1.4" stroke-linejoin="round"/></svg></span></div><div class="ubd"><div class="utabs"><button class="utab" id="uoTU" type="button">تشغيل الوحدات</button><button class="utab" id="uoTM" type="button">جدولة الصيانة</button></div><div id="uoBody"></div></div></div>
 <div class="toast" id="toast"></div>
 <div id="printArea"></div>
 
@@ -1912,6 +1969,15 @@ const LT_TYPES=[
  {k:'committee',n:'لجنة',to:'السيد مدير المحطة المحترم',subj:'تشكيل لجنة',body:'نقترح تشكيل لجنة من السادة المدرجة أسماؤهم أدناه وذلك لـ ',names:true,close:'يرجى التفضل بالاطلاع… مع التقدير.'},
  {k:'work',n:'أمر عمل',to:'إلى/ ',subj:'أمر عمل',body:''},
  {k:'report',n:'تقرير صيانة',to:'السيد مدير المحطة المحترم',subj:'تقرير صيانة',body:'نود إعلامكم بأنه تم إنجاز أعمال الصيانة التالية '},
+ {k:'stay',n:'بقاء',to:'السيد مدير المحطة المحترم',subj:'بقاء',body:'نود إعلامكم ببقاء السيد (   ) للأيام المدرجة أدناه وذلك للعمل على ',names:true,namesLbl:'الأيام والتواريخ',close:'تفضلكم بالاطلاع… وتنسيبكم… مع التقدير.'},
+ {k:'att',n:'تأييد حضور (بصمة)',to:'السيد مدير المحطة المحترم',subj:'تأييد حضور',body:'نؤيد لكم دوام السيد (   /مناوب وجبة    ) ليوم (    ) الموافق    /    /'+today.getFullYear()+' وحتى نهاية الدوام الرسمي ليوم (    ) الموافق    /    /'+today.getFullYear()+' ولم يبصم عند الساعة (   ) وذلك لتواجده في العمل على ',close:'تفضلكم بالاطلاع… وأمركم… مع التقدير.'},
+ {k:'start',n:'مباشرة',to:'السيد مدير المحطة المحترم',subj:'مباشرة',body:'نود إعلامكم بمباشرة السيد (   ) بالعمل ليوم (    ) الموافق    /    /'+today.getFullYear()+' بعد '},
+ {k:'draw',n:'سحب مادة',to:'السيد مدير المحطة المحترم',subj:'سحب مادة',body:'يرجى التفضل بالموافقة والإيعاز إلى قسم التجهيز والمخازن لغرض سحب ',names:true,namesLbl:'المواد',close:'مع التقدير.'},
+ {k:'consume',n:'استهلاك مواد',to:'السيد مدير المحطة المحترم',subj:'استهلاك مواد',body:'يرجى التفضل بالموافقة والإيعاز إلى لجنة استهلاك المواد لغرض استهلاك المادة المبينة أدناه الخاصة بمنظومة السيطرة ',names:true,namesLbl:'المواد',close:'تفضلكم بالاطلاع… وأمركم… مع التقدير.'},
+ {k:'duty',n:'واجب رسمي',to:'السيد مدير المحطة المحترم',subj:'واجب',body:'يرجى التفضل بالموافقة على إرسال السيد (   /مناوب وجبة    ) واجباً رسمياً إلى (   ) ليوم (    ) الموافق    /    /'+today.getFullYear()+' وذلك للعمل على ',close:'مع التقدير.'},
+ {k:'exit',n:'خروج منتسبين',to:'السيد مدير المحطة المحترم',subj:'خروج منتسبين',body:'يرجى التفضل بالموافقة على خروج المنتسبين المدرجة أسماؤهم أدناه لغرض (   ) ليوم (    ) الموافق    /    /'+today.getFullYear()+' (مع العودة) ',names:true,close:'مع التقدير.'},
+ {k:'leave',n:'إجازة اعتيادية',to:'إلى/ مدير الشؤون الإدارية',subj:'إجازة اعتيادية',body:'يرجى التفضل بالاطلاع وإجراء اللازم لمنح السادة المدرجة أسماؤهم أدناه إجازة اعتيادية ليوم (    ) الموافق    /    /'+today.getFullYear()+' وذلك بعد تجاوزهم ثلاثة أيام خلال الشهر الحالي ',names:true,close:'مع التقدير.'},
+ {k:'join',n:'مشاركة (دورة)',to:'إلى/ قسم الشؤون الإدارية',subj:'مشاركة',body:'إشارة إلى الأمر الإداري ذي العدد (   ) في تاريخ    /    /'+today.getFullYear()+' ، نود إعلامكم بمشاركة السيد (   /مناوب وجبة    ) لتلقي الدورة المقامة في (   ) للمدة من    /    /'+today.getFullYear()+' إلى    /    /'+today.getFullYear()+' بعنوان (   ) ',close:'مع التقدير.'},
  {k:'free',n:'كتاب فارغ',to:'إلى/ ',subj:'',body:''}];
 let LT=null;
 function allLtTypes(){const R=S.ltNames||{},Hd=S.ltHidden||[];return LT_TYPES.filter(t=>!Hd.includes(t.k)).map(t=>R[t.k]?{...t,n:R[t.k],subj:t.subj===t.n?R[t.k]:t.subj}:t).concat(S.ltCustom||[])}
@@ -1991,7 +2057,13 @@ $('ltArchive').onclick=e=>{const b=e.target.closest('button');if(!b)return;const
 function sure(msg){try{return window.confirm(msg||'هل أنت متأكد من الحذف؟')}catch(e){return true}}
 function confirmDel(b){return sure('هل أنت متأكد من حذف هذا الكتاب من الأرشيف؟')}
 $('ltSearch').oninput=ltArchive;$('ltGo').onclick=()=>{$('ltSearch').blur();ltArchive()};$('ltSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('ltGo').click()}});
-function renderLtTypes(){$('ltTypes').innerHTML=allLtTypes().map(t=>`<button class="btn" data-lt="${t.k}"${t.custom?' data-cu="1"':''} style="position:relative;background:${t.k==='free'?'#e0ecff':t.custom?'linear-gradient(135deg,#0ea5e9,#2563eb)':'linear-gradient(135deg,#3b82f6,#6366f1)'};color:${t.k==='free'?'#1d4ed8':'#fff'};padding:9px 4px;font-size:13px">${esc(t.n)}</button>`).join('')+`<button class="btn" data-ltadd="1" style="background:#fff;border:1.5px dashed #2563eb;color:#2563eb;padding:9px 4px;font-size:13px">＋ نوع جديد</button>`}
+const LT_FOLD=[['الدوام والبصمة','📁',['stay','att','start','duty','exit']],['الإجازات والانفكاك والاستدعاء','📁',['leave','release','join','call']],['المواد والمشتريات','📁',['buy','draw','consume']],['المخاطبات والتعاميم','📁',['reply','circ','committee']],['الأعمال والتقارير','📁',['work','report']]];let LTF={};
+function renderLtTypes(){const A=allLtTypes(),used=new Set(),btn=t=>`<button class="btn" data-lt="${t.k}"${t.custom?' data-cu="1"':''}>${esc(t.n)}</button>`;
+ let h=LT_FOLD.map(([n,ic,ks])=>{const L=ks.map(k=>A.find(t=>t.k===k)).filter(Boolean);L.forEach(t=>used.add(t.k));return L.length?ltFold(n,L.map(btn).join(''),L.length):''}).join('');
+ const rest=A.filter(t=>!used.has(t.k));h+=ltFold('كتب أخرى',rest.map(btn).join('')+'<button class="btn" data-ltadd="1">＋ نوع جديد</button>',rest.length);
+ $('ltTypes').innerHTML=h}
+function ltFold(n,inner,c){const o=!!LTF[n];return `<div class="ltf${o?' open':''}"><button type="button" class="ltfh" data-fold="${esc(n)}"><span class="ltfi">${o?'📂':'📁'}</span><b>${esc(n)}</b><em>${c}</em><span class="ltfa">${o?'▴':'▾'}</span></button><div class="ltfg">${inner}</div></div>`}
+$('ltTypes').addEventListener('click',e=>{const f=e.target.closest('[data-fold]');if(!f)return;const n=f.dataset.fold;LTF[n]=!LTF[n];renderLtTypes()});
 renderLtTypes();
 let LP_T=null,LP_DONE=false;
 function ltDelete(k){const t=allLtTypes().find(x=>x.k===k);if(!t)return;if(!sure('هل أنت متأكد من حذف نوع الكتاب «'+t.n+'»؟ (الكتب المحفوظة بالأرشيف تبقى)'))return;
@@ -2657,6 +2729,52 @@ render();
       toast('جارٍ تحديث الأداة إلى النسخة '+m[1]);setTimeout(()=>location.reload(),900);return}}catch(e){}busy=false}
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});setInterval(chk,120000);setTimeout(chk,4000)})();
 if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{})}
+/* v191 unit operation + maintenance */
+(function(){const NU=10,ST=[['run','قيد التشغيل','b-run'],['res','احتياط','b-res'],['mnt','في الصيانة','b-mnt'],['bad','عطل','b-bad']],MT=['صيانة وقائية','فحص دوري','تبديل قطعة','إصلاح عطل'];
+let tab='u';
+const esc2=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const p2=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());
+function stamp(t){const d=new Date(t);return p2(d.getDate())+'/'+p2(d.getMonth()+1)+'/'+d.getFullYear()+'، '+p2(d.getHours())+':'+p2(d.getMinutes())}
+function init(){if(!Array.isArray(S.units)||S.units.length<NU){const o=Array.isArray(S.units)?S.units:[];S.units=[];for(let i=0;i<NU;i++)S.units.push(o[i]||{st:'res',load:0,ts:0})}
+ if(!(S.cap>0))S.cap=100;if(!Array.isArray(S.mnt))S.mnt=[]}
+function badge(k){const x=ST.find(a=>a[0]===k)||ST[1];return '<span class="ubadge '+x[2]+'">'+x[1]+'</span>'}
+function viewU(){const U=S.units,cap=S.cap;let load=0,run=0,mnt=0,bad=0;U.forEach(u=>{if(u.st==='run'){run++;load+=+u.load||0}else if(u.st==='mnt')mnt++;else if(u.st==='bad')bad++});
+ let h='<div class="ustats"><div class="us"><b>'+load+'</b><span>م.و الحمل</span></div><div class="us"><b style="color:#6fcf97">'+run+'</b><span>شغالة</span></div><div class="us"><b style="color:#e3b84a">'+mnt+'</b><span>صيانة</span></div><div class="us"><b style="color:#e8806c">'+bad+'</b><span>عطل</span></div></div>'
+ +'<div class="ucard ucap"><span class="uname" style="font-size:17px">السعة الاسمية للوحدة (م.و)</span><input type="number" inputmode="numeric" id="uoCap" min="1" value="'+cap+'"></div>';
+ U.forEach((u,i)=>{const run=u.st==='run',ld=Math.min(cap,Math.max(0,+u.load||0));
+  h+='<div class="ucard" data-u="'+i+'"><div class="urow"><span class="uname">الوحدة '+(i+1)+'</span>'+badge(u.st)+'</div>'
+  +'<div class="ubar"><i style="width:'+(cap?Math.round(ld/cap*100):0)+'%"></i></div><div class="uload">الحمل: '+ld+' من '+cap+' م.و</div>'
+  +(run?'<input type="range" class="uo-rg" min="0" max="'+cap+'" value="'+ld+'">':'')
+  +'<div class="ucols"><select class="uo-st">'+ST.map(a=>'<option value="'+a[0]+'"'+(a[0]===u.st?' selected':'')+'>'+a[1]+'</option>').join('')+'</select>'+(run?'<input type="number" inputmode="numeric" class="uo-ld" min="0" max="'+cap+'" value="'+ld+'">':'')+'</div>'
+  +'<div class="uts">'+(u.ts?'آخر تغيير: '+stamp(u.ts):'لم تُسجَّل حالة بعد')+'</div></div>'});
+ return h}
+function viewM(){const M=S.mnt.slice().sort((a,b)=>(a.d>b.d?1:-1)),today=iso(new Date());let late=0,sch=0;M.forEach(m=>{if(!m.done){if(m.d<today)late++;else sch++}});
+ let h='<div class="unote">'+(late?'⚠️ صيانة متأخرة: '+late:'لا توجد صيانة متأخرة')+' · '+sch+' مجدولة</div>';
+ if(!M.length)h+='<div class="unote">لا توجد أعمال صيانة مسجلة.</div>';
+ M.forEach(m=>{const st=m.done?['b-run','منجزة']:m.d<today?['b-bad','متأخرة']:['b-mnt','مجدولة'];
+  h+='<div class="ucard mitem" data-m="'+esc2(m.id)+'">'+(m.done?'':'<button class="udo" type="button" data-act="done">تم</button>')+'<span class="ubadge '+st[0]+'">'+st[1]+'</span><div class="mi"><b>الوحدة '+esc2(m.u)+' · '+esc2(m.t)+'</b><div>'+esc2(m.d)+'</div>'+(m.note?'<em>'+esc2(m.note)+'</em>':'')+'</div><button class="udel" type="button" data-act="del" aria-label="حذف">✕</button></div>'});
+ h+='<div class="uh2">إضافة صيانة</div><div class="ucard"><select id="uoMu">'+Array.from({length:NU},(_,i)=>'<option value="'+(i+1)+'">الوحدة '+(i+1)+'</option>').join('')+'</select><select id="uoMt">'+MT.map(t=>'<option>'+t+'</option>').join('')+'</select><input type="date" id="uoMd" value="'+today+'"><input type="text" id="uoMn" placeholder="ملاحظة (اختياري)"><button class="uadd" id="uoMa" type="button">+ إضافة إلى الجدول</button></div>';
+ return h}
+function draw(keep){const y=keep?$('uoOv').scrollTop:0;$('uoTU').classList.toggle('on',tab==='u');$('uoTM').classList.toggle('on',tab==='m');$('uoT').textContent=tab==='u'?'تشغيل الوحدات':'صيانة الوحدات';$('uoBody').innerHTML=tab==='u'?viewU():viewM();$('uoOv').scrollTop=y}
+function open(t){init();tab=t;$('uoOv').classList.add('show');$('uoOv').setAttribute('aria-hidden','false');draw(false);document.body.style.overflow='hidden'}
+function close(){$('uoOv').classList.remove('show');$('uoOv').setAttribute('aria-hidden','true');document.body.style.overflow=''}
+function setLoad(i,v){const u=S.units[i];v=Math.min(S.cap,Math.max(0,Math.round(+v)||0));if(u.load!==v){u.load=v;u.ts=Date.now();save()}return v}
+$('uoBk').onclick=close;$('uoTU').onclick=()=>{tab='u';draw(false)};$('uoTM').onclick=()=>{tab='m';draw(false)};
+$('uoBody').addEventListener('change',e=>{const t=e.target,c=t.closest('[data-u]');
+ if(t.id==='uoCap'){const v=Math.round(+t.value);if(v>0){S.cap=v;S.units.forEach(u=>{if(u.load>v)u.load=v});save();draw(true)}return}
+ if(!c)return;const i=+c.dataset.u,u=S.units[i];
+ if(t.classList.contains('uo-st')){u.st=t.value;if(u.st!=='run')u.load=0;u.ts=Date.now();save();draw(true)}
+ else if(t.classList.contains('uo-ld')){setLoad(i,t.value);draw(true)}});
+$('uoBody').addEventListener('input',e=>{const t=e.target;if(!t.classList.contains('uo-rg'))return;const c=t.closest('[data-u]'),i=+c.dataset.u,v=Math.round(+t.value);c.querySelector('.ubar i').style.width=(S.cap?v/S.cap*100:0)+'%';c.querySelector('.uload').textContent='الحمل: '+v+' من '+S.cap+' م.و';const n=c.querySelector('.uo-ld');if(n)n.value=v});
+$('uoBody').addEventListener('pointerup',e=>{const t=e.target;if(t.classList&&t.classList.contains('uo-rg')){setLoad(+t.closest('[data-u]').dataset.u,t.value);draw(true)}});
+$('uoBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.id==='uoMa'){const d=$('uoMd').value;if(!d){toast('اختر التاريخ');return}S.mnt.push({id:'m'+Date.now(),u:+$('uoMu').value,t:$('uoMt').value,d,note:$('uoMn').value.trim(),done:false});save();draw(true);toast('أُضيفت إلى الجدول');return}
+ const c=b.closest('[data-m]');if(!c)return;const k=S.mnt.findIndex(m=>m.id===c.dataset.m);if(k<0)return;
+ if(b.dataset.act==='done'){S.mnt[k].done=true;save();draw(true)}
+ else if(b.dataset.act==='del'&&confirm('حذف هذه الصيانة من الجدول؟')){S.mnt.splice(k,1);save();draw(true)}});
+document.addEventListener('click',e=>{const b=e.target.closest('#hGrid [data-hg="units"],#hGrid [data-hg="mnt"]');if(b)open(b.dataset.hg==='units'?'u':'m')});
+})();
+
 })();
 
 /* 3D raised icons: wrap emoji inside buttons */
