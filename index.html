@@ -1412,6 +1412,16 @@ html,body{overflow-x:hidden!important}
 #viewSettings .rcred{color:#8a6a12;text-shadow:none}
 #splash .spcr{font-size:15px!important;opacity:1!important}
 #guideOv .gc{font-size:15px!important}
+/* v215 maintenance form */
+#uoOv .fmtop{width:100%;margin-bottom:12px;font-size:17px}
+#uoOv .fmh{background:linear-gradient(160deg,#12315a,#0b2447);border:2px solid #d4af37;border-radius:18px;padding:12px 14px;margin-bottom:12px;text-align:center;box-shadow:0 5px 0 #8a6a12}
+#uoOv .fmh b{display:block;color:#ffe9a6;font-size:19px}#uoOv .fmh span{display:block;color:#dbe5ff;font-size:14px;margin-top:2px}
+#uoOv .fmt,#uoOv .fma{margin-bottom:12px}
+#uoOv .fmg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#uoOv .fmf{margin-bottom:10px}
+#uoOv .fmf label{display:block;font-weight:800;color:#0b2447;font-size:14px;margin-bottom:4px}
+#uoOv .fmf input,#uoOv .fmf select,#uoOv .fmf textarea{width:100%;box-sizing:border-box;border:2px solid #1F4E9A;border-radius:12px;padding:10px;font:700 15px Cairo,Arial;background:#fff;color:#0b2447;box-shadow:0 3px 0 #1F4E9A}
+#uoOv .fmf textarea{resize:vertical;line-height:1.7}
 </style>
 </head>
 <body>
@@ -1596,7 +1606,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 214 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 215 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3141,13 +3151,39 @@ function guide(){let o=document.getElementById('guideOv');if(o)o.remove();o=docu
  o.innerHTML='<div class="gh"><button type="button" id="gX">رجوع</button><div><b>دليل الاستخدام</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><details><summary>الموقف الرسمي للحضور</summary><p>افتح «الموقف الرسمي للحضور» ثم اختر الشهري أو الأسبوعي أو اليومي. اضغط على اسم المنتسب لتغيير حالته، وزر الطباعة يطبع الجدول رسمياً.</p></details><details><summary>المناوبين والدوام الصباحي</summary><p>بدّل بين جدول المناوبين وجدول الدوام الصباحي من الشريط العلوي. الضغط على الخانة يغيّر الحالة، ويمكن تعديل الأسماء والأيام.</p></details><details><summary>الكتب الرسمية</summary><p>اكتب بيانات الكتاب واختر النموذج، ثم انسخه أو اطبعه. «قراءة المستندات» تقرأ صورة الكتاب وتعبّي الحقول.</p></details><details><summary>تشغيل الوحدات</summary><p>الأعلى حمل المحطة الحالي بالميغاواط ونسبته. اضغط على أي وحدة من الـ 14 لتختار: شغال، احتياط، صيانة، عطل، وحدد حملها. اللون يدل على الحالة. اضغط مطولاً على أي اسم لتعديله.</p></details><details><summary>صيانة الوحدات</summary><p>أضف صيانة بتحديد الوحدة والنوع والتاريخ. لكل صيانة أزرار: تم الإنجاز، تعديل، طباعة أمر عمل، حذف. المتأخرة تظهر بالأحمر.</p></details><details><summary>أوامر العمل والتقارير</summary><p>سجّل أمر العمل مع أهميته (عادي، مهم، عاجل) وغيّر حالته. التقارير تعرض الوضع التشغيلي كاملاً للنسخ أو المشاركة أو الطباعة.</p></details><details><summary>دليل المنتسبين والنسخ الاحتياطي</summary><p>الدليل يحتوي بيانات المنتسبين وتعديلها. النسخ الاحتياطي يحفظ كل بياناتك بملف، وتستعيده عند تغيير الجهاز.</p></details><details><summary>التحديث</summary><p>لتحديث الأداة اغلقها بالكامل وافتحها مرتين، وتأكد من رقم «نسخة الأداة» في الإعدادات.</p></details><div class="gc"><span class="rcred">المهندسة ريم هيثم جمال</span></div></div>';
  document.body.appendChild(o);document.getElementById('gX').onclick=()=>o.remove()}
 window.guide=guide;
+const FD={type:'rep',no:'',d:'',u:'1',mt:'صيانة وقائية',pr:'اعتيادية',dv:'الورشة',t1:'',t2:'',desc:'',parts:'',act:'',notes:''};
+const FH=()=>[L('f_h1','وزارة الكهرباء'),L('f_h2','الشركة العامة لإنتاج الطاقة الكهربائية'),L('f_h3','محطة كهرباء الموصل الغازية · قسم السيطرة الذاتية')];
+function fmGet(){S.fm=Object.assign({},FD,S.fm||{});if(!S.fm.d)S.fm.d=iso(new Date());return S.fm}
+function fmPrefill(m){const f=fmGet();f.type='wo';f.u=String(m.u||1);f.mt=m.t||f.mt;f.d=m.d||f.d;f.desc=m.note||f.desc;save();tab='f';draw(false)}
+function fmPrint(){const f=fmGet(),w=window.open('','_blank');if(!w){toast('اسمح بالنوافذ المنبثقة للطباعة');return}
+ const H=FH(),ttl=f.type==='wo'?L('f_t_wo','أمر عمل'):L('f_t_rep','تقرير صيانة'),c=(a,b)=>'<div class="c"><span>'+a+'</span><b>'+(esc2(b)||'&nbsp;')+'</b></div>',bx=(a,b)=>'<div class="bx"><span>'+a+'</span><div>'+esc2(b).replace(/\n/g,'<br>')+'</div></div>';
+ w.document.write('<!doctype html><meta charset=utf-8><title>'+ttl+'</title><style>@page{size:A4;margin:14mm}body{font-family:Arial,Tahoma;direction:rtl;color:#111;margin:0}.hd{display:flex;align-items:center;gap:14px;border-bottom:3px double #222;padding-bottom:8px}.hd .lg{width:78px;height:78px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#2c5ea8,#0b2447 72%);border:3px solid #d4af37;display:grid;place-items:center;flex:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}.hd .lg img{width:60%}.hd b{display:block;font-size:19px}.hd div div{font-size:15px;margin-top:2px}h1{text-align:center;font-size:26px;margin:18px 0}.g{display:grid;grid-template-columns:1fr 1fr;gap:14px 24px}.c span,.bx span{display:block;font-size:14px;color:#444;margin-bottom:3px}.c b{display:block;font-size:17px;border-bottom:1.5px solid #222;min-height:26px;padding:2px 4px}.bx{margin-top:16px}.bx div{border:1.5px solid #222;border-radius:6px;min-height:120px;padding:10px;font-size:16px;line-height:1.9}</style><body><div class="hd"><div class="lg"><img src="'+location.origin+location.pathname.replace(/[^\/]*$/,'')+'logo-gold3d.png"></div><div><b>'+esc2(H[0])+'</b><div>'+esc2(H[1])+'</div><div>'+esc2(H[2])+'</div></div></div><h1>'+esc2(ttl)+'</h1><div class="g">'
+ +c(esc2(L('f_no','رقم الاستمارة')),f.no)+c(esc2(L('f_d','التاريخ')),f.d)+c(esc2(L('f_u','الوحدة')),UN((+f.u||1)-1))+c(esc2(L('f_mt','نوع الصيانة')),f.mt)+c(esc2(L('f_pr','الأولوية')),f.pr)+c(esc2(L('f_dv','الشعبة المنفذة')),f.dv)+c(esc2(L('f_t1','وقت البدء')),f.t1)+c(esc2(L('f_t2','وقت الانتهاء')),f.t2)+'</div>'
+ +bx(esc2(L('f_desc','وصف العمل المطلوب أو العطل')),f.desc)+bx(esc2(L('f_parts','القطع والمواد المستخدمة')),f.parts)+bx(esc2(L('f_act','الإجراء المتخذ والنتيجة')),f.act)+bx(esc2(L('f_notes','ملاحظات وتوصيات')),f.notes)+'<script>window.onload=function(){setTimeout(function(){print()},400)}<\/script>');w.document.close()}
+function fmAct(a){const f=fmGet();
+ if(a==='open'){tab='f';draw(false)}
+ else if(a==='back'){tab='m';draw(false)}
+ else if(a==='rep'||a==='wo'){f.type=a;save();draw(true)}
+ else if(a==='print')fmPrint()
+ else if(a==='clear'){if(confirm('مسح كل الحقول؟')){S.fm=Object.assign({},FD,{type:f.type,d:iso(new Date())});save();draw(true)}}}
+function viewF(){const f=fmGet(),H=FH(),inp=(k,id,lab,ph,list,type)=>'<div class="fmf"><label data-lk="f_'+k+'" data-d="'+lab+'">'+esc2(L('f_'+k,lab))+'</label><input '+(type?'type="'+type+'"':'type="text"')+' data-ff="'+id+'" value="'+esc2(f[id])+'"'+(list?' list="fl_'+id+'"':'')+(ph?' placeholder="'+ph+'"':'')+'>'+(list?'<datalist id="fl_'+id+'">'+list.map(x=>'<option value="'+esc2(x)+'">').join('')+'</datalist>':'')+'</div>';
+ return '<div class="fmh"><b data-lk="f_h1" data-d="وزارة الكهرباء">'+esc2(H[0])+'</b><span data-lk="f_h2" data-d="الشركة العامة لإنتاج الطاقة الكهربائية">'+esc2(H[1])+'</span><span data-lk="f_h3" data-d="محطة كهرباء الموصل الغازية · قسم السيطرة الذاتية">'+esc2(H[2])+'</span></div>'
+ +'<div class="ustg c3 fmt"><button type="button" class="ust b-mnt'+(f.type==='rep'?' on':'')+'" data-fm="rep" data-lk="f_t_rep" data-d="تقرير صيانة">'+esc2(L('f_t_rep','تقرير صيانة'))+'</button><button type="button" class="ust b-res'+(f.type==='wo'?' on':'')+'" data-fm="wo" data-lk="f_t_wo" data-d="أمر عمل">'+esc2(L('f_t_wo','أمر عمل'))+'</button></div>'
+ +'<div class="ucard fmc"><div class="fmg">'+inp('no','no','رقم الاستمارة','')+inp('d','d','التاريخ','',null,'date')
+ +'<div class="fmf"><label data-lk="f_u" data-d="الوحدة">'+esc2(L('f_u','الوحدة'))+'</label><select data-ff="u">'+Array.from({length:NU},(_,i)=>'<option value="'+(i+1)+'"'+(String(f.u)===String(i+1)?' selected':'')+'>'+esc2(UN(i))+'</option>').join('')+'</select></div>'
+ +inp('mt','mt','نوع الصيانة','',MT)+inp('pr','pr','الأولوية','',['اعتيادية','مهمة','عاجلة'])+inp('dv','dv','الشعبة المنفذة','',['الورشة','الكهرباء','الميكانيك','السيطرة الذاتية','التشغيل'])+inp('t1','t1','وقت البدء','',null,'time')+inp('t2','t2','وقت الانتهاء','',null,'time')+'</div>'
+ +'<div class="fmf"><label data-lk="f_desc" data-d="وصف العمل المطلوب أو العطل">'+esc2(L('f_desc','وصف العمل المطلوب أو العطل'))+'</label><textarea data-ff="desc" rows="5">'+esc2(f.desc)+'</textarea></div>'
+ +'<div class="fmf"><label data-lk="f_parts" data-d="القطع والمواد المستخدمة">'+esc2(L('f_parts','القطع والمواد المستخدمة'))+'</label><textarea data-ff="parts" rows="4">'+esc2(f.parts)+'</textarea></div>'
+ +'<div class="fmf"><label data-lk="f_act" data-d="الإجراء المتخذ والنتيجة">'+esc2(L('f_act','الإجراء المتخذ والنتيجة'))+'</label><textarea data-ff="act" rows="4">'+esc2(f.act)+'</textarea></div>'
+ +'<div class="fmf"><label data-lk="f_notes" data-d="ملاحظات وتوصيات">'+esc2(L('f_notes','ملاحظات وتوصيات'))+'</label><textarea data-ff="notes" rows="3">'+esc2(f.notes)+'</textarea></div></div>'
+ +'<div class="ustg c3 fma"><button type="button" class="ust b-run on" data-fm="print" data-lk="f_print" data-d="طباعة / حفظ PDF">'+esc2(L('f_print','طباعة / حفظ PDF'))+'</button><button type="button" class="ust b-bad" data-fm="clear" data-lk="f_clear" data-d="مسح الحقول">'+esc2(L('f_clear','مسح الحقول'))+'</button><button type="button" class="ust b-res" data-fm="back" data-lk="f_back" data-d="جدول الصيانة">'+esc2(L('f_back','جدول الصيانة'))+'</button></div>'}
 function woPrint(m){const w=window.open('','_blank');if(!w){toast('اسمح بالنوافذ المنبثقة للطباعة');return}
  const no=(m.id||'').replace(/\D/g,'').slice(-6),row=(a,b)=>'<tr><th>'+a+'</th><td>'+b+'</td></tr>';
  w.document.write('<!doctype html><meta charset=utf-8><title>أمر عمل</title><style>body{font-family:Arial,Tahoma;padding:28px;direction:rtl;color:#111}h1{text-align:center;font-size:22px;margin:4px 0}h2{text-align:center;font-size:16px;margin:2px 0 18px;font-weight:600}table{width:100%;border-collapse:collapse;font-size:17px}th,td{border:1.5px solid #222;padding:11px 12px;text-align:right}th{width:30%;background:#eee}.sg{display:flex;justify-content:space-between;margin-top:60px;font-size:16px}.sg div{width:30%;text-align:center;border-top:1.5px solid #222;padding-top:6px}</style><body><h1>محطة كهرباء الموصل الغازية</h1><h2>قسم السيطرة الذاتية — أمر عمل صيانة</h2><table>'
  +row('رقم الأمر',no)+row('الوحدة',esc2(UN((+m.u||1)-1)))+row('نوع العمل',esc2(m.t))+row('التاريخ المقرر',esc2(m.d))+row('الحالة',m.done?'منجزة':'غير منجزة')+row('ملاحظات',esc2(m.note||'')+'<br><br>')+'</table><div class="sg"><div>المنفّذ</div><div>مسؤول الشعبة</div><div>المدير</div></div>');
  w.document.close();w.focus();setTimeout(()=>w.print(),300)}
 function viewM(){const M=S.mnt.slice().sort((a,b)=>(a.d>b.d?1:-1)),today=iso(new Date());let late=0,sch=0;M.forEach(m=>{if(!m.done){if(m.d<today)late++;else sch++}});
- let h='<div class="unote">'+(late?'⚠️ '+LK('m_late','صيانة متأخرة')+': '+late:LK('m_nolate','لا توجد صيانة متأخرة'))+' · '+sch+' '+LK('m_sch','مجدولة')+'</div>';
+ let h='<button type="button" class="ust b-mnt on fmtop" data-fm="open" data-lk="f_open" data-d="استمارة تقرير صيانة / أمر عمل">'+esc2(L('f_open','استمارة تقرير صيانة / أمر عمل'))+'</button><div class="unote">'+(late?'⚠️ '+LK('m_late','صيانة متأخرة')+': '+late:LK('m_nolate','لا توجد صيانة متأخرة'))+' · '+sch+' '+LK('m_sch','مجدولة')+'</div>';
  if(!M.length)h+='<div class="unote">'+LK('m_empty','لا توجد أعمال صيانة مسجلة.')+'</div>';
  M.forEach(m=>{const st=m.done?['b-run',L('m_done','منجزة')]:m.d<today?['b-bad',L('m_over','متأخرة')]:['b-mnt',L('m_sch','مجدولة')];
   h+='<div class="ucard mitem" data-m="'+esc2(m.id)+'">'+'<span class="ubadge '+st[0]+'">'+st[1]+'</span><div class="mi"><b>'+esc2(UN((+m.u||1)-1))+' · '+esc2(m.t)+'</b><div>'+esc2(m.d)+'</div>'+(m.note?'<em>'+esc2(m.note)+'</em>':'')+'</div><div class="mact">'+(m.done?'<button type="button" class="mab" data-act="reopen" data-lk="m_re" data-d="إعادة فتح">'+esc2(L('m_re','إعادة فتح'))+'</button>':'<button type="button" class="mab" data-act="done" data-lk="m_ok2" data-d="تم الإنجاز">'+esc2(L('m_ok2','تم الإنجاز'))+'</button>')+'<button type="button" class="mab ed" data-act="edit" data-lk="m_ed" data-d="تعديل">'+esc2(L('m_ed','تعديل'))+'</button>'+'<button type="button" class="mab" data-act="print" data-lk="m_pr" data-d="طباعة أمر عمل">'+esc2(L('m_pr','طباعة أمر عمل'))+'</button><button type="button" class="mab dl" data-act="del" data-lk="m_dl" data-d="حذف">'+esc2(L('m_dl','حذف'))+'</button></div></div>'});
@@ -3180,9 +3216,10 @@ function repText(){S.wo=S.wo||[];const today=iso(new Date());let load=0,c={run:0
   return t}
 function viewR(){const t=repText();return '<div class="ucard"><div class="uname" style="margin-bottom:8px">'+LK('r_title','تقرير الوضع التشغيلي')+'</div><div class="rptx">'+esc2(t)+'</div></div>'
  +'<div class="ustg c3 rpb"><button type="button" class="ust b-run on" id="rpC" data-lk="r_copy" data-d="نسخ التقرير">'+esc2(L('r_copy','نسخ التقرير'))+'</button>'+(navigator.share?'<button type="button" class="ust b-res on" id="rpS" data-lk="r_share" data-d="مشاركة">'+esc2(L('r_share','مشاركة'))+'</button>':'')+'<button type="button" class="ust b-mnt on" id="rpP" data-lk="r_print" data-d="طباعة">'+esc2(L('r_print','طباعة'))+'</button></div>'}
-$('uoBody').addEventListener('input',e=>{const t=e.target;if(t.id==='woT')wv.t=t.value;else if(t.id==='woN')wv.n=t.value;else if(t.id==='woD')wv.d=t.value;else if(t.id==='woU')wv.u=t.value});
-$('uoBody').addEventListener('change',e=>{if(e.target.id==='woU')wv.u=e.target.value});
+$('uoBody').addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.ff){S.fm=S.fm||{};S.fm[t.dataset.ff]=t.value;save();return}if(t.id==='woT')wv.t=t.value;else if(t.id==='woN')wv.n=t.value;else if(t.id==='woD')wv.d=t.value;else if(t.id==='woU')wv.u=t.value});
+$('uoBody').addEventListener('change',e=>{if(e.target.dataset&&e.target.dataset.ff){S.fm=S.fm||{};S.fm[e.target.dataset.ff]=e.target.value;save();return}if(e.target.id==='woU')wv.u=e.target.value});
 $('uoBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.fm){fmAct(b.dataset.fm);return}
  if(b.dataset.ut!==undefined){pick(+b.dataset.ut);return}
  if(b.dataset.wp!==undefined){wp=b.dataset.wp;b.parentNode.querySelectorAll('.ust').forEach(x=>x.classList.toggle('on',x===b));return}
  if(b.dataset.wf!==undefined){wf=b.dataset.wf;draw(true);return}
@@ -3201,7 +3238,7 @@ function pick(i){const u=S.units[i],ld=Math.min(S.cap,Math.max(0,+u.load||0));le
  $('uoOv').appendChild(m);m.onclick=e=>{if(e.target===m)m.remove()};$('uoPx').onclick=()=>m.remove();
  m.querySelectorAll('[data-pk]').forEach(b=>b.onclick=()=>{if(Date.now()-(window.__lpT||0)<900)return;const k=b.dataset.pk;if(u.st!==k){u.st=k;if(k!=='run')u.load=0;u.ts=Date.now();save();draw(true)}pick(i)});
  const r=$('uoPr');if(r){r.oninput=()=>{m.querySelector('.ulv').textContent=r.value};r.onchange=()=>{setLoad(i,r.value);draw(true);pick(i)}}}
-function draw(keep){const y=keep?$('uoOv').scrollTop:0;$('uoTU').classList.toggle('on',tab==='u');$('uoTM').classList.toggle('on',tab==='m');$('uoTU').textContent=L('tabU','تشغيل الوحدات');$('uoTM').textContent=L('tabM','جدولة الصيانة');$('uoTU').dataset.lk='tabU';$('uoTU').dataset.d='تشغيل الوحدات';$('uoTM').dataset.lk='tabM';$('uoTM').dataset.d='جدولة الصيانة';{const TT={u:'تشغيل الوحدات',m:'صيانة الوحدات',w:'أوامر العمل',r:'التقارير'},k='tTitle'+tab,d=TT[tab];$('uoT').textContent=L(k,d);$('uoT').dataset.lk=k;$('uoT').dataset.d=d}$('uoBody').innerHTML=tab==='u'?viewU():tab==='m'?viewM():tab==='w'?viewW():viewR();$('uoOv').scrollTop=y}
+function draw(keep){const y=keep?$('uoOv').scrollTop:0;$('uoTU').classList.toggle('on',tab==='u');$('uoTM').classList.toggle('on',tab==='m');$('uoTU').textContent=L('tabU','تشغيل الوحدات');$('uoTM').textContent=L('tabM','جدولة الصيانة');$('uoTU').dataset.lk='tabU';$('uoTU').dataset.d='تشغيل الوحدات';$('uoTM').dataset.lk='tabM';$('uoTM').dataset.d='جدولة الصيانة';{const TT={u:'تشغيل الوحدات',m:'صيانة الوحدات',w:'أوامر العمل',f:'استمارة الصيانة',r:'التقارير'},k='tTitle'+tab,d=TT[tab];$('uoT').textContent=L(k,d);$('uoT').dataset.lk=k;$('uoT').dataset.d=d}$('uoBody').innerHTML=tab==='u'?viewU():tab==='m'?viewM():tab==='w'?viewW():tab==='f'?viewF():viewR();$('uoOv').scrollTop=y}
 function open(t){init();tab=t;$('uoOv').classList.add('show');$('uoOv').setAttribute('aria-hidden','false');draw(false);document.body.style.overflow='hidden'}
 function close(){$('uoOv').classList.remove('show');$('uoOv').setAttribute('aria-hidden','true');document.body.style.overflow=''}
 function setLoad(i,v){const u=S.units[i];v=Math.min(S.cap,Math.max(0,Math.round(+v)||0));if(u.load!==v){u.load=v;u.ts=Date.now();save()}return v}
@@ -3235,7 +3272,7 @@ $('uoBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!
  if(b.id==='uoMa'){const d=$('uoMd').value;if(!d){toast('اختر التاريخ');return}S.mnt.push({id:'m'+Date.now(),u:+$('uoMu').value,t:$('uoMt').value,d,note:$('uoMn').value.trim(),done:false});save();draw(true);toast('أُضيفت إلى الجدول');return}
  const c=b.closest('[data-m]');if(!c)return;const k=S.mnt.findIndex(m=>m.id===c.dataset.m);if(k<0)return;
  if(b.dataset.act==='done'){S.mnt[k].done=true;save();draw(true)}
- else if(b.dataset.act==='print'){woPrint(S.mnt[k])}
+ else if(b.dataset.act==='print'){fmPrefill(S.mnt[k])}
  else if(b.dataset.act==='reopen'){S.mnt[k].done=false;save();draw(true)}
  else if(b.dataset.act==='edit'){mEdit(k)}
  else if(b.dataset.act==='del'&&confirm('حذف هذه الصيانة من الجدول؟')){S.mnt.splice(k,1);save();draw(true)}});
