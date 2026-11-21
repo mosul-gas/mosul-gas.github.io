@@ -1,4 +1,4 @@
-const C='mawqif-v216';
+const C='mawqif-v217';
 self.addEventListener('install',e=>{self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{const req=e.request;if(req.method!=='GET'||/\/academy\//.test(req.url))return;

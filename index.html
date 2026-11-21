@@ -1442,6 +1442,16 @@ html,body{overflow-x:hidden!important}
 #acadOv details{border-top:1px solid #c9d4ec;margin-top:10px;text-align:right}#acadOv summary{padding:11px 4px;font-weight:900;cursor:pointer}
 #acadOv details p{margin:0;padding:0 4px 12px;line-height:1.9;font-size:15px;color:#34456b}
 #acadOv .gc{text-align:center;margin:18px 0 30px}
+/* v217 home grid: centered flex, fit-width location tile */
+#hGrid{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:14px!important}
+#hGrid .hg{flex:0 0 calc((100% - 14px)/2)!important;max-width:calc((100% - 14px)/2)}
+#hGrid .hg.wide{flex:0 0 auto!important;max-width:none!important;width:fit-content!important;min-width:0!important;margin:6px auto 0!important;padding:10px 26px!important;gap:16px!important}
+#hGrid .hg.wide .hgt{align-items:flex-start}
+@media(min-width:700px){#hGrid{gap:18px!important}#hGrid .hg{flex-basis:calc((100% - 54px)/4)!important;max-width:calc((100% - 54px)/4)}}
+@media(min-width:1500px){#hGrid .hg{flex-basis:calc((100% - 72px)/5)!important;max-width:calc((100% - 72px)/5)}}
+#hGrid .hg.wide{max-width:none!important}
+#hGrid::after{content:'';flex:0 0 100%;order:98;height:0}#hGrid .hg.wide{order:99}
+#hGrid .hg.wide small{white-space:nowrap}@media(max-width:420px){#hGrid .hg.wide{padding:10px 16px!important;gap:12px!important}#hGrid .hg.wide .hgt small{font-size:11px!important}}
 </style>
 </head>
 <body>
@@ -1628,7 +1638,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 216 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 217 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
