@@ -1464,6 +1464,11 @@ html,body{overflow-x:hidden!important}
 #acadOv .dvk{font-size:14px;color:#dbe5ff;font-weight:700}
 #acadOv .dvn{margin:4px 0 12px}#acadOv .dvn .rcred{font-size:29px;white-space:nowrap;color:#ffe9a6;line-height:1.5}
 #acadOv .dvs{font-size:14px;color:#dbe5ff;line-height:1.9;border-top:1px solid rgba(212,175,55,.5);padding-top:10px}
+#acadOv .dvh{font-weight:900;color:#0b2447;font-size:17px;margin-bottom:10px}
+#acadOv .acf2:has(.dvh){background:#fff;color:#0b2447;text-align:right}
+#acadOv .dvr{display:flex;align-items:center;gap:12px;padding:12px;margin-top:8px;border:1.5px solid #c9d4ec;border-radius:14px;background:linear-gradient(180deg,#fff,#f3f6fc);text-decoration:none;color:#0b2447}
+#acadOv .dvr i{font-style:normal;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(160deg,#1d4a85,#0b2447);border:2px solid #d4af37;font-size:20px;flex:none}
+#acadOv .dvr small{display:block;color:#5a6b8c;font-weight:700;font-size:12.5px}#acadOv .dvr b{font-size:15px}#acadOv .dvr b[dir=ltr]{font-size:13.2px;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -1651,7 +1656,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 218 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 219 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3237,7 +3242,10 @@ function acad(){let o=document.getElementById('acadOv');if(o)o.remove();o=docume
  document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove()}
 window.acad=acad;
 function devAbout(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
- o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>عن مطوّرة الأداة</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><div class="acf"><div class="acf2 dvb"><div class="dvl"><img src="logo-moe.png" alt=""></div><div class="dvk">إعداد وتصميم</div><div class="dvn"><span class="rcred">المهندسة ريم هيثم جمال</span></div><div class="dvs">وزارة الكهرباء · قسم السيطرة الذاتية<br>محطة كهرباء الموصل الغازية</div></div></div></div>';
+ o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>عن مطوّرة الأداة</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><div class="acf"><div class="acf2 dvb"><div class="dvl"><img src="logo-moe.png" alt=""></div><div class="dvk">إعداد وتصميم</div><div class="dvn"><span class="rcred">المهندسة ريم هيثم جمال</span></div><div class="dvs">وزارة الكهرباء · قسم السيطرة الذاتية<br>محطة كهرباء الموصل الغازية</div></div></div>'
+ +'<div class="acf"><div class="acf2"><div class="dvh">بيانات المحطة الرسمية</div>'
+ +'<div class="dvr"><i>📍</i><div><small>العنوان</small><b>العراق / الموصل / شارع بغداد</b></div></div>'
+ +'<a class="dvr" href="mailto:mousal_gas_turbin@moelc.gov.iq"><i>✉️</i><div><small>البريد الإلكتروني</small><b dir="ltr">mousal_gas_turbin@moelc.gov.iq</b></div></a></div></div></div>';
  document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove()}
 window.devAbout=devAbout;
 function woPrint(m){const w=window.open('','_blank');if(!w){toast('اسمح بالنوافذ المنبثقة للطباعة');return}
