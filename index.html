@@ -1136,6 +1136,21 @@ body.tbl.daymode .gridwrap{overflow-x:hidden}
 /* v194 white logo like burger lines */
 .brand .bolt{background:rgba(255,255,255,.18)!important;border:1px solid rgba(255,255,255,.3)!important;box-shadow:none!important}
 .brand .bolt img{filter:brightness(0) invert(1)}
+/* v195 employee card + columns manager */
+#sheet .dpro{display:flex;gap:12px;align-items:center;padding:12px;margin:6px 0 10px;border-radius:16px;background:linear-gradient(135deg,#12315a,#2a5ea8);border:2px solid #d4af37;box-shadow:0 4px 0 #0b2142}
+#sheet .dav{width:58px;height:58px;border-radius:50%;flex:none;background:linear-gradient(180deg,#ffe9a6,#d4af37);color:#12315a;font:900 28px Cairo,sans-serif;display:grid;place-items:center;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+#sheet .dpi{flex:1;min-width:0}
+#sheet .dpro .edname{background:none!important;border:0!important;box-shadow:none!important;color:#fff!important;padding:0!important;margin:0 0 6px!important;font-size:17px;text-align:right}
+#sheet .dpc{display:flex;flex-wrap:wrap;gap:5px}#sheet .dpc span{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:2px 10px;font:800 11.5px Cairo,sans-serif}
+#sheet .dsc{background:#f6f9fd;border:1.5px solid #c9d6ea;border-radius:15px;padding:4px 12px 12px;margin:0 0 10px}
+#sheet .dsh{margin:0 -12px 6px;padding:8px 14px;border-radius:13px 13px 0 0;background:linear-gradient(90deg,#fff2b8,#fbe083);color:#12315a;font:900 14.5px Cairo,sans-serif;border-bottom:2px solid #d4af37}
+.dcn{font-size:12.5px;color:#4a5a73;margin:2px 0 8px;line-height:1.7}
+.dcr{display:grid;grid-template-columns:44px 1fr auto auto;gap:6px;align-items:center;padding:7px 8px;margin:5px 0;border-radius:12px;background:#f3f7fc;border:1.5px solid #c9d6ea}
+.dcr.dch{background:#12315a;color:#ffe9a6;font:900 11.5px Cairo,sans-serif;text-align:center;padding:6px 8px}
+.dcr.off{opacity:.55}
+.dcb{width:34px;height:34px;border-radius:10px;border:2px solid #9aa8bd;background:#fff;padding:0}.dcb i{font-style:normal;color:#fff;font-weight:900}.dcb.on{background:#1a7f37;border-color:#1a7f37}.dcb:disabled{opacity:.7}
+.dcl2{display:flex;flex-direction:column;min-width:0}.dcl2 b{font:900 14px Cairo,sans-serif;color:#12315a}.dcl2 em{font-style:normal;font-size:10.5px;color:#8a5200}
+.dca{display:flex;gap:4px}.dca .btn{padding:6px 9px;font-size:13px;min-width:34px}.dca .btn:disabled{opacity:.35}
 </style>
 </head>
 <body>
@@ -1307,7 +1322,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 194 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 195 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2147,6 +2162,7 @@ const DIR_FONTS=['','Cairo','Arial','Tahoma','Times New Roman','Simplified Arabi
 const DIR_COL=['','#0b1a2e','#b42318','#1a7f37','#1F4E9A','#7a3db8','#b45309'];
 let DIRQ='',DIRSEC='',DIRTYPE='';
 const dirName=v=>v.sec||'بدون شعبة';
+const DL=(k,d)=>(S.dirLbl||{})[k]||d;
 function dirStyle(v){const t=v.st||{};return (t.f?'font-family:'+t.f+';':'')+(t.c?'color:'+t.c+';':'')+(t.z?'font-size:'+t.z+'px;':'')+(t.b?'font-weight:900;':'')+(t.u?'text-decoration:underline;':'')}
 function showDir(on){
   if(on)document.body.classList.remove('tbl');
@@ -2180,25 +2196,31 @@ function renderDir(){
   const MS={m:'متزوج',s:'أعزب',w:'أرمل',d:'مطلق'},CH={'ملاك':'a','عقد':'b','أجر يومي':'c'};
   const chip=(t,c)=>t?`<span class="dch ${c}">${esc(t)}</span>`:'';
   const cols=[['name','الاسم',v=>esc(v.name),'nm'],['title','العنوان الوظيفي',v=>esc(v.title)],['sec','الشعبة',v=>chip(v.sec,'sec'),'c'],['shift','الوجبة',v=>chip(v.shift,'sh'),'c'],['status','الصفة',v=>chip(v.status,'st'+(CH[v.status]||'n')),'c'],['phone','الهاتف',v=>v.phone?`<span class="dph">${esc(v.phone)}</span>`:'','c'],['marital','الحالة الزوجية',v=>chip(MS[v.marital],'ms'+(v.marital||'')),'c'],['kids','الأطفال',v=>v.marital==='m'?`<b class="dk">${+v.kids||0}</b>`:'','c'],['addrNow','السكن الحالي',v=>esc(v.addrNow)],['addrCard','السكن حسب البطاقة',v=>esc(v.addrCard)],['mother','اسم الأم',v=>esc(v.mother)]]
-    .concat((S.dirX||[]).map(f=>['x_'+f.k,f.l,v=>esc((v.x||{})[f.k]),'x'])).filter(c=>!(S.dirHide||{})[c[0]]||c[0]==='name');
+    .concat((S.dirX||[]).map(f=>['x_'+f.k,f.l,v=>esc((v.x||{})[f.k]),'x'])).map(c=>[c[0],DL(c[0],c[1]),c[2],c[3]]).filter(c=>!(S.dirHide||{})[c[0]]||c[0]==='name');
+  {const od=S.dirOrd||[],ix=k=>k==='name'?-1:od.indexOf(k)<0?999:od.indexOf(k);cols.sort((a,b)=>ix(a[0])-ix(b[0]))}
   const rows=order.map(k=>f.filter(v=>dirName(v)===k)).flat();
   let n=0;const body=order.map(k=>{const g=f.filter(v=>dirName(v)===k);if(!g.length)return'';
     return `<tr class="dgrp"><td colspan="${cols.length+1}"><span>${esc(k)}</span><b>${g.length}</b></td></tr>`+g.map(v=>{n++;return `<tr data-di="${v.id}"><td class="dn0">${n}</td>`+cols.map(c=>{const t=c[2](v);return `<td class="${c[3]||''}${c[0]==='name'&&String(v.name).trim()==='منتسب جديد'?' dnew':''}">${t||'<i class="dem">—</i>'}</td>`}).join('')+`</tr>`}).join('')}).join('');
   $('dirCtl').innerHTML=`<button type="button" class="btn dlock ${S.dirLock?'on':''}" id="dirLockB">${S.dirLock?'🔒 التعديل مقفل':'✎ التعديل مفتوح'}</button><button type="button" class="btn dcols" id="dirColsB">⚙ الأعمدة والحقول</button>`;
   $('dirList').innerHTML=rows.length?`<div class="card dtw"><table class="dtab"><thead><tr><th class="dn0">ت</th>`+cols.map(c=>`<th class="${c[3]||''}">${esc(c[1])}</th>`).join('')+`</tr></thead><tbody>${body}</tbody></table></div>`:'<div class="card dnores"><div>لا يوجد اسم مطابق لـ «'+esc(DIRQ)+'» في القاعدة</div><small>القاعدة فيها '+D.length+' اسم فقط. إذا الأسماء ما كاملة، استورد ملف القاعدة.</small><button type="button" class="btn" id="dirImp2">استيراد ملف القاعدة</button></div>'}
 const DIR_BASE=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['status','الصفة'],['phone','الهاتف'],['marital','الحالة الزوجية'],['kids','الأطفال'],['addrNow','السكن الحالي'],['addrCard','السكن حسب البطاقة'],['mother','اسم الأم']];
+function dirAllKeys(){const ks=['name'].concat(DIR_BASE.map(x=>x[0]),(S.dirX||[]).map(f=>'x_'+f.k)),od=S.dirOrd||[];return ks.sort((a,b)=>{const ix=k=>k==='name'?-1:od.indexOf(k)<0?999+ks.indexOf(k):od.indexOf(k);return ix(a)-ix(b)})}
 function dirColsSheet(){
-  edit=null;S.dirX=S.dirX||[];S.dirHide=S.dirHide||{};
-  const draw=()=>{$('sheet').innerHTML=`<div class="edhead"><div class="edsub">الأعمدة والحقول</div><div class="edtop"><button class="xtop" type="button" id="dcX"><span class="xb">✕</span><span>إغلاق</span></button></div></div>
-  <div class="lbl">إظهار / إخفاء الأعمدة في الجدول</div><div class="dcl">${DIR_BASE.map(([k,l])=>`<button type="button" data-hc="${k}" class="${S.dirHide[k]?'':'on'}"><i>${S.dirHide[k]?'':'✓'}</i>${esc(l)}</button>`).join('')}${S.dirX.map(f=>`<button type="button" data-hc="x_${f.k}" class="${S.dirHide['x_'+f.k]?'':'on'}"><i>${S.dirHide['x_'+f.k]?'':'✓'}</i>${esc(f.l)}</button>`).join('')}</div>
-  <div class="lbl">الحقول المضافة</div>${S.dirX.length?S.dirX.map(f=>`<div class="dxr"><b>${esc(f.l)}</b><button type="button" class="btn" data-xr="${f.k}">✎ تسمية</button><button type="button" class="btn red" data-xd="${f.k}">🗑 حذف</button></div>`).join(''):'<div class="hint">لا توجد حقول مضافة بعد.</div>'}
+  edit=null;S.dirX=S.dirX||[];S.dirHide=S.dirHide||{};S.dirLbl=S.dirLbl||{};
+  const defl=k=>k==='name'?'الاسم':(DIR_BASE.find(x=>x[0]===k)||[])[1];
+  const draw=()=>{const ks=dirAllKeys();$('sheet').innerHTML=`<div class="edhead"><div class="edsub">الأعمدة والحقول</div><div class="edtop"><button class="xtop" type="button" id="dcX"><span class="xb">✕</span><span>إغلاق</span></button></div></div>
+  <div class="dcn">لكل عمود: إظهار/إخفاء، تعديل الاسم، وترتيب الموضع بالأسهم. التغيير يظهر فوراً بالجدول وببطاقة المنتسب.</div>
+  <div class="dcr dch"><span>إظهار</span><span>اسم العمود</span><span>تعديل</span><span>الموضع</span></div>
+  ${ks.map((k,i)=>{const x=k.startsWith('x_'),f=x&&S.dirX.find(y=>'x_'+y.k===k),lab=x?(f?f.l:k):DL(k,defl(k)),nm=k==='name';return `<div class="dcr ${S.dirHide[k]?'off':''}"><button type="button" class="dcb ${S.dirHide[k]?'':'on'}" data-hc="${k}" ${nm?'disabled':''}><i>${S.dirHide[k]?'':'✓'}</i></button><div class="dcl2"><b>${esc(lab)}</b>${x?'<em>حقل مضاف</em>':''}${(!x&&S.dirLbl[k])?'<em>معدّل</em>':''}</div><div class="dca"><button type="button" class="btn" data-xr="${k}">✎</button>${x?`<button type="button" class="btn red" data-xd="${k}">🗑</button>`:(S.dirLbl[k]?`<button type="button" class="btn" data-xz="${k}" title="الاسم الأصلي">↺</button>`:'')}</div><div class="dca"><button type="button" class="btn" data-mv="${k}|-1" ${i<=1||nm?'disabled':''}>▲</button><button type="button" class="btn" data-mv="${k}|1" ${i===ks.length-1||nm?'disabled':''}>▼</button></div></div>`}).join('')}
   <div class="lbl">＋ إضافة حقل جديد</div><div class="drow"><input class="txt" id="dxN" placeholder="اسم الحقل، مثال: رقم الوظيفة"><button type="button" class="btn" id="dxAdd">إضافة</button></div>`;
   $('dcX').onclick=()=>closeSheet();
-  $('sheet').onclick=e=>{const b=e.target.closest('button');if(!b)return;
-    if(b.dataset.hc){S.dirHide[b.dataset.hc]=!S.dirHide[b.dataset.hc];if(!S.dirHide[b.dataset.hc])delete S.dirHide[b.dataset.hc];save();renderDir();draw()}
-    else if(b.dataset.xr){const f=S.dirX.find(x=>x.k===b.dataset.xr),t=prompt('الاسم الجديد للحقل',f.l);if(t&&t.trim()){f.l=t.trim();save();renderDir();draw()}}
-    else if(b.dataset.xd){const f=S.dirX.find(x=>x.k===b.dataset.xd);if(!confirm('حذف الحقل «'+f.l+'» وكل القيم المدخلة فيه من كل المنتسبين؟'))return;S.dirX=S.dirX.filter(x=>x!==f);(S.dir||[]).forEach(v=>{if(v.x)delete v.x[f.k]});delete S.dirHide['x_'+f.k];save();renderDir();draw()}
-    else if(b.id==='dxAdd'){const t=$('dxN').value.trim();if(!t)return;if(S.dirX.some(x=>x.l===t)){toast('الحقل موجود');return}S.dirX.push({k:'f'+Date.now().toString(36),l:t});save();renderDir();draw();toast('أُضيف الحقل')}};
+  $('sheet').onclick=e=>{const b=e.target.closest('button');if(!b||b.disabled)return;const ref=()=>{save();renderDir();draw()};
+    if(b.dataset.hc){const k=b.dataset.hc;if(S.dirHide[k])delete S.dirHide[k];else S.dirHide[k]=1;ref()}
+    else if(b.dataset.xr){const k=b.dataset.xr,x=k.startsWith('x_'),f=x&&S.dirX.find(y=>'x_'+y.k===k),t=prompt('الاسم الجديد للعمود',x?f.l:DL(k,defl(k)));if(t&&t.trim()){if(x)f.l=t.trim();else S.dirLbl[k]=t.trim();ref()}}
+    else if(b.dataset.xz){delete S.dirLbl[b.dataset.xz];ref()}
+    else if(b.dataset.xd){const k=b.dataset.xd,f=S.dirX.find(y=>'x_'+y.k===k);if(!confirm('حذف الحقل «'+f.l+'» وكل القيم المدخلة فيه من كل المنتسبين؟'))return;S.dirX=S.dirX.filter(x=>x!==f);(S.dir||[]).forEach(v=>{if(v.x)delete v.x[f.k]});delete S.dirHide[k];S.dirOrd=(S.dirOrd||[]).filter(z=>z!==k);ref()}
+    else if(b.dataset.mv){const [k,d]=b.dataset.mv.split('|'),a=dirAllKeys(),i=a.indexOf(k),j=i+ +d;if(j<1||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];S.dirOrd=a.filter(z=>z!=='name');ref()}
+    else if(b.id==='dxAdd'){const t=$('dxN').value.trim();if(!t)return;if(S.dirX.some(x=>x.l===t)){toast('الحقل موجود');return}S.dirX.push({k:'f'+Date.now().toString(36),l:t});ref();toast('أُضيف الحقل')}};
   };
   draw();$('ov').classList.add('show')}
 function dirWa(p){let d=String(p||'').replace(/[٠-٩]/g,x=>'٠١٢٣٤٥٦٧٨٩'.indexOf(x)).replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);else if(d.startsWith('0'))d='964'+d.slice(1);else if(d.length===10&&d[0]==='7')d='964'+d;return d?'https://wa.me/'+d:'#'}
@@ -2217,25 +2239,28 @@ async function idShow(v,k){const box=document.getElementById('idth_'+k);if(!box)
 function dirSheet(id){
   const v=(S.dir||[]).find(x=>x.id===id);if(!v)return;edit=null;
   const T=v.st=v.st||{f:'',c:'',z:'',b:0,u:0};
-  const F=(k,l,ph)=>`<div class="lbl">${l}</div><input class="txt" data-f="${k}" value="${esc(v[k]||'')}" ${ph?'placeholder="'+ph+'"':''}>`;
+  const F=(k,l,ph)=>`<div class="lbl">${DL(k,l)}</div><input class="txt" data-f="${k}" value="${esc(v[k]||'')}" ${ph?'placeholder="'+ph+'"':''}>`;
   $('sheet').innerHTML=`<div class="edhead"><div class="edsub">بيانات المنتسب</div><div class="edtop"><button class="xtop" type="button" id="dirX"><span class="xb">✕</span><span>إغلاق</span></button></div></div>
-  <div class="edname" id="dirNm" style="${dirStyle(v)}">${esc(v.name)}</div>
+  <div class="dpro"><div class="dav">${esc(String(v.name||'؟').trim().charAt(0)||'؟')}</div><div class="dpi"><div class="edname" id="dirNm" style="${dirStyle(v)}">${esc(v.name)}</div><div class="dpc">${[v.title,v.sec,v.shift,v.status].filter(Boolean).map(x=>`<span>${esc(x)}</span>`).join('')}</div></div></div>
+  <div class="dsc"><div class="dsh">👤 البيانات الأساسية</div>
   ${F('name','الاسم')}
   ${F('title','العنوان الوظيفي')}
-  <div class="lbl">الشعبة</div><select class="txt" data-f="sec">${DIR_SECS.map(x=>`<option value="${esc(x)}" ${v.sec===x?'selected':''}>${esc(x||'بدون شعبة')}</option>`).join('')}</select>
-  <div class="lbl">الوجبة</div><select class="txt" data-f="shift">${DIR_SHIFTS.map(x=>`<option value="${esc(x)}" ${v.shift===x?'selected':''}>${esc(x||'بدون وجبة')}</option>`).join('')}</select>
-  <div class="lbl">رقم الهاتف</div><div class="dirph"><input class="txt" data-f="phone" inputmode="tel" value="${esc(v.phone||'')}"></div><div class="diract"><a class="btn dcall" id="dirCall" href="tel:${esc(v.phone||'')}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><span>اتصال</span></a><a class="btn dwa" id="dirWa" target="_blank" rel="noopener" href="${dirWa(v.phone)}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.9L2 22l5.25-1.38A9.9 9.9 0 1 0 12.04 2zm0 1.8a8.1 8.1 0 1 1-4.2 15.03l-.3-.18-3.1.82.83-3.02-.2-.31A8.1 8.1 0 0 1 12.04 3.8zM8.6 7.5c-.2 0-.5.07-.75.35-.26.28-1 .98-1 2.4s1.02 2.78 1.17 2.97c.14.2 2 3.2 4.95 4.35 2.45.96 2.95.77 3.48.72.53-.05 1.7-.7 1.94-1.37.24-.68.24-1.26.17-1.38-.07-.12-.26-.2-.55-.34-.29-.15-1.7-.84-1.97-.94-.26-.1-.46-.14-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.07-.29-.14-1.22-.45-2.32-1.43-.86-.77-1.44-1.7-1.6-2-.17-.28-.02-.44.13-.58.13-.13.29-.34.43-.5.15-.17.2-.29.29-.48.1-.2.05-.36-.02-.5-.07-.15-.65-1.58-.9-2.16-.23-.56-.47-.48-.65-.49h-.55z"/></svg><span>واتساب</span></a></div>
-  <div class="lbl">الصفة</div><select class="txt dsel dsel2 st-${v.status==='ملاك'?'a':v.status==='عقد'?'b':v.status==='أجر يومي'?'c':'n'}" data-f="status">${['','ملاك','عقد','أجر يومي'].concat(v.status&&!['ملاك','عقد','أجر يومي'].includes(v.status)?[v.status]:[]).map(x=>`<option value="${esc(x)}" ${(v.status||'')===x?'selected':''}>${esc(x||'— اختر الصفة —')}</option>`).join('')}</select>
+  <div class="lbl">${DL('sec','الشعبة')}</div><select class="txt" data-f="sec">${DIR_SECS.map(x=>`<option value="${esc(x)}" ${v.sec===x?'selected':''}>${esc(x||'بدون شعبة')}</option>`).join('')}</select>
+  <div class="lbl">${DL('shift','الوجبة')}</div><select class="txt" data-f="shift">${DIR_SHIFTS.map(x=>`<option value="${esc(x)}" ${v.shift===x?'selected':''}>${esc(x||'بدون وجبة')}</option>`).join('')}</select>
+  </div><div class="dsc"><div class="dsh">📞 الاتصال والصفة</div><div class="lbl">${DL('phone','رقم الهاتف')}</div><div class="dirph"><input class="txt" data-f="phone" inputmode="tel" value="${esc(v.phone||'')}"></div><div class="diract"><a class="btn dcall" id="dirCall" href="tel:${esc(v.phone||'')}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><span>اتصال</span></a><a class="btn dwa" id="dirWa" target="_blank" rel="noopener" href="${dirWa(v.phone)}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.9L2 22l5.25-1.38A9.9 9.9 0 1 0 12.04 2zm0 1.8a8.1 8.1 0 1 1-4.2 15.03l-.3-.18-3.1.82.83-3.02-.2-.31A8.1 8.1 0 0 1 12.04 3.8zM8.6 7.5c-.2 0-.5.07-.75.35-.26.28-1 .98-1 2.4s1.02 2.78 1.17 2.97c.14.2 2 3.2 4.95 4.35 2.45.96 2.95.77 3.48.72.53-.05 1.7-.7 1.94-1.37.24-.68.24-1.26.17-1.38-.07-.12-.26-.2-.55-.34-.29-.15-1.7-.84-1.97-.94-.26-.1-.46-.14-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.07-.29-.14-1.22-.45-2.32-1.43-.86-.77-1.44-1.7-1.6-2-.17-.28-.02-.44.13-.58.13-.13.29-.34.43-.5.15-.17.2-.29.29-.48.1-.2.05-.36-.02-.5-.07-.15-.65-1.58-.9-2.16-.23-.56-.47-.48-.65-.49h-.55z"/></svg><span>واتساب</span></a></div>
+  <div class="lbl">${DL('status','الصفة')}</div><select class="txt dsel dsel2 st-${v.status==='ملاك'?'a':v.status==='عقد'?'b':v.status==='أجر يومي'?'c':'n'}" data-f="status">${['','ملاك','عقد','أجر يومي'].concat(v.status&&!['ملاك','عقد','أجر يومي'].includes(v.status)?[v.status]:[]).map(x=>`<option value="${esc(x)}" ${(v.status||'')===x?'selected':''}>${esc(x||'— اختر الصفة —')}</option>`).join('')}</select>
+  </div><div class="dsc"><div class="dsh">🏠 السكن والعائلة</div>
   ${F('addrCard','عنوان السكن حسب البطاقة')}
   ${F('addrNow','عنوان السكن الحالي')}
   ${F('mother','اسم الأم')}
-  ${(S.dirX||[]).map(f=>`<div class="lbl">${esc(f.l)}</div><input class="txt" data-x="${f.k}" value="${esc((v.x||{})[f.k]||'')}">`).join('')}
-  <div class="lbl">الحالة الزوجية</div>
+  ${(S.dirX||[]).length?'</div><div class="dsc"><div class="dsh">➕ حقول إضافية</div>':''}${(S.dirX||[]).map(f=>`<div class="lbl">${esc(f.l)}</div><input class="txt" data-x="${f.k}" value="${esc((v.x||{})[f.k]||'')}">`).join('')}
+  <div class="lbl">${DL('marital','الحالة الزوجية')}</div>
   <select class="txt dsel dsel2 ms" id="dMar"><option value="">— اختر الحالة الاجتماعية —</option>${[['s','أعزب'],['m','متزوج'],['w','أرمل'],['d','مطلق']].map(([k,l])=>`<option value="${k}" ${v.marital===k?'selected':''}>${l}</option>`).join('')}</select>
   <div id="dKidsBox" class="${v.marital==='m'?'':'hide'}"><div class="lbl">المخصصات الزوجية — عدد الأطفال</div><select class="txt dsel dsel2 ks" id="dKids">${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}" ${(+v.kids||0)===n?'selected':''}>${n===0?'بدون أطفال':n}</option>`).join('')}</select></div>
-  <div class="lbl">المستمسكات الشخصية (اختر ما يلزم)</div>
+  </div><div class="dsc"><div class="dsh">🪪 المستمسكات الشخصية</div>
+  <div class="lbl">اختر ما يلزم</div>
   <div class="dseg dseg3" id="dIdSeg">${DIR_IDS.map(([k,l])=>`<button type="button" data-id="${k}" class="${(v.idOn||{})[k]||(v.idv||{})[k]?'on':''}">${l}</button>`).join('')}</div>
-  <div id="dIdBox"></div>
+  <div id="dIdBox"></div></div>
   `;
   $('ov').classList.add('show');
   const sh=$('sheet'),upd=()=>{save();$('dirNm').setAttribute('style',dirStyle(v));$('dirNm').textContent=v.name;renderDir()};
@@ -2254,7 +2279,7 @@ function dirSheet(id){
   $('dKids').onchange=e=>{v.kids=+e.target.value;upd()};
   sh.querySelectorAll('[data-x]').forEach(el=>{el.oninput=()=>{v.x=v.x||{};v.x[el.dataset.x]=el.value;save();renderDir()}});
   $('dirX').onclick=()=>closeSheet();
-  if(S.dirLock){sh.querySelectorAll('input,select').forEach(e=>e.disabled=true);sh.querySelectorAll('.idbt,[data-iv],[data-id2]').forEach(e=>e.remove());const bn=document.createElement('button');bn.type='button';bn.className='btn dunlock';bn.textContent='🔒 للقراءة فقط — اضغط لفتح التعديل';bn.onclick=()=>{S.dirLock=false;save();renderDir();dirSheet(id)};sh.insertBefore(bn,$('dirNm'))}
+  if(S.dirLock){sh.querySelectorAll('input,select').forEach(e=>e.disabled=true);sh.querySelectorAll('.idbt,[data-iv],[data-id2]').forEach(e=>e.remove());const bn=document.createElement('button');bn.type='button';bn.className='btn dunlock';bn.textContent='🔒 للقراءة فقط — اضغط لفتح التعديل';bn.onclick=()=>{S.dirLock=false;save();renderDir();dirSheet(id)};sh.insertBefore(bn,sh.querySelector('.dpro'))}
 }
 function dirDelSheet(){
   edit=null;let q='';
