@@ -1301,6 +1301,24 @@ html,body{overflow-x:hidden!important}
 .brand small{font-size:clamp(10px,2.9vw,11.5px)!important}
 .brand>div:not(.bolt){min-width:0;flex:1 1 auto}
 .drawer .dlogo{width:48px;height:48px}.drawer .dhead b{font-size:clamp(13px,3.9vw,15px)}
+/* v204 unit state buttons */
+#uoOv .ustg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+#uoOv .ust{border:2px solid currentColor;background:#fff;font:inherit;font-weight:800;font-size:13.5px;padding:10px 2px;border-radius:12px;cursor:pointer;box-shadow:0 3px 0 rgba(11,36,71,.35);transition:transform .08s}
+#uoOv .ust:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(11,36,71,.35)}
+#uoOv .ust.b-run.on{background:#15803d;color:#fff!important;border-color:#15803d!important}
+#uoOv .ust.b-res.on{background:#1F4E9A;color:#fff!important;border-color:#1F4E9A!important}
+#uoOv .ust.b-mnt.on{background:#d4af37;color:#0b2447!important;border-color:#a16207!important}
+#uoOv .ust.b-bad.on{background:#b91c1c;color:#fff!important;border-color:#b91c1c!important}
+#uoOv .ucols{margin-top:8px}
+/* v205 3D state buttons */
+#uoOv .ust{border-width:2px!important;padding:12px 2px 11px!important;border-radius:14px!important;background:linear-gradient(180deg,#ffffff 0%,#eef2f9 55%,#d5dceb 100%)!important;box-shadow:0 5px 0 currentColor,0 8px 10px rgba(11,36,71,.3),inset 0 2px 0 #fff,inset 0 -3px 5px rgba(11,36,71,.12)!important;position:relative;top:0;text-shadow:0 1px 0 #fff}
+#uoOv .ust:active{top:4px;box-shadow:0 1px 0 currentColor,0 2px 4px rgba(11,36,71,.3),inset 0 2px 5px rgba(11,36,71,.25)!important}
+#uoOv .ust.on{top:3px;text-shadow:0 1px 1px rgba(0,0,0,.35)}
+#uoOv .ust.b-run.on{background:linear-gradient(180deg,#34c76a 0%,#15803d 55%,#0f6a32 100%)!important;box-shadow:0 2px 0 #0a4d22,0 4px 6px rgba(0,0,0,.3),inset 0 2px 0 rgba(255,255,255,.45),inset 0 -3px 5px rgba(0,0,0,.25)!important}
+#uoOv .ust.b-res.on{background:linear-gradient(180deg,#5b9bf0 0%,#1F4E9A 55%,#163a75 100%)!important;box-shadow:0 2px 0 #0b2447,0 4px 6px rgba(0,0,0,.3),inset 0 2px 0 rgba(255,255,255,.45),inset 0 -3px 5px rgba(0,0,0,.25)!important}
+#uoOv .ust.b-mnt.on{background:linear-gradient(180deg,#fbe9a0 0%,#d4af37 55%,#b8901f 100%)!important;text-shadow:0 1px 0 rgba(255,255,255,.5);box-shadow:0 2px 0 #7a5c0e,0 4px 6px rgba(0,0,0,.3),inset 0 2px 0 rgba(255,255,255,.6),inset 0 -3px 5px rgba(0,0,0,.2)!important}
+#uoOv .ust.b-bad.on{background:linear-gradient(180deg,#ef5a5a 0%,#b91c1c 55%,#8f1414 100%)!important;box-shadow:0 2px 0 #5c0b0b,0 4px 6px rgba(0,0,0,.3),inset 0 2px 0 rgba(255,255,255,.4),inset 0 -3px 5px rgba(0,0,0,.25)!important}
+#uoOv .ustg{gap:8px!important;margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -1481,7 +1499,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 203 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 205 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2988,7 +3006,7 @@ render();
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});setInterval(chk,120000);setTimeout(chk,4000)})();
 if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{})}
 /* v191 unit operation + maintenance */
-(function(){const NU=10,ST=[['run','قيد التشغيل','b-run'],['res','احتياط','b-res'],['mnt','في الصيانة','b-mnt'],['bad','عطل','b-bad']],MT=['صيانة وقائية','فحص دوري','تبديل قطعة','إصلاح عطل'];
+(function(){const NU=14,ST=[['run','قيد التشغيل','b-run'],['res','احتياط','b-res'],['mnt','في الصيانة','b-mnt'],['bad','عطل','b-bad']],MT=['صيانة وقائية','فحص دوري','تبديل قطعة','إصلاح عطل'];
 let tab='u';
 const esc2=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const p2=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());
@@ -3003,7 +3021,7 @@ function viewU(){const U=S.units,cap=S.cap;let load=0,run=0,mnt=0,bad=0;U.forEac
   h+='<div class="ucard" data-u="'+i+'"><div class="urow"><span class="uname">الوحدة '+(i+1)+'</span>'+badge(u.st)+'</div>'
   +'<div class="ubar"><i style="width:'+(cap?Math.round(ld/cap*100):0)+'%"></i></div><div class="uload">الحمل: '+ld+' من '+cap+' م.و</div>'
   +(run?'<input type="range" class="uo-rg" min="0" max="'+cap+'" value="'+ld+'">':'')
-  +'<div class="ucols"><select class="uo-st">'+ST.map(a=>'<option value="'+a[0]+'"'+(a[0]===u.st?' selected':'')+'>'+a[1]+'</option>').join('')+'</select>'+(run?'<input type="number" inputmode="numeric" class="uo-ld" min="0" max="'+cap+'" value="'+ld+'">':'')+'</div>'
+  +'<div class="ustg">'+ST.map(a=>'<button type="button" class="ust '+a[2]+(a[0]===u.st?' on':'')+'" data-st="'+a[0]+'">'+a[1]+'</button>').join('')+'</div><div class="ucols">'+(run?'<input type="number" inputmode="numeric" class="uo-ld" min="0" max="'+cap+'" value="'+ld+'">':'')+'</div>'
   +'<div class="uts">'+(u.ts?'آخر تغيير: '+stamp(u.ts):'لم تُسجَّل حالة بعد')+'</div></div>'});
  return h}
 function viewM(){const M=S.mnt.slice().sort((a,b)=>(a.d>b.d?1:-1)),today=iso(new Date());let late=0,sch=0;M.forEach(m=>{if(!m.done){if(m.d<today)late++;else sch++}});
@@ -3026,6 +3044,7 @@ $('uoBody').addEventListener('change',e=>{const t=e.target,c=t.closest('[data-u]
 $('uoBody').addEventListener('input',e=>{const t=e.target;if(!t.classList.contains('uo-rg'))return;const c=t.closest('[data-u]'),i=+c.dataset.u,v=Math.round(+t.value);c.querySelector('.ubar i').style.width=(S.cap?v/S.cap*100:0)+'%';c.querySelector('.uload').textContent='الحمل: '+v+' من '+S.cap+' م.و';const n=c.querySelector('.uo-ld');if(n)n.value=v});
 $('uoBody').addEventListener('pointerup',e=>{const t=e.target;if(t.classList&&t.classList.contains('uo-rg')){setLoad(+t.closest('[data-u]').dataset.u,t.value);draw(true)}});
 $('uoBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.classList.contains('ust')){const c=b.closest('[data-u]');if(!c)return;const u=S.units[+c.dataset.u],k=b.dataset.st;if(u.st===k)return;u.st=k;if(k!=='run')u.load=0;u.ts=Date.now();save();draw(true);return}
  if(b.id==='uoMa'){const d=$('uoMd').value;if(!d){toast('اختر التاريخ');return}S.mnt.push({id:'m'+Date.now(),u:+$('uoMu').value,t:$('uoMt').value,d,note:$('uoMn').value.trim(),done:false});save();draw(true);toast('أُضيفت إلى الجدول');return}
  const c=b.closest('[data-m]');if(!c)return;const k=S.mnt.findIndex(m=>m.id===c.dataset.m);if(k<0)return;
  if(b.dataset.act==='done'){S.mnt[k].done=true;save();draw(true)}
