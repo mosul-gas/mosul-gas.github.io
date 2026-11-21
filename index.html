@@ -1589,6 +1589,26 @@ body.subpage .bpill,body.tbl .bpill{border:0;box-shadow:none;padding:0;text-alig
 .mhc b{font-family:'Aref Ruqaa',Cairo,sans-serif!important;font-weight:700!important;font-size:24px!important;color:#ffd24a!important;text-shadow:0 2px 0 #7a5a08,0 0 10px rgba(255,210,74,.35),0 3px 8px #000!important}
 .mhc small{font:900 14.5px Cairo,sans-serif!important;color:#fff!important;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000,0 2px 6px #000!important;letter-spacing:.2px}
 @media(min-width:900px){body.nomgr #hGrid .hg,body.nomgr #hGrid .hg.y{flex-basis:calc((100% - 36px)/3)!important;max-width:calc((100% - 36px)/3)!important}}
+/* v242 arrange mode */
+#hGrid::after{display:none!important}
+#hGrid .hg.wide{order:auto}
+#hGrid .hg.hwide{flex-basis:100%!important;max-width:100%!important}
+#hBar{flex:0 0 100%;order:-1;display:none;flex-wrap:wrap;align-items:center;gap:8px;background:#0b2447;border:2px solid #d4af37;border-radius:14px;padding:8px 10px;position:sticky;top:6px;z-index:20}
+#hBar span{flex:1 1 100%;color:#ffe9a6;font:800 13px Cairo,Arial;text-align:center}
+#hBar button{flex:1;border:2px solid #d4af37;background:#12315a;color:#ffe9a6;font:800 14px Cairo,Arial;padding:8px 6px;border-radius:12px}
+#hBar button:disabled{opacity:.4}
+#hGrid.hedit .hg{animation:hjig .28s ease-in-out infinite alternate;cursor:pointer}
+#hGrid.hedit .hg.hsel{animation:none;outline:3px solid #ffd24a;box-shadow:0 0 0 6px rgba(255,210,74,.35),0 6px 18px rgba(0,0,0,.5)!important;transform:scale(1.03)}
+@keyframes hjig{from{transform:rotate(-.6deg)}to{transform:rotate(.6deg)}}
+/* v243 header: company on one line */
+.bpill{flex:1 1 auto!important}
+.bpill #appTitle .bco{display:block;white-space:nowrap;font-size:clamp(7.5px,2.95vw,14px)}
+.bpill #appTitle .bst{display:block;white-space:nowrap;font-size:clamp(10.5px,3.3vw,15px)}
+@media(min-width:700px){.bpill #appTitle .bco,.bpill #appTitle .bst{display:inline;font-size:17px}}
+/* v243b pill width */
+body .brand .bpill{max-width:none!important;width:auto!important;flex:1 1 0!important;min-width:0!important;margin-inline-end:0!important;margin-inline-start:0!important;padding-inline:6px!important}
+body .brand .bpill #appTitle{width:100%!important;max-width:none!important;flex:none!important;overflow:visible!important;display:block!important}
+@media(min-width:700px){body .brand .bpill{flex:0 1 auto!important;margin-inline-end:auto!important}}
 </style>
 </head>
 <body>
@@ -1740,6 +1760,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <div class="lbl">التوقيع أسفل يسار الأوراق — السطر الأول</div><input class="txt" id="dSig" placeholder="المهندس">
     <div class="lbl">اسم مدير المحطة</div><input class="txt" id="mgrN" placeholder="المهندس عمار خلف الحديدي">
     <div class="lbl">الصفة تحت الاسم</div><input class="txt" id="mgrT" placeholder="مدير محطة كهرباء الموصل الغازية">
+    <div class="lbl">ترتيب أيقونات الصفحة الرئيسية</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px"><button type="button" class="btn" id="hEditS">✥ ترتيب الأيقونات</button></div>
     <div class="lbl">صورة المدير بالصفحة الرئيسية</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn" id="mgrPick">📷 تغيير الصورة</button><button type="button" class="btn red" id="mgrOff">🚫 إزالة الصورة</button><button type="button" class="btn" id="mgrDef">↺ الصورة الأصلية</button></div><input type="file" id="mgrFile" accept="image/*" style="display:none">
     <div class="lbl">اسم الموقّع</div><input class="txt" id="dSigN" placeholder="حسين أحمد حمود">
     <div class="lbl">الصفة (تحت الاسم)</div><input class="txt" id="sigT" placeholder="ر. قسم السيطرة الذاتية">
@@ -1781,7 +1802,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 241 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 243 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1907,7 +1928,7 @@ function curDays(){if(MODE==='duty'){if(RNG)return dutyDays(Y,M,SH);const r=view
 function render(){
   $('stationName').textContent=S.dTitle||'قسم السيطرة الذاتية';mgrApply();
   document.querySelectorAll('#modeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.mode===MODE));
-  $('appTitle').innerHTML='<span style="display:inline-block">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية \\</span> <span style="display:inline-block">محطة كهرباء الموصل الغازية</span>';
+  $('appTitle').innerHTML='<span class="bco">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية \\</span><span class="bst">محطة كهرباء الموصل الغازية</span>';
   if(MODE==='duty'){
     {const r=viewRange();$('monthLbl').textContent=rangeLabel(r.a,r.b)}
     $('tabs').className='tabs';
@@ -2805,6 +2826,27 @@ try{const v=[...document.querySelectorAll('#viewSettings p.hint')].find(x=>x.tex
 
 document.querySelector('.navtiles').addEventListener('click',e=>{const b=e.target.closest('[data-nav]');if(!b)return;if(b.dataset.nav==='m'){$('btnMawqif').click();showTable(true);return}({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]&&$(({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]).click()});
 $('btnLetters').onclick=()=>showLetters(true);
+
+/* v242 home tile arrange */
+(function(){const g=$('hGrid');if(!g)return;const DEF=['lad','dir','units','mnt'];let sel=null,edit=false,lp=null,lx=0,ly=0,sup=0;
+ const tiles=()=>[...g.querySelectorAll('.hg[data-hg]')];
+ function order(){const all=tiles().map(t=>t.dataset.hg),base=DEF.concat(all.filter(k=>!DEF.includes(k))),cur=(S.hOrd||[]).filter(k=>all.includes(k));
+  const o=S.hOrd&&S.hOrd.length?cur.concat(base.filter(k=>!cur.includes(k))):base;return o}
+ function apply(){const o=order();tiles().forEach(t=>{t.style.setProperty('order',o.indexOf(t.dataset.hg),'important');t.classList.toggle('hwide',!!(S.hWide&&S.hWide[t.dataset.hg]));t.classList.toggle('hsel',edit&&sel===t.dataset.hg)});
+  const bar=$('hBar');if(bar){bar.style.display=edit?'flex':'none';$('hBw').disabled=!sel}}
+ function bar(){if($('hBar'))return;const b=document.createElement('div');b.id='hBar';b.innerHTML='<span>اضغط أيقونة ثم اضغط مكانها الجديد لتبديلهما</span><button type="button" id="hBw">⇔ تكبير / تصغير</button><button type="button" id="hBr">↺ الترتيب الأصلي</button><button type="button" id="hBd">✔ تم</button>';g.prepend(b);
+  $('hBd').onclick=()=>setEdit(false);$('hBr').onclick=()=>{S.hOrd=null;S.hWide=null;sel=null;save();apply()};
+  $('hBw').onclick=()=>{if(!sel)return;S.hWide=S.hWide||{};S.hWide[sel]=!S.hWide[sel];save();apply()}}
+ function setEdit(v,k){edit=v;sel=v&&k?k:null;bar();g.classList.toggle('hedit',v);apply();if(v)window.scrollTo({top:0,behavior:'smooth'})}
+ window.hEditOn=()=>setEdit(true);
+ g.addEventListener('click',e=>{if(Date.now()-sup<900){e.stopPropagation();e.preventDefault();return}if(!edit)return;const t=e.target.closest('.hg[data-hg]');if(!t){return}e.stopPropagation();e.preventDefault();const k=t.dataset.hg;
+  if(!sel){sel=k}else if(sel===k){sel=null}else{const o=order(),a=o.indexOf(sel),b=o.indexOf(k);o[a]=k;o[b]=sel;S.hOrd=o;sel=null;save()}apply()},true);
+ g.addEventListener('pointerdown',e=>{const t=e.target.closest('.hg[data-hg]');if(!t||edit)return;lx=e.clientX;ly=e.clientY;clearTimeout(lp);lp=setTimeout(()=>{sup=Date.now();if(navigator.vibrate)try{navigator.vibrate(30)}catch(_){}setEdit(true,t.dataset.hg)},800)});
+ ['pointerup','pointercancel','pointerleave'].forEach(n=>g.addEventListener(n,()=>clearTimeout(lp)));
+ g.addEventListener('pointermove',e=>{if(Math.abs(e.clientX-lx)>10||Math.abs(e.clientY-ly)>10)clearTimeout(lp)});
+ g.addEventListener('contextmenu',e=>{if(e.target.closest('.hg'))e.preventDefault()});
+ const sb=$('hEditS');if(sb)sb.onclick=()=>{try{showMain&&showMain()}catch(_){}setTimeout(()=>setEdit(true),50)};
+ apply();window.hApply=apply})();
 $('hGrid').addEventListener('click',e=>{const b=e.target.closest('[data-hg]');if(!b)return;const g=b.dataset.hg;
  if(g==='m'){edit=null;$('sheet').innerHTML=`<div class="edhead"><div class="edsub">الموقف الرسمي للحضور</div><div class="edtop"><button class="xtop" type="button" id="mwX"><span class="xb">✕</span><span>إغلاق</span></button></div></div><div class="mwsub">اختر نوع الموقف المطلوب</div><div class="mwgrid"><button class="mwt hero" id="mwR"><span class="mwic"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6v3H9zM7 5.5H5v15h14v-15h-2"/><path d="M8.5 13.5l2.5 2.5 4.5-5"/></svg></span><b>تحضير الموقف</b><small>موقف شهري وأسبوعي جاهز للطباعة</small></button><button class="mwt" id="mwD"><span class="mwic"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/><circle cx="12" cy="15" r="1.4"/></svg></span><b>الموقف اليومي</b><small>حضور المنتسبين لليوم</small></button><button class="mwt" id="mwT"><span class="mwic"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 10h17M3.5 15h17M9.5 4.5v15"/></svg></span><b>جدول الموقف</b><small>جدول المناوبين والصباحي</small></button></div></div>`;$('ov').classList.add('show');$('mwX').onclick=closeSheet;$('mwT').onclick=()=>{closeSheet();$('btnMawqif').click();showTable(true)};$('mwD').onclick=()=>{closeSheet();setTimeout(()=>$('btnCopy').click(),80)};$('mwR').onclick=()=>{closeSheet();setTimeout(()=>$('btnReady').click(),80)}}
  else if(g==='duty'||g==='day'){const m=document.querySelector('#modeSeg [data-mode="'+g+'"]');m&&m.click()}
