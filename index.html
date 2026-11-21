@@ -1023,6 +1023,10 @@ body.tbl.daymode #grid th.namecol,body.tbl.daymode #grid td.namecol{width:112px!
 body.tbl.daymode #grid td.c,body.tbl.daymode #grid th.daycell{min-width:0!important;width:auto!important;padding-inline:2px!important}
 body.tbl.daymode #grid th.nocol,body.tbl.daymode #grid td.nocol{width:22px!important;min-width:22px!important;padding:2px!important}
 body.tbl.daymode .gridwrap{overflow-x:hidden}
+
+.ocopts .btn.mwhero{padding:20px 16px!important;background:linear-gradient(180deg,#ffe97a,#e0b72a)!important;border:3.5px solid #12315a!important;box-shadow:0 5px 0 #12315a,inset 0 0 0 2px #fff6c4!important}
+.ocopts .btn.mwhero b{font-size:21px!important;color:#12315a}
+.ocopts .btn.mwhero small{font-size:13.5px!important;color:#3a2f00}
 </style>
 </head>
 <body>
@@ -1191,7 +1195,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 184 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 185 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2147,7 +2151,7 @@ try{const v=[...document.querySelectorAll('#viewSettings p.hint')].find(x=>x.tex
 document.querySelector('.navtiles').addEventListener('click',e=>{const b=e.target.closest('[data-nav]');if(!b)return;if(b.dataset.nav==='m'){$('btnMawqif').click();showTable(true);return}({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]&&$(({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]).click()});
 $('btnLetters').onclick=()=>showLetters(true);
 $('hGrid').addEventListener('click',e=>{const b=e.target.closest('[data-hg]');if(!b)return;const g=b.dataset.hg;
- if(g==='m'){edit=null;$('sheet').innerHTML=`<div class="edhead"><div class="edsub">جدول موقف الحضور</div><div class="edtop"><button class="xtop" type="button" id="mwX"><span class="xb">✕</span><span>إغلاق</span></button></div></div><div class="ocopts"><button class="btn" id="mwT"><b>📋 جدول الموقف</b><small>عرض وتأشير حضور المنتسبين</small></button><button class="btn" id="mwD"><b>📅 الموقف اليومي</b><small>الموقف اليومي للمنتسبين</small></button><button class="btn" id="mwR"><b>✅ تحضير الموقف</b><small>تحضير الموقف وتهيئته</small></button></div>`;$('ov').classList.add('show');$('mwX').onclick=closeSheet;$('mwT').onclick=()=>{closeSheet();$('btnMawqif').click();showTable(true)};$('mwD').onclick=()=>{closeSheet();setTimeout(()=>$('btnCopy').click(),80)};$('mwR').onclick=()=>{closeSheet();setTimeout(()=>$('btnReady').click(),80)}}
+ if(g==='m'){edit=null;$('sheet').innerHTML=`<div class="edhead"><div class="edsub">جدول موقف الحضور</div><div class="edtop"><button class="xtop" type="button" id="mwX"><span class="xb">✕</span><span>إغلاق</span></button></div></div><div class="ocopts"><button class="btn mwhero" id="mwR"><b>✅ تحضير الموقف (شهري وأسبوعي)</b><small>تحضير وتهيئة الموقف الشهري والأسبوعي</small></button><button class="btn" id="mwD"><b>📅 الموقف اليومي</b><small>الموقف اليومي للمنتسبين</small></button><button class="btn" id="mwT"><b>📋 جدول الموقف (مناوبين وصباحي)</b><small>عرض وتأشير حضور المنتسبين</small></button></div>`;$('ov').classList.add('show');$('mwX').onclick=closeSheet;$('mwT').onclick=()=>{closeSheet();$('btnMawqif').click();showTable(true)};$('mwD').onclick=()=>{closeSheet();setTimeout(()=>$('btnCopy').click(),80)};$('mwR').onclick=()=>{closeSheet();setTimeout(()=>$('btnReady').click(),80)}}
  else if(g==='duty'||g==='day'){const m=document.querySelector('#modeSeg [data-mode="'+g+'"]');m&&m.click()}
  else if(g==='l')$('btnLetters').click();
  else if(g==='s')$('btnSettings').click();
