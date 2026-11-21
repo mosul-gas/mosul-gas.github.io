@@ -1557,6 +1557,15 @@ body.subpage .bpill,body.tbl .bpill{border:0;box-shadow:none;padding:0;text-alig
 #splash .spco{font:900 27px/1.45 Cairo,sans-serif!important;color:#ffd24a!important;opacity:1!important;margin-bottom:8px!important;max-width:92vw;text-shadow:0 1px 0 #fff2b8,0 3px 0 #9a7512,0 5px 0 #6b500a,0 8px 14px rgba(0,0,0,.6),0 0 18px rgba(255,210,74,.35)!important}
 #splash .spt{font-size:18px!important;color:#ffe08a!important;font-weight:800!important;text-shadow:0 2px 6px rgba(0,0,0,.55)!important}
 @media(min-width:700px){#splash .spco{font-size:38px!important}#splash .spt{font-size:24px!important}}
+/* v237 manager hero on home */
+#homeCard{display:flex!important;flex-direction:column;gap:16px}
+.mhero{position:relative;border-radius:22px;overflow:hidden;border:2px solid #d4af37;box-shadow:0 0 0 3px rgba(212,175,55,.2),0 10px 26px rgba(0,0,0,.45);background:#14315f;aspect-ratio:16/11;max-height:360px}
+.mhero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%;display:block}
+.mhero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,28,58,0) 45%,rgba(10,28,58,.92) 100%)}
+.mhc{position:absolute;inset-inline:0;bottom:0;z-index:2;text-align:center;padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px}
+.mhc b{font:900 20px Cairo,sans-serif;color:#ffd24a;text-shadow:0 2px 6px rgba(0,0,0,.7)}
+.mhc small{font:700 12.5px Cairo,sans-serif;color:#fff}
+@media(min-width:900px){#homeCard{flex-direction:row!important;align-items:flex-start;gap:22px}.mhero{flex:0 0 340px;max-height:none;aspect-ratio:auto;height:min(560px,calc(100vh - 140px));position:sticky;top:12px}#hGrid{flex:1 1 0;min-width:0}#hGrid .hg,#hGrid .hg.y{flex-basis:calc((100% - 18px)/2)!important;max-width:calc((100% - 18px)/2)!important}.mhc b{font-size:22px}}
 </style>
 </head>
 <body>
@@ -1593,7 +1602,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 </header>
 
 <main id="viewMain">
-  <div class="card" id="homeCard"><div class="hgrid" id="hGrid">
+  <div class="card" id="homeCard"><div class="mhero" id="mHero"><img src="mgr.jpg" alt="" loading="eager"><div class="mhc"><b id="mgrCap">المهندس عمار خلف الحديدي</b><small>مدير محطة كهرباء الموصل الغازية</small></div></div><div class="hgrid" id="hGrid">
     <button class="hg" data-hg="m"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6v3H9zM7 5.5H5v15h14v-15h-2M8 12h8M8 16h5"/></svg><span class="hgt"><b>الموقف الرسمي للحضور</b><small>تحضير الموقف والجدول واليومي</small></span></button>
     <button class="hg" data-hg="day"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg><span class="hgt"><b>الدوام الصباحي</b><small>جدول الدوام اليومي</small></span></button>
     <button class="hg" data-hg="duty"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><span class="hgt"><b>المناوبين</b><small>جدول المناوبة</small></span></button>
@@ -1746,7 +1755,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 236 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 237 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1870,7 +1879,7 @@ function curDays(){if(MODE==='duty'){if(RNG)return dutyDays(Y,M,SH);const r=view
 
 /* ---------- main render ---------- */
 function render(){
-  $('stationName').textContent=S.dTitle||'قسم السيطرة الذاتية';
+  $('stationName').textContent=S.dTitle||'قسم السيطرة الذاتية';$('mgrCap').textContent=(S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)||'مدير المحطة';
   document.querySelectorAll('#modeSeg button').forEach(b=>b.classList.toggle('on',b.dataset.mode===MODE));
   $('appTitle').innerHTML='<span style="display:inline-block">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية \\</span> <span style="display:inline-block">محطة كهرباء الموصل الغازية</span>';
   if(MODE==='duty'){
