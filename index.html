@@ -1264,7 +1264,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 191 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 192 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2124,6 +2124,8 @@ function renderDir(){
   const words=q?q.split(' ').filter(Boolean):[];
   const hay=v=>dirNorm([v.name,v.phone,v.title,v.sec,v.shift,v.mother,v.status].join(' '));
   const f=base.filter(v=>(!DIRSEC||dirName(v)===DIRSEC)&&(!words.length||(h=>words.every(w=>h.includes(w)))(hay(v))));
+  {const ak=n=>String(n||'').replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/^\s*(م\.|م\s)\s*/,'').replace(/\s+/g,' ').trim(),blank=n=>!ak(n)||ak(n)==='منتسب جديد';
+   f.sort((x,y)=>blank(x.name)-blank(y.name)||ak(x.name).localeCompare(ak(y.name),'ar'))}
   $('dirClr').classList.toggle('hide',!DIRQ);
   $('dirFound').innerHTML=(q||DIRSEC||DIRTYPE)?`عدد النتائج: <b>${f.length}</b> من ${D.length}`:'';
   const nB=D.filter(v=>!String(v.name||'').trim()||String(v.name).trim()==='منتسب جديد').length;
