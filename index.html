@@ -1181,6 +1181,21 @@ header.top{background:linear-gradient(135deg,#0b2447 0%,#12315a 55%,#1F4E9A 100%
  .rtb{flex-direction:row!important;flex-wrap:wrap;align-items:center}
 }
 @media(min-width:1500px){#hGrid{grid-template-columns:repeat(5,1fr)!important}}
+/* v198 official letters layout */
+#ltTypes{display:grid!important;grid-template-columns:1fr!important;gap:12px!important}
+#ltTypes .ltf{border-radius:16px;overflow:hidden;border:2px solid #12315a;background:#fff;box-shadow:0 3px 0 #0b2447}
+#ltTypes .ltfh{border:0!important;border-radius:0!important;background:linear-gradient(135deg,#0b2447,#12315a 60%,#1F4E9A)!important;color:#ffe9a6!important;box-shadow:none!important;border-bottom:3px solid #d4af37!important;min-height:56px;padding:10px 16px!important;font-size:17px!important}
+#ltTypes .ltfh em{background:#d4af37!important;color:#0b2447!important;font-weight:900}
+#ltTypes .ltfi,#ltTypes .ltfa{color:#d4af37;display:grid;place-items:center}
+#ltTypes .ltfg{padding:14px 12px 14px!important;gap:12px!important;grid-template-columns:repeat(3,1fr)!important;background:linear-gradient(180deg,#f7f9fd,#eaf0f9)}
+#ltTypes .ltt{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;gap:7px!important;height:auto!important;min-height:96px!important;padding:10px 4px 8px!important;border:2px solid #d4af37!important;border-radius:14px!important;background:linear-gradient(180deg,#fff,#f6efd8)!important;box-shadow:0 3px 0 #8a6a12!important;color:#0b2447!important;font-weight:900!important;font-size:13.5px!important;line-height:1.35;text-align:center;white-space:normal}
+#ltTypes .ltt .lti{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(160deg,#12315a,#0b2447);color:#ffe9a6;border:2px solid #d4af37;flex:none}
+#ltTypes .ltt:active{transform:translateY(2px);box-shadow:0 1px 0 #8a6a12!important}
+#ltTypes .ltt.lta{border-style:dashed!important;background:#fff!important}
+@media(min-width:900px){#ltTypes .ltfg{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))!important}#ltTypes .ltt{min-height:104px!important;font-size:14.5px!important}}
+/* v198 bold letter fields */
+#ltTo,#ltSubj{font-family:'Simplified Arabic','Geeza Pro',Arial,sans-serif!important;font-weight:900!important;font-size:17px!important;color:#000!important;-webkit-text-stroke:.25px #000}
+.rte{font-weight:900!important;-webkit-text-stroke:.25px #000}
 </style>
 </head>
 <body>
@@ -1353,7 +1368,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 197 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 198 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2147,11 +2162,14 @@ function sure(msg){try{return window.confirm(msg||'هل أنت متأكد من �
 function confirmDel(b){return sure('هل أنت متأكد من حذف هذا الكتاب من الأرشيف؟')}
 $('ltSearch').oninput=ltArchive;$('ltGo').onclick=()=>{$('ltSearch').blur();ltArchive()};$('ltSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('ltGo').click()}});
 const LT_FOLD=[['الدوام والبصمة','📁',['stay','att','start','duty','exit']],['الإجازات والانفكاك والاستدعاء','📁',['leave','release','join','call']],['المواد والمشتريات','📁',['buy','draw','consume']],['المخاطبات والتعاميم','📁',['reply','circ','committee']],['الأعمال والتقارير','📁',['work','report']]];let LTF={};
-function renderLtTypes(){const A=allLtTypes(),used=new Set(),btn=t=>`<button class="btn" data-lt="${t.k}"${t.custom?' data-cu="1"':''}>${esc(t.n)}</button>`;
+const LTI={doc:'M7 3h7l4 4v14H7zM14 3v4h4M9.5 12h5M9.5 15.5h5',cal:'M5 5h14v15H5zM5 9.5h14M9 3v4M15 3v4',check:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM8 12.2l2.8 2.8L16 9.5',play:'M5 12h10M11 7l5 5-5 5M19 4v16',brief:'M4 8h16v11H4zM9 8V5h6v3M4 13h16',exit:'M10 4H5v16h5M14 8l5 4-5 4M19 12H9',unlink:'M9 15l6-6M7 11l-2 2a3.5 3.5 0 0 0 5 5l2-2M17 13l2-2a3.5 3.5 0 0 0-5-5l-2 2',userplus:'M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M18 8v6M15 11h6',bell:'M6 17V11a6 6 0 0 1 12 0v6l2 2H4zM10 21h4',cart:'M3 4h3l2.5 11h9L20 8H7M10 20h.01M17 20h.01',box:'M3 7.5 12 3l9 4.5v9L12 21l-9-4.5zM3 7.5 12 12l9-4.5M12 12v9',reply:'M10 7 4 12l6 5M4 12h9a7 7 0 0 1 7 7',mega:'M4 10v4h3l8 4V6L7 10zM18 9a4 4 0 0 1 0 6',users:'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 19c0-3 2.7-5 6-5s6 2 6 5M16 5.5a3 3 0 0 1 0 5.5M18 14c1.8.6 3 2.1 3 4',wrench:'M15 4.5a4.5 4.5 0 0 0-4.2 6L4.4 16.9a2.1 2.1 0 0 0 3 3l6.4-6.4a4.5 4.5 0 0 0 6-4.2l-2.8 2.8-2.6-.6-.6-2.6L16.6 6A4.5 4.5 0 0 0 15 4.5z',chart:'M5 20V10M11 20V4M17 20v-7M3 20h18',pen:'M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19zM14 7l3 3'};
+const LTM={stay:'cal',att:'check',start:'play',duty:'brief',exit:'exit',leave:'cal',release:'unlink',join:'userplus',call:'bell',buy:'cart',draw:'box',consume:'box',reply:'reply',circ:'mega',committee:'users',work:'wrench',report:'chart',free:'pen'};
+const ltIco=k=>`<i class="lti"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="${LTI[LTM[k]||'doc']}"/></svg></i>`;
+function renderLtTypes(){const A=allLtTypes(),used=new Set(),btn=t=>`<button class="btn ltt" data-lt="${t.k}"${t.custom?' data-cu="1"':''}>${ltIco(t.k)}<span>${esc(t.n)}</span></button>`;
  let h=LT_FOLD.map(([n,ic,ks])=>{const L=ks.map(k=>A.find(t=>t.k===k)).filter(Boolean);L.forEach(t=>used.add(t.k));return L.length?ltFold(n,L.map(btn).join(''),L.length):''}).join('');
- const rest=A.filter(t=>!used.has(t.k));h+=ltFold('كتب أخرى',rest.map(btn).join('')+'<button class="btn" data-ltadd="1">＋ نوع جديد</button>',rest.length);
+ const rest=A.filter(t=>!used.has(t.k));h+=ltFold('كتب أخرى',rest.map(btn).join('')+'<button class="btn ltt lta" data-ltadd="1"><i class="lti"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></i><span>نوع جديد</span></button>',rest.length);
  $('ltTypes').innerHTML=h}
-function ltFold(n,inner,c){const o=!!LTF[n];return `<div class="ltf${o?' open':''}"><button type="button" class="ltfh" data-fold="${esc(n)}"><span class="ltfi">${o?'📂':'📁'}</span><b>${esc(n)}</b><em>${c}</em><span class="ltfa">${o?'▴':'▾'}</span></button><div class="ltfg">${inner}</div></div>`}
+function ltFold(n,inner,c){const o=!!LTF[n];return `<div class="ltf${o?' open':''}"><button type="button" class="ltfh" data-fold="${esc(n)}"><span class="ltfi"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><b>${esc(n)}</b><em>${c}</em><span class="ltfa"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="${o?'M6 15l6-6 6 6':'M6 9l6 6 6-6'}"/></svg></span></button><div class="ltfg">${inner}</div></div>`}
 $('ltTypes').addEventListener('click',e=>{const f=e.target.closest('[data-fold]');if(!f)return;const n=f.dataset.fold;LTF[n]=!LTF[n];renderLtTypes()});
 renderLtTypes();
 let LP_T=null,LP_DONE=false;
