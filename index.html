@@ -1619,7 +1619,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 <button class="ditem" data-go="dev"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5"/><path d="M16 7l5 5-5 5"/><path d="M14 4l-4 16"/></svg></i><span class="dt">عن مطوّرة الأداة</span><em>‹</em></button>
 <button class="ditem" data-go="guide"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 8h7M9 12h5"/></svg></i><span class="dt">دليل الاستخدام</span><em>‹</em></button>
 <button class="ditem" data-go="backup"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg></i><span class="dt">نسخة احتياطية</span><em>‹</em></button>
-  <div class="dfoot" id="dVer"></div><div class="dfoot" style="color:#d4af37;font-weight:800"><span class="rcred">المهندسة ريم هيثم جمال</span></div>
+  <div class="dfoot" style="color:#d4af37;font-weight:800"><span class="rcred">المهندسة ريم هيثم جمال</span></div>
 </aside>
 <main id="viewLetters" class="hide">
   <div class="setbar"><button id="ltBack" class="backbtn" aria-label="إغلاق"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg><b>إغلاق</b></button></div>
@@ -1708,7 +1708,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 227 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 228 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2719,7 +2719,7 @@ $('drawer').addEventListener('click',e=>{const b=e.target.closest('.ditem');if(!
   else if(g==='acad')acad()
   else if(g==='dev')devAbout()
   else if(g==='backup')$('backup').click()},true);
-try{const v=[...document.querySelectorAll('#viewSettings p.hint')].find(x=>x.textContent.includes('نسخة الأداة'));$('dVer').textContent=v?v.textContent:''}catch(e){}
+try{const v=[...document.querySelectorAll('#viewSettings p.hint')].find(x=>x.textContent.includes('نسخة الأداة'));void v}catch(e){}
 
 document.querySelector('.navtiles').addEventListener('click',e=>{const b=e.target.closest('[data-nav]');if(!b)return;if(b.dataset.nav==='m'){$('btnMawqif').click();showTable(true);return}({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]&&$(({m:'btnMawqif',l:'btnLetters',s:'btnSettings'})[b.dataset.nav]).click()});
 $('btnLetters').onclick=()=>showLetters(true);
@@ -3295,7 +3295,7 @@ function acad(){let o=document.getElementById('acadOv');if(o)o.remove();o=docume
  o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>الأكاديمية</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb">'
  +'<div class="acf"><div class="acf2"><div class="act1">الشركة العامة لإنتاج الطاقة الكهربائية · المنطقة الشمالية</div><div class="act2">المنهاج التدريبي</div><div class="act3">لمحطة كهرباء الموصل الغازية</div><div class="act4">دليل التشغيل والصيانة للمهندسين والفنيين للوحدات الغازية · الإصدار الأول 2026</div><div class="act5">752 صفحة · 7 فصول</div></div></div>'
  +AC.map((c,i)=>'<div class="acc"><div class="acc2"><div class="acn">الفصل '+c[0]+'</div><div class="act">'+c[1]+'</div><div class="acm">الصفحات '+c[2]+' – '+c[3]+' · '+c[4]+' صفحة · '+c[5]+' م.ب</div><div class="acb"><a class="acbtn o" href="academy/ch'+(i+1)+'.pdf" target="_blank" rel="noopener">فتح الفصل</a><a class="acbtn" href="academy/ch'+(i+1)+'.pdf" download="الفصل-'+c[0]+'-'+c[1]+'.pdf">تنزيل / طباعة</a></div></div></div>').join('')
- +'<div class="acc"><div class="acc2"><div class="act">عن الأداة</div><div class="acm">رقم النسخة الحالية: '+ver+'</div><details><summary>طريقة العمل</summary><p>كل بياناتك تنحفظ على جهازك أنت، ولا ترسل لأي سيرفر. ولحفظها من الضياع استعمل «نسخة احتياطية» من الرئيسية. للتحديث سدّ التطبيق بالكامل وافتحه مرتين، وتأكد من رقم النسخة بالإعدادات.</p></details><details><summary>الإصدارات</summary><p>'+REL.map(r=>'<b>'+r[0]+'</b> — '+r[1]).join('<br>')+'</p></details><details><summary>تطوير الأداة</summary><p>تُطوَّر الأداة بإصدارات متتابعة بحسب ملاحظات الاستعمال الفعلي. كل تعديل يظهر برقم نسخة جديد، وبياناتك المحفوظة لا تتأثر بالتحديث.</p></details></div></div>'
+ +'<div class="acc"><div class="acc2"><div class="act">عن الأداة</div><details><summary>طريقة العمل</summary><p>كل بياناتك تنحفظ على جهازك أنت، ولا ترسل لأي سيرفر. ولحفظها من الضياع استعمل «نسخة احتياطية» من الرئيسية. للتحديث سدّ التطبيق بالكامل وافتحه مرتين، وتأكد من رقم النسخة بالإعدادات.</p></details><details><summary>الإصدارات</summary><p>'+REL.map(r=>'<b>'+r[0]+'</b> — '+r[1]).join('<br>')+'</p></details><details><summary>تطوير الأداة</summary><p>تُطوَّر الأداة بإصدارات متتابعة بحسب ملاحظات الاستعمال الفعلي. كل تعديل يظهر برقم نسخة جديد، وبياناتك المحفوظة لا تتأثر بالتحديث.</p></details></div></div>'
  +'<div class="gc"><span class="rcred">المهندسة ريم هيثم جمال</span></div></div>';
  document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove()}
 window.acad=acad;
