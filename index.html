@@ -1422,6 +1422,26 @@ html,body{overflow-x:hidden!important}
 #uoOv .fmf label{display:block;font-weight:800;color:#0b2447;font-size:14px;margin-bottom:4px}
 #uoOv .fmf input,#uoOv .fmf select,#uoOv .fmf textarea{width:100%;box-sizing:border-box;border:2px solid #1F4E9A;border-radius:12px;padding:10px;font:700 15px Cairo,Arial;background:#fff;color:#0b2447;box-shadow:0 3px 0 #1F4E9A}
 #uoOv .fmf textarea{resize:vertical;line-height:1.7}
+/* v216 academy */
+#acadOv{position:fixed;inset:0;z-index:5000;background:linear-gradient(180deg,#0b2447,#12315a);color:#fff;font-family:Cairo,Arial;direction:rtl;overflow:auto}
+#acadOv .gh{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;background:linear-gradient(180deg,#1F4E9A,#12315a);border-bottom:3px solid #d4af37}
+#acadOv .gh b{display:block;color:#ffe9a6;font-size:20px;font-weight:900}#acadOv .gh small{color:#dbe5ff;font-size:13px}
+#acadOv .gh button{border:2px solid #d4af37;background:#12315a;color:#ffe9a6;font:800 16px Cairo,Arial;padding:9px 18px;border-radius:14px;box-shadow:0 4px 0 #8a6a12}
+#acadOv .gb{padding:16px;max-width:640px;margin:0 auto}
+#acadOv .acf,#acadOv .acc{border:3px double #d4af37;border-radius:18px;padding:5px;margin-bottom:14px;background:linear-gradient(180deg,#fff,#faf6ea);box-shadow:0 5px 0 #8a6a12,0 10px 16px rgba(0,0,0,.3);color:#0b2447}
+#acadOv .acf2,#acadOv .acc2{border:1.5px solid #1F4E9A;border-radius:13px;padding:14px;text-align:center}
+#acadOv .acf2{background:linear-gradient(160deg,#12315a,#0b2447);color:#fff}
+#acadOv .act1{font-size:13px;color:#ffe9a6;font-weight:700}#acadOv .act2{font-size:26px;font-weight:900;color:#ffe9a6;margin:6px 0 0}#acadOv .act3{font-size:18px;font-weight:800}
+#acadOv .act4{font-size:13.5px;color:#dbe5ff;margin-top:8px;line-height:1.7}#acadOv .act5{display:inline-block;margin-top:10px;border:1.5px solid #d4af37;border-radius:20px;padding:3px 14px;color:#ffe9a6;font-weight:800;font-size:14px}
+#acadOv .acn{display:inline-block;background:#1F4E9A;color:#fff;border-radius:20px;padding:3px 16px;font-weight:800;font-size:14px}
+#acadOv .acc .act{font-size:21px;font-weight:900;margin:8px 0 4px}#acadOv .acm{color:#5a6b8c;font-size:14px;font-weight:700}
+#acadOv .acb{display:flex;gap:10px;margin-top:12px}
+#acadOv .acbtn{flex:1;text-decoration:none;text-align:center;border:2px solid #1F4E9A;background:linear-gradient(180deg,#fff,#e8eefc);color:#0b2447;font:800 15px Cairo,Arial;padding:11px 6px;border-radius:12px;box-shadow:0 4px 0 #1F4E9A}
+#acadOv .acbtn.o{background:linear-gradient(180deg,#2c6fd1,#1F4E9A);color:#fff}
+#acadOv .acbtn:active{transform:translateY(3px);box-shadow:none}
+#acadOv details{border-top:1px solid #c9d4ec;margin-top:10px;text-align:right}#acadOv summary{padding:11px 4px;font-weight:900;cursor:pointer}
+#acadOv details p{margin:0;padding:0 4px 12px;line-height:1.9;font-size:15px;color:#34456b}
+#acadOv .gc{text-align:center;margin:18px 0 30px}
 </style>
 </head>
 <body>
@@ -1469,6 +1489,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <button class="hg " data-hg="mnt"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(24 0) scale(-1 1)"><path d="m15 12-8.4 8.4a1.4 1.4 0 1 1-2-2L13 10"/><path d="m18 15 3-3"/><path d="m21 12-1.7-1.7a2 2 0 0 1-.6-1.4V7.5l-2.3-2.3a6 6 0 0 0-4.2-1.7L9 3.2l.9.8A6 6 0 0 1 12 8.4V10l2 2h1.2a2 2 0 0 1 1.4.6L18.5 14.5"/></g><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9l-3.8 3.8z" transform="translate(0 0)"/></svg><b>صيانة الوحدات</b></button>
     <button class="hg " data-hg="rep"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><b>التقارير</b></button>
     <button class="hg " data-hg="s"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4"/></svg><b>الإعدادات</b></button>
+    <button class="hg" data-hg="acad"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.2V16c0 1.4 2.7 3 6 3s6-1.6 6-3v-4.8"/><path d="M22 9v6"/></svg><b>الأكاديمية</b></button>
     <button class="hg" data-hg="guide"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 8h7M9 12h5"/></svg><b>دليل الاستخدام</b></button>
     <button class="hg" data-hg="backup"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg><b>نسخة احتياطية</b></button>
     <button class="hg wide" data-hg="loc"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg><span class="hgt"><b>موقع المحطة</b><small>الخريطة والمسار إلى محطة الموصل الغازية</small></span></button>
@@ -1515,6 +1536,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 <button class="ditem" data-go="loc"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg></i><span class="dt">موقع المحطة</span><em>‹</em></button>
 <div class="dsep">الإدارة</div>
 <button class="ditem" id="btnSettings"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4"/></svg></i><span class="dt">الإعدادات</span><em>‹</em></button>
+<button class="ditem" data-go="acad"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.2V16c0 1.4 2.7 3 6 3s6-1.6 6-3v-4.8"/><path d="M22 9v6"/></svg></i><span class="dt">الأكاديمية</span><em>‹</em></button>
 <button class="ditem" data-go="guide"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 8h7M9 12h5"/></svg></i><span class="dt">دليل الاستخدام</span><em>‹</em></button>
 <button class="ditem" data-go="backup"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg></i><span class="dt">نسخة احتياطية</span><em>‹</em></button>
   <div class="dfoot" id="dVer"></div><div class="dfoot" style="color:#d4af37;font-weight:800"><span class="rcred">المهندسة ريم هيثم جمال</span></div>
@@ -1606,7 +1628,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 215 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 216 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2614,6 +2636,7 @@ $('drawer').addEventListener('click',e=>{const b=e.target.closest('.ditem');if(!
   else if(g==='units'||g==='mnt'||g==='loc'||g==='wo'||g==='rep'){showLetters(false);if(!$('viewSettings').classList.contains('hide'))showSettings(false);if(!$('viewDir').classList.contains('hide'))showDir(false);setTimeout(()=>{const t=document.querySelector('#hGrid [data-hg="'+g+'"]');t&&t.click()},80)}
   else if(g==='dir')showDir(true)
   else if(g==='guide')guide()
+  else if(g==='acad')acad()
   else if(g==='backup')$('backup').click()},true);
 try{const v=[...document.querySelectorAll('#viewSettings p.hint')].find(x=>x.textContent.includes('نسخة الأداة'));$('dVer').textContent=v?v.textContent:''}catch(e){}
 
@@ -2629,6 +2652,7 @@ $('hGrid').addEventListener('click',e=>{const b=e.target.closest('[data-hg]');if
  else if(g==='daily')$('btnCopy').click();
  else if(g==='backup')$('backup').click();
  else if(g==='guide')guide();
+ else if(g==='acad')acad();
  else if(g==='ocr')$('btnOcr').click()});
 
 function showTable(on){document.body.classList.toggle('tbl',on);window.scrollTo(0,0);navOn()}
@@ -3177,6 +3201,17 @@ function viewF(){const f=fmGet(),H=FH(),inp=(k,id,lab,ph,list,type)=>'<div class
  +'<div class="fmf"><label data-lk="f_act" data-d="الإجراء المتخذ والنتيجة">'+esc2(L('f_act','الإجراء المتخذ والنتيجة'))+'</label><textarea data-ff="act" rows="4">'+esc2(f.act)+'</textarea></div>'
  +'<div class="fmf"><label data-lk="f_notes" data-d="ملاحظات وتوصيات">'+esc2(L('f_notes','ملاحظات وتوصيات'))+'</label><textarea data-ff="notes" rows="3">'+esc2(f.notes)+'</textarea></div></div>'
  +'<div class="ustg c3 fma"><button type="button" class="ust b-run on" data-fm="print" data-lk="f_print" data-d="طباعة / حفظ PDF">'+esc2(L('f_print','طباعة / حفظ PDF'))+'</button><button type="button" class="ust b-bad" data-fm="clear" data-lk="f_clear" data-d="مسح الحقول">'+esc2(L('f_clear','مسح الحقول'))+'</button><button type="button" class="ust b-res" data-fm="back" data-lk="f_back" data-d="جدول الصيانة">'+esc2(L('f_back','جدول الصيانة'))+'</button></div>'}
+const AC=[['الأول','فكرة عامة','5','87',83,'7.6'],['الثاني','الصيانة الميكانيكية','88','331',244,'20.9'],['الثالث','الصيانة الكهربائية','332','452',121,'10.2'],['الرابع','السيطرة الذاتية','453','598',146,'12.8'],['الخامس','التشغيل','599','644',46,'1.4'],['السادس','المعالجة','645','687',43,'3.4'],['السابع','السلامة والبيئة','688','752',65,'5.7']];
+function acad(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
+ const ver=((document.body.textContent.match(/نسخة الأداة: (\d+)/)||[])[1])||'';
+ const REL=[['215','استمارة تقرير الصيانة وأمر العمل داخل صيانة الوحدات'],['210','أزرار الصيانة (إنجاز، تعديل، طباعة، حذف) ودليل الاستخدام'],['207','لوحة حمل المحطة وتحكم لكل وحدة من الـ 14'],['199','شاشة الافتتاحية والواجهة الذهبية الجديدة']];
+ o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>الأكاديمية</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb">'
+ +'<div class="acf"><div class="acf2"><div class="act1">الشركة العامة لإنتاج الطاقة الكهربائية · المنطقة الشمالية</div><div class="act2">المنهاج التدريبي</div><div class="act3">لمحطة كهرباء الموصل الغازية</div><div class="act4">دليل التشغيل والصيانة للمهندسين والفنيين للوحدات الغازية · الإصدار الأول 2026</div><div class="act5">752 صفحة · 7 فصول</div></div></div>'
+ +AC.map((c,i)=>'<div class="acc"><div class="acc2"><div class="acn">الفصل '+c[0]+'</div><div class="act">'+c[1]+'</div><div class="acm">الصفحات '+c[2]+' – '+c[3]+' · '+c[4]+' صفحة · '+c[5]+' م.ب</div><div class="acb"><a class="acbtn o" href="academy/ch'+(i+1)+'.pdf" target="_blank" rel="noopener">فتح الفصل</a><a class="acbtn" href="academy/ch'+(i+1)+'.pdf" download="الفصل-'+c[0]+'-'+c[1]+'.pdf">تنزيل / طباعة</a></div></div></div>').join('')
+ +'<div class="acc"><div class="acc2"><div class="act">عن الأداة</div><div class="acm">رقم النسخة الحالية: '+ver+'</div><details><summary>طريقة العمل</summary><p>كل بياناتك تنحفظ على جهازك أنت، ولا ترسل لأي سيرفر. ولحفظها من الضياع استعمل «نسخة احتياطية» من الرئيسية. للتحديث سدّ التطبيق بالكامل وافتحه مرتين، وتأكد من رقم النسخة بالإعدادات.</p></details><details><summary>الإصدارات</summary><p>'+REL.map(r=>'<b>'+r[0]+'</b> — '+r[1]).join('<br>')+'</p></details><details><summary>تطوير الأداة</summary><p>تُطوَّر الأداة بإصدارات متتابعة بحسب ملاحظات الاستعمال الفعلي. كل تعديل يظهر برقم نسخة جديد، وبياناتك المحفوظة لا تتأثر بالتحديث.</p></details></div></div>'
+ +'<div class="gc"><span class="rcred">المهندسة ريم هيثم جمال</span></div></div>';
+ document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove()}
+window.acad=acad;
 function woPrint(m){const w=window.open('','_blank');if(!w){toast('اسمح بالنوافذ المنبثقة للطباعة');return}
  const no=(m.id||'').replace(/\D/g,'').slice(-6),row=(a,b)=>'<tr><th>'+a+'</th><td>'+b+'</td></tr>';
  w.document.write('<!doctype html><meta charset=utf-8><title>أمر عمل</title><style>body{font-family:Arial,Tahoma;padding:28px;direction:rtl;color:#111}h1{text-align:center;font-size:22px;margin:4px 0}h2{text-align:center;font-size:16px;margin:2px 0 18px;font-weight:600}table{width:100%;border-collapse:collapse;font-size:17px}th,td{border:1.5px solid #222;padding:11px 12px;text-align:right}th{width:30%;background:#eee}.sg{display:flex;justify-content:space-between;margin-top:60px;font-size:16px}.sg div{width:30%;text-align:center;border-top:1.5px solid #222;padding-top:6px}</style><body><h1>محطة كهرباء الموصل الغازية</h1><h2>قسم السيطرة الذاتية — أمر عمل صيانة</h2><table>'
