@@ -1094,6 +1094,45 @@ body.tbl.daymode .gridwrap{overflow-x:hidden}
 #ltTypes .ltfg{display:none;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px 4px 6px}
 #ltTypes .ltf.open .ltfg{display:grid}
 #ltTypes .ltfg .btn{height:auto!important;min-height:38px!important;padding:6px 4px!important;font-size:13.5px!important;line-height:1.3}
+/* v193 directory table */
+#viewDir .dctl{display:flex;gap:8px;margin:10px 0 0}
+#viewDir .dctl .btn{flex:1;font-size:13px!important;padding:9px 6px!important;font-weight:900}
+#viewDir .dlock{background:linear-gradient(180deg,#e8f6ec,#cfeedb)!important;color:#14572a!important;border:1.5px solid #1a7f37!important}
+#viewDir .dlock.on{background:linear-gradient(180deg,#fde8e6,#f8cfcb)!important;color:#8a1c14!important;border-color:#b42318!important}
+#viewDir .dcols{background:linear-gradient(180deg,#fff7d6,#f5e29a)!important;color:#12315a!important;border:1.5px solid #b8941f!important}
+#viewDir .dtw{border-radius:14px!important;max-height:72vh;overflow:auto!important}
+#viewDir .dtab{border-collapse:separate;border-spacing:0;font-size:13px}
+#viewDir .dtab th{background:linear-gradient(180deg,#1b4378,#12315a)!important;color:#fff;padding:11px 12px;text-align:center;border-left:1px solid #2c4d80;border-bottom:3px solid #d4af37;position:sticky;top:0;z-index:3;font-weight:900}
+#viewDir .dtab th.nm,#viewDir .dtab td.nm{text-align:right;position:sticky;right:34px;z-index:2;min-width:215px;white-space:nowrap;box-shadow:-3px 0 5px -3px rgba(18,49,90,.35)}
+#viewDir .dtab th.nm{z-index:4}
+#viewDir .dtab td.nm{background:#eaf2fc!important;color:#0b1a2e;font-size:14px;font-weight:900;border-left:3px solid #d4af37}
+#viewDir .dtab th.dn0,#viewDir .dtab td.dn0{position:sticky;right:0;z-index:2;width:34px;min-width:34px;text-align:center;padding:9px 4px;background:#12315a!important;color:#ffe9a6;font-weight:900}
+#viewDir .dtab th.dn0{z-index:4}
+#viewDir .dtab td{padding:9px 12px;vertical-align:middle;border-bottom:1px solid #dbe4f0;border-left:1px solid #e8eef7;background:#fff}
+#viewDir .dtab tbody tr:nth-child(even) td:not(.nm):not(.dn0){background:#f6f9fd}
+#viewDir .dtab td.c{text-align:center}
+#viewDir .dtab td.dnew{background:#fff4c2!important;color:#b3261e}
+#viewDir .dtab .dem{color:#b6c1d1;font-style:normal;font-weight:400}
+#viewDir .dtab .dgrp td{position:static;background:linear-gradient(90deg,#fff2b8,#fbe083)!important;color:#12315a;font-weight:900;font-size:13.5px;padding:7px 12px;border-bottom:2px solid #d4af37;text-align:right}
+#viewDir .dtab .dgrp b{margin-right:8px;background:#12315a;color:#fff;border-radius:999px;padding:1px 9px;font-size:12px}
+#viewDir .dch{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:900;border:1px solid transparent;white-space:nowrap}
+#viewDir .dch.sec{background:#e5edf9;color:#1F4E9A;border-color:#b9cdea}
+#viewDir .dch.sh{background:#efe6fb;color:#5b2d96;border-color:#d4bff0}
+#viewDir .dch.sta{background:#dff3e6;color:#14572a;border-color:#9fd5b0}
+#viewDir .dch.stb{background:#e0ecfb;color:#1a4f9a;border-color:#a9c6ee}
+#viewDir .dch.stc{background:#fdecc8;color:#8a5200;border-color:#efca82}
+#viewDir .dch.stn{background:#eee;color:#555}
+#viewDir .dch.msm{background:#fde6ef;color:#a3204f;border-color:#f1b5cb}
+#viewDir .dch.mss{background:#e6f4fb;color:#0e6a91;border-color:#b2dcee}
+#viewDir .dch.msw,#viewDir .dch.msd{background:#eee;color:#444;border-color:#ccc}
+#viewDir .dph{direction:ltr;unicode-bidi:embed;font-weight:900;letter-spacing:.3px;color:#12315a}
+#viewDir .dk{display:inline-block;min-width:24px;padding:2px 0;border-radius:8px;background:#12315a;color:#ffe9a6}
+.dcl{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.dcl button{display:flex;align-items:center;gap:7px;padding:9px 8px;border-radius:11px;border:1.5px solid #c3cfe0;background:#f3f6fb;font:900 13px Cairo,sans-serif;color:#6b7a90;text-align:right}
+.dcl button i{width:20px;height:20px;border-radius:6px;border:1.5px solid #9aa8bd;background:#fff;font-style:normal;color:#fff;text-align:center;line-height:17px;flex:none}
+.dcl button.on{background:#e4eefb;border-color:#12315a;color:#12315a}.dcl button.on i{background:#1a7f37;border-color:#1a7f37}
+.dxr{display:flex;gap:6px;align-items:center;margin:6px 0}.dxr b{flex:1;font-family:Cairo}.dxr .btn{padding:7px 9px;font-size:12.5px}
+#sheet .dunlock{width:100%;margin:6px 0;background:linear-gradient(180deg,#fde8e6,#f8cfcb)!important;color:#8a1c14!important;border:1.5px solid #b42318!important;font-weight:900}
 </style>
 </head>
 <body>
@@ -1205,6 +1244,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <div class="dirsec" id="dirSecs"></div>
     <div class="dfound" id="dirFound"></div>
   </div>
+  <div class="dctl" id="dirCtl"></div>
   <div id="dirList"></div>
   <div class="card dirhead" id="dirTotal"></div>
   <div class="card dirhead dirtools2"><div class="dtl">إدارة القاعدة</div>
@@ -1264,7 +1304,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 192 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 193 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2122,7 +2162,7 @@ function renderDir(){
   if(DIRSEC&&!cnt[DIRSEC])DIRSEC='';
   $('dirSecs').classList.toggle('hide',order.filter(k=>k!=='بدون شعبة').length<1);$('dirSecs').innerHTML=`<button data-ds="" class="${DIRSEC===''?'on':''}">الكل <b>${base.length}</b></button>`+order.filter(k=>k!=='بدون شعبة').map(k=>`<button data-ds="${esc(k)}" class="${DIRSEC===k?'on':''}">${esc(k)} <b>${cnt[k]}</b></button>`).join('');
   const words=q?q.split(' ').filter(Boolean):[];
-  const hay=v=>dirNorm([v.name,v.phone,v.title,v.sec,v.shift,v.mother,v.status].join(' '));
+  const hay=v=>dirNorm([v.name,v.phone,v.title,v.sec,v.shift,v.mother,v.status].concat(Object.values(v.x||{})).join(' '));
   const f=base.filter(v=>(!DIRSEC||dirName(v)===DIRSEC)&&(!words.length||(h=>words.every(w=>h.includes(w)))(hay(v))));
   {const ak=n=>String(n||'').replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/^\s*(م\.|م\s)\s*/,'').replace(/\s+/g,' ').trim(),blank=n=>!ak(n)||ak(n)==='منتسب جديد';
    f.sort((x,y)=>blank(x.name)-blank(y.name)||ak(x.name).localeCompare(ak(y.name),'ar'))}
@@ -2131,13 +2171,33 @@ function renderDir(){
   const nB=D.filter(v=>!String(v.name||'').trim()||String(v.name).trim()==='منتسب جديد').length;
   $('dirTotal').innerHTML=D.length?`<div class="dtt">إحصائية الدليل</div><div class="dtr"><span>العدد الكلي</span><b>${D.length}</b></div><div class="dtr"><span>الدوام الصباحي</span><b>${nM}</b></div><div class="dtr"><span>المناوبين</span><b>${nS}</b></div>`+(nB?`<button type="button" class="btn" id="dirBlank">حذف الأسماء الفارغة («منتسب جديد»: ${nB})</button>`:''):'';
   if(!D.length){$('dirList').innerHTML='';return}
-  if(words.length){const FL=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['phone','رقم الهاتف'],['status','الصفة'],['addrCard','السكن حسب البطاقة'],['addrNow','السكن الحالي'],['mother','اسم الأم'],['_mar','الحالة الزوجية'],['_kids','عدد الأطفال (المخصصات الزوجية)'],['_ids','المستمسكات']];
-    const VV=v=>({...v,_mar:({m:'متزوج',s:'أعزب',w:'أرمل',d:'مطلق'})[v.marital]||'',_kids:v.marital==='m'?String(+v.kids||0):'',_ids:DIR_IDS.filter(([k])=>(v.idv||{})[k]).map(([k,l])=>l+': '+v.idv[k]).join(' — ')||v.spouseAllow&&''});
+  if(words.length){const FL=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['phone','رقم الهاتف'],['status','الصفة'],['addrCard','السكن حسب البطاقة'],['addrNow','السكن الحالي'],['mother','اسم الأم'],['_mar','الحالة الزوجية'],['_kids','عدد الأطفال (المخصصات الزوجية)'],['_ids','المستمسكات']].concat((S.dirX||[]).map(f=>['x_'+f.k,f.l]));
+    const VV=v=>({...v,...Object.fromEntries((S.dirX||[]).map(f=>['x_'+f.k,(v.x||{})[f.k]||''])),_mar:({m:'متزوج',s:'أعزب',w:'أرمل',d:'مطلق'})[v.marital]||'',_kids:v.marital==='m'?String(+v.kids||0):'',_ids:DIR_IDS.filter(([k])=>(v.idv||{})[k]).map(([k,l])=>l+': '+v.idv[k]).join(' — ')||v.spouseAllow&&''});
     $('dirList').innerHTML=f.length?f.map(v=>`<div class="card dres"><div class="dresn" style="${dirStyle(v)}">${esc(v.name)}</div><table class="drest">`+FL.filter(([k])=>VV(v)[k]).map(([k,l])=>`<tr><th>${l}</th><td>${esc(VV(v)[k])}</td></tr>`).join('')+`</table><div class="diract">${v.phone?`<a class="btn dcall" href="tel:${esc(v.phone)}">اتصال</a><a class="btn dwa" target="_blank" rel="noopener" href="${dirWa(v.phone)}">واتساب</a>`:''}</div><button class="btn dedit" data-di="${v.id}">✎ فتح وتعديل البيانات</button></div>`).join(''):'<div class="card dnores"><div>لا يوجد اسم مطابق لـ «'+esc(DIRQ)+'» في القاعدة</div><small>القاعدة فيها '+D.length+' اسم فقط. إذا الأسماء ما كاملة، استورد ملف القاعدة.</small><button type="button" class="btn" id="dirImp2">استيراد ملف القاعدة</button></div>';return}
-  const MS={m:'متزوج',s:'أعزب',w:'أرمل',d:'مطلق'};
-  const cols=[['الاسم',v=>v.name],['الهاتف',v=>v.phone],['العنوان الوظيفي',v=>v.title],['الشعبة',v=>v.sec],['الوجبة',v=>v.shift],['الصفة',v=>v.status],['الحالة الزوجية',v=>MS[v.marital]||''],['الأطفال',v=>v.marital==='m'?String(+v.kids||0):''],['السكن الحالي',v=>v.addrNow],['السكن حسب البطاقة',v=>v.addrCard],['اسم الأم',v=>v.mother]];
+  const MS={m:'متزوج',s:'أعزب',w:'أرمل',d:'مطلق'},CH={'ملاك':'a','عقد':'b','أجر يومي':'c'};
+  const chip=(t,c)=>t?`<span class="dch ${c}">${esc(t)}</span>`:'';
+  const cols=[['name','الاسم',v=>esc(v.name),'nm'],['title','العنوان الوظيفي',v=>esc(v.title)],['sec','الشعبة',v=>chip(v.sec,'sec'),'c'],['shift','الوجبة',v=>chip(v.shift,'sh'),'c'],['status','الصفة',v=>chip(v.status,'st'+(CH[v.status]||'n')),'c'],['phone','الهاتف',v=>v.phone?`<span class="dph">${esc(v.phone)}</span>`:'','c'],['marital','الحالة الزوجية',v=>chip(MS[v.marital],'ms'+(v.marital||'')),'c'],['kids','الأطفال',v=>v.marital==='m'?`<b class="dk">${+v.kids||0}</b>`:'','c'],['addrNow','السكن الحالي',v=>esc(v.addrNow)],['addrCard','السكن حسب البطاقة',v=>esc(v.addrCard)],['mother','اسم الأم',v=>esc(v.mother)]]
+    .concat((S.dirX||[]).map(f=>['x_'+f.k,f.l,v=>esc((v.x||{})[f.k]),'x'])).filter(c=>!(S.dirHide||{})[c[0]]||c[0]==='name');
   const rows=order.map(k=>f.filter(v=>dirName(v)===k)).flat();
-  $('dirList').innerHTML=rows.length?`<div class="card dtw"><table class="dtab"><thead><tr><th>ت</th>`+cols.map(c=>`<th>${c[0]}</th>`).join('')+`</tr></thead><tbody>`+rows.map((v,i)=>`<tr data-di="${v.id}"><td>${i+1}</td>`+cols.map((c,j)=>`<td class="${j===0?'nm'+(String(v.name).trim()==='منتسب جديد'?' dnew':''):''}">${esc(c[1](v)||'')}</td>`).join('')+`</tr>`).join('')+`</tbody></table></div>`:'<div class="card dnores"><div>لا يوجد اسم مطابق لـ «'+esc(DIRQ)+'» في القاعدة</div><small>القاعدة فيها '+D.length+' اسم فقط. إذا الأسماء ما كاملة، استورد ملف القاعدة.</small><button type="button" class="btn" id="dirImp2">استيراد ملف القاعدة</button></div>'}
+  let n=0;const body=order.map(k=>{const g=f.filter(v=>dirName(v)===k);if(!g.length)return'';
+    return `<tr class="dgrp"><td colspan="${cols.length+1}"><span>${esc(k)}</span><b>${g.length}</b></td></tr>`+g.map(v=>{n++;return `<tr data-di="${v.id}"><td class="dn0">${n}</td>`+cols.map(c=>{const t=c[2](v);return `<td class="${c[3]||''}${c[0]==='name'&&String(v.name).trim()==='منتسب جديد'?' dnew':''}">${t||'<i class="dem">—</i>'}</td>`}).join('')+`</tr>`}).join('')}).join('');
+  $('dirCtl').innerHTML=`<button type="button" class="btn dlock ${S.dirLock?'on':''}" id="dirLockB">${S.dirLock?'🔒 التعديل مقفل':'✎ التعديل مفتوح'}</button><button type="button" class="btn dcols" id="dirColsB">⚙ الأعمدة والحقول</button>`;
+  $('dirList').innerHTML=rows.length?`<div class="card dtw"><table class="dtab"><thead><tr><th class="dn0">ت</th>`+cols.map(c=>`<th class="${c[3]||''}">${esc(c[1])}</th>`).join('')+`</tr></thead><tbody>${body}</tbody></table></div>`:'<div class="card dnores"><div>لا يوجد اسم مطابق لـ «'+esc(DIRQ)+'» في القاعدة</div><small>القاعدة فيها '+D.length+' اسم فقط. إذا الأسماء ما كاملة، استورد ملف القاعدة.</small><button type="button" class="btn" id="dirImp2">استيراد ملف القاعدة</button></div>'}
+const DIR_BASE=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['status','الصفة'],['phone','الهاتف'],['marital','الحالة الزوجية'],['kids','الأطفال'],['addrNow','السكن الحالي'],['addrCard','السكن حسب البطاقة'],['mother','اسم الأم']];
+function dirColsSheet(){
+  edit=null;S.dirX=S.dirX||[];S.dirHide=S.dirHide||{};
+  const draw=()=>{$('sheet').innerHTML=`<div class="edhead"><div class="edsub">الأعمدة والحقول</div><div class="edtop"><button class="xtop" type="button" id="dcX"><span class="xb">✕</span><span>إغلاق</span></button></div></div>
+  <div class="lbl">إظهار / إخفاء الأعمدة في الجدول</div><div class="dcl">${DIR_BASE.map(([k,l])=>`<button type="button" data-hc="${k}" class="${S.dirHide[k]?'':'on'}"><i>${S.dirHide[k]?'':'✓'}</i>${esc(l)}</button>`).join('')}${S.dirX.map(f=>`<button type="button" data-hc="x_${f.k}" class="${S.dirHide['x_'+f.k]?'':'on'}"><i>${S.dirHide['x_'+f.k]?'':'✓'}</i>${esc(f.l)}</button>`).join('')}</div>
+  <div class="lbl">الحقول المضافة</div>${S.dirX.length?S.dirX.map(f=>`<div class="dxr"><b>${esc(f.l)}</b><button type="button" class="btn" data-xr="${f.k}">✎ تسمية</button><button type="button" class="btn red" data-xd="${f.k}">🗑 حذف</button></div>`).join(''):'<div class="hint">لا توجد حقول مضافة بعد.</div>'}
+  <div class="lbl">＋ إضافة حقل جديد</div><div class="drow"><input class="txt" id="dxN" placeholder="اسم الحقل، مثال: رقم الوظيفة"><button type="button" class="btn" id="dxAdd">إضافة</button></div>`;
+  $('dcX').onclick=()=>closeSheet();
+  $('sheet').onclick=e=>{const b=e.target.closest('button');if(!b)return;
+    if(b.dataset.hc){S.dirHide[b.dataset.hc]=!S.dirHide[b.dataset.hc];if(!S.dirHide[b.dataset.hc])delete S.dirHide[b.dataset.hc];save();renderDir();draw()}
+    else if(b.dataset.xr){const f=S.dirX.find(x=>x.k===b.dataset.xr),t=prompt('الاسم الجديد للحقل',f.l);if(t&&t.trim()){f.l=t.trim();save();renderDir();draw()}}
+    else if(b.dataset.xd){const f=S.dirX.find(x=>x.k===b.dataset.xd);if(!confirm('حذف الحقل «'+f.l+'» وكل القيم المدخلة فيه من كل المنتسبين؟'))return;S.dirX=S.dirX.filter(x=>x!==f);(S.dir||[]).forEach(v=>{if(v.x)delete v.x[f.k]});delete S.dirHide['x_'+f.k];save();renderDir();draw()}
+    else if(b.id==='dxAdd'){const t=$('dxN').value.trim();if(!t)return;if(S.dirX.some(x=>x.l===t)){toast('الحقل موجود');return}S.dirX.push({k:'f'+Date.now().toString(36),l:t});save();renderDir();draw();toast('أُضيف الحقل')}};
+  };
+  draw();$('ov').classList.add('show')}
 function dirWa(p){let d=String(p||'').replace(/[٠-٩]/g,x=>'٠١٢٣٤٥٦٧٨٩'.indexOf(x)).replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);else if(d.startsWith('0'))d='964'+d.slice(1);else if(d.length===10&&d[0]==='7')d='964'+d;return d?'https://wa.me/'+d:'#'}
 const DIR_IDS=[['unified','البطاقة الوطنية الموحدة'],['civil','هوية الأحوال المدنية'],['passport','جواز السفر']];
 /* صور المستمسكات (IndexedDB) */
@@ -2166,6 +2226,7 @@ function dirSheet(id){
   ${F('addrCard','عنوان السكن حسب البطاقة')}
   ${F('addrNow','عنوان السكن الحالي')}
   ${F('mother','اسم الأم')}
+  ${(S.dirX||[]).map(f=>`<div class="lbl">${esc(f.l)}</div><input class="txt" data-x="${f.k}" value="${esc((v.x||{})[f.k]||'')}">`).join('')}
   <div class="lbl">الحالة الزوجية</div>
   <select class="txt dsel dsel2 ms" id="dMar"><option value="">— اختر الحالة الاجتماعية —</option>${[['s','أعزب'],['m','متزوج'],['w','أرمل'],['d','مطلق']].map(([k,l])=>`<option value="${k}" ${v.marital===k?'selected':''}>${l}</option>`).join('')}</select>
   <div id="dKidsBox" class="${v.marital==='m'?'':'hide'}"><div class="lbl">المخصصات الزوجية — عدد الأطفال</div><select class="txt dsel dsel2 ks" id="dKids">${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}" ${(+v.kids||0)===n?'selected':''}>${n===0?'بدون أطفال':n}</option>`).join('')}</select></div>
@@ -2188,7 +2249,9 @@ function dirSheet(id){
   $('dIdSeg').onclick=e=>{const b=e.target.closest('[data-id]');if(!b)return;const k=b.dataset.id;v.idOn[k]=!(v.idOn[k]||v.idv[k]);if(!v.idOn[k])v.idv[k]='';b.classList.toggle('on',!!v.idOn[k]);drawIds();upd()};
   $('dMar').onchange=e=>{v.marital=e.target.value;$('dKidsBox').classList.toggle('hide',v.marital!=='m');if(v.marital!=='m'){v.kids=0;$('dKids').value='0'}upd()};
   $('dKids').onchange=e=>{v.kids=+e.target.value;upd()};
+  sh.querySelectorAll('[data-x]').forEach(el=>{el.oninput=()=>{v.x=v.x||{};v.x[el.dataset.x]=el.value;save();renderDir()}});
   $('dirX').onclick=()=>closeSheet();
+  if(S.dirLock){sh.querySelectorAll('input,select').forEach(e=>e.disabled=true);sh.querySelectorAll('.idbt,[data-iv],[data-id2]').forEach(e=>e.remove());const bn=document.createElement('button');bn.type='button';bn.className='btn dunlock';bn.textContent='🔒 للقراءة فقط — اضغط لفتح التعديل';bn.onclick=()=>{S.dirLock=false;save();renderDir();dirSheet(id)};sh.insertBefore(bn,$('dirNm'))}
 }
 function dirDelSheet(){
   edit=null;let q='';
@@ -2201,7 +2264,7 @@ function dirDelSheet(){
   $('ddX').onclick=()=>closeSheet();
   $('ddL').onclick=e=>{const b=e.target.closest('[data-dd]');if(!b)return;const v=(S.dir||[]).find(x=>x.id===b.dataset.dd);if(!v)return;if(!confirm('حذف «'+v.name+'» نهائياً من قاعدة البيانات؟'))return;S.dir=S.dir.filter(x=>x.id!==v.id);save();renderDir();draw();toast('تم الحذف')};
   setTimeout(()=>$('ddQ').focus(),150)}
-$('dirDelMode').onclick=dirDelSheet;
+$('dirDelMode').onclick=()=>{if(dirLk())return;dirDelSheet()};
 $('dirTotal').addEventListener('click',e=>{if(!e.target.closest('#dirBlank'))return;const n=(S.dir||[]).filter(v=>!String(v.name||'').trim()||String(v.name).trim()==='منتسب جديد').length;if(!confirm('حذف '+n+' من الأسماء الفارغة نهائياً؟'))return;S.dir=S.dir.filter(v=>String(v.name||'').trim()&&String(v.name).trim()!=='منتسب جديد');save();renderDir();toast('تم الحذف')});
 $('dirQ').addEventListener('input',e=>{DIRQ=e.target.value;renderDir()});
 $('dirStats').addEventListener('click',e=>{const b=e.target.closest('[data-dt]');if(!b)return;DIRTYPE=b.dataset.dt;renderDir()});
@@ -2211,13 +2274,15 @@ $('dirList').addEventListener('click',e=>{if(e.target.closest('#dirImp2'))$('dir
 $('dirClr').onclick=()=>{DIRQ='';$('dirQ').value='';renderDir();$('dirQ').focus()};
 $('dirSecs').addEventListener('click',e=>{const b=e.target.closest('[data-ds]');if(!b)return;DIRSEC=b.dataset.ds;renderDir()});
 $('dirList').addEventListener('click',e=>{const b=e.target.closest('[data-di]');if(b)dirSheet(b.dataset.di)});
-$('dirAdd').onclick=()=>{S.dir=S.dir||[];const id='d'+Date.now();S.dir.push({id,name:'منتسب جديد',title:'',sec:DIRSEC==='بدون شعبة'?'':DIRSEC,shift:'',phone:'',status:'',addrCard:'',addrNow:'',mother:'',spouseAllow:'',st:{f:'',c:'',z:'',b:0,u:0}});save();renderDir();dirSheet(id)};
-$('dirImp').onclick=()=>$('dirFile').click();
-$('dirFile').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{let a=JSON.parse(rd.result);if(a&&a.dir)a=a.dir;if(!Array.isArray(a))throw 0;
+const dirLk=()=>{if(S.dirLock){toast('التعديل مقفل — افتحه من زر القفل');return true}return false};
+$('viewDir').addEventListener('click',e=>{if(e.target.closest('#dirLockB')){S.dirLock=!S.dirLock;save();renderDir();toast(S.dirLock?'تم قفل التعديل':'تم فتح التعديل')}else if(e.target.closest('#dirColsB'))dirColsSheet()});
+$('dirAdd').onclick=()=>{if(dirLk())return;S.dir=S.dir||[];const id='d'+Date.now();S.dir.push({id,name:'منتسب جديد',title:'',sec:DIRSEC==='بدون شعبة'?'':DIRSEC,shift:'',phone:'',status:'',addrCard:'',addrNow:'',mother:'',spouseAllow:'',st:{f:'',c:'',z:'',b:0,u:0}});save();renderDir();dirSheet(id)};
+$('dirImp').onclick=()=>{if(dirLk())return;$('dirFile').click()};
+$('dirFile').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{let a=JSON.parse(rd.result);if(a&&a.dirX){S.dirX=S.dirX||[];a.dirX.forEach(f=>{if(!S.dirX.some(y=>y.k===f.k))S.dirX.push(f)})}if(a&&a.dir)a=a.dir;if(!Array.isArray(a))throw 0;
   const key=n=>String(n||'').replace(/[\sـ]/g,'');S.dir=S.dir||[];let add=0,upd=0;
-  a.forEach(x=>{if(!x||!x.name)return;const o=S.dir.find(y=>key(y.name)===key(x.name));if(o){Object.keys(x).forEach(k=>{if(k!=='id'&&x[k]&&!(k==='st'))o[k]=x[k]});upd++}else{S.dir.push(Object.assign({id:'d'+Date.now()+Math.random().toString(36).slice(2,6),st:{f:'',c:'',z:'',b:0,u:0}},x));add++}});
+  a.forEach(x=>{if(!x||!x.name)return;const o=S.dir.find(y=>key(y.name)===key(x.name));if(o){Object.keys(x).forEach(k=>{if(k==='x'){o.x=Object.assign(o.x||{},x.x)}else if(k!=='id'&&x[k]&&!(k==='st'))o[k]=x[k]});upd++}else{S.dir.push(Object.assign({id:'d'+Date.now()+Math.random().toString(36).slice(2,6),st:{f:'',c:'',z:'',b:0,u:0}},x));add++}});
   save();renderDir();toast('أُضيف '+add+' وحُدّث '+upd)}catch(e){toast('الملف غير صالح')}};rd.readAsText(f);ev.target.value=''};
-$('dirExp').onclick=()=>{const b=new Blob([JSON.stringify({dir:S.dir||[]},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='دليل-المنتسبين.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)};
+$('dirExp').onclick=()=>{const b=new Blob([JSON.stringify({dir:S.dir||[],dirX:S.dirX||[]},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='دليل-المنتسبين.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)};
 
 function ltLogo(){const i=$('ltLogoPrev');i.src=S.logo||'logo-moe.png';i.style.display='block'}
 function showLetters(on){if(on)document.body.classList.remove('tbl');$('viewDir').classList.add('hide');$('viewMain').classList.toggle('hide',on);$('viewLetters').classList.toggle('hide',!on);$('viewSettings').classList.add('hide');$('actionBar').classList.toggle('hide',on);
