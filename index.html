@@ -1609,6 +1609,24 @@ body.subpage .bpill,body.tbl .bpill{border:0;box-shadow:none;padding:0;text-alig
 body .brand .bpill{max-width:none!important;width:auto!important;flex:1 1 0!important;min-width:0!important;margin-inline-end:0!important;margin-inline-start:0!important;padding-inline:6px!important}
 body .brand .bpill #appTitle{width:100%!important;max-width:none!important;flex:none!important;overflow:visible!important;display:block!important}
 @media(min-width:700px){body .brand .bpill{flex:0 1 auto!important;margin-inline-end:auto!important}}
+/* v244 about page */
+#acadOv .dvk{display:inline-block;font:800 15px Cairo,Arial;color:#fff;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000,0 2px 5px #000;margin-bottom:2px}
+#acadOv .dvn .rcred{color:#ffd24a!important;text-shadow:0 1px 0 #fff2b8,0 3px 0 #8a6a12,0 6px 12px rgba(0,0,0,.7),0 0 16px rgba(255,210,74,.35)!important}
+#acadOv .dvl{background:radial-gradient(circle at 35% 28%,#2c5ea8,#0b2447 75%)!important;border:3px solid #d4af37!important;box-shadow:0 0 0 5px rgba(212,175,55,.3),0 8px 18px rgba(0,0,0,.55),0 0 22px rgba(255,210,74,.3)!important}
+#acadOv .dvl img{width:82%!important}
+#acadOv .dvs{display:flex;flex-direction:column;gap:7px;border-top:2px solid rgba(212,175,55,.6);padding-top:12px;font-family:Cairo,Arial}
+#acadOv .dvs span{display:block;font-weight:900;line-height:1.5}
+#acadOv .dl1{font-size:19px;color:#ffd24a;text-shadow:0 2px 0 #7a5a08,0 4px 8px #000}
+#acadOv .dl2{font-size:14.5px;color:#fff;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000,0 3px 6px #000}
+#acadOv .dl3{font-size:17px;color:#ffe9a6;text-shadow:0 2px 0 #7a5a08,0 4px 8px #000}
+#acadOv .dl4{font-size:15.5px;color:#fff;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000,0 3px 6px #000}
+#acadOv .acf2:not(.dvb){background:linear-gradient(160deg,#1a4a94,#0b2447)!important;border:2.5px solid #d4af37!important;box-shadow:0 5px 0 #8a6a12,0 12px 22px rgba(0,0,0,.5)!important}
+#acadOv .dvh{color:#ffd24a!important;font-weight:900;text-shadow:0 2px 0 #7a5a08,0 3px 8px #000}
+#acadOv .dvr{background:linear-gradient(180deg,#1f4e9a,#12315a)!important;border:2px solid #d4af37!important;border-radius:16px!important;box-shadow:0 4px 0 #8a6a12,0 8px 14px rgba(0,0,0,.45)!important;color:#fff!important}
+#acadOv .dvr small{color:#dbe5ff!important}
+#acadOv .dvr b{color:#ffe9a6!important;text-shadow:0 1px 3px #000}
+#acadOv .dvr i{background:#0b2447!important;border:2px solid #d4af37!important}
+#acadOv .acf{background:linear-gradient(180deg,#ffe08a,#b8901f)!important;border:0!important}
 </style>
 </head>
 <body>
@@ -1802,7 +1820,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 243 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 244 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3443,7 +3461,7 @@ function acad(){let o=document.getElementById('acadOv');if(o)o.remove();o=docume
  document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove()}
 window.acad=acad;
 function devAbout(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
- o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>عن مطوّرة الأداة</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><div class="acf"><div class="acf2 dvb"><div class="dvl"><img src="logo-moe.png" alt=""></div><div class="dvk">إعداد وتصميم</div><div class="dvn"><span class="rcred">المهندسة ريم هيثم جمال</span></div><div class="dvs">وزارة الكهرباء · قسم السيطرة الذاتية<br>محطة كهرباء الموصل الغازية</div></div></div>'
+ o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>عن مطوّرة الأداة</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><div class="acf"><div class="acf2 dvb"><div class="dvl"><img src="logo-gold3d.png" alt=""></div><div class="dvk">إعداد وتصميم</div><div class="dvn"><span class="rcred">المهندسة ريم هيثم جمال</span></div><div class="dvs"><span class="dl1">وزارة الكهرباء</span><span class="dl2">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية</span><span class="dl3">محطة كهرباء الموصل الغازية</span><span class="dl4">قسم السيطرة الذاتية</span></div></div></div>'
  +'<div class="acf"><div class="acf2"><div class="dvh">بيانات المحطة الرسمية</div>'
  +'<div class="dvr"><i>📍</i><div><small>العنوان</small><b>العراق / الموصل / شارع بغداد</b></div></div>'
  +'<a class="dvr" href="mailto:mousal_gas_turbin@moelc.gov.iq"><i>✉️</i><div><small>البريد الإلكتروني</small><b dir="ltr">mousal_gas_turbin@moelc.gov.iq</b></div></a></div></div></div>';
