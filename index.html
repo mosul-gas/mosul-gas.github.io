@@ -1218,6 +1218,49 @@ header.top{background:linear-gradient(135deg,#0b2447 0%,#12315a 55%,#1F4E9A 100%
 @keyframes spup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes spld{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
 @media(prefers-reduced-motion:reduce){#splash *{animation-duration:.01s!important;animation-delay:0s!important}}
+/* v200 units palette */
+#uoOv{background:#0b2447!important}
+#uoOv .uh{background:linear-gradient(135deg,#0b2447 0%,#12315a 55%,#1F4E9A 100%)!important;border-bottom:3px solid #d4af37}
+#uoOv .ulogo{width:56px;height:56px;background:radial-gradient(circle at 35% 28%,#2c5ea8,#0b2447 72%)!important;border:2.5px solid #d4af37;box-shadow:0 0 0 3px rgba(212,175,55,.2),0 0 12px rgba(212,175,55,.55),inset 0 3px 6px rgba(255,255,255,.25),inset 0 -6px 10px rgba(0,0,0,.45)!important}
+#uoOv .ulogo img{width:66%;height:auto;filter:drop-shadow(0 1px 0 #6b4f0c) drop-shadow(0 3px 3px rgba(0,0,0,.5))}
+#uoOv .ut small{color:#ffe9a6!important}
+#uoOv .ubk{background:linear-gradient(180deg,#1F4E9A,#12315a)!important;color:#ffe9a6!important;border:1.5px solid #d4af37!important;box-shadow:0 3px 0 #061630!important}
+#uoOv .ubk:active{box-shadow:0 1px 0 #061630!important}
+#uoOv .utab{background:rgba(255,255,255,.08)!important;color:#b9c7e6!important;border:1.5px solid rgba(212,175,55,.35)!important;box-shadow:none!important}
+#uoOv .utab.on{background:linear-gradient(180deg,#f3dc8a,#d4af37)!important;color:#0b2447!important;border-color:#d4af37!important;box-shadow:0 3px 0 #8a6a12!important}
+#uoOv .us{background:#12315a!important;border-color:#d4af37!important}
+#uoOv .ucard{background:#12315a!important;border:1px solid rgba(212,175,55,.22)}
+#uoOv .ubar{background:#0b2447!important}
+#uoOv select,#uoOv input[type=number],#uoOv input[type=date],#uoOv input[type=text]{background-color:#0b2447!important;border-color:rgba(212,175,55,.45)!important}
+#uoOv input[type=range]{accent-color:#d4af37!important}
+#uoOv .udo,#uoOv .uadd{background:linear-gradient(180deg,#f3dc8a,#d4af37)!important;color:#0b2447!important;box-shadow:0 3px 0 #8a6a12!important}
+/* v200 header + units as app form */
+.brand .bolt{width:54px!important;height:54px!important;border-radius:50%!important;padding:0!important;position:relative;overflow:visible!important;background:radial-gradient(circle at 35% 28%,#2c5ea8,#0b2447 72%)!important;border:2.5px solid #d4af37!important;box-shadow:0 0 0 3px rgba(212,175,55,.22),0 0 14px rgba(255,214,102,.75),0 5px 10px rgba(0,0,0,.45),inset 0 3px 7px rgba(255,255,255,.3),inset 0 -8px 12px rgba(0,0,0,.5)!important;animation:hgl 3s ease-in-out infinite}
+.brand .bolt::before{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid transparent;border-top-color:#ffe9a6;border-right-color:rgba(255,233,166,.35);filter:drop-shadow(0 0 4px #ffd24a);animation:hspin 3.2s linear infinite}
+.brand .bolt img{width:66%!important;height:auto!important;object-fit:contain;filter:drop-shadow(0 1px 0 #6b4f0c) drop-shadow(0 3px 3px rgba(0,0,0,.55))!important;position:relative}
+@keyframes hspin{to{transform:rotate(360deg)}}
+@keyframes hgl{0%,100%{box-shadow:0 0 0 3px rgba(212,175,55,.22),0 0 10px rgba(255,214,102,.55),0 5px 10px rgba(0,0,0,.45),inset 0 3px 7px rgba(255,255,255,.3),inset 0 -8px 12px rgba(0,0,0,.5)}50%{box-shadow:0 0 0 3px rgba(212,175,55,.35),0 0 20px rgba(255,214,102,.95),0 5px 10px rgba(0,0,0,.45),inset 0 3px 7px rgba(255,255,255,.3),inset 0 -8px 12px rgba(0,0,0,.5)}}
+.brand h1{background:linear-gradient(180deg,#fff2b8,#d4af37 60%,#b8901f);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#d4af37!important;border:1.5px solid #d4af37;border-radius:12px;padding:3px 12px 5px;box-shadow:0 0 0 2px rgba(212,175,55,.18),inset 0 0 8px rgba(212,175,55,.18);text-shadow:none;font-weight:900;margin-inline-end:auto}
+.brand small{color:#ffe9a6!important;opacity:1!important}
+@media(prefers-reduced-motion:reduce){.brand .bolt,.brand .bolt::before{animation:none}}
+/* units overlay = same form as the rest */
+#uoOv .ucard{background:linear-gradient(180deg,#fff,#faf6ea)!important;border:2px solid #d4af37!important;box-shadow:0 4px 0 #b8901f,0 8px 14px rgba(0,0,0,.25)!important;color:#0b2447}
+#uoOv .uname,#uoOv .mitem .mi b{color:#0b2447!important}
+#uoOv .uload,#uoOv .uts,#uoOv .unote,#uoOv .mitem .mi div,#uoOv .mitem .mi em{color:#5a6b8c!important}
+#uoOv .uh2{color:#fff!important}
+#uoOv .us{background:linear-gradient(180deg,#fff,#faf6ea)!important;border:2px solid #d4af37!important;box-shadow:0 3px 0 #b8901f}
+#uoOv .us span{color:#0b2447!important;font-weight:700}
+#uoOv .us b{filter:saturate(1.2)}
+#uoOv .b-run{color:#15803d!important;border-color:#15803d!important}#uoOv .b-res{color:#1F4E9A!important;border-color:#1F4E9A!important}#uoOv .b-mnt{color:#a16207!important;border-color:#a16207!important}#uoOv .b-bad{color:#b91c1c!important;border-color:#b91c1c!important}
+#uoOv .ubar{background:#e4e9f4!important}#uoOv .ubar i{background:linear-gradient(90deg,#1F4E9A,#4a90e2)!important}
+#uoOv select,#uoOv input[type=number],#uoOv input[type=date],#uoOv input[type=text]{background-color:#fff!important;color:#0b2447!important;border:2px solid #1F4E9A!important;box-shadow:0 3px 0 #12315a!important;font-weight:700}
+#uoOv .utab{background:linear-gradient(180deg,#4a90e2,#1F4E9A)!important;color:#fff!important;border:0!important;box-shadow:0 4px 0 #12315a!important;opacity:1!important}
+#uoOv .utab.on{background:linear-gradient(180deg,#f3dc8a,#d4af37)!important;color:#0b2447!important;box-shadow:0 4px 0 #8a6a12!important}
+#uoOv .udel{color:#b91c1c!important}
+#uoOv .ulogo{width:56px;height:56px;position:relative;overflow:visible!important;animation:hgl 3s ease-in-out infinite}
+#uoOv .ulogo::before{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid transparent;border-top-color:#ffe9a6;border-right-color:rgba(255,233,166,.35);filter:drop-shadow(0 0 4px #ffd24a);animation:hspin 3.2s linear infinite}
+#uoOv .ut b{background:linear-gradient(180deg,#fff2b8,#d4af37 60%,#b8901f);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+#uoOv .us b{color:#0b2447}#uoOv .us:nth-child(2) b{color:#15803d}#uoOv .us:nth-child(3) b{color:#a16207}#uoOv .us:nth-child(4) b{color:#b91c1c}
 </style>
 </head>
 <body>
@@ -1235,7 +1278,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 
 <header class="top">
   <div class="brand">
-    <div class="bolt"><img src="logo-moe-t.png" alt="" style="width:27px;height:27px;object-fit:contain"></div>
+    <div class="bolt"><img src="logo-gold3d.png" alt=""></div>
     <div><h1 id="appTitle">محطة كهرباء الموصل الغازية</h1><small id="stationName"></small></div>
     <button class="burger hprint" id="hdrPrint" aria-label="طباعة" type="button"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M7 14h10v7H7z"/></svg><b>طباعة</b></button>
     <button class="burger hclose" id="hdrClose" aria-label="إغلاق" type="button"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg><b>إغلاق</b></button>
@@ -1257,7 +1300,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   <div class="card" id="homeCard"><div class="hgrid" id="hGrid">
     <button class="hg " data-hg="dir"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5M17 11a2.5 2.5 0 1 0 0-5M21 18c0-2-1.5-3.5-3.5-4"/></svg><b>دليل المنتسبين</b></button>
     <button class="hg " data-hg="l"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h4v14H4zM10 5h4v14h-4zM16 6.5l4 1-3 12-4-1z"/></svg><b>الكتب الرسمية</b></button>
-    <button class="hg " data-hg="ocr"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h4l2-3h4l2 3h4v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><b>قراءة الصور</b></button>
+    <button class="hg " data-hg="ocr"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h4l2-3h4l2 3h4v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><b>قراءة المستندات</b></button>
     <button class="hg y" data-hg="m"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6v3H9zM7 5.5H5v15h14v-15h-2M8 12h8M8 16h5"/></svg><b>جدول موقف الحضور</b></button>
     <button class="hg " data-hg="duty"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><b>المناوبين</b></button>
     <button class="hg " data-hg="day"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg><b>الدوام الصباحي</b></button>
@@ -1270,7 +1313,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
   <div class="card" id="statsCard">
     <div class="stats" id="stats"></div>
   </div>
-  <button class="btn" id="btnOcr"><span class="cam">📷</span><span>قراءة الصور</span></button>
+  <button class="btn" id="btnOcr"><span class="cam">📷</span><span>قراءة المستندات</span></button>
   <input type="file" id="ocrFile" accept="image/*" multiple class="hide">
   <p class="hint" id="mainHint">اضغط على أي خانة لتأشير الحالة. يؤشّر زر «حضور الجميع» أسفل اليوم بقية المنتسبين حاضرين دفعةً واحدة، ثم تُعدَّل حالات الغياب والإجازة فقط.</p>
   <div class="dwbar" id="dwBar"><button type="button" id="dwPrev">‹ الأيام السابقة</button><b id="dwLbl"></b><button type="button" id="dwNext">الأيام التالية ›</button><button type="button" id="dwSz"></button></div>
@@ -1357,7 +1400,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <div class="hint">ويُضاف التاريخ تلقائياً أسفلها عند الطباعة.</div>
   </div>
   <div class="card">
-    <h2 class="sec">قراءة الصور</h2>
+    <h2 class="sec">قراءة المستندات</h2>
     <p class="hint">أدخل مفتاح Gemini مرةً واحدة، ويُحفظ على هذا الجهاز فقط.</p>
     <input class="txt" id="gkey" type="password" placeholder="مفتاح Gemini (AIza…)" autocomplete="off">
   </div>
@@ -1392,7 +1435,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 199 — 19/11/2026</p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 200 — 19/11/2026</p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -1403,7 +1446,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 </div>
 
 <div class="overlay" id="ov"><div class="sheet" id="sheet"></div></div>
-<div id="uoOv" aria-hidden="true"><div class="uh"><button class="ubk" id="uoBk" type="button">رجوع</button><div class="ut"><b id="uoT">تشغيل الوحدات والصيانة</b><small>محطة كهرباء الموصل الغازية</small></div><span class="ulogo"><svg viewBox="0 0 24 24" width="34" height="34"><path d="M13.5 2 5 13.5h5.5L9.5 22 19 9.5h-5.8z" fill="#fff4c2" stroke="#e0a526" stroke-width="1.4" stroke-linejoin="round"/></svg></span></div><div class="ubd"><div class="utabs"><button class="utab" id="uoTU" type="button">تشغيل الوحدات</button><button class="utab" id="uoTM" type="button">جدولة الصيانة</button></div><div id="uoBody"></div></div></div>
+<div id="uoOv" aria-hidden="true"><div class="uh"><button class="ubk" id="uoBk" type="button">رجوع</button><div class="ut"><b id="uoT">تشغيل الوحدات والصيانة</b><small>محطة كهرباء الموصل الغازية</small></div><span class="ulogo"><img src="logo-gold3d.png" alt=""></span></div><div class="ubd"><div class="utabs"><button class="utab" id="uoTU" type="button">تشغيل الوحدات</button><button class="utab" id="uoTM" type="button">جدولة الصيانة</button></div><div id="uoBody"></div></div></div>
 <div class="toast" id="toast"></div>
 <div id="printArea"></div>
 
@@ -2705,7 +2748,7 @@ function scLive(on){clearInterval(SC.tm);SC.tm=0;const cv=scQ('scCv'),x=cv.getCo
     if(SC.live){const P=SC.live.map(p=>[ox+p.x*v.videoWidth*s,oy+p.y*v.videoHeight*s]);x.beginPath();P.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.closePath();x.fillStyle='rgba(212,175,55,.18)';x.fill();x.lineWidth=3.5;x.strokeStyle='#f3cf56';x.stroke()}},260)}
 function scFromEl(el,w,h){const k=Math.min(1,2400/Math.max(w,h)),c=document.createElement('canvas');c.width=Math.round(w*k);c.height=Math.round(h*k);c.getContext('2d',{willReadFrequently:true}).drawImage(el,0,0,c.width,c.height);return c}
 function scShoot(){const v=scQ('scVid');if(!v.videoWidth)return;const live=SC.live;SC.src=scFromEl(v,v.videoWidth,v.videoHeight);SC.q=(live||scDetect(SC.src,SC.src.width,SC.src.height)||scDef()).map(p=>({...p}));scStageSet('crop')}
-function scFromFile(f){const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{SC.src=scFromEl(im,im.naturalWidth,im.naturalHeight);URL.revokeObjectURL(u);SC.q=(scDetect(SC.src,SC.src.width,SC.src.height)||scDef()).map(p=>({...p}));scQ('scOv').classList.remove('hide');document.body.style.overflow='hidden';scStageSet('crop')};im.onerror=()=>toast('تعذّر قراءة الصورة');im.src=u}
+function scFromFile(f){const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{SC.src=scFromEl(im,im.naturalWidth,im.naturalHeight);URL.revokeObjectURL(u);SC.q=(scDetect(SC.src,SC.src.width,SC.src.height)||scDef()).map(p=>({...p}));scQ('scOv').classList.remove('hide');document.body.style.overflow='hidden';scStageSet('crop')};im.onerror=()=>toast('تعذّر قراءة المستنداتة');im.src=u}
 function scDrawCrop(){
   const cv=scQ('scCv'),x=cv.getContext('2d'),f=scFit(SC.src.width,SC.src.height),d=window.devicePixelRatio||1;x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,f.W,f.H);
   x.drawImage(SC.src,f.ox,f.oy,SC.src.width*f.s,SC.src.height*f.s);
@@ -2742,7 +2785,7 @@ async function scReadIt(){
   scQ('scCap').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)scFromFile(f);};
   window.addEventListener('resize',()=>{if(scQ('scOv').classList.contains('hide'))return;if(SC.stage==='crop')scDrawCrop();else if(SC.stage==='res')scDrawRes()})})();
 $('btnOcr').onclick=()=>{edit=null;
-  $('sheet').innerHTML=`<div class="edhead"><div class="edsub">قراءة الصور والمسح الضوئي</div><div class="edtop"><button class="xtop" type="button" id="ocX"><span class="xb">✕</span><span>إغلاق</span></button></div></div>
+  $('sheet').innerHTML=`<div class="edhead"><div class="edsub">قراءة المستندات والمسح الضوئي</div><div class="edtop"><button class="xtop" type="button" id="ocX"><span class="xb">✕</span><span>إغلاق</span></button></div></div>
   <div class="ocopts"><button class="btn" id="ocScan"><b>📄 مسح ضوئي</b><small>تصوير الورقة بكاميرا الهاتف ثم قصّ الحواف وتحويلها إلى PDF</small></button>
   <button class="btn" id="ocLib"><b>🖼️ مسح من مكتبة الصور</b><small>اختر صورة ورقة لتصحيحها وتحويلها إلى PDF</small></button>
   <button class="btn" id="ocRead"><b>📋 قراءة صور الموقف</b><small>استخراج الحضور من صورة ورقة الموقف (يلزم مفتاح Gemini)</small></button></div>`;
@@ -2797,13 +2840,13 @@ function showErr(msg){edit=null;let hint='';
   else if(/location|region|not supported/i.test(msg))hint='خدمة Gemini غير متاحة من هذا البلد أو الشبكة.';
   else if(/429|quota|RESOURCE/i.test(msg))hint='نفدت الحصة المجانية لخدمة Gemini. أعد المحاولة بعد ساعة أو في اليوم التالي، أو فعّل الدفع في حساب Google AI Studio.';
   else if(/انتهى الوقت|Failed to fetch|NetworkError|Load failed/i.test(msg))hint='مشكلة في الاتصال أو بطء في الشبكة. أعد المحاولة أو استخدم صورة أصغر.';
-  $('sheet').innerHTML=`<h3>تعذّرت قراءة الصورة</h3><div class="sub">${esc(hint||'حدث خطأ أثناء القراءة.')}</div><div class="hint" style="direction:ltr;text-align:left;font-size:11px;word-break:break-all">${esc((msg||'').slice(0,900)).replace(/\n/g,'<br>')}</div><button class="btn gh" style="width:100%" onclick="document.getElementById('ov').classList.remove('show')">موافق</button>`;$('ov').classList.add('show')}
+  $('sheet').innerHTML=`<h3>تعذّرت قراءة المستنداتة</h3><div class="sub">${esc(hint||'حدث خطأ أثناء القراءة.')}</div><div class="hint" style="direction:ltr;text-align:left;font-size:11px;word-break:break-all">${esc((msg||'').slice(0,900)).replace(/\n/g,'<br>')}</div><button class="btn gh" style="width:100%" onclick="document.getElementById('ov').classList.remove('show')">موافق</button>`;$('ov').classList.add('show')}
 let OCR_STAGE='',OCR_T0=0,OCR_TIMER=null;
 function ocrBusy(on,total,done){
   clearInterval(OCR_TIMER);
   if(!on){closeSheet();return}
   if(!done)OCR_T0=Date.now();
-  const draw=()=>{edit=null;$('sheet').innerHTML=`<h3>جارٍ قراءة الصور…</h3><div class="sub">${done||0} من ${total} — يُرجى عدم إغلاق الصفحة<br>${Math.round((Date.now()-OCR_T0)/1000)} ثانية · ${esc(OCR_STAGE)}</div><div class="spin"></div>`};
+  const draw=()=>{edit=null;$('sheet').innerHTML=`<h3>جارٍ قراءة المستندات…</h3><div class="sub">${done||0} من ${total} — يُرجى عدم إغلاق الصفحة<br>${Math.round((Date.now()-OCR_T0)/1000)} ثانية · ${esc(OCR_STAGE)}</div><div class="spin"></div>`};
   draw();OCR_TIMER=setInterval(draw,1000);$('ov').classList.add('show');
 }
 function rotateB64(b64,deg){return new Promise(ok=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');const sw=deg%180!==0;c.width=sw?im.height:im.width;c.height=sw?im.width:im.height;const x=c.getContext('2d');x.translate(c.width/2,c.height/2);x.rotate(deg*Math.PI/180);x.drawImage(im,-im.width/2,-im.height/2);const url=c.toDataURL('image/jpeg',0.92);ok({url,b64:url.split(',')[1]})};im.src='data:image/jpeg;base64,'+b64})}
