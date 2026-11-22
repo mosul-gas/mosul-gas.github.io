@@ -1824,7 +1824,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 247 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 248 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2221,12 +2221,21 @@ $('btnReady').onclick=()=>{
   <div class="row2"><button class="btn" data-r="week|pdf" style="background:#C62828;color:#fff">🖨️ PDF</button><button class="btn" data-r="week|word" style="background:#2B579A;color:#fff">📄 Word</button></div>
   <div class="lbl" style="margin-top:12px">موقف شهري — المناوبين، شهر ${MONTHS[nm.getMonth()]} ${nm.getFullYear()}</div>
   <div class="row2"><button class="btn" data-r="month|pdf" style="background:#C62828;color:#fff">🖨️ PDF</button><button class="btn" data-r="month|word" style="background:#2B579A;color:#fff">📄 Word</button></div>
+  <div id="rdyOut"></div>
   <button class="btn gh" style="width:100%;margin-top:12px" data-r="x">إغلاق</button>`;
   $('ov').classList.add('show');
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-r]');if(!b)return;if(b.dataset.r==='x'){$('sheet').onclick=null;closeSheet();return}
-    const [k,f]=b.dataset.r.split('|');const R=readySpecs(k);if(!R.specs.length){toast('لا توجد أسماء');return}
-    if(f==='pdf')savePDF(R.specs.map(sheetCanvas),true,R.name+'.pdf');
-    else{if(!window.docx){toast('يُرجى تحديث الصفحة');return}buildDocx(R.specs).then(x=>{download(R.name+'.docx',x);toast('تم تنزيل ملف Word')})}};
+    if(b.dataset.r==='go'){const F=window._rdyF;if(!F)return;let f=null;try{f=new File([F.blob],F.name,{type:F.type})}catch(e){}
+      if(f&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(e=>{if(e&&e.name!=='AbortError'){download(F.name,F.blob);toast('تم تنزيل الملف')}})}else{download(F.name,F.blob);toast('تم تنزيل الملف')}return}
+    const [k,f]=b.dataset.r.split('|');const box=$('rdyOut');box.innerHTML='<div class="sub" style="text-align:center;margin-top:12px">⏳ جارٍ تحضير الملف…</div>';
+    const fail=e=>{box.innerHTML='<div class="sub" style="color:#c62828;text-align:center;margin-top:12px">تعذّر تحضير الملف: '+String(e&&e.message||e).slice(0,140)+'</div>';toast('تعذّر تحضير الملف')};
+    const done=(name,blob,type)=>{window._rdyF={name,blob,type};box.innerHTML='<button class="btn pri" style="width:100%;margin-top:12px;font-size:17px;padding:14px" data-r="go">📤 الملف جاهز — اضغط للحفظ أو الطباعة</button><div class="sub" style="text-align:center;margin-top:6px">'+name+'</div>'};
+    setTimeout(()=>{try{const R=readySpecs(k);if(!R.specs.length){box.innerHTML='';toast('لا توجد أسماء');return}
+      if(f==='pdf'){if(!window.jspdf){fail('مكتبة PDF لم تُحمَّل — حدّث الصفحة');return}const pdf=new window.jspdf.jsPDF({orientation:'l',unit:'mm',format:'a4',compress:true});
+        R.specs.forEach((sp,i)=>{const c=sheetCanvas(sp);if(i)pdf.addPage('a4','l');pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',0,0,297,210);c.width=c.height=1});
+        done(R.name+'.pdf',pdf.output('blob'),'application/pdf')}
+      else{if(!window.docx){fail('مكتبة Word لم تُحمَّل — حدّث الصفحة');return}buildDocx(R.specs).then(x=>done(R.name+'.docx',x,'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),fail)}
+    }catch(e){fail(e)}},60)};
 };
 $('btnPrint').onclick=()=>chooseScope(all=>{
   const specs=curSpecs(all);if(!specs.length){toast('لا توجد أسماء');return}
