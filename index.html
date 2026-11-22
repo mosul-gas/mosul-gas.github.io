@@ -1704,6 +1704,8 @@ body.daymode table.grid th:not(.nocol):not(.namecol):not(.daycell){width:calc(34
 #uoWs .uwsend{display:block;width:100%;background:linear-gradient(180deg,#2bd36a,#14903f);color:#fff;border:3px solid #ffd24a;border-radius:16px;font:900 19px Cairo,Arial;padding:15px;box-shadow:0 5px 0 #0b5a25,0 10px 18px rgba(0,0,0,.4)}
 #uoWs .uwdet{margin-top:14px;border:1.5px dashed rgba(212,175,55,.6);border-radius:12px;padding:8px}
 #uoWs .uwdet summary{color:#ffe9a6;font:800 13.5px Cairo,Arial;cursor:pointer}
+#uoWs .uwto{margin-top:8px;background:rgba(255,210,74,.12);border:1.5px solid #d4af37;border-radius:12px;padding:8px 10px;color:#fff;font:800 14px Cairo,Arial}
+#uoWs .uwto:empty{display:none}#uoWs .uwto b{color:#ffd24a}
 </style>
 </head>
 <body>
@@ -1904,7 +1906,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 269 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 270 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3704,14 +3706,16 @@ function waSheet(i,mid){window.__waMid=mid||null;let m=$('uoWs');if(m)m.remove()
  m.innerHTML='<div class="uoPb"><div class="uoPh"><button type="button" class="uoPx" id="uoWx">✕</button><span class="uname">📲 إبلاغ عبر واتساب</span></div>'
   +'<div class="uwh">نص الرسالة</div><div class="uwmsg" id="uoWmsg">'+esc2(waMsg(i)).replace(/\n/g,'<br>')+'</div>'
   +'<div class="uwstep"><span>1</span>اختر الشخص الذي تريد إبلاغه</div><select id="uoWsel"><option value="">— اضغط هنا واختر من المناوبين ('+nDuty+') —</option>'+duty.map(g=>'<optgroup label="الوجبة '+SHIFT[g.sh]+'">'+g.L.map(v=>'<option value="'+esc2(v.id)+'">'+esc2(v.name)+(v.phone?' · '+esc2(v.phone):' · (بدون رقم)')+'</option>').join('')+'</optgroup>').join('')+'</select>'
-  +'<div class="uwadd"><input type="text" id="uoWn" placeholder="أو اكتب الاسم (المناوب، الورشة…)"><input type="tel" id="uoWp" placeholder="رقم الواتساب 07…" dir="ltr"></div>'
+  +'<div class="uwto" id="uoWto"></div><details class="uwdet" id="uoWman"><summary>شخص غير موجود بالقائمة؟ اكتب اسمه ورقمه</summary><div class="uwadd"><input type="text" id="uoWn" placeholder="الاسم (المناوب، الورشة…)"><input type="tel" id="uoWp" placeholder="رقم الواتساب 07…" dir="ltr"></div></details>'
   +'<div class="uwstep"><span>2</span>اضغط زر الإرسال</div><button type="button" id="uoWsend" class="uwsend">📲 إرسال التنبيه عبر واتساب</button>'
   +(C.length?'<div class="uwh">إرسال سريع لمن أُبلغ سابقاً</div>'+C.map((c,k)=>'<div class="uwr"><button type="button" class="uwgo" data-wn="'+k+'">📲 '+esc2(c.n)+'<small>'+esc2(c.p)+'</small></button><button type="button" class="uwdel" data-wd="'+k+'" title="حذف">✕</button></div>').join(''):'')
   +'<details class="uwdet"><summary>المُبلِّغ (اسمك يظهر بالرسالة — اختياري)</summary><div class="uwadd"><input type="text" id="uoSn" placeholder="اسم المُبلِّغ (مثلاً: م. ريم هيثم / مدير المحطة)"><input type="tel" id="uoSp" placeholder="رقم المُبلِّغ (اختياري)" dir="ltr"></div></details>'
   +'<div class="uwn">بعد الضغط ينفتح واتساب على محادثة الشخص والرسالة مكتوبة — اضغط «إرسال» داخل واتساب.</div></div>';
  $('uoOv').appendChild(m);m.onclick=e=>{if(e.target===m)m.remove()};$('uoWx').onclick=()=>m.remove();
  {let b={};try{b=JSON.parse(localStorage.getItem('mawqif_wasender')||'{}')}catch(e){}$('uoSn').value=b.n||'';$('uoSp').value=b.p||'';const sv=()=>{try{localStorage.setItem('mawqif_wasender',JSON.stringify({n:$('uoSn').value.trim(),p:$('uoSp').value.trim()}))}catch(e){}$('uoWmsg').innerHTML=esc2(waMsg(i)).replace(/\n/g,'<br>')};$('uoSn').oninput=sv;$('uoSp').oninput=sv}
- $('uoWsel').onchange=e=>{let v=null;(window.__dutyPick||[]).forEach(g=>g.L.forEach(x=>{if(x.id===e.target.value)v=x}));if(v){$('uoWn').value=v.name;$('uoWp').value=v.phone||'';if(!v.phone){toast('هذا المناوب بدون رقم بالدليل — اكتب رقمه');$('uoWp').focus()}}};
+ const showTo=()=>{const n=$('uoWn').value.trim(),p=$('uoWp').value.trim();$('uoWto').innerHTML=(n||p)?'سيُرسل إلى: <b>'+esc2(n)+'</b>'+(p?' <span dir="ltr">'+esc2(p)+'</span>':' — <i>بدون رقم، اكتبه بالأسفل</i>'):''};
+ $('uoWn').oninput=showTo;$('uoWp').oninput=showTo;
+ $('uoWsel').onchange=e=>{let v=null;(window.__dutyPick||[]).forEach(g=>g.L.forEach(x=>{if(x.id===e.target.value)v=x}));if(v){$('uoWn').value=v.name;$('uoWp').value=v.phone||'';showTo();if(!v.phone){$('uoWman').open=true;toast('هذا المناوب بدون رقم بالدليل — اكتب رقمه');$('uoWp').focus()}else $('uoWman').open=false}};
  const go=(n,p)=>{const url='https://wa.me/'+waNum(p)+'?text='+encodeURIComponent(waMsg(i));S.ulog=(S.ulog||[]);S.ulog.unshift({t:Date.now(),u:i,wa:n+(mid?' (صيانة)':'')});save();window.open(url,'_blank')||(location.href=url)};
  $('uoWsend').onclick=()=>{const n=$('uoWn').value.trim(),p=$('uoWp').value.trim();if(!n&&!p){toast('اختر الشخص أولاً من القائمة');$('uoWsel').focus();return}if(waNum(p).length<11){toast('رقم الواتساب غير صحيح');$('uoWp').focus();return}if(!(S.waC||[]).some(c=>waNum(c.p)===waNum(p))){S.waC=(S.waC||[]).concat([{n:n||p,p}]);save()}go(n||p,p)};
  m.querySelectorAll('[data-wd]').forEach(b=>b.onclick=()=>{const k=+b.dataset.wd;if(!confirm('حذف «'+S.waC[k].n+'» من جهات التبليغ؟'))return;S.waC.splice(k,1);save();waSheet(i,mid)});
