@@ -1838,7 +1838,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 252 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 253 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3503,6 +3503,7 @@ function devAbout(){let o=document.getElementById('acadOv');if(o)o.remove();o=do
  o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>عن مطوّرة الأداة</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><div class="acf"><div class="acf2 dvb"><div class="dvl"><img src="logo-gold3d.png" alt=""></div><div class="dvk">إعداد وتصميم</div><div class="dvn"><span class="rcred">المهندسة ريم هيثم جمال</span></div><div class="dvs"><span class="dl1">وزارة الكهرباء</span><span class="dl2">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية</span><span class="dl3">محطة كهرباء الموصل الغازية</span><span class="dl4">قسم السيطرة الذاتية</span></div></div></div>'
  +'<div class="acf"><div class="acf2"><div class="dvh">بيانات المحطة الرسمية</div>'
  +((S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)?'<div class="dvr"><i>👷</i><div><small>مدير المحطة</small><b>'+esc2(S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)+'</b></div></div>':'')
+ +'<div class="dvr"><i>👨‍💼</i><div><small>رئيس قسم السيطرة الذاتية</small><b>'+esc2(((S.dSig||'المهندس')+' '+(S.dSigN||'حسين أحمد حمود')).trim())+'</b></div></div>'
  +'<div class="dvr"><i>📍</i><div><small>العنوان</small><b>العراق / الموصل / شارع بغداد</b></div></div>'
  +'<a class="dvr" href="mailto:mousal_gas_turbin@moelc.gov.iq"><i>✉️</i><div><small>البريد الإلكتروني</small><b dir="ltr">mousal_gas_turbin@moelc.gov.iq</b></div></a></div></div>'
  +'</div>';
