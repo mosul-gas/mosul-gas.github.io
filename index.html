@@ -1912,7 +1912,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 284 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 285 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3627,7 +3627,7 @@ window.acad=acad;
 function devAbout(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
  o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>بيانات المحطة</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb dvfull">'
  +'<div class="acf"><div class="acf2"><div class="dvh">بيانات المحطة الرسمية</div>'
- +((S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)?'<div class="dvr dvfb" data-fb="mgr"><i>👷</i><div><small>مدير المحطة</small><b>'+esc2(S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)+'</b></div></div>':'')
+ +((S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)?'<div class="dvr"><i>👷</i><div><small>مدير المحطة</small><b>'+esc2(S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)+'</b></div></div>':'')
  +'<div class="dvr dvfb" data-fb="head"><i>👷‍♂️</i><div><small>رئيس قسم السيطرة الذاتية</small><b>'+esc2(((S.dSig||'المهندس')+' '+(S.dSigN||'حسين أحمد حمود')).trim())+'</b></div></div>'
  +'<div class="dvr dvfb" data-fb="reem"><i>👷‍♀️</i><div><small>إعداد وتصميم التطبيق</small><b>المهندسة ريم هيثم جمال</b></div></div>'
  +'<a class="dvr" href="https://maps.google.com/?q='+encodeURIComponent('محطة كهرباء الموصل الغازية')+'" target="_blank" rel="noopener"><i>📍</i><div><small>العنوان</small><b>العراق / الموصل / شارع بغداد</b></div></a>'
