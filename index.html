@@ -1712,7 +1712,7 @@ body.daymode table.grid th:not(.nocol):not(.namecol):not(.daycell){width:calc(34
 #sheet .ropts.hide{display:none!important}#sheet .ropts .row2{margin-top:0!important}
 #sheet .dpgo,#sheet .rgo{display:block;width:100%;min-height:56px;font:900 20px Cairo,Arial!important;background:linear-gradient(180deg,#ffe9a6,#d4af37)!important;color:#12315a!important;border:2.5px solid #8a6a12!important;border-radius:16px!important;box-shadow:0 4px 0 #8a6a12,0 8px 14px rgba(0,0,0,.25)!important;margin-top:10px}
 #sheet .dptog2,#sheet .rtog2{display:block;width:100%;margin-top:8px;background:#fff!important;color:#12315a!important;border:2px solid #12315a!important;font:800 14px Cairo,Arial!important;border-radius:14px!important;min-height:42px}
-</style>
+.dvfull .acf2{padding-top:14px!important;padding-bottom:14px!important}.dvfull .dvh{margin:0 0 10px!important}.dvfull .dvr{margin:0 0 10px!important;padding-top:10px!important;padding-bottom:10px!important}.dvfull .dvr:last-child{margin-bottom:0!important}</style>
 </head>
 <body>
 <div id="splash" aria-hidden="true"><div class="spg"></div><div class="spc"><div class="spl"><svg class="spr" viewBox="0 0 200 200"><defs><linearGradient id="spgd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2b8"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#8a6a12"/></linearGradient></defs><circle cx="100" cy="100" r="92" fill="none" stroke="rgba(212,175,55,.25)" stroke-width="2"/><circle class="spa" cx="100" cy="100" r="92" fill="none" stroke="url(#spgd)" stroke-width="5" stroke-linecap="round" stroke-dasharray="578" stroke-dashoffset="578" transform="rotate(-90 100 100)"/></svg><div class="spd"><img src="logo-gold3d.png" alt=""></div></div><div class="spco">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية</div><div class="spt">محطة كهرباء الموصل الغازية</div><div class="sps">قسم السيطرة الذاتية</div><div class="spb"><i></i></div><div class="spcr"><div class="spk">إعداد وتصميم</div><span class="rcred">المهندسة ريم هيثم جمال</span></div></div></div>
@@ -1912,7 +1912,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 273 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 274 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3614,12 +3614,14 @@ function acad(){let o=document.getElementById('acadOv');if(o)o.remove();o=docume
    .catch(er=>{delete a.dataset.busy;a.textContent=t0;toast('تعذّر تحميل الفصل: '+(er&&er.message||er))})})}
 window.acad=acad;
 function devAbout(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
- o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>بيانات المحطة</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><div class="acf"><div class="acf2 dvb"><div class="dl1 dl1t">وزارة الكهرباء</div><div class="dvl"><img src="logo-gold3d.png" alt=""></div><div class="dvs dvs2"><span class="dl2">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية</span><span class="dl3">محطة كهرباء الموصل الغازية</span><span class="dl4">قسم السيطرة الذاتية</span></div></div></div>'
+ o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>بيانات المحطة</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb dvfull">'
  +'<div class="acf"><div class="acf2"><div class="dvh">بيانات المحطة الرسمية</div>'
  +((S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)?'<div class="dvr"><i>👷</i><div><small>مدير المحطة</small><b>'+esc2(S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)+'</b></div></div>':'')
  +'<div class="dvr"><i>👷‍♂️</i><div><small>رئيس قسم السيطرة الذاتية</small><b>'+esc2(((S.dSig||'المهندس')+' '+(S.dSigN||'حسين أحمد حمود')).trim())+'</b></div></div>'
- +'<div class="dvr"><i>📍</i><div><small>العنوان</small><b>العراق / الموصل / شارع بغداد</b></div></div>'
- +'<a class="dvr" href="mailto:mousal_gas_turbin@moelc.gov.iq"><i>✉️</i><div><small>البريد الإلكتروني</small><b dir="ltr">mousal_gas_turbin@moelc.gov.iq</b></div></a></div></div>'
+ +'<div class="dvr"><i>👩‍💻</i><div><small>إعداد وتصميم التطبيق</small><b>المهندسة ريم هيثم جمال</b></div></div>'
+ +'<a class="dvr" href="https://maps.google.com/?q='+encodeURIComponent('محطة كهرباء الموصل الغازية')+'" target="_blank" rel="noopener"><i>📍</i><div><small>العنوان</small><b>العراق / الموصل / شارع بغداد</b></div></a>'
+ +'<a class="dvr" href="mailto:mousal_gas_turbin@moelc.gov.iq"><i>✉️</i><div><small>البريد الإلكتروني</small><b dir="ltr">mousal_gas_turbin@moelc.gov.iq</b></div></a>'
+ +'<a class="dvr" href="https://mosul-gas.github.io/" target="_blank" rel="noopener"><i>🌐</i><div><small>الموقع الإلكتروني</small><b dir="ltr">mosul-gas.github.io</b></div></a></div></div>'
  +'</div>';
  document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove();
 }
