@@ -1829,7 +1829,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 249 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 250 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2343,7 +2343,7 @@ function dailyData(dateStr){
 }
 function mgrApply(){const h=$('mHero');if(!h)return;const n=S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN,t=S.mgrT==null?'مدير محطة كهرباء الموصل الغازية':S.mgrT;
  $('mgrCap').textContent=n;$('mgrTit').textContent=t;$('mgrCap').style.display=n?'':'none';$('mgrTit').style.display=t?'':'none';
- const off=S.mgrOff!==false;h.querySelector('img').src=off?'':(S.mgrImg||'mgr.jpg');h.classList.toggle('noimg',off);h.style.display=(off&&!n&&!t)?'none':'';document.body.classList.toggle('nomgr',off)}
+ const off=S.mgrOff!==false;h.querySelector('img').src=off?'':(S.mgrImg||'mgr.jpg');h.classList.toggle('noimg',off);h.style.display=off?'none':'';document.body.classList.toggle('nomgr',off)}
 function sigLines(){const n=new Date();return [S.dSig||'المهندس',S.dSigN||'حسين أحمد حمود',S.sigT||'ر. قسم السيطرة الذاتية',n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear()].filter(x=>x)}
 function sigHTML(fs){return `<div style="margin-top:22px;text-align:left"><div style="display:inline-block;text-align:center;font-size:${fs};font-weight:800;line-height:1.7;padding-left:6px">${sigLines().map(esc).join('<br>')}</div></div>`}
 /* ===== PDF file (drawn on canvas, Arabic shaped by the browser) ===== */
