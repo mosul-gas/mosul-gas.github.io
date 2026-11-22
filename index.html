@@ -1635,6 +1635,13 @@ body .brand .bpill #appTitle{width:100%!important;max-width:none!important;flex:
 .mhero.noimg img{display:none!important}
 .mhero.noimg .mhc{border-top:0!important;padding:10px 12px 12px!important}
 @media(min-width:900px){body.nomgr #homeCard{flex-direction:column!important}body.nomgr .mhero{flex:none!important;position:static!important;height:auto!important;width:100%}}
+/* v252 */
+body.dirpriv #dirTotal,body.dirpriv .dirtools2{display:none!important}
+body.dirpriv #dirList tr[data-di]{cursor:default}
+#uoOv .uhint2{color:#ffe9a6;font:700 12.5px Cairo,Arial;text-align:center;margin:4px 0 10px;opacity:.9}
+.dphoto{flex:none;margin:8px 12px 4px;border:2px solid #d4af37;border-radius:14px;overflow:hidden;position:relative;background:#0b2447}
+.dphoto img{display:block;width:100%;max-height:170px;object-fit:cover}
+.dphoto small{position:absolute;inset-inline:0;bottom:0;text-align:center;color:#fff;font:800 12px Cairo,Arial;padding:14px 6px 5px;background:linear-gradient(180deg,transparent,rgba(10,31,64,.9))}
 </style>
 </head>
 <body>
@@ -1716,6 +1723,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 <div id="drawerOv" class="drawer-ov"></div>
 <aside id="drawer" class="drawer" aria-hidden="true">
   <div class="dhead"><span class="dlogo"><img src="logo-gold3d.png" alt=""></span><div><b>محطة كهرباء الموصل الغازية</b><small>قسم السيطرة الذاتية</small></div></div>
+  <div class="dphoto hide" id="dPhoto"><img alt=""><small>محطة كهرباء الموصل الغازية</small></div>
 <button class="ditem" id="btnMawqif"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5L12 3.5l9 8"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5.5h4V20"/></svg></i><span class="dt">الرئيسية</span><em>‹</em></button>
 <button class="ditem" data-go="dir"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v6.5c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V5.5"/><path d="M4.5 12v6.5c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V12"/></svg></i><span class="dt">دليل المنتسبين</span><em>‹</em></button>
 <button class="ditem" data-go="m"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6v3H9zM7 5.5H5v15h14v-15h-2M8 12h8M8 16h5"/></svg></i><span class="dt">الموقف الرسمي للحضور</span><em>‹</em></button>
@@ -1788,6 +1796,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <div class="lbl">اسم مدير المحطة</div><input class="txt" id="mgrN" placeholder="المهندس عمار خلف الحديدي">
     <div class="lbl">الصفة تحت الاسم</div><input class="txt" id="mgrT" placeholder="مدير محطة كهرباء الموصل الغازية">
     <div class="lbl">ترتيب أيقونات الصفحة الرئيسية</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px"><button type="button" class="btn" id="hEditS">✥ ترتيب الأيقونات</button></div>
+    <div class="lbl">صورة المحطة / الوحدات داخل القائمة ☰</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px"><button type="button" class="btn" id="stPick">📷 اختيار صورة المحطة</button><button type="button" class="btn red" id="stOff">🚫 إزالة</button></div><input type="file" id="stFile" accept="image/*" style="display:none">
     <div class="lbl">صورة المدير بالصفحة الرئيسية</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn" id="mgrPick">📷 تغيير الصورة</button><button type="button" class="btn red" id="mgrOff">🚫 إزالة الصورة</button><button type="button" class="btn" id="mgrDef">🖼️ إظهار الصورة</button></div><input type="file" id="mgrFile" accept="image/*" style="display:none">
     <div class="lbl">اسم الموقّع</div><input class="txt" id="dSigN" placeholder="حسين أحمد حمود">
     <div class="lbl">الصفة (تحت الاسم)</div><input class="txt" id="sigT" placeholder="ر. قسم السيطرة الذاتية">
@@ -1829,7 +1838,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 251 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 252 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2341,7 +2350,8 @@ function dailyData(dateStr){
   {const ORD=['اعتيادية','طارئة','مرضية','زمنية'];const rank=t=>{if(/غياب|موقوف/.test(t))return 90;const i=ORD.findIndex(o=>t.includes(o));return i<0?50:i};morning.sort((a,b)=>rank(a.st)-rank(b.st)||String(a.st).localeCompare(String(b.st),'ar'))}
   return {unM,unD,from:new Date(from),title:'م/ الموقف اليومي ليوم '+DAYS[day.getDay()]+' الموافق '+day.getFullYear()+'/'+(day.getMonth()+1)+'/'+day.getDate(),morning,duty};
 }
-function mgrApply(){const h=$('mHero');if(!h)return;const n=S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN,t=S.mgrT==null?'مدير محطة كهرباء الموصل الغازية':S.mgrT;
+function stApply(){const d=$('dPhoto');if(!d)return;d.classList.toggle('hide',!S.stImg);if(S.stImg)d.querySelector('img').src=S.stImg}
+function mgrApply(){stApply();const h=$('mHero');if(!h)return;const n=S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN,t=S.mgrT==null?'مدير محطة كهرباء الموصل الغازية':S.mgrT;
  $('mgrCap').textContent=n;$('mgrTit').textContent=t;$('mgrCap').style.display=n?'':'none';$('mgrTit').style.display=t?'':'none';
  const off=S.mgrOff!==false;h.querySelector('img').src=off?'':(S.mgrImg||'mgr.jpg');h.classList.toggle('noimg',off);h.style.display=off?'none':'';document.body.classList.toggle('nomgr',off)}
 function sigLines(){const n=new Date();return [S.dSig||'المهندس',S.dSigN||'حسين أحمد حمود',S.sigT||'ر. قسم السيطرة الذاتية',n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear()].filter(x=>x)}
@@ -2509,6 +2519,8 @@ function showSettings(on){if(on){document.body.classList.remove('tbl');setTimeou
 }
 ['h1','h2','h3','sigR','sigL','note','dTitle','dSig','dSigN','sigT'].forEach(k=>$(k).addEventListener('input',ev=>{S[k]=ev.target.value;save()}));$('mgrN').addEventListener('input',ev=>{S.mgrN=ev.target.value;save();mgrApply()});$('mgrT').addEventListener('input',ev=>{S.mgrT=ev.target.value;save();mgrApply()});
 $('mgrPick').onclick=()=>$('mgrFile').click();
+$('stPick').onclick=()=>$('stFile').click();$('stOff').onclick=()=>{delete S.stImg;save();stApply();toast('أُزيلت صورة المحطة')};
+$('stFile').onchange=ev=>{const f=ev.target.files&&ev.target.files[0];if(!f)return;const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const m=1000,r=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);try{S.stImg=c.toDataURL('image/jpeg',.82);save();stApply();toast('أُضيفت صورة المحطة للقائمة ☰')}catch(e){delete S.stImg;toast('تعذّر حفظ الصورة — جرّب صورة أصغر')}URL.revokeObjectURL(u)};im.onerror=()=>toast('الملف ليس صورة');im.src=u;ev.target.value=''};
 $('mgrFile').onchange=ev=>{const f=ev.target.files&&ev.target.files[0];if(!f)return;const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const m=900,r=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);try{S.mgrImg=c.toDataURL('image/jpeg',.85);S.mgrOff=false;save();mgrApply();toast('تم تغيير الصورة')}catch(e){toast('تعذّر حفظ الصورة')}URL.revokeObjectURL(u)};im.onerror=()=>toast('الملف ليس صورة');im.src=u;ev.target.value=''};
 $('mgrOff').onclick=()=>{S.mgrOff=true;save();mgrApply();toast('أُزيلت الصورة')};
 $('mgrDef').onclick=()=>{S.mgrOff=false;delete S.mgrImg;save();mgrApply();toast('ظهرت الصورة')};
@@ -2688,7 +2700,7 @@ const DIR_SECS=['الإدارة','الورشة','المختبر','السيطرة
 const DIR_SHIFTS=['','الوجبة الأولى','الوجبة الثانية','الوجبة الثالثة','الوجبة الرابعة'];
 const DIR_FONTS=['','Cairo','Arial','Tahoma','Times New Roman','Simplified Arabic','Traditional Arabic','Sakkal Majalla'];
 const DIR_COL=['','#0b1a2e','#b42318','#1a7f37','#1F4E9A','#7a3db8','#b45309'];
-let DIRQ='',DIRSEC='',DIRTYPE='';
+let DIRQ='',DIRSEC='',DIRTYPE='',DIRFULL=false;
 const dirName=v=>v.sec||'بدون شعبة';
 const DL=(k,d)=>(S.dirLbl||{})[k]||d;
 function dirStyle(v){const t=v.st||{};return (t.f?'font-family:'+t.f+';':'')+(t.c?'color:'+t.c+';':'')+(t.z?'font-size:'+t.z+'px;':'')+(t.b?'font-weight:900;':'')+(t.u?'text-decoration:underline;':'')}
@@ -2696,7 +2708,7 @@ function showDir(on){
   if(on)document.body.classList.remove('tbl');
   $('viewLetters').classList.add('hide');$('viewSettings').classList.add('hide');$('viewDir').classList.toggle('hide',!on);$('viewMain').classList.toggle('hide',on);$('actionBar').classList.toggle('hide',on);
   document.querySelector('.monthbar').classList.toggle('hide',on);$('tabs').classList.toggle('hide',on);$('modeSeg').classList.toggle('hide',on);
-  if(on)renderDir();else render();window.scrollTo(0,0)}
+  if(on){DIRFULL=false;renderDir()}else render();window.scrollTo(0,0)}
 const dirNorm=t=>String(t||'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[ً-ٰٟـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[\s\-+().]+/g,' ').trim().toLowerCase();
 const dirIsShift=v=>!!(v.shift&&String(v.shift).trim());
 function renderDir(){
@@ -2709,7 +2721,8 @@ function renderDir(){
   if(DIRSEC&&!cnt[DIRSEC])DIRSEC='';
   $('dirSecs').classList.toggle('hide',order.filter(k=>k!=='بدون شعبة').length<1);$('dirSecs').innerHTML=`<button data-ds="" class="${DIRSEC===''?'on':''}">الكل <b>${base.length}</b></button>`+order.filter(k=>k!=='بدون شعبة').map(k=>`<button data-ds="${esc(k)}" class="${DIRSEC===k?'on':''}">${esc(k)} <b>${cnt[k]}</b></button>`).join('');
   const words=q?q.split(' ').filter(Boolean):[];
-  const hay=v=>dirNorm([v.name,v.phone,v.title,v.sec,v.shift,v.mother,v.status].concat(Object.values(v.x||{})).join(' '));
+  const hay=v=>DIRFULL?dirNorm([v.name,v.phone,v.title,v.sec,v.shift,v.mother,v.status].concat(Object.values(v.x||{})).join(' ')):dirNorm([v.name,v.sec].join(' '));
+  document.body.classList.toggle('dirpriv',!DIRFULL);
   const f=base.filter(v=>(!DIRSEC||dirName(v)===DIRSEC)&&(!words.length||(h=>words.every(w=>h.includes(w)))(hay(v))));
   {const ak=n=>String(n||'').replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/^\s*(م\.|م\s)\s*/,'').replace(/\s+/g,' ').trim(),blank=n=>!ak(n)||ak(n)==='منتسب جديد';
    f.sort((x,y)=>blank(x.name)-blank(y.name)||ak(x.name).localeCompare(ak(y.name),'ar'))}
@@ -2718,18 +2731,18 @@ function renderDir(){
   const nB=D.filter(v=>!String(v.name||'').trim()||String(v.name).trim()==='منتسب جديد').length;
   $('dirTotal').innerHTML=D.length?`<div class="dtt">إحصائية الدليل</div><div class="dtr"><span>العدد الكلي</span><b>${D.length}</b></div><div class="dtr"><span>الدوام الصباحي</span><b>${nM}</b></div><div class="dtr"><span>المناوبين</span><b>${nS}</b></div>`+(nB?`<button type="button" class="btn" id="dirBlank">حذف الأسماء الفارغة («منتسب جديد»: ${nB})</button>`:''):'';
   if(!D.length){$('dirList').innerHTML='';return}
-  if(words.length){const FL=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['phone','رقم الهاتف'],['status','الصفة'],['addrCard','السكن حسب البطاقة'],['addrNow','السكن الحالي'],['mother','اسم الأم'],['_mar','الحالة الزوجية'],['_kids','عدد الأطفال (المخصصات الزوجية)'],['_ids','المستمسكات']].concat((S.dirX||[]).map(f=>['x_'+f.k,f.l]));
+  if(words.length&&DIRFULL){const FL=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['phone','رقم الهاتف'],['status','الصفة'],['addrCard','السكن حسب البطاقة'],['addrNow','السكن الحالي'],['mother','اسم الأم'],['_mar','الحالة الزوجية'],['_kids','عدد الأطفال (المخصصات الزوجية)'],['_ids','المستمسكات']].concat((S.dirX||[]).map(f=>['x_'+f.k,f.l]));
     const VV=v=>({...v,...Object.fromEntries((S.dirX||[]).map(f=>['x_'+f.k,(v.x||{})[f.k]||''])),_mar:({m:'متزوج',s:'أعزب',w:'أرمل',d:'مطلق'})[v.marital]||'',_kids:v.marital==='m'?String(+v.kids||0):'',_ids:DIR_IDS.filter(([k])=>(v.idv||{})[k]).map(([k,l])=>l+': '+v.idv[k]).join(' — ')||v.spouseAllow&&''});
     $('dirList').innerHTML=f.length?f.map(v=>`<div class="card dres"><div class="dresn" style="${dirStyle(v)}">${esc(v.name)}</div><table class="drest">`+FL.filter(([k])=>VV(v)[k]).map(([k,l])=>`<tr><th>${l}</th><td>${esc(VV(v)[k])}</td></tr>`).join('')+`</table><div class="diract">${v.phone?`<a class="btn dcall" href="tel:${esc(v.phone)}">اتصال</a><a class="btn dwa" target="_blank" rel="noopener" href="${dirWa(v.phone)}">واتساب</a>`:''}</div><button class="btn dedit" data-di="${v.id}">✎ فتح وتعديل البيانات</button></div>`).join(''):'<div class="card dnores"><div>لا يوجد اسم مطابق لـ «'+esc(DIRQ)+'» في القاعدة</div><small>القاعدة فيها '+D.length+' اسم فقط. إذا الأسماء ما كاملة، استورد ملف القاعدة.</small><button type="button" class="btn" id="dirImp2">استيراد ملف القاعدة</button></div>';return}
   const MS={m:'متزوج',s:'أعزب',w:'أرمل',d:'مطلق'},CH={'ملاك':'a','عقد':'b','أجر يومي':'c'};
   const chip=(t,c)=>t?`<span class="dch ${c}">${esc(t)}</span>`:'';
   const cols=[['name','الاسم',v=>esc(v.name),'nm'],['title','العنوان الوظيفي',v=>esc(v.title)],['sec','الشعبة',v=>chip(v.sec,'sec'),'c'],['shift','الوجبة',v=>chip(v.shift,'sh'),'c'],['status','الصفة',v=>chip(v.status,'st'+(CH[v.status]||'n')),'c'],['phone','الهاتف',v=>v.phone?`<span class="dph">${esc(v.phone)}</span>`:'','c'],['marital','الحالة الزوجية',v=>chip(MS[v.marital],'ms'+(v.marital||'')),'c'],['kids','الأطفال',v=>v.marital==='m'?`<b class="dk">${+v.kids||0}</b>`:'','c'],['addrNow','السكن الحالي',v=>esc(v.addrNow)],['addrCard','السكن حسب البطاقة',v=>esc(v.addrCard)],['mother','اسم الأم',v=>esc(v.mother)]]
-    .concat((S.dirX||[]).map(f=>['x_'+f.k,f.l,v=>esc((v.x||{})[f.k]),'x'])).map(c=>[c[0],DL(c[0],c[1]),c[2],c[3]]).filter(c=>!(S.dirHide||{})[c[0]]||c[0]==='name');
+    .concat((S.dirX||[]).map(f=>['x_'+f.k,f.l,v=>esc((v.x||{})[f.k]),'x'])).map(c=>[c[0],DL(c[0],c[1]),c[2],c[3]]).filter(c=>(DIRFULL&&!(S.dirHide||{})[c[0]])||c[0]==='name');
   {const od=S.dirOrd||[],ix=k=>k==='name'?-1:od.indexOf(k)<0?999:od.indexOf(k);cols.sort((a,b)=>ix(a[0])-ix(b[0]))}
   const rows=order.map(k=>f.filter(v=>dirName(v)===k)).flat();
   let n=0;const body=order.map(k=>{const g=f.filter(v=>dirName(v)===k);if(!g.length)return'';
     return `<tr class="dgrp"><td colspan="${cols.length+1}"><span>${esc(k)}</span><b>${g.length}</b></td></tr>`+g.map(v=>{n++;return `<tr data-di="${v.id}"><td class="dn0">${n}</td>`+cols.map(c=>{const t=c[2](v);return `<td class="${c[3]||''}${c[0]==='name'&&String(v.name).trim()==='منتسب جديد'?' dnew':''}">${t||'<i class="dem">—</i>'}</td>`}).join('')+`</tr>`}).join('')}).join('');
-  $('dirCtl').innerHTML=`<button type="button" class="btn dlock ${S.dirLock?'on':''}" id="dirLockB">${S.dirLock?'🔒 التعديل مقفل':'✎ التعديل مفتوح'}</button><button type="button" class="btn dcols" id="dirColsB">⚙ الأعمدة والحقول</button>`;
+  if(!DIRFULL)$('dirCtl').innerHTML=`<button type="button" class="btn" id="dirFullB" style="width:100%">🔒 بيانات المنتسبين</button>`;else{$('dirCtl').innerHTML=`<button type="button" class="btn dlock ${S.dirLock?'on':''}" id="dirLockB">${S.dirLock?'🔒 التعديل مقفل':'✎ التعديل مفتوح'}</button><button type="button" class="btn dcols" id="dirColsB">⚙ الأعمدة والحقول</button>`;$('dirCtl').insertAdjacentHTML('beforeend','<button type="button" class="btn" id="dirFullB">🙈 إخفاء البيانات</button>')}
   $('dirList').innerHTML=rows.length?`<div class="card dtw"><table class="dtab"><thead><tr><th class="dn0">ت</th>`+cols.map(c=>`<th class="${c[3]||''}">${esc(c[1])}</th>`).join('')+`</tr></thead><tbody>${body}</tbody></table></div>`:'<div class="card dnores"><div>لا يوجد اسم مطابق لـ «'+esc(DIRQ)+'» في القاعدة</div><small>القاعدة فيها '+D.length+' اسم فقط. إذا الأسماء ما كاملة، استورد ملف القاعدة.</small><button type="button" class="btn" id="dirImp2">استيراد ملف القاعدة</button></div>'}
 const DIR_BASE=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['status','الصفة'],['phone','الهاتف'],['marital','الحالة الزوجية'],['kids','الأطفال'],['addrNow','السكن الحالي'],['addrCard','السكن حسب البطاقة'],['mother','اسم الأم']];
 function dirAllKeys(){const ks=['name'].concat(DIR_BASE.map(x=>x[0]),(S.dirX||[]).map(f=>'x_'+f.k)),od=S.dirOrd||[];return ks.sort((a,b)=>{const ix=k=>k==='name'?-1:od.indexOf(k)<0?999+ks.indexOf(k):od.indexOf(k);return ix(a)-ix(b)})}
@@ -2829,9 +2842,9 @@ $('dirQ').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();
 $('dirList').addEventListener('click',e=>{if(e.target.closest('#dirImp2'))$('dirImp').click()});
 $('dirClr').onclick=()=>{DIRQ='';$('dirQ').value='';renderDir();$('dirQ').focus()};
 $('dirSecs').addEventListener('click',e=>{const b=e.target.closest('[data-ds]');if(!b)return;DIRSEC=b.dataset.ds;renderDir()});
-$('dirList').addEventListener('click',e=>{const b=e.target.closest('[data-di]');if(b)dirSheet(b.dataset.di)});
+$('dirList').addEventListener('click',e=>{if(!DIRFULL)return;const b=e.target.closest('[data-di]');if(b)dirSheet(b.dataset.di)});
 const dirLk=()=>{if(S.dirLock){toast('التعديل مقفل — افتحه من زر القفل');return true}return false};
-$('viewDir').addEventListener('click',e=>{if(e.target.closest('#dirLockB')){S.dirLock=!S.dirLock;save();renderDir();toast(S.dirLock?'تم قفل التعديل':'تم فتح التعديل')}else if(e.target.closest('#dirColsB'))dirColsSheet()});
+$('viewDir').addEventListener('click',e=>{if(e.target.closest('#dirFullB')){DIRFULL=!DIRFULL;renderDir();return}if(e.target.closest('#dirLockB')){S.dirLock=!S.dirLock;save();renderDir();toast(S.dirLock?'تم قفل التعديل':'تم فتح التعديل')}else if(e.target.closest('#dirColsB'))dirColsSheet()});
 $('dirAdd').onclick=()=>{if(dirLk())return;S.dir=S.dir||[];const id='d'+Date.now();S.dir.push({id,name:'منتسب جديد',title:'',sec:DIRSEC==='بدون شعبة'?'':DIRSEC,shift:'',phone:'',status:'',addrCard:'',addrNow:'',mother:'',spouseAllow:'',st:{f:'',c:'',z:'',b:0,u:0}});save();renderDir();dirSheet(id)};
 $('dirImp').onclick=()=>{if(dirLk())return;$('dirFile').click()};
 $('dirFile').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{let a=JSON.parse(rd.result);if(a&&a.dirX){S.dirX=S.dirX||[];a.dirX.forEach(f=>{if(!S.dirX.some(y=>y.k===f.k))S.dirX.push(f)})}if(a&&a.dir)a=a.dir;if(!Array.isArray(a))throw 0;
@@ -3416,10 +3429,10 @@ function viewU(){const U=S.units,cap=S.cap;let load=0,run=0,mnt=0,bad=0;U.forEac
  const tot=cap*NU,pct=tot?Math.min(100,Math.round(load/tot*100)):0,C=2*Math.PI*44;
  let h='<div class="utop"><div class="utA"><div class="udash"><div class="udtop"><svg class="udr" viewBox="0 0 100 100"><defs><linearGradient id="udg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2b8"/><stop offset=".55" stop-color="#d4af37"/><stop offset="1" stop-color="#a87d12"/></linearGradient></defs><circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="9"/><circle cx="50" cy="50" r="44" fill="none" stroke="url(#udg)" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C*(1-pct/100)).toFixed(1)+'" transform="rotate(-90 50 50)"/><text x="50" y="57" text-anchor="middle" class="udp">'+pct+'%</text></svg><div class="udt"><div class="udl">'+LK('d_cur','الحمل الحالي للمحطة')+'</div><div class="udn">'+load+' <small>م.و</small></div><div class="uds">من '+tot+' م.و · '+run+' '+LK('d_run','وحدة شغالة')+'</div></div></div>'
  +'<div class="udg">'+U.map((u,i)=>{const ld=Math.min(cap,Math.max(0,+u.load||0)),f=u.st==='run'?Math.max(8,Math.round(ld/cap*100)):0;return '<button type="button" class="utl t-'+u.st+'" data-ut="'+i+'" style="--f:'+f+'%"><span>'+(i+1)+'</span></button>'}).join('')+'</div><div class="udh">'+LK('d_hint','اضغط أي وحدة لتغيير حالتها وحملها')+'</div></div>'
- +'<div class="ustats usf">'+[['run','شغالة',run],['res','احتياط',U.length-run-mnt-bad],['mnt','صيانة',mnt],['bad','عطل',bad]].map(a=>'<button type="button" class="us usb s-'+a[0]+(ufil===a[0]?' on':'')+'" data-sf="'+a[0]+'"><b>'+a[2]+'</b><span>'+a[1]+'</span></button>').join('')+'</div>'
- +(ufil?'<div class="uflt"><div class="ufh">'+esc2((ST.find(x=>x[0]===ufil)||[])[1])+' — اضغط أي وحدة لتغيير حالتها</div>'+(U.map((u,i)=>u.st===ufil?'<button type="button" class="uar a-'+u.st+'" data-al="'+i+'"><span class="ubadge '+(ST.find(x=>x[0]===u.st)||[])[2]+'">'+esc2((ST.find(x=>x[0]===u.st)||[])[1])+'</span><b>'+esc2(UN(i))+'</b></button>':'').join('')||'<div class="uemp">لا توجد وحدات بهذه الحالة</div>')+'</div>':'')
- +'</div><div class="utB"><div class="utn"><div class="utnh">تنبيهات</div>'+(U.map((u,i)=>u.st==='bad'?'<button type="button" class="uar a-bad" data-al="'+i+'"><span class="ubadge b-bad">عطل</span><b>'+esc2(UN(i))+' خارج الخدمة بسبب عطل</b></button>':u.st==='mnt'?'<button type="button" class="uar a-mnt" data-al="'+i+'"><span class="ubadge b-mnt">صيانة</span><b>'+esc2(UN(i))+' في الصيانة</b></button>':'').join('')||'<div class="uemp">لا توجد تنبيهات — كل الوحدات سليمة</div>')+'</div></div></div>'
- +'<div class="ucard ucap"><span class="uname" style="font-size:17px" data-lk="cap" data-d="السعة الاسمية للوحدة (م.و)">'+esc2(L('cap','السعة الاسمية للوحدة (م.و)'))+'</span><input type="number" inputmode="numeric" id="uoCap" min="1" value="'+cap+'"></div>';
+ +'<div class="ustats usf">'+[['run','شغالة',run],['res','احتياط',U.length-run-mnt-bad],['mnt','صيانة',mnt],['bad','عطل',bad]].map(a=>'<button type="button" class="us usb s-'+a[0]+(ufil===a[0]?' on':'')+'" data-sf="'+a[0]+'" data-lk="sf_'+a[0]+'" data-d="'+a[1]+'"><b>'+a[2]+'</b><span>'+esc2(L('sf_'+a[0],a[1]))+'</span></button>').join('')+'</div>'
+ +(ufil?'<div class="uflt"><div class="ufh">'+esc2(L('st_'+ufil,(ST.find(x=>x[0]===ufil)||[])[1]))+' — اضغط أي وحدة لتغيير حالتها</div>'+(U.map((u,i)=>u.st===ufil?'<button type="button" class="uar a-'+u.st+'" data-al="'+i+'"><span class="ubadge '+(ST.find(x=>x[0]===u.st)||[])[2]+'">'+esc2((ST.find(x=>x[0]===u.st)||[])[1])+'</span><b>'+esc2(UN(i))+'</b></button>':'').join('')||'<div class="uemp">لا توجد وحدات بهذه الحالة</div>')+'</div>':'')
+ +'</div><div class="utB"><div class="utn"><div class="utnh">تنبيهات</div>'+(U.map((u,i)=>u.st==='bad'?'<button type="button" class="uar a-bad" data-al="'+i+'"><span class="ubadge b-bad">'+esc2(L('sf_bad','عطل'))+'</span><b>'+esc2(UN(i))+' '+esc2(L('al_bad','خارج الخدمة بسبب عطل'))+'</b></button>':u.st==='mnt'?'<button type="button" class="uar a-mnt" data-al="'+i+'"><span class="ubadge b-mnt">'+esc2(L('sf_mnt','صيانة'))+'</span><b>'+esc2(UN(i))+' '+esc2(L('st_mnt','في الصيانة'))+'</b></button>':'').join('')||'<div class="uemp">لا توجد تنبيهات — كل الوحدات سليمة</div>')+'</div></div></div>'
+ +'<div class="uhint2">✎ لتغيير أي كلمة (قيد التشغيل، احتياط، اسم الوحدة…): اضغط عليها ضغطة مطوّلة</div><div class="ucard ucap"><span class="uname" style="font-size:17px" data-lk="cap" data-d="السعة الاسمية للوحدة (م.و)">'+esc2(L('cap','السعة الاسمية للوحدة (م.و)'))+'</span><input type="number" inputmode="numeric" id="uoCap" min="1" value="'+cap+'"></div>';
  U.forEach((u,i)=>{const run=u.st==='run',ld=Math.min(cap,Math.max(0,+u.load||0));
   h+='<div class="ucard" data-u="'+i+'"><div class="urow"><span class="uname" data-lk="un:'+i+'" data-d="الوحدة '+(i+1)+'">'+esc2(UN(i))+'</span>'+badge(u.st)+'</div>'
   +'<div class="ubar"><i style="width:'+(cap?Math.round(ld/cap*100):0)+'%"></i></div><div class="uload">'+LK('l_load','الحمل')+': <span class="ulv">'+ld+'</span> من '+cap+' م.و</div>'
@@ -3609,7 +3622,7 @@ $('uoBody').addEventListener('change',e=>{const t=e.target,c=t.closest('[data-u]
  else if(t.classList.contains('uo-ld')){setLoad(i,t.value);draw(true)}});
 $('uoBody').addEventListener('input',e=>{const t=e.target;if(!t.classList.contains('uo-rg'))return;const c=t.closest('[data-u]'),i=+c.dataset.u,v=Math.round(+t.value);c.querySelector('.ubar i').style.width=(S.cap?v/S.cap*100:0)+'%';c.querySelector('.ulv').textContent=v;const n=c.querySelector('.uo-ld');if(n)n.value=v});
 $('uoBody').addEventListener('pointerup',e=>{const t=e.target;if(t.classList&&t.classList.contains('uo-rg')){setLoad(+t.closest('[data-u]').dataset.u,t.value);draw(true)}});
-$('uoBody').addEventListener('click',e=>{const f=e.target.closest('[data-sf]');if(f){ufil=ufil===f.dataset.sf?null:f.dataset.sf;draw(true);return}const al=e.target.closest('[data-al]');if(al){pick(+al.dataset.al)}});
+$('uoBody').addEventListener('click',e=>{if(Date.now()-(window.__lpT||0)<900)return;const f=e.target.closest('[data-sf]');if(f){ufil=ufil===f.dataset.sf?null:f.dataset.sf;draw(true);return}const al=e.target.closest('[data-al]');if(al){pick(+al.dataset.al)}});
 $('uoBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
  if(b.classList.contains('ust')){const c=b.closest('[data-u]');if(!c)return;const u=S.units[+c.dataset.u],k=b.dataset.st;if(u.st===k)return;u.st=k;if(k!=='run')u.load=0;u.ts=Date.now();save();draw(true);return}
  if(b.id==='uoMa'){const d=$('uoMd').value;if(!d){toast('اختر التاريخ');return}S.mnt.push({id:'m'+Date.now(),u:+$('uoMu').value,t:$('uoMt').value,d,note:$('uoMn').value.trim(),done:false});save();draw(true);toast('أُضيفت إلى الجدول');return}
