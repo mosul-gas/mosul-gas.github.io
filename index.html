@@ -1644,6 +1644,13 @@ body.dirpriv #dirList tr[data-di]{cursor:default}
 .dphoto small{position:absolute;inset-inline:0;bottom:0;text-align:center;color:#fff;font:800 12px Cairo,Arial;padding:14px 6px 5px;background:linear-gradient(180deg,transparent,rgba(10,31,64,.9))}
 #acadOv .dl1t{font:900 26px Cairo,Arial;color:#ffd24a;text-shadow:0 2px 0 #7a5a08,0 4px 8px #000;text-align:center;margin-bottom:10px}
 #acadOv .dvs2{border-top:0!important;padding-top:6px!important}
+#uoOv .uadd.mtb{margin-top:8px;font-size:14px!important}
+#uoOv .mtp{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+#uoOv .mtr{display:flex;gap:6px;align-items:center;background:#0b2447;border:1.5px solid #d4af37;border-radius:12px;padding:6px 8px}
+#uoOv .mtr b{flex:1;color:#ffe9a6;font:800 14px Cairo,Arial}
+#uoOv .mtr input{flex:1;min-width:0;margin:0!important}
+#uoOv .mtr button{border:1.5px solid #d4af37;background:#12315a;color:#ffe9a6;font:800 12.5px Cairo,Arial;border-radius:9px;padding:6px 9px;white-space:nowrap}
+#uoOv .mtr button.d{border-color:#ff8a8a;color:#ffb3b3}
 </style>
 </head>
 <body>
@@ -1840,7 +1847,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 254 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 255 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3415,7 +3422,7 @@ if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.service
  document.addEventListener('click',e=>{if(Date.now()-(window.__gsT||0)<900){e.stopPropagation();e.preventDefault()}},true);
  document.addEventListener('contextmenu',e=>{if(e.target.closest&&e.target.closest('.grid thead th, .grid td.namecol'))e.preventDefault()});
 })();
-(function(){const NU=14,ST=[['run','قيد التشغيل','b-run'],['res','احتياط','b-res'],['mnt','في الصيانة','b-mnt'],['bad','عطل','b-bad']],MT=['صيانة وقائية','فحص دوري','تبديل قطعة','إصلاح عطل'];
+(function(){const NU=14,ST=[['run','قيد التشغيل','b-run'],['res','احتياط','b-res'],['mnt','في الصيانة','b-mnt'],['bad','عطل','b-bad']],MT0=['صيانة وقائية','فحص دوري','تبديل قطعة','إصلاح عطل'],MTs=()=>(S.mtL&&S.mtL.length?S.mtL:MT0);let mtEd=false;
 let tab='u';
 const L=(k,d)=>{const v=(S.uL||{})[k];return v&&String(v).trim()?v:d};
 const UN=i=>{const u=S.units[i];return u&&u.n&&String(u.n).trim()?u.n:'الوحدة '+(i+1)};
@@ -3445,7 +3452,7 @@ function viewU(){const U=S.units,cap=S.cap;let load=0,run=0,mnt=0,bad=0;U.forEac
 function mEdit(k){const m=S.mnt[k];let o=$('uoMe');if(o)o.remove();o=document.createElement('div');o.id='uoMe';
  o.innerHTML='<div class="uoPb"><div class="uoPh"><button type="button" class="uoPx" id="uoMx">✕</button><span class="uname">تعديل الصيانة</span></div>'
  +'<select id="meU">'+Array.from({length:NU},(_,i)=>'<option value="'+(i+1)+'"'+((+m.u||1)===i+1?' selected':'')+'>'+esc2(UN(i))+'</option>').join('')+'</select>'
- +'<input type="text" id="meT" list="meL" value="'+esc2(m.t)+'" placeholder="نوع العمل"><datalist id="meL">'+MT.map(t=>'<option value="'+esc2(t)+'">').join('')+'</datalist>'
+ +'<input type="text" id="meT" list="meL" value="'+esc2(m.t)+'" placeholder="نوع العمل"><datalist id="meL">'+MTs().map(t=>'<option value="'+esc2(t)+'">').join('')+'</datalist>'
  +'<input type="date" id="meD" value="'+esc2(m.d)+'"><input type="text" id="meN" value="'+esc2(m.note||'')+'" placeholder="ملاحظة (اختياري)">'
  +'<button type="button" class="uadd" id="meS">حفظ التعديل</button></div>';
  $('uoOv').appendChild(o);o.onclick=e=>{if(e.target===o)o.remove()};$('uoMx').onclick=()=>o.remove();
@@ -3475,7 +3482,7 @@ function viewF(){const f=fmGet(),H=FH(),inp=(k,id,lab,ph,list,type)=>'<div class
  +'<div class="ustg c3 fmt"><button type="button" class="ust b-mnt'+(f.type==='rep'?' on':'')+'" data-fm="rep" data-lk="f_t_rep" data-d="تقرير صيانة">'+esc2(L('f_t_rep','تقرير صيانة'))+'</button><button type="button" class="ust b-res'+(f.type==='wo'?' on':'')+'" data-fm="wo" data-lk="f_t_wo" data-d="أمر عمل">'+esc2(L('f_t_wo','أمر عمل'))+'</button></div>'
  +'<div class="ucard fmc"><div class="fmg">'+inp('no','no','رقم الاستمارة','')+inp('d','d','التاريخ','',null,'date')
  +'<div class="fmf"><label data-lk="f_u" data-d="الوحدة">'+esc2(L('f_u','الوحدة'))+'</label><select data-ff="u">'+Array.from({length:NU},(_,i)=>'<option value="'+(i+1)+'"'+(String(f.u)===String(i+1)?' selected':'')+'>'+esc2(UN(i))+'</option>').join('')+'</select></div>'
- +inp('mt','mt','نوع الصيانة','',MT)+inp('pr','pr','الأولوية','',['اعتيادية','مهمة','عاجلة'])+inp('dv','dv','الشعبة المنفذة','',['الورشة','الكهرباء','الميكانيك','السيطرة الذاتية','التشغيل'])+inp('t1','t1','وقت البدء','',null,'time')+inp('t2','t2','وقت الانتهاء','',null,'time')+'</div>'
+ +inp('mt','mt','نوع الصيانة','',MTs())+inp('pr','pr','الأولوية','',['اعتيادية','مهمة','عاجلة'])+inp('dv','dv','الشعبة المنفذة','',['الورشة','الكهرباء','الميكانيك','السيطرة الذاتية','التشغيل'])+inp('t1','t1','وقت البدء','',null,'time')+inp('t2','t2','وقت الانتهاء','',null,'time')+'</div>'
  +'<div class="fmf"><label data-lk="f_desc" data-d="وصف العمل المطلوب أو العطل">'+esc2(L('f_desc','وصف العمل المطلوب أو العطل'))+'</label><textarea data-ff="desc" rows="5">'+esc2(f.desc)+'</textarea></div>'
  +'<div class="fmf"><label data-lk="f_parts" data-d="القطع والمواد المستخدمة">'+esc2(L('f_parts','القطع والمواد المستخدمة'))+'</label><textarea data-ff="parts" rows="4">'+esc2(f.parts)+'</textarea></div>'
  +'<div class="fmf"><label data-lk="f_act" data-d="الإجراء المتخذ والنتيجة">'+esc2(L('f_act','الإجراء المتخذ والنتيجة'))+'</label><textarea data-ff="act" rows="4">'+esc2(f.act)+'</textarea></div>'
@@ -3546,7 +3553,9 @@ function viewM(){const M=S.mnt.slice().sort((a,b)=>(a.d>b.d?1:-1)),today=iso(new
  if(!M.length)h+='<div class="unote">'+LK('m_empty','لا توجد أعمال صيانة مسجلة.')+'</div>';
  M.forEach(m=>{const st=m.done?['b-run',L('m_done','منجزة')]:m.d<today?['b-bad',L('m_over','متأخرة')]:['b-mnt',L('m_sch','مجدولة')];
   h+='<div class="ucard mitem" data-m="'+esc2(m.id)+'">'+'<span class="ubadge '+st[0]+'">'+st[1]+'</span><div class="mi"><b>'+esc2(UN((+m.u||1)-1))+' · '+esc2(m.t)+'</b><div>'+esc2(m.d)+'</div>'+(m.note?'<em>'+esc2(m.note)+'</em>':'')+'</div><div class="mact">'+(m.done?'<button type="button" class="mab" data-act="reopen" data-lk="m_re" data-d="إعادة فتح">'+esc2(L('m_re','إعادة فتح'))+'</button>':'<button type="button" class="mab" data-act="done" data-lk="m_ok2" data-d="تم الإنجاز">'+esc2(L('m_ok2','تم الإنجاز'))+'</button>')+'<button type="button" class="mab ed" data-act="edit" data-lk="m_ed" data-d="تعديل">'+esc2(L('m_ed','تعديل'))+'</button>'+'<button type="button" class="mab" data-act="print" data-lk="m_pr" data-d="طباعة أمر عمل">'+esc2(L('m_pr','طباعة أمر عمل'))+'</button><button type="button" class="mab dl" data-act="del" data-lk="m_dl" data-d="حذف">'+esc2(L('m_dl','حذف'))+'</button></div></div>'});
- h+='<div class="uh2">'+LK('m_add','إضافة صيانة')+'</div><div class="ucard"><select id="uoMu">'+Array.from({length:NU},(_,i)=>'<option value="'+(i+1)+'">'+esc2(UN(i))+'</option>').join('')+'</select><select id="uoMt">'+MT.map((t,i)=>'<option value="'+esc2(t)+'">'+esc2(L('mt'+i,t))+'</option>').join('')+'</select><input type="date" id="uoMd" value="'+today+'"><input type="text" id="uoMn" placeholder="ملاحظة (اختياري)"><button class="uadd" id="uoMa" type="button" data-lk="m_btn" data-d="+ إضافة إلى الجدول">'+esc2(L('m_btn','+ إضافة إلى الجدول'))+'</button></div>';
+ h+='<div class="uh2">'+LK('m_add','إضافة صيانة')+'</div><div class="ucard"><select id="uoMu">'+Array.from({length:NU},(_,i)=>'<option value="'+(i+1)+'">'+esc2(UN(i))+'</option>').join('')+'</select><select id="uoMt">'+MTs().map(t=>'<option value="'+esc2(t)+'">'+esc2(t)+'</option>').join('')+'</select><input type="date" id="uoMd" value="'+today+'"><input type="text" id="uoMn" placeholder="ملاحظة (اختياري)"><button class="uadd" id="uoMa" type="button" data-lk="m_btn" data-d="+ إضافة إلى الجدول">'+esc2(L('m_btn','+ إضافة إلى الجدول'))+'</button>'
+ +'<button class="uadd mtb" id="uoMtE" type="button">⚙ أنواع الصيانة (تعديل / إضافة / حذف)</button>'
+ +(mtEd?'<div class="mtp">'+MTs().map((t,i)=>'<div class="mtr"><b>'+esc2(t)+'</b><button type="button" data-mte="'+i+'">✎ تعديل</button><button type="button" class="d" data-mtd="'+i+'">✕ حذف</button></div>').join('')+'<div class="mtr"><input type="text" id="mtN" placeholder="نوع جديد، مثال: معايرة"><button type="button" id="mtAdd">＋ إضافة</button></div></div>':'')+'</div>';
  return h}
 const WS=[['new','جديد','b-res'],['prog','قيد التنفيذ','b-mnt'],['done','منجز','b-run']],WPR=[['عادي','b-res'],['مهم','b-mnt'],['عاجل','b-bad']];
 let wf='all',wp='عادي',wv={u:'1',t:'',n:'',d:''};
@@ -3626,6 +3635,13 @@ $('uoBody').addEventListener('change',e=>{const t=e.target,c=t.closest('[data-u]
  else if(t.classList.contains('uo-ld')){setLoad(i,t.value);draw(true)}});
 $('uoBody').addEventListener('input',e=>{const t=e.target;if(!t.classList.contains('uo-rg'))return;const c=t.closest('[data-u]'),i=+c.dataset.u,v=Math.round(+t.value);c.querySelector('.ubar i').style.width=(S.cap?v/S.cap*100:0)+'%';c.querySelector('.ulv').textContent=v;const n=c.querySelector('.uo-ld');if(n)n.value=v});
 $('uoBody').addEventListener('pointerup',e=>{const t=e.target;if(t.classList&&t.classList.contains('uo-rg')){setLoad(+t.closest('[data-u]').dataset.u,t.value);draw(true)}});
+$('uoBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.id==='uoMtE'){mtEd=!mtEd;draw(true);return}
+ if(b.dataset.mte!=null||b.dataset.mtd!=null||b.id==='mtAdd'){const L0=MTs().slice();
+  if(b.id==='mtAdd'){const v=($('mtN').value||'').trim();if(!v)return;if(L0.includes(v)){toast('النوع موجود');return}L0.push(v);toast('أُضيف النوع')}
+  else if(b.dataset.mte!=null){const i=+b.dataset.mte,v=prompt('اسم نوع الصيانة',L0[i]);if(!v||!v.trim())return;L0[i]=v.trim()}
+  else{const i=+b.dataset.mtd;if(L0.length<2){toast('يجب أن يبقى نوع واحد على الأقل');return}if(!confirm('حذف النوع «'+L0[i]+'»؟ الأعمال المسجّلة بهذا النوع لا تتأثر.'))return;L0.splice(i,1)}
+  S.mtL=L0;save();draw(true)}});
 $('uoBody').addEventListener('click',e=>{if(Date.now()-(window.__lpT||0)<900)return;const f=e.target.closest('[data-sf]');if(f){ufil=ufil===f.dataset.sf?null:f.dataset.sf;draw(true);return}const al=e.target.closest('[data-al]');if(al){pick(+al.dataset.al)}});
 $('uoBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
  if(b.classList.contains('ust')){const c=b.closest('[data-u]');if(!c)return;const u=S.units[+c.dataset.u],k=b.dataset.st;if(u.st===k)return;u.st=k;if(k!=='run')u.load=0;u.ts=Date.now();save();draw(true);return}
