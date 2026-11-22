@@ -1631,6 +1631,10 @@ body .brand .bpill #appTitle{width:100%!important;max-width:none!important;flex:
 #acadOv .dvq{margin:14px auto 0;background:#fff;border:3px solid #d4af37;border-radius:18px;padding:10px;width:min(240px,70%);box-shadow:0 6px 16px rgba(0,0,0,.5)}#acadOv .dvq img{width:100%;display:block;-webkit-touch-callout:default;user-select:auto}
 #acadOv .dvn2{margin-top:12px;text-align:center;color:#dbe5ff;font:700 12.5px Cairo,Arial}
 #acadOv .dvr b#apU{font-size:13px;word-break:break-all}
+/* v249 */
+.mhero.noimg img{display:none!important}
+.mhero.noimg .mhc{border-top:0!important;padding:10px 12px 12px!important}
+@media(min-width:900px){body.nomgr #homeCard{flex-direction:column!important}body.nomgr .mhero{flex:none!important;position:static!important;height:auto!important;width:100%}}
 </style>
 </head>
 <body>
@@ -1667,7 +1671,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 </header>
 
 <main id="viewMain">
-  <div class="card" id="homeCard"><div class="mhero" id="mHero"><img src="mgr.jpg" alt="" loading="eager"><div class="mhc"><b id="mgrCap">المهندس عمار خلف الحديدي</b><small id="mgrTit">مدير محطة كهرباء الموصل الغازية</small></div></div><div class="hgrid" id="hGrid">
+  <div class="card" id="homeCard"><div class="mhero" id="mHero"><img alt=""><div class="mhc"><b id="mgrCap">المهندس عمار خلف الحديدي</b><small id="mgrTit">مدير محطة كهرباء الموصل الغازية</small></div></div><div class="hgrid" id="hGrid">
     <button class="hg" data-hg="m"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6v3H9zM7 5.5H5v15h14v-15h-2M8 12h8M8 16h5"/></svg><span class="hgt"><b>الموقف الرسمي للحضور</b><small>تحضير الموقف والجدول واليومي</small></span></button>
     <button class="hg" data-hg="day"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg><span class="hgt"><b>الدوام الصباحي</b><small>جدول الدوام اليومي</small></span></button>
     <button class="hg" data-hg="duty"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><span class="hgt"><b>المناوبين</b><small>جدول المناوبة</small></span></button>
@@ -1682,6 +1686,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <button class="hg" data-hg="s"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4"/></svg><span class="hgt"><b>الإعدادات</b><small>ضبط الأداة</small></span></button>
     <button class="hg" data-hg="backup"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg><span class="hgt"><b>نسخة احتياطية</b><small>حفظ واسترجاع البيانات</small></span></button>
     <button class="hg" data-hg="loc"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg><span class="hgt"><b>موقع المحطة</b><small>الخريطة والمسار إلى المحطة</small></span></button>
+    <button class="hg" data-hg="info"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v0M14 20v0M20 17v4h-3"/></svg><span class="hgt"><b>معلومات التطبيق</b><small>الرابط والباركود</small></span></button>
     <button class="hg" data-hg="about"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r=".6"/></svg><span class="hgt"><b>حول</b><small>عن مطوّرة الأداة</small></span></button>
     <button class="hg" data-hg="out"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4"/><path d="M16 8l4 4-4 4"/><path d="M20 12H9"/></svg><span class="hgt"><b>تسجيل خروج</b><small>قفل الأداة على هذا الجهاز</small></span></button>
   </div></div>
@@ -1783,7 +1788,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <div class="lbl">اسم مدير المحطة</div><input class="txt" id="mgrN" placeholder="المهندس عمار خلف الحديدي">
     <div class="lbl">الصفة تحت الاسم</div><input class="txt" id="mgrT" placeholder="مدير محطة كهرباء الموصل الغازية">
     <div class="lbl">ترتيب أيقونات الصفحة الرئيسية</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px"><button type="button" class="btn" id="hEditS">✥ ترتيب الأيقونات</button></div>
-    <div class="lbl">صورة المدير بالصفحة الرئيسية</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn" id="mgrPick">📷 تغيير الصورة</button><button type="button" class="btn red" id="mgrOff">🚫 إزالة الصورة</button><button type="button" class="btn" id="mgrDef">↺ الصورة الأصلية</button></div><input type="file" id="mgrFile" accept="image/*" style="display:none">
+    <div class="lbl">صورة المدير بالصفحة الرئيسية</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn" id="mgrPick">📷 تغيير الصورة</button><button type="button" class="btn red" id="mgrOff">🚫 إزالة الصورة</button><button type="button" class="btn" id="mgrDef">🖼️ إظهار الصورة</button></div><input type="file" id="mgrFile" accept="image/*" style="display:none">
     <div class="lbl">اسم الموقّع</div><input class="txt" id="dSigN" placeholder="حسين أحمد حمود">
     <div class="lbl">الصفة (تحت الاسم)</div><input class="txt" id="sigT" placeholder="ر. قسم السيطرة الذاتية">
     <div class="hint">ويُضاف التاريخ تلقائياً أسفلها عند الطباعة.</div>
@@ -1824,7 +1829,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 248 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 249 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2338,7 +2343,7 @@ function dailyData(dateStr){
 }
 function mgrApply(){const h=$('mHero');if(!h)return;const n=S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN,t=S.mgrT==null?'مدير محطة كهرباء الموصل الغازية':S.mgrT;
  $('mgrCap').textContent=n;$('mgrTit').textContent=t;$('mgrCap').style.display=n?'':'none';$('mgrTit').style.display=t?'':'none';
- h.querySelector('img').src=S.mgrImg||'mgr.jpg';h.style.display=S.mgrOff?'none':'';document.body.classList.toggle('nomgr',!!S.mgrOff)}
+ const off=S.mgrOff!==false;h.querySelector('img').src=off?'':(S.mgrImg||'mgr.jpg');h.classList.toggle('noimg',off);h.style.display=(off&&!n&&!t)?'none':'';document.body.classList.toggle('nomgr',off)}
 function sigLines(){const n=new Date();return [S.dSig||'المهندس',S.dSigN||'حسين أحمد حمود',S.sigT||'ر. قسم السيطرة الذاتية',n.getDate()+'/'+(n.getMonth()+1)+'/'+n.getFullYear()].filter(x=>x)}
 function sigHTML(fs){return `<div style="margin-top:22px;text-align:left"><div style="display:inline-block;text-align:center;font-size:${fs};font-weight:800;line-height:1.7;padding-left:6px">${sigLines().map(esc).join('<br>')}</div></div>`}
 /* ===== PDF file (drawn on canvas, Arabic shaped by the browser) ===== */
@@ -2506,7 +2511,7 @@ function showSettings(on){if(on){document.body.classList.remove('tbl');setTimeou
 $('mgrPick').onclick=()=>$('mgrFile').click();
 $('mgrFile').onchange=ev=>{const f=ev.target.files&&ev.target.files[0];if(!f)return;const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const m=900,r=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);try{S.mgrImg=c.toDataURL('image/jpeg',.85);S.mgrOff=false;save();mgrApply();toast('تم تغيير الصورة')}catch(e){toast('تعذّر حفظ الصورة')}URL.revokeObjectURL(u)};im.onerror=()=>toast('الملف ليس صورة');im.src=u;ev.target.value=''};
 $('mgrOff').onclick=()=>{S.mgrOff=true;save();mgrApply();toast('أُزيلت الصورة')};
-$('mgrDef').onclick=()=>{S.mgrOff=false;delete S.mgrImg;save();mgrApply();toast('رجعت الصورة الأصلية')};
+$('mgrDef').onclick=()=>{S.mgrOff=false;delete S.mgrImg;save();mgrApply();toast('ظهرت الصورة')};
 $('anchorDate').onchange=ev=>{if(ev.target.value){S.anchor=ev.target.value;save()}};
 $('anchorShift').onchange=ev=>{S.anchorShift=+ev.target.value;save()};
 /* group keys: 'd1'..'d4' for duty shifts, section ids for morning sections */
@@ -2889,7 +2894,7 @@ $('hGrid').addEventListener('click',e=>{const b=e.target.closest('[data-hg]');if
  else if(g==='backup')$('backup').click();
  else if(g==='guide')guide();
  else if(g==='acad')acad();
- else if(g==='about')devAbout(); else if(g==='lad')devLadder();
+ else if(g==='about')devAbout(); else if(g==='lad')devLadder(); else if(g==='info')devInfo();
  else if(g==='out'){if(confirm('تسجيل الخروج وقفل الأداة على هذا الجهاز؟')){try{localStorage.removeItem('mawqif_gate')}catch(e){}location.reload()}}
  else if(g==='ocr')$('btnOcr').click()});
 
@@ -3471,23 +3476,39 @@ function acad(){let o=document.getElementById('acadOv');if(o)o.remove();o=docume
  +AC.map((c,i)=>'<div class="acc"><div class="acc2"><div class="acn">الفصل '+c[0]+'</div><div class="act">'+c[1]+'</div><div class="acm">الصفحات '+c[2]+' – '+c[3]+' · '+c[4]+' صفحة · '+c[5]+' م.ب</div><div class="acb"><a class="acbtn o" href="academy/ch'+(i+1)+'.pdf" target="_blank" rel="noopener">فتح الفصل</a><a class="acbtn" href="academy/ch'+(i+1)+'.pdf" download="الفصل-'+c[0]+'-'+c[1]+'.pdf">تنزيل / طباعة</a></div></div></div>').join('')
  +'<div class="acc"><div class="acc2"><div class="act">عن الأداة</div><details><summary>طريقة العمل</summary><p>كل بياناتك تنحفظ على جهازك أنت، ولا ترسل لأي سيرفر. ولحفظها من الضياع استعمل «نسخة احتياطية» من الرئيسية. للتحديث سدّ التطبيق بالكامل وافتحه مرتين، وتأكد من رقم النسخة بالإعدادات.</p></details><details><summary>الإصدارات</summary><p>'+REL.map(r=>'<b>'+r[0]+'</b> — '+r[1]).join('<br>')+'</p></details><details><summary>تطوير الأداة</summary><p>تُطوَّر الأداة بإصدارات متتابعة بحسب ملاحظات الاستعمال الفعلي. كل تعديل يظهر برقم نسخة جديد، وبياناتك المحفوظة لا تتأثر بالتحديث.</p></details></div></div>'
  +'<div class="gc"><span class="rcred">المهندسة ريم هيثم جمال</span></div></div>';
- document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove()}
+ document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove();
+ const BL=window._acBl=window._acBl||{};
+ o.addEventListener('click',e=>{const a=e.target.closest('a.acbtn');if(!a||!navigator.canShare||!window.File)return;let ok=false;try{ok=navigator.canShare({files:[new File([''],'a.pdf',{type:'application/pdf'})]})}catch(_){}if(!ok)return;
+  e.preventDefault();const u=a.getAttribute('href'),nm=(a.getAttribute('download')||a.closest('.acc2').querySelector('a[download]').getAttribute('download'));
+  const share=()=>{const f=new File([BL[u]],nm,{type:'application/pdf'});navigator.share({files:[f]}).catch(er=>{if(er&&er.name!=='AbortError'){location.href=u}})};
+  if(BL[u]){share();return}if(a.dataset.busy)return;a.dataset.busy='1';const t0=a.textContent;a.textContent='⏳ 0%';
+  fetch(u).then(async r=>{if(!r.ok)throw new Error('HTTP '+r.status);const tot=+r.headers.get('content-length')||0,rd=r.body&&r.body.getReader?r.body.getReader():null;if(!rd)return r.blob();const ch=[];let got=0;for(;;){const {done,value}=await rd.read();if(done)break;ch.push(value);got+=value.length;a.textContent='⏳ '+(tot?Math.round(got*100/tot)+'%':Math.round(got/1048576)+' م.ب')}return new Blob(ch,{type:'application/pdf'})})
+   .then(b=>{BL[u]=b;delete a.dataset.busy;a.closest('.acb').querySelectorAll('a.acbtn').forEach(x=>{if(x.getAttribute('href')===u)x.textContent='📤 جاهز — اضغط للفتح'})})
+   .catch(er=>{delete a.dataset.busy;a.textContent=t0;toast('تعذّر تحميل الفصل: '+(er&&er.message||er))})})}
 window.acad=acad;
 function devAbout(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
  o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>عن مطوّرة الأداة</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><div class="acf"><div class="acf2 dvb"><div class="dvl"><img src="logo-gold3d.png" alt=""></div><div class="dvk">إعداد وتصميم</div><div class="dvn"><span class="rcred">المهندسة ريم هيثم جمال</span></div><div class="dvs"><span class="dl1">وزارة الكهرباء</span><span class="dl2">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية</span><span class="dl3">محطة كهرباء الموصل الغازية</span><span class="dl4">قسم السيطرة الذاتية</span></div></div></div>'
  +'<div class="acf"><div class="acf2"><div class="dvh">بيانات المحطة الرسمية</div>'
+ +((S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)?'<div class="dvr"><i>👷</i><div><small>مدير المحطة</small><b>'+esc2(S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)+'</b></div></div>':'')
  +'<div class="dvr"><i>📍</i><div><small>العنوان</small><b>العراق / الموصل / شارع بغداد</b></div></div>'
  +'<a class="dvr" href="mailto:mousal_gas_turbin@moelc.gov.iq"><i>✉️</i><div><small>البريد الإلكتروني</small><b dir="ltr">mousal_gas_turbin@moelc.gov.iq</b></div></a></div></div>'
+ +'</div>';
+ document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove();
+}
+window.devAbout=devAbout;
+function devInfo(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
+ o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>معلومات التطبيق</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb">'
  +'<div class="acf"><div class="acf2"><div class="dvh">معلومات التطبيق</div>'
  +'<div class="dvr"><i>🔗</i><div><small>رابط الأداة</small><b dir="ltr" id="apU">https://mosul-gas.github.io/</b></div></div>'
  +'<button type="button" class="dvbtn" id="apCp">📋 نسخ الرابط</button>'
  +'<div class="dvq"><img id="apQ" src="mosul-gas-qr.png" alt="باركود الأداة"></div>'
  +'<a class="dvbtn" id="apSv" href="mosul-gas-qr.png" download="mosul-gas-qr.png">💾 حفظ صورة الباركود</a>'
- +'<div class="dvn2">لا يمكن فتح الأداة إلا برمز الدخول.</div></div></div></div>';
+ +'<div class="dvn2">لا يمكن فتح التطبيق إلا برمز الدخول.</div></div></div></div>';
  document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove();
  document.getElementById('apCp').onclick=()=>{const t='https://mosul-gas.github.io/';(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('تم نسخ الرابط'),()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast('تم نسخ الرابط')}catch(_){toast(t)}a.remove()})};
  document.getElementById('apSv').onclick=e=>{if(navigator.canShare){e.preventDefault();fetch('mosul-gas-qr.png').then(r=>r.blob()).then(b=>{const f=new File([b],'mosul-gas-qr.png',{type:'image/png'});if(navigator.canShare({files:[f]}))return navigator.share({files:[f]});const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='mosul-gas-qr.png';a.click()}).catch(()=>{})}}}
-window.devAbout=devAbout;
+window.devInfo=devInfo;
+
 function devLadder(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
  const R=[['معاون مهندس','الدرجة السابعة',4,'#3b3fd1,#1f23a0'],['مهندس','الدرجة السادسة',4,'#3fbfb4,#238f87'],['مهندس أقدم','الدرجة الخامسة',5,'#f5b82e,#d98a12'],['معاون رئيس مهندسين','الدرجة الرابعة',5,'#7fd35a,#4aa532'],['رئيس مهندسين','الدرجة الثالثة',5,'#58a8f0,#2a72c9'],['رئيس مهندسين أقدم','الدرجة الثانية',5,'#b25be0,#7a2fb0'],['رئيس مهندسين أقدم أول','الدرجة الأولى',0,'#ffd24a,#e0a410']];
  let h='<div class="ldt">من معاون مهندس إلى رئيس مهندسين أقدم أول</div><div class="ldl">';
