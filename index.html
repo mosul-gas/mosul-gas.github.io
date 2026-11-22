@@ -1710,6 +1710,8 @@ body.daymode table.grid th:not(.nocol):not(.namecol):not(.daycell){width:calc(34
 #sheet .rtog.on{box-shadow:0 0 0 3px rgba(18,49,90,.4)!important}
 #sheet .ropts{margin-top:8px;border:2px dashed #d4af37;border-radius:14px;padding:8px}
 #sheet .ropts.hide{display:none!important}#sheet .ropts .row2{margin-top:0!important}
+#sheet .dpgo,#sheet .rgo{display:block;width:100%;min-height:56px;font:900 20px Cairo,Arial!important;background:linear-gradient(180deg,#ffe9a6,#d4af37)!important;color:#12315a!important;border:2.5px solid #8a6a12!important;border-radius:16px!important;box-shadow:0 4px 0 #8a6a12,0 8px 14px rgba(0,0,0,.25)!important;margin-top:10px}
+#sheet .dptog2,#sheet .rtog2{display:block;width:100%;margin-top:8px;background:#fff!important;color:#12315a!important;border:2px solid #12315a!important;font:800 14px Cairo,Arial!important;border-radius:14px!important;min-height:42px}
 </style>
 </head>
 <body>
@@ -1910,7 +1912,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 271 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 272 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2283,6 +2285,13 @@ function scopeName(all){
 function periodName(){
   const r=viewRange();return rangeLabel(r.a,r.b).replace(/ – /g,' إلى ').replace(/\s+/g,' ');
 }
+
+/* v272 direct print (laptop + phone): print page images from inside the app */
+function printCanvases(cs,land){if(!cs||!cs.length){toast('لا توجد صفحات');return}let a=document.getElementById('printArea');if(a)a.remove();a=document.createElement('div');a.id='printArea';
+ let st=document.getElementById('printCss');if(!st){st=document.createElement('style');st.id='printCss';document.head.appendChild(st)}
+ st.textContent='#printArea{display:none}@media print{@page{size:A4 '+(land?'landscape':'portrait')+';margin:0}html,body{background:#fff!important;margin:0!important;padding:0!important;height:auto!important;overflow:visible!important}body>*:not(#printArea){display:none!important}#printArea{display:block!important}#printArea img{display:block;margin:0 auto;max-width:100%;height:'+(land?'209mm':'296mm')+';width:auto;object-fit:contain;page-break-after:always;break-after:page;page-break-inside:avoid}#printArea img:last-child{page-break-after:auto;break-after:auto}}';
+ let n=cs.length;cs.forEach(c=>{const im=new Image();im.onload=im.onerror=()=>{if(--n===0)go()};im.src=c.toDataURL('image/jpeg',.95);a.appendChild(im)});document.body.appendChild(a);
+ function go(){const cl=()=>{setTimeout(()=>{const x=document.getElementById('printArea');if(x)x.remove()},800);window.removeEventListener('afterprint',cl)};window.addEventListener('afterprint',cl);setTimeout(()=>{try{window.print()}catch(e){toast('تعذّرت الطباعة')}},150)}}
 function chooseScope(cb){
   edit=null;
   const one=MODE==='duty'?'الوجبة '+SHIFT[SH]+' فقط':esc(secById(SEC).name)+' فقط';
@@ -2304,13 +2313,13 @@ $('btnReady').onclick=()=>{
   edit=null;const n=new Date(sundayOf(today));n.setDate(n.getDate()+7);const nm=new Date(today.getFullYear(),today.getMonth()+1,1);
   $('sheet').innerHTML=`<h3>📅 تحضير موقف جاهز</h3><div class="sub">أوراق جاهزة للتوقيع، لكل شعبة أو وجبة صفحة مستقلة. تكون خانات الأيام فارغة، وتظهر فيها الإجازات المسجّلة مسبقاً.</div>
   <div class="lbl">موقف أسبوعي — الدوام الصباحي، أسبوع ${n.getDate()}/${n.getMonth()+1}</div>
-  <button type="button" class="btn rtog" data-rt="week">🖨️ طباعة</button><div class="ropts hide" id="ro_week"><div class="row2 r3"><button class="btn" data-r="week|pdf" style="background:#C62828;color:#fff">PDF</button><button class="btn" data-r="week|word" style="background:#2B579A;color:#fff">Word</button><button class="btn rprt" data-r="week|print">🖨️ على الطابعة</button></div></div>
+  <button type="button" class="btn rtog rgo" data-rp="week">🖨️ طباعة</button><button type="button" class="btn rtog2" data-rt="week">💾 حفظ كملف (PDF / Word)</button><div class="ropts hide" id="ro_week"><div class="row2"><button class="btn" data-r="week|pdf" style="background:#C62828;color:#fff">PDF</button><button class="btn" data-r="week|word" style="background:#2B579A;color:#fff">Word</button></div></div>
   <div class="lbl" style="margin-top:12px">موقف شهري — المناوبين، شهر ${MONTHS[nm.getMonth()]} ${nm.getFullYear()}</div>
-  <button type="button" class="btn rtog" data-rt="month">🖨️ طباعة</button><div class="ropts hide" id="ro_month"><div class="row2 r3"><button class="btn" data-r="month|pdf" style="background:#C62828;color:#fff">PDF</button><button class="btn" data-r="month|word" style="background:#2B579A;color:#fff">Word</button><button class="btn rprt" data-r="month|print">🖨️ على الطابعة</button></div></div>
+  <button type="button" class="btn rtog rgo" data-rp="month">🖨️ طباعة</button><button type="button" class="btn rtog2" data-rt="month">💾 حفظ كملف (PDF / Word)</button><div class="ropts hide" id="ro_month"><div class="row2"><button class="btn" data-r="month|pdf" style="background:#C62828;color:#fff">PDF</button><button class="btn" data-r="month|word" style="background:#2B579A;color:#fff">Word</button></div></div>
   <div id="rdyOut"></div>
   <button class="btn gh" style="width:100%;margin-top:12px" data-r="x">إغلاق</button>`;
   $('ov').classList.add('show');
-  $('sheet').onclick=ev=>{const tg=ev.target.closest('[data-rt]');if(tg){const o=$('ro_'+tg.dataset.rt);const op=o.classList.contains('hide');document.querySelectorAll('#sheet .ropts').forEach(x=>x.classList.add('hide'));document.querySelectorAll('#sheet .rtog').forEach(x=>x.classList.remove('on'));if(op){o.classList.remove('hide');tg.classList.add('on')}return}const b=ev.target.closest('[data-r]');if(!b)return;if(b.dataset.r==='x'){$('sheet').onclick=null;closeSheet();return}
+  $('sheet').onclick=ev=>{const rp=ev.target.closest('[data-rp]');if(rp){const R=readySpecs(rp.dataset.rp);if(!R.specs.length){toast('لا توجد أسماء');return}const box=$('rdyOut');box.innerHTML='<div class="sub" style="text-align:center;margin-top:10px">⏳ جارٍ تجهيز الورقة للطابعة…</div>';setTimeout(()=>{try{printCanvases(R.specs.map(sheetCanvas),true);box.innerHTML=''}catch(e){box.innerHTML='<div class="sub" style="color:#c62828">تعذّرت الطباعة: '+esc(String(e&&e.message||e))+'</div>'}},60);return}const tg=ev.target.closest('[data-rt]');if(tg){const o=$('ro_'+tg.dataset.rt);const op=o.classList.contains('hide');document.querySelectorAll('#sheet .ropts').forEach(x=>x.classList.add('hide'));document.querySelectorAll('#sheet .rtog').forEach(x=>x.classList.remove('on'));if(op){o.classList.remove('hide');tg.classList.add('on')}return}const b=ev.target.closest('[data-r]');if(!b)return;if(b.dataset.r==='x'){$('sheet').onclick=null;closeSheet();return}
     if(b.dataset.r==='go'){const F=window._rdyF;if(!F)return;let f=null;try{f=new File([F.blob],F.name,{type:F.type})}catch(e){}
       if(f&&window.__MOB&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(e=>{if(e&&e.name!=='AbortError'){download(F.name,F.blob);toast('تم تنزيل الملف')}})}else{download(F.name,F.blob);toast('تم تنزيل الملف')}return}
     const [k,f0]=b.dataset.r.split('|');let f=f0,pw=null;if(f0==='print'){f='pdf';if(!window.__MOB){pw=window.open('','_blank');if(pw)try{pw.document.write('<p style="font:20px Arial;text-align:center;margin-top:40px" dir="rtl">⏳ جارٍ تحضير الورقة للطباعة…</p>')}catch(_){}}}const box=$('rdyOut');box.innerHTML='<div class="sub" style="text-align:center;margin-top:12px">⏳ جارٍ تحضير الملف…</div>';
@@ -2548,8 +2557,8 @@ $('btnCopy').onclick=()=>{
   <div class="hint dtip">اضغط على أي خانة في الورقة لتعديلها قبل الطباعة، وللإضافة استعمل أزرار «سطر» أسفل الورقة.</div>
   <div id="dPrev" style="overflow:hidden;background:#f6f8fb;border-radius:8px;padding:2px;margin:3px 0 4px;display:flex;justify-content:center"></div>
   <div class="dadd"><button class="btn" data-add="0">＋ سطر في الموقف</button><button class="btn" data-add="1">＋ سطر في المناوبين</button><button class="btn" data-rm="1">− حذف آخر سطر</button></div>
-  <button class="btn dprt dptog" type="button" id="dPrTog">🖨️ طباعة</button><div class="dpopts hide" id="dPrOpts"><div class="pfmt dfmt"><button data-d="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button><button data-d="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button><button data-d="xl"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button></div>
-  <button class="btn dprt2" data-d="print" title="فتح الورقة للطباعة مباشرة">🖨️ طباعة على الطابعة مباشرة</button></div><button class="btn dwa dwa2" data-d="copy" title="نسخ الورقة كصورة لواتساب"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#25D366"/><path d="M8.6 6.8c.3-.3.8-.3 1 .1l1 2c.2.3.1.7-.1 1l-.6.6c.5 1.2 1.5 2.2 2.7 2.8l.6-.6c.3-.3.7-.3 1-.1l2 1c.4.2.4.7.1 1l-.9.9c-.6.6-1.6.7-2.4.3-2.3-1.1-4.1-2.9-5.2-5.2-.4-.8-.3-1.8.3-2.4z" fill="#fff"/></svg><span>نسخ لواتساب</span></button>
+  <button class="btn dprt dpgo" type="button" data-d="print">🖨️ طباعة</button><button class="btn dptog2" type="button" id="dPrTog">💾 حفظ كملف (Word / PDF / Excel)</button><div class="dpopts hide" id="dPrOpts"><div class="pfmt dfmt"><button data-d="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button><button data-d="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button><button data-d="xl"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button></div>
+  </div><button class="btn dwa dwa2" data-d="copy" title="نسخ الورقة كصورة لواتساب"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#25D366"/><path d="M8.6 6.8c.3-.3.8-.3 1 .1l1 2c.2.3.1.7-.1 1l-.6.6c.5 1.2 1.5 2.2 2.7 2.8l.6-.6c.3-.3.7-.3 1-.1l2 1c.4.2.4.7.1 1l-.9.9c-.6.6-1.6.7-2.4.3-2.3-1.1-4.1-2.9-5.2-5.2-.4-.8-.3-1.8.3-2.4z" fill="#fff"/></svg><span>نسخ لواتساب</span></button>
   <button class="btn gh" data-d="x" style="display:none">إغلاق</button>`;
   $('ov').classList.add('show');
   let dM=null,dLast=null;const prev=keep=>{const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const w=[];if(keep&&dM){dd.morning=dM[0];dd.duty=dM[1]}else dM=[dd.morning,dd.duty];
@@ -2565,7 +2574,7 @@ $('btnCopy').onclick=()=>{
       prev(true);if(ad.dataset.add!=null)setTimeout(()=>{const c=document.querySelectorAll('#dPrev [data-t="'+k+'"][data-f="name"]');const l=c[c.length-1];if(l)l.focus()},60);return}
     if(ev.target.closest('#dPrTog')){const o=$('dPrOpts');o.classList.toggle('hide');$('dPrTog').classList.toggle('on',!o.classList.contains('hide'));if(!o.classList.contains('hide'))setTimeout(()=>o.scrollIntoView({block:'nearest',behavior:'smooth'}),30);return}
     const b=ev.target.closest('[data-d]');if(!b)return;const v=$('dDate').value;if(!v)return;const dd=dailyData(v);if(dM){dd.morning=dM[0];dd.duty=dM[1]}applyEdits(dd);dd.morning=dd.morning.filter(r=>r.name||r.st);dd.duty=dd.duty.filter(r=>r.name||r.st);const nm='الموقف اليومي '+v;
-    if(b.dataset.d==='print'){if(!window.jspdf){toast('حدّث الصفحة');return}const cs=dailyCanvases(dd);const pdf=new window.jspdf.jsPDF({orientation:'p',unit:'mm',format:'a4'});cs.forEach((c,i)=>{if(i)pdf.addPage('a4','p');pdf.addImage(c.toDataURL('image/jpeg',.92),'JPEG',0,0,210,297)});pdf.autoPrint();const u=URL.createObjectURL(pdf.output('blob'));const w=window.open(u,'_blank');if(!w){download(nm+'.pdf',pdf.output('blob'));toast('افتح الملف واطبعه')}return}
+    if(b.dataset.d==='print'){printCanvases(dailyCanvases(dd),false);return}
     if(b.dataset.d==='pdf'){savePDF(dailyCanvases(dd),false,nm+'.pdf')}
     else if(b.dataset.d==='word'){if(!window.docx){toast('يُرجى تحديث الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل ملف Word')})}
     else if(b.dataset.d==='xl'){if(!window.ExcelJS){toast('يُرجى تحديث الصفحة');return}buildDailyXlsx(dd).then(x=>{download(nm+'.xlsx',x);toast('تم تنزيل ملف Excel')})}
@@ -3186,6 +3195,7 @@ $('gkey').addEventListener('input',ev=>{try{localStorage.setItem(GKEY,ev.target.
 
 $('btnPrintMenu').onclick=()=>{edit=null;
   $('sheet').innerHTML=`<h3>طباعة</h3><div class="sub">اختر صيغة الملف</div>
+  <button class="btn dprt dpgo" data-pf="direct" style="width:100%;margin:6px 0 10px">🖨️ طباعة على الطابعة</button><div class="sub" style="margin-bottom:6px">أو احفظ كملف:</div>
   <div class="pfmt">
    <button data-pf="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button>
    <button data-pf="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button>
@@ -3194,6 +3204,7 @@ $('btnPrintMenu').onclick=()=>{edit=null;
   <button class="btn gh" style="width:100%;margin-top:10px" data-pf="x">إغلاق</button>`;
   $('ov').classList.add('show');
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-pf]');if(!b)return;const f=b.dataset.pf;closeSheet();
+    if(f==='direct'){setTimeout(()=>chooseScope(all=>{try{printCanvases(curSpecs(all).map(sheetCanvas),true)}catch(e){toast('تعذّرت الطباعة')}}),60);return}
     if(f!=='x')setTimeout(()=>$({pdf:'btnPrint',word:'btnWord',excel:'btnExcel'}[f]).click(),60)}};
 /* ---------- المسح الضوئي (كاميرا مباشرة → PDF) ---------- */
 window.SC=window.SC||{};const SC=window.SC;Object.assign(SC,{pages:[],stream:null,tm:0,src:null,q:null,live:null,mode:'color',stage:'cam',drag:-1,warp:null,fin:null,cap:null});
