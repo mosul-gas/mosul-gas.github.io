@@ -1708,7 +1708,8 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <button class="hg" data-hg="backup"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg><span class="hgt"><b>نسخة احتياطية</b><small>حفظ واسترجاع البيانات</small></span></button>
     <button class="hg" data-hg="loc"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg><span class="hgt"><b>موقع المحطة</b><small>الخريطة والمسار إلى المحطة</small></span></button>
     <button class="hg" data-hg="info"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v0M14 20v0M20 17v4h-3"/></svg><span class="hgt"><b>معلومات التطبيق</b><small>الرابط والباركود</small></span></button>
-    <button class="hg" data-hg="about"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r=".6"/></svg><span class="hgt"><b>حول</b><small>بيانات المحطة والتطبيق</small></span></button>
+    <button class="hg" data-hg="about"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r=".6"/></svg><span class="hgt"><b>بيانات المحطة</b><small>المدير ورئيس القسم والعنوان</small></span></button>
+    <button class="hg" data-hg="dev"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5"/><path d="M16 7l5 5-5 5"/><path d="M13.5 5l-3 14"/></svg><span class="hgt"><b>مطوّرة التطبيق</b><small>إعداد وتصميم</small></span></button>
     <button class="hg" data-hg="out"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4"/><path d="M16 8l4 4-4 4"/><path d="M20 12H9"/></svg><span class="hgt"><b>تسجيل خروج</b><small>قفل الأداة على هذا الجهاز</small></span></button>
   </div></div>
   <div class="card" id="statsCard">
@@ -1752,11 +1753,11 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
 <button class="ditem" data-go="mnt"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(24 0) scale(-1 1)"><path d="m15 12-8.4 8.4a1.4 1.4 0 1 1-2-2L13 10"/><path d="m18 15 3-3"/><path d="m21 12-1.7-1.7a2 2 0 0 1-.6-1.4V7.5l-2.3-2.3a6 6 0 0 0-4.2-1.7L9 3.2l.9.8A6 6 0 0 1 12 8.4V10l2 2h1.2a2 2 0 0 1 1.4.6L18.5 14.5"/></g><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9l-3.8 3.8z" transform="translate(0 0)"/></svg></i><span class="dt">صيانة الوحدات</span><em>‹</em></button>
 
 <button class="ditem" data-go="loc"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg></i><span class="dt">موقع المحطة</span><em>‹</em></button>
-<button class="ditem" data-go="dev"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></i><span class="dt">بيانات المحطة</span><em>‹</em></button>
+<button class="ditem" data-go="stn"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></i><span class="dt">بيانات المحطة</span><em>‹</em></button>
 <div class="dsep">الإدارة</div>
 <button class="ditem" id="btnSettings"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9M15 5v4M9 15v4"/></svg></i><span class="dt">الإعدادات</span><em>‹</em></button>
 <button class="ditem" data-go="acad"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.2V16c0 1.4 2.7 3 6 3s6-1.6 6-3v-4.8"/><path d="M22 9v6"/></svg></i><span class="dt">الأكاديمية</span><em>‹</em></button>
-<button class="ditem" data-go="dev"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5"/><path d="M16 7l5 5-5 5"/><path d="M14 4l-4 16"/></svg></i><span class="dt">حول التطبيق</span><em>‹</em></button>
+<button class="ditem" data-go="dev"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5"/><path d="M16 7l5 5-5 5"/><path d="M14 4l-4 16"/></svg></i><span class="dt">مطوّرة التطبيق</span><em>‹</em></button>
 <button class="ditem" data-go="guide"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M9 8h7M9 12h5"/></svg></i><span class="dt">دليل الاستخدام</span><em>‹</em></button>
 <button class="ditem" data-go="backup"><i class="di"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg></i><span class="dt">نسخة احتياطية</span><em>‹</em></button>
   <div class="dfoot" style="color:#d4af37;font-weight:800"><span class="rcred">المهندسة ريم هيثم جمال</span></div>
@@ -1853,7 +1854,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 257 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 258 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2884,7 +2885,7 @@ $('drawer').addEventListener('click',e=>{const b=e.target.closest('.ditem');if(!
   else if(g==='dir')showDir(true)
   else if(g==='guide')guide()
   else if(g==='acad')acad()
-  else if(g==='dev')devAbout()
+  else if(g==='dev')devDev(); else if(g==='stn')devAbout()
   else if(g==='backup')$('backup').click()},true);
 try{const v=[...document.querySelectorAll('#viewSettings p.hint')].find(x=>x.textContent.includes('نسخة الأداة'));void v}catch(e){}
 
@@ -2922,7 +2923,7 @@ $('hGrid').addEventListener('click',e=>{const b=e.target.closest('[data-hg]');if
  else if(g==='backup')$('backup').click();
  else if(g==='guide')guide();
  else if(g==='acad')acad();
- else if(g==='about')devAbout(); else if(g==='lad')devLadder(); else if(g==='info')devInfo();
+ else if(g==='about')devAbout(); else if(g==='lad')devLadder(); else if(g==='dev')devDev(); else if(g==='info')devInfo();
  else if(g==='out'){if(confirm('تسجيل الخروج وقفل الأداة على هذا الجهاز؟')){try{localStorage.removeItem('mawqif_gate')}catch(e){}location.reload()}}
  else if(g==='ocr')$('btnOcr').click()});
 
@@ -3515,16 +3516,20 @@ function acad(){let o=document.getElementById('acadOv');if(o)o.remove();o=docume
    .catch(er=>{delete a.dataset.busy;a.textContent=t0;toast('تعذّر تحميل الفصل: '+(er&&er.message||er))})})}
 window.acad=acad;
 function devAbout(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
- o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>حول التطبيق</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><div class="acf"><div class="acf2 dvb"><div class="dl1 dl1t">وزارة الكهرباء</div><div class="dvl"><img src="logo-gold3d.png" alt=""></div><div class="dvs dvs2"><span class="dl2">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية</span><span class="dl3">محطة كهرباء الموصل الغازية</span><span class="dl4">قسم السيطرة الذاتية</span></div></div></div>'
+ o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>بيانات المحطة</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><div class="acf"><div class="acf2 dvb"><div class="dl1 dl1t">وزارة الكهرباء</div><div class="dvl"><img src="logo-gold3d.png" alt=""></div><div class="dvs dvs2"><span class="dl2">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية</span><span class="dl3">محطة كهرباء الموصل الغازية</span><span class="dl4">قسم السيطرة الذاتية</span></div></div></div>'
  +'<div class="acf"><div class="acf2"><div class="dvh">بيانات المحطة الرسمية</div>'
  +((S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)?'<div class="dvr"><i>👷</i><div><small>مدير المحطة</small><b>'+esc2(S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)+'</b></div></div>':'')
  +'<div class="dvr"><i>👷‍♂️</i><div><small>رئيس قسم السيطرة الذاتية</small><b>'+esc2(((S.dSig||'المهندس')+' '+(S.dSigN||'حسين أحمد حمود')).trim())+'</b></div></div>'
- +'<div class="dvr"><i>👷‍♀️</i><div><small>إعداد وتصميم التطبيق</small><b>المهندسة ريم هيثم جمال</b></div></div>'
  +'<div class="dvr"><i>📍</i><div><small>العنوان</small><b>العراق / الموصل / شارع بغداد</b></div></div>'
  +'<a class="dvr" href="mailto:mousal_gas_turbin@moelc.gov.iq"><i>✉️</i><div><small>البريد الإلكتروني</small><b dir="ltr">mousal_gas_turbin@moelc.gov.iq</b></div></a></div></div>'
  +'</div>';
  document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove();
 }
+function devDev(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
+ o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>مطوّرة التطبيق</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><div class="acf"><div class="acf2 dvb"><div class="dvl"><img src="logo-gold3d.png" alt=""></div><div class="dvk">إعداد وتصميم</div><div class="dvn"><span class="rcred">المهندسة ريم هيثم جمال</span></div></div></div></div>';
+ document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove();
+}
+window.devDev=devDev;
 window.devAbout=devAbout;
 function devInfo(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
  o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>معلومات التطبيق</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb">'
