@@ -1642,6 +1642,8 @@ body.dirpriv #dirList tr[data-di]{cursor:default}
 .dphoto{flex:none;margin:8px 12px 4px;border:2px solid #d4af37;border-radius:14px;overflow:hidden;position:relative;background:#0b2447}
 .dphoto img{display:block;width:100%;max-height:170px;object-fit:cover}
 .dphoto small{position:absolute;inset-inline:0;bottom:0;text-align:center;color:#fff;font:800 12px Cairo,Arial;padding:14px 6px 5px;background:linear-gradient(180deg,transparent,rgba(10,31,64,.9))}
+#acadOv .dl1t{font:900 26px Cairo,Arial;color:#ffd24a;text-shadow:0 2px 0 #7a5a08,0 4px 8px #000;text-align:center;margin-bottom:10px}
+#acadOv .dvs2{border-top:0!important;padding-top:6px!important}
 </style>
 </head>
 <body>
@@ -1694,7 +1696,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <button class="hg" data-hg="backup"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg><span class="hgt"><b>نسخة احتياطية</b><small>حفظ واسترجاع البيانات</small></span></button>
     <button class="hg" data-hg="loc"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg><span class="hgt"><b>موقع المحطة</b><small>الخريطة والمسار إلى المحطة</small></span></button>
     <button class="hg" data-hg="info"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v0M14 20v0M20 17v4h-3"/></svg><span class="hgt"><b>معلومات التطبيق</b><small>الرابط والباركود</small></span></button>
-    <button class="hg" data-hg="about"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r=".6"/></svg><span class="hgt"><b>حول</b><small>عن مطوّرة الأداة</small></span></button>
+    <button class="hg" data-hg="about"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r=".6"/></svg><span class="hgt"><b>حول</b><small>بيانات المحطة والتطبيق</small></span></button>
     <button class="hg" data-hg="out"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="#12315a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4"/><path d="M16 8l4 4-4 4"/><path d="M20 12H9"/></svg><span class="hgt"><b>تسجيل خروج</b><small>قفل الأداة على هذا الجهاز</small></span></button>
   </div></div>
   <div class="card" id="statsCard">
@@ -1838,7 +1840,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 253 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 254 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3500,10 +3502,11 @@ function acad(){let o=document.getElementById('acadOv');if(o)o.remove();o=docume
    .catch(er=>{delete a.dataset.busy;a.textContent=t0;toast('تعذّر تحميل الفصل: '+(er&&er.message||er))})})}
 window.acad=acad;
 function devAbout(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
- o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>عن مطوّرة الأداة</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><div class="acf"><div class="acf2 dvb"><div class="dvl"><img src="logo-gold3d.png" alt=""></div><div class="dvk">إعداد وتصميم</div><div class="dvn"><span class="rcred">المهندسة ريم هيثم جمال</span></div><div class="dvs"><span class="dl1">وزارة الكهرباء</span><span class="dl2">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية</span><span class="dl3">محطة كهرباء الموصل الغازية</span><span class="dl4">قسم السيطرة الذاتية</span></div></div></div>'
+ o.innerHTML='<div class="gh"><button type="button" id="acX">رجوع</button><div><b>حول التطبيق</b><small>محطة كهرباء الموصل الغازية</small></div></div><div class="gb"><div class="acf"><div class="acf2 dvb"><div class="dl1 dl1t">وزارة الكهرباء</div><div class="dvl"><img src="logo-gold3d.png" alt=""></div><div class="dvs dvs2"><span class="dl2">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية</span><span class="dl3">محطة كهرباء الموصل الغازية</span><span class="dl4">قسم السيطرة الذاتية</span></div></div></div>'
  +'<div class="acf"><div class="acf2"><div class="dvh">بيانات المحطة الرسمية</div>'
  +((S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)?'<div class="dvr"><i>👷</i><div><small>مدير المحطة</small><b>'+esc2(S.mgrN==null?'المهندس عمار خلف الحديدي':S.mgrN)+'</b></div></div>':'')
  +'<div class="dvr"><i>👨‍💼</i><div><small>رئيس قسم السيطرة الذاتية</small><b>'+esc2(((S.dSig||'المهندس')+' '+(S.dSigN||'حسين أحمد حمود')).trim())+'</b></div></div>'
+ +'<div class="dvr"><i>👩‍💻</i><div><small>إعداد وتصميم التطبيق</small><b>المهندسة ريم هيثم جمال</b></div></div>'
  +'<div class="dvr"><i>📍</i><div><small>العنوان</small><b>العراق / الموصل / شارع بغداد</b></div></div>'
  +'<a class="dvr" href="mailto:mousal_gas_turbin@moelc.gov.iq"><i>✉️</i><div><small>البريد الإلكتروني</small><b dir="ltr">mousal_gas_turbin@moelc.gov.iq</b></div></a></div></div>'
  +'</div>';
