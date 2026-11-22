@@ -1873,7 +1873,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 261 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 262 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2779,7 +2779,7 @@ function renderDir(){
   const rows=order.map(k=>f.filter(v=>dirName(v)===k)).flat();
   let n=0;const body=order.map(k=>{const g=f.filter(v=>dirName(v)===k);if(!g.length)return'';
     return `<tr class="dgrp"><td colspan="${cols.length+1}"><span>${esc(k)}</span><b>${g.length}</b></td></tr>`+g.map(v=>{n++;return `<tr data-di="${v.id}"><td class="dn0">${n}</td>`+cols.map(c=>{const t=c[2](v);return `<td class="${c[3]||''}${c[0]==='name'&&String(v.name).trim()==='منتسب جديد'?' dnew':''}">${t||'<i class="dem">—</i>'}</td>`}).join('')+`</tr>`}).join('')}).join('');
-  if(!DIRFULL)$('dirCtl').innerHTML=`<button type="button" class="btn" id="dirFullB" style="width:100%">🔒 بيانات المنتسبين</button>`;else{$('dirCtl').innerHTML=`<button type="button" class="btn dlock ${S.dirLock?'on':''}" id="dirLockB">${S.dirLock?'🔒 التعديل مقفل':'✎ التعديل مفتوح'}</button><button type="button" class="btn dcols" id="dirColsB">⚙ الأعمدة والحقول</button>`;$('dirCtl').insertAdjacentHTML('beforeend','<button type="button" class="btn" id="dirFullB">🙈 إخفاء البيانات</button>')}
+  if(!DIRFULL)$('dirCtl').innerHTML=`<button type="button" class="btn" id="dirFullB" style="width:100%">🔒 بيانات المنتسبين</button>`;else{$('dirCtl').innerHTML=`<button type="button" class="btn dlock ${S.dirLock?'on':''}" id="dirLockB">${S.dirLock?'🔒 التعديل مقفل':'✎ التعديل مفتوح'}</button><button type="button" class="btn dcols" id="dirColsB">⚙ الأعمدة والحقول</button>`;$('dirCtl').insertAdjacentHTML('beforeend','<button type="button" class="btn" id="dirFullB">🔒 إخفاء البيانات</button>')}
   $('dirList').innerHTML=rows.length?`<div class="card dtw"><table class="dtab"><thead><tr><th class="dn0">ت</th>`+cols.map(c=>`<th class="${c[3]||''}">${esc(c[1])}</th>`).join('')+`</tr></thead><tbody>${body}</tbody></table></div>`:'<div class="card dnores"><div>لا يوجد اسم مطابق لـ «'+esc(DIRQ)+'» في القاعدة</div><small>القاعدة فيها '+D.length+' اسم فقط. إذا الأسماء ما كاملة، استورد ملف القاعدة.</small><button type="button" class="btn" id="dirImp2">استيراد ملف القاعدة</button></div>'}
 const DIR_BASE=[['title','العنوان الوظيفي'],['sec','الشعبة'],['shift','الوجبة'],['status','الصفة'],['phone','الهاتف'],['marital','الحالة الزوجية'],['kids','الأطفال'],['addrNow','السكن الحالي'],['addrCard','السكن حسب البطاقة'],['mother','اسم الأم']];
 function dirAllKeys(){const ks=['name'].concat(DIR_BASE.map(x=>x[0]),(S.dirX||[]).map(f=>'x_'+f.k)),od=S.dirOrd||[];return ks.sort((a,b)=>{const ix=k=>k==='name'?-1:od.indexOf(k)<0?999+ks.indexOf(k):od.indexOf(k);return ix(a)-ix(b)})}
