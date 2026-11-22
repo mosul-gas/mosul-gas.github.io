@@ -1896,7 +1896,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 264 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 265 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3680,16 +3680,17 @@ $('uoBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!
 /* v207 unit picker */
 
 function waNum(p){let d=String(p||'').replace(/[^\d]/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.startsWith('0'))d='964'+d.slice(1);if(d.length===10&&d.startsWith('7'))d='964'+d;return d}
-function waMsg(i){const u=S.units[i];const st=u.st==='bad'?'خارج الخدمة بسبب عطل':u.st==='mnt'?'في الصيانة':L('st_'+u.st,u.st);return 'تنبيه — محطة كهرباء الموصل الغازية / قسم السيطرة الذاتية\n'+UN(i)+' '+st+'\nالوقت: '+stamp(u.ts||Date.now())+'\nيرجى المتابعة.'}
+function waMsg(i){const u=S.units[i];const st=u.st==='bad'?'خارج الخدمة بسبب عطل':u.st==='mnt'?'في الصيانة':L('st_'+u.st,u.st);let by='';try{const b=JSON.parse(localStorage.getItem('mawqif_wasender')||'{}');if(b.n||b.p)by='\nالمُبلِّغ: '+(b.n||'')+(b.p?' — '+b.p:'')}catch(e){}return 'تنبيه — محطة كهرباء الموصل الغازية / قسم السيطرة الذاتية\n'+UN(i)+' '+st+'\nالوقت: '+stamp(u.ts||Date.now())+by+'\nيرجى المتابعة.'}
 function waSheet(i){let m=$('uoWs');if(m)m.remove();m=document.createElement('div');m.id='uoWs';
  const C=(S.waC||[]);const ppl=(S.dir||[]).filter(v=>v.phone&&String(v.phone).replace(/\D/g,'').length>=10);
  m.innerHTML='<div class="uoPb"><div class="uoPh"><button type="button" class="uoPx" id="uoWx">✕</button><span class="uname">📲 إبلاغ عبر واتساب</span></div>'
-  +'<div class="uwmsg">'+esc2(waMsg(i)).replace(/\n/g,'<br>')+'</div>'
+  +'<div class="uwh">المُبلِّغ (من يرسل من هذا الجهاز)</div><div class="uwadd"><input type="text" id="uoSn" placeholder="اسم المُبلِّغ (مثلاً: م. ريم هيثم / مدير المحطة)"><input type="tel" id="uoSp" placeholder="رقم المُبلِّغ (اختياري)" dir="ltr"></div>'+'<div class="uwmsg" id="uoWmsg">'+esc2(waMsg(i)).replace(/\n/g,'<br>')+'</div>'
   +'<div class="uwh">جهات التبليغ</div>'+(C.length?C.map((c,k)=>'<div class="uwr"><button type="button" class="uwgo" data-wn="'+k+'">📲 '+esc2(c.n)+'<small>'+esc2(c.p)+'</small></button><button type="button" class="uwdel" data-wd="'+k+'">✕</button></div>').join(''):'<div class="uwe">لا توجد جهات بعد — أضف من دليل المنتسبين أو اكتب رقماً.</div>')
   +'<div class="uwh">إضافة جهة</div><select id="uoWsel"><option value="">— اختر من دليل المنتسبين ('+ppl.length+') —</option>'+ppl.map(v=>'<option value="'+esc2(v.id)+'">'+esc2(v.name)+' · '+esc2(v.phone)+'</option>').join('')+'</select>'
   +'<div class="uwadd"><input type="text" id="uoWn" placeholder="الاسم أو الصفة (المناوب، الورشة…)"><input type="tel" id="uoWp" placeholder="رقم الواتساب 07…" dir="ltr"><button type="button" id="uoWadd">＋ إضافة</button></div>'
-  +'<div class="uwn">الإرسال يتم من واتساب نفسه: يفتح المحادثة والرسالة جاهزة، وتضغط «إرسال».</div></div>';
+  +'<div class="uwn">الرسالة تُرسل من الواتساب المفتوح على هذا الجهاز (رقم صاحب الجهاز): يفتح المحادثة والرسالة جاهزة، وتضغط «إرسال». خانة المُبلِّغ تُحفظ لكل جهاز وحده.</div></div>';
  $('uoOv').appendChild(m);m.onclick=e=>{if(e.target===m)m.remove()};$('uoWx').onclick=()=>m.remove();
+ {let b={};try{b=JSON.parse(localStorage.getItem('mawqif_wasender')||'{}')}catch(e){}$('uoSn').value=b.n||'';$('uoSp').value=b.p||'';const sv=()=>{try{localStorage.setItem('mawqif_wasender',JSON.stringify({n:$('uoSn').value.trim(),p:$('uoSp').value.trim()}))}catch(e){}$('uoWmsg').innerHTML=esc2(waMsg(i)).replace(/\n/g,'<br>')};$('uoSn').oninput=sv;$('uoSp').oninput=sv}
  $('uoWsel').onchange=e=>{const v=(S.dir||[]).find(x=>x.id===e.target.value);if(v){$('uoWn').value=v.name;$('uoWp').value=v.phone}};
  $('uoWadd').onclick=()=>{const n=$('uoWn').value.trim(),p=$('uoWp').value.trim();if(!n||waNum(p).length<11){toast('اكتب الاسم ورقماً صحيحاً');return}S.waC=(S.waC||[]).concat([{n,p}]);save();waSheet(i);toast('أُضيفت الجهة')};
  m.querySelectorAll('[data-wd]').forEach(b=>b.onclick=()=>{const k=+b.dataset.wd;if(!confirm('حذف «'+S.waC[k].n+'» من جهات التبليغ؟'))return;S.waC.splice(k,1);save();waSheet(i)});
