@@ -1706,6 +1706,10 @@ body.daymode table.grid th:not(.nocol):not(.namecol):not(.daycell){width:calc(34
 #uoWs .uwdet summary{color:#ffe9a6;font:800 13.5px Cairo,Arial;cursor:pointer}
 #uoWs .uwto{margin-top:8px;background:rgba(255,210,74,.12);border:1.5px solid #d4af37;border-radius:12px;padding:8px 10px;color:#fff;font:800 14px Cairo,Arial}
 #uoWs .uwto:empty{display:none}#uoWs .uwto b{color:#ffd24a}
+#sheet .rtog{display:block;width:100%;min-height:54px;margin-top:6px;background:linear-gradient(180deg,#ffe9a6,#d4af37)!important;color:#12315a!important;border:2.5px solid #8a6a12!important;font:900 19px Cairo,Arial!important;box-shadow:0 4px 0 #8a6a12,0 8px 14px rgba(0,0,0,.25)!important;border-radius:16px!important}
+#sheet .rtog.on{box-shadow:0 0 0 3px rgba(18,49,90,.4)!important}
+#sheet .ropts{margin-top:8px;border:2px dashed #d4af37;border-radius:14px;padding:8px}
+#sheet .ropts.hide{display:none!important}#sheet .ropts .row2{margin-top:0!important}
 </style>
 </head>
 <body>
@@ -1906,7 +1910,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 270 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 271 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2300,13 +2304,13 @@ $('btnReady').onclick=()=>{
   edit=null;const n=new Date(sundayOf(today));n.setDate(n.getDate()+7);const nm=new Date(today.getFullYear(),today.getMonth()+1,1);
   $('sheet').innerHTML=`<h3>📅 تحضير موقف جاهز</h3><div class="sub">أوراق جاهزة للتوقيع، لكل شعبة أو وجبة صفحة مستقلة. تكون خانات الأيام فارغة، وتظهر فيها الإجازات المسجّلة مسبقاً.</div>
   <div class="lbl">موقف أسبوعي — الدوام الصباحي، أسبوع ${n.getDate()}/${n.getMonth()+1}</div>
-  <div class="row2 r3"><button class="btn" data-r="week|pdf" style="background:#C62828;color:#fff">🖨️ PDF</button><button class="btn" data-r="week|word" style="background:#2B579A;color:#fff">📄 Word</button><button class="btn rprt" data-r="week|print">🖨️ طباعة</button></div>
+  <button type="button" class="btn rtog" data-rt="week">🖨️ طباعة</button><div class="ropts hide" id="ro_week"><div class="row2 r3"><button class="btn" data-r="week|pdf" style="background:#C62828;color:#fff">PDF</button><button class="btn" data-r="week|word" style="background:#2B579A;color:#fff">Word</button><button class="btn rprt" data-r="week|print">🖨️ على الطابعة</button></div></div>
   <div class="lbl" style="margin-top:12px">موقف شهري — المناوبين، شهر ${MONTHS[nm.getMonth()]} ${nm.getFullYear()}</div>
-  <div class="row2 r3"><button class="btn" data-r="month|pdf" style="background:#C62828;color:#fff">🖨️ PDF</button><button class="btn" data-r="month|word" style="background:#2B579A;color:#fff">📄 Word</button><button class="btn rprt" data-r="month|print">🖨️ طباعة</button></div>
+  <button type="button" class="btn rtog" data-rt="month">🖨️ طباعة</button><div class="ropts hide" id="ro_month"><div class="row2 r3"><button class="btn" data-r="month|pdf" style="background:#C62828;color:#fff">PDF</button><button class="btn" data-r="month|word" style="background:#2B579A;color:#fff">Word</button><button class="btn rprt" data-r="month|print">🖨️ على الطابعة</button></div></div>
   <div id="rdyOut"></div>
   <button class="btn gh" style="width:100%;margin-top:12px" data-r="x">إغلاق</button>`;
   $('ov').classList.add('show');
-  $('sheet').onclick=ev=>{const b=ev.target.closest('[data-r]');if(!b)return;if(b.dataset.r==='x'){$('sheet').onclick=null;closeSheet();return}
+  $('sheet').onclick=ev=>{const tg=ev.target.closest('[data-rt]');if(tg){const o=$('ro_'+tg.dataset.rt);const op=o.classList.contains('hide');document.querySelectorAll('#sheet .ropts').forEach(x=>x.classList.add('hide'));document.querySelectorAll('#sheet .rtog').forEach(x=>x.classList.remove('on'));if(op){o.classList.remove('hide');tg.classList.add('on')}return}const b=ev.target.closest('[data-r]');if(!b)return;if(b.dataset.r==='x'){$('sheet').onclick=null;closeSheet();return}
     if(b.dataset.r==='go'){const F=window._rdyF;if(!F)return;let f=null;try{f=new File([F.blob],F.name,{type:F.type})}catch(e){}
       if(f&&window.__MOB&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(e=>{if(e&&e.name!=='AbortError'){download(F.name,F.blob);toast('تم تنزيل الملف')}})}else{download(F.name,F.blob);toast('تم تنزيل الملف')}return}
     const [k,f0]=b.dataset.r.split('|');let f=f0,pw=null;if(f0==='print'){f='pdf';if(!window.__MOB){pw=window.open('','_blank');if(pw)try{pw.document.write('<p style="font:20px Arial;text-align:center;margin-top:40px" dir="rtl">⏳ جارٍ تحضير الورقة للطباعة…</p>')}catch(_){}}}const box=$('rdyOut');box.innerHTML='<div class="sub" style="text-align:center;margin-top:12px">⏳ جارٍ تحضير الملف…</div>';
