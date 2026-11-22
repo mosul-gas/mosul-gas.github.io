@@ -1912,7 +1912,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 272 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 273 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2289,9 +2289,11 @@ function periodName(){
 /* v272 direct print (laptop + phone): print page images from inside the app */
 function printCanvases(cs,land){if(!cs||!cs.length){toast('لا توجد صفحات');return}let a=document.getElementById('printArea');if(a)a.remove();a=document.createElement('div');a.id='printArea';
  let st=document.getElementById('printCss');if(!st){st=document.createElement('style');st.id='printCss';document.head.appendChild(st)}
- st.textContent='#printArea{display:none}@media print{@page{size:A4 '+(land?'landscape':'portrait')+';margin:0}html,body{background:#fff!important;margin:0!important;padding:0!important;height:auto!important;overflow:visible!important}body>*:not(#printArea){display:none!important}#printArea{display:block!important}#printArea img{display:block;margin:0 auto;max-width:100%;height:'+(land?'209mm':'296mm')+';width:auto;object-fit:contain;page-break-after:always;break-after:page;page-break-inside:avoid}#printArea img:last-child{page-break-after:auto;break-after:auto}}';
- let n=cs.length;cs.forEach(c=>{const im=new Image();im.onload=im.onerror=()=>{if(--n===0)go()};im.src=c.toDataURL('image/jpeg',.95);a.appendChild(im)});document.body.appendChild(a);
- function go(){const cl=()=>{setTimeout(()=>{const x=document.getElementById('printArea');if(x)x.remove()},800);window.removeEventListener('afterprint',cl)};window.addEventListener('afterprint',cl);setTimeout(()=>{try{window.print()}catch(e){toast('تعذّرت الطباعة')}},150)}}
+ const H=land?'190mm':'262mm';
+ st.textContent='#printArea{display:none}@media print{@page{size:A4 '+(land?'landscape':'portrait')+';margin:6mm}html,body{background:#fff!important;margin:0!important;padding:0!important;height:auto!important;min-height:0!important;overflow:visible!important}body.printing>*:not(#printArea),body.printing::before,body.printing::after,html::before,html::after{display:none!important;content:none!important}html,body.printing{background:#fff!important;background-image:none!important;border:0!important;box-shadow:none!important}body.printing #printArea{display:block!important}#printArea .pp{page-break-after:always;break-after:page;page-break-inside:avoid;break-inside:avoid;text-align:center;margin:0;padding:0}#printArea .pp:last-child{page-break-after:auto;break-after:auto}#printArea canvas{display:inline-block;height:'+H+'!important;width:auto!important;max-width:100%!important}}';
+ cs.forEach(c=>{const d=document.createElement('div');d.className='pp';d.appendChild(c);a.appendChild(d)});document.body.appendChild(a);document.body.classList.add('printing');
+ clearTimeout(window.__prT);window.__prT=setTimeout(()=>{document.body.classList.remove('printing');const x=document.getElementById('printArea');if(x)x.remove()},180000);
+ try{window.print()}catch(e){toast('تعذّرت الطباعة')}}
 function chooseScope(cb){
   edit=null;
   const one=MODE==='duty'?'الوجبة '+SHIFT[SH]+' فقط':esc(secById(SEC).name)+' فقط';
@@ -2319,7 +2321,7 @@ $('btnReady').onclick=()=>{
   <div id="rdyOut"></div>
   <button class="btn gh" style="width:100%;margin-top:12px" data-r="x">إغلاق</button>`;
   $('ov').classList.add('show');
-  $('sheet').onclick=ev=>{const rp=ev.target.closest('[data-rp]');if(rp){const R=readySpecs(rp.dataset.rp);if(!R.specs.length){toast('لا توجد أسماء');return}const box=$('rdyOut');box.innerHTML='<div class="sub" style="text-align:center;margin-top:10px">⏳ جارٍ تجهيز الورقة للطابعة…</div>';setTimeout(()=>{try{printCanvases(R.specs.map(sheetCanvas),true);box.innerHTML=''}catch(e){box.innerHTML='<div class="sub" style="color:#c62828">تعذّرت الطباعة: '+esc(String(e&&e.message||e))+'</div>'}},60);return}const tg=ev.target.closest('[data-rt]');if(tg){const o=$('ro_'+tg.dataset.rt);const op=o.classList.contains('hide');document.querySelectorAll('#sheet .ropts').forEach(x=>x.classList.add('hide'));document.querySelectorAll('#sheet .rtog').forEach(x=>x.classList.remove('on'));if(op){o.classList.remove('hide');tg.classList.add('on')}return}const b=ev.target.closest('[data-r]');if(!b)return;if(b.dataset.r==='x'){$('sheet').onclick=null;closeSheet();return}
+  $('sheet').onclick=ev=>{const rp=ev.target.closest('[data-rp]');if(rp){const R=readySpecs(rp.dataset.rp);if(!R.specs.length){toast('لا توجد أسماء');return}const box=$('rdyOut');try{printCanvases(R.specs.map(sheetCanvas),true);box.innerHTML=''}catch(e){box.innerHTML='<div class="sub" style="color:#c62828">تعذّرت الطباعة: '+esc(String(e&&e.message||e))+'</div>'}return}const tg=ev.target.closest('[data-rt]');if(tg){const o=$('ro_'+tg.dataset.rt);const op=o.classList.contains('hide');document.querySelectorAll('#sheet .ropts').forEach(x=>x.classList.add('hide'));document.querySelectorAll('#sheet .rtog').forEach(x=>x.classList.remove('on'));if(op){o.classList.remove('hide');tg.classList.add('on')}return}const b=ev.target.closest('[data-r]');if(!b)return;if(b.dataset.r==='x'){$('sheet').onclick=null;closeSheet();return}
     if(b.dataset.r==='go'){const F=window._rdyF;if(!F)return;let f=null;try{f=new File([F.blob],F.name,{type:F.type})}catch(e){}
       if(f&&window.__MOB&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(e=>{if(e&&e.name!=='AbortError'){download(F.name,F.blob);toast('تم تنزيل الملف')}})}else{download(F.name,F.blob);toast('تم تنزيل الملف')}return}
     const [k,f0]=b.dataset.r.split('|');let f=f0,pw=null;if(f0==='print'){f='pdf';if(!window.__MOB){pw=window.open('','_blank');if(pw)try{pw.document.write('<p style="font:20px Arial;text-align:center;margin-top:40px" dir="rtl">⏳ جارٍ تحضير الورقة للطباعة…</p>')}catch(_){}}}const box=$('rdyOut');box.innerHTML='<div class="sub" style="text-align:center;margin-top:12px">⏳ جارٍ تحضير الملف…</div>';
