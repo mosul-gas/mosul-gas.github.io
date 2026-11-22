@@ -1912,7 +1912,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 276 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 277 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3836,7 +3836,7 @@ run()})();
 let dp=null;const ua=navigator.userAgent,iOS=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),And=/Android/.test(ua);
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;show()});
 window.addEventListener('appinstalled',()=>{dp=null;const b=document.getElementById('insB');if(b)b.remove();try{localStorage.setItem('mawqif_inst','1')}catch(_){}});
-function hidden(){try{const t=+localStorage.getItem('mawqif_insX')||0;return localStorage.getItem('mawqif_inst')==='1'||Date.now()-t<3*864e5}catch(_){return false}}
+function hidden(){try{const t=+localStorage.getItem('mawqif_insX')||0;return localStorage.getItem('mawqif_inst')==='1'||t>0}catch(_){return false}}
 function show(){if(SA()||hidden()||document.getElementById('insB'))return;const b=document.createElement('div');b.id='insB';
  b.innerHTML='<button type="button" id="insGo"><img src="icon3-192.png" alt=""><span><b>ثبّت التطبيق على الشاشة</b><small>أيقونة وزارة الكهرباء — يفتح مثل التطبيق</small></span></button><button type="button" id="insX" aria-label="إغلاق">✕</button>';
  document.body.appendChild(b);document.getElementById('insX').onclick=()=>{b.remove();try{localStorage.setItem('mawqif_insX',Date.now())}catch(_){}};
