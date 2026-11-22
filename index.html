@@ -1674,6 +1674,9 @@ body.daymode table.grid th:not(.nocol):not(.namecol):not(.daycell){width:calc(34
 #sheet .dpopts.hide{display:none!important}
 #sheet .dpopts .dfmt{margin-top:0!important}
 #sheet .dprt2{width:100%;margin-top:8px;background:#12315a!important;color:#ffe9a6!important;border:2px solid #d4af37!important;font-weight:800!important;min-height:42px}
+#dirList tr.dpress td{background:#ffe0e0!important;transition:background .6s}
+#dirList tr[data-di]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.dlphint{font:700 12px Cairo,Arial;color:#8a6a12;text-align:center;margin:4px 0}
 </style>
 </head>
 <body>
@@ -1807,6 +1810,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <div class="dsearch"><button id="dirGo" type="button" aria-label="بحث"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg></button><input id="dirQ" type="search" inputmode="search" autocomplete="off" placeholder="ابحث بالاسم أو رقم الهاتف…"><button id="dirClr" class="hide" type="button" aria-label="مسح">✕</button></div>
     <div class="dirsec" id="dirSecs"></div>
     <div class="dfound" id="dirFound"></div>
+    <div class="dlphint">لحذف منتسب (انفكاك أو نقل): اضغط على صفّه ضغطة مطوّلة</div>
   </div>
   <div class="dctl" id="dirCtl"></div>
   <div id="dirList"></div>
@@ -1873,7 +1877,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 262 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 263 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2881,6 +2885,18 @@ $('dirClr').onclick=()=>{DIRQ='';$('dirQ').value='';renderDir();$('dirQ').focus(
 $('dirSecs').addEventListener('click',e=>{const b=e.target.closest('[data-ds]');if(!b)return;DIRSEC=b.dataset.ds;renderDir()});
 $('dirList').addEventListener('click',e=>{if(!DIRFULL)return;const b=e.target.closest('[data-di]');if(b)dirSheet(b.dataset.di)});
 const dirLk=()=>{if(S.dirLock){toast('التعديل مقفل — افتحه من زر القفل');return true}return false};
+/* v263 long-press a directory row to delete the member */
+(function(){let T=null,x0=0,y0=0,row=null;const L=$('dirList');
+ const end=()=>{clearTimeout(T);if(row)row.classList.remove('dpress');row=null};
+ L.addEventListener('pointerdown',e=>{const r=e.target.closest('tr[data-di]');if(!r||e.button>0)return;x0=e.clientX;y0=e.clientY;row=r;r.classList.add('dpress');clearTimeout(T);
+  T=setTimeout(()=>{const id=r.dataset.di;end();window.__dirLP=Date.now();if(navigator.vibrate)try{navigator.vibrate(40)}catch(_){}
+   if(dirLk())return;const v=(S.dir||[]).find(x=>x.id===id);if(!v)return;
+   if(!confirm('حذف المنتسب «'+(v.name||'')+'» وكل معلوماته نهائياً من الدليل؟\n(مثلاً بعد الانفكاك أو النقل)'))return;
+   S.dir=S.dir.filter(x=>x.id!==id);save();renderDir();toast('تم حذف «'+(v.name||'')+'» وأُعيد ترقيم الجدول')},750)});
+ L.addEventListener('pointermove',e=>{if(row&&(Math.abs(e.clientX-x0)>10||Math.abs(e.clientY-y0)>10))end()});
+ ['pointerup','pointercancel','pointerleave'].forEach(n=>L.addEventListener(n,end));
+ L.addEventListener('contextmenu',e=>{if(e.target.closest('tr[data-di]'))e.preventDefault()});
+ L.addEventListener('click',e=>{if(Date.now()-(window.__dirLP||0)<900){e.stopPropagation();e.preventDefault()}},true)})();
 $('viewDir').addEventListener('click',e=>{if(e.target.closest('#dirFullB')){DIRFULL=!DIRFULL;renderDir();return}if(e.target.closest('#dirLockB')){S.dirLock=!S.dirLock;save();renderDir();toast(S.dirLock?'تم قفل التعديل':'تم فتح التعديل')}else if(e.target.closest('#dirColsB'))dirColsSheet()});
 $('dirAdd').onclick=()=>{if(dirLk())return;S.dir=S.dir||[];const id='d'+Date.now();S.dir.push({id,name:'منتسب جديد',title:'',sec:DIRSEC==='بدون شعبة'?'':DIRSEC,shift:'',phone:'',status:'',addrCard:'',addrNow:'',mother:'',spouseAllow:'',st:{f:'',c:'',z:'',b:0,u:0}});save();renderDir();dirSheet(id)};
 $('dirImp').onclick=()=>{if(dirLk())return;$('dirFile').click()};
