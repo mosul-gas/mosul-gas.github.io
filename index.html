@@ -1916,7 +1916,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 298 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 299 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3837,7 +3837,7 @@ function waSheet(i,mid){window.__waMid=mid||null;let m=$('uoWs');if(m)m.remove()
  m.querySelectorAll('[data-wd]').forEach(b=>b.onclick=()=>{const k=+b.dataset.wd;if(!confirm('حذف «'+S.waC[k].n+'» من جهات التبليغ؟'))return;S.waC.splice(k,1);save();waSheet(i,mid)});
  m.querySelectorAll('[data-wn]').forEach(b=>b.onclick=()=>{const c=S.waC[+b.dataset.wn];go(c.n,c.p)})}
 function ulogHTML(){const G=(S.ulog||[]).slice(0,8);if(!G.length)return '';const nm=k=>L('st_'+k,(ST.find(x=>x[0]===k)||[0,k])[1]);
- return '<div class="ucard ulog"><div class="uh2">🕘 سجل الوحدات</div>'+G.map(g=>'<div class="ulr"><span>'+stamp(g.t)+'</span><b>'+esc2(UN(g.u))+'</b>'+(g.wa?'<i>📲 أُبلغ: '+esc2(g.wa)+'</i>':'<i>'+esc2(nm(g.f||'res'))+' ← '+esc2(nm(g.s))+'</i>')+'</div>').join('')+'</div>'}
+ return '<div class="ucard ulog" style="background:linear-gradient(160deg,#12315a,#0b2447);border:2px solid #d4af37;color:#fff"><div class="uh2" style="color:#ffd86b">🕘 سجل الوحدات</div>'+G.map(g=>'<div class="ulr"><span>'+stamp(g.t)+'</span><b>'+esc2(UN(g.u))+'</b>'+(g.wa?'<i>📲 أُبلغ: '+esc2(g.wa)+'</i>':'<i>'+esc2(nm(g.f||'res'))+' ← '+esc2(nm(g.s))+'</i>')+'</div>').join('')+'</div>'}
 function pick(i){const u=S.units[i],ld=Math.min(S.cap,Math.max(0,+u.load||0));let m=$('uoPk');if(m)m.remove();m=document.createElement('div');m.id='uoPk';
  m.innerHTML='<div class="uoPb" data-i="'+i+'"><div class="uoPh"><button type="button" class="uoPx" id="uoPx" aria-label="إغلاق">✕</button><span class="uname" data-lk="un:'+i+'" data-d="الوحدة '+(i+1)+'">'+esc2(UN(i))+'</span>'+badge(u.st)+'</div>'
  +'<div class="ustg c4">'+ST.map(a=>'<button type="button" class="ust '+a[2]+(a[0]===u.st?' on':'')+'" data-pk="'+a[0]+'" data-lk="st_'+a[0]+'" data-d="'+a[1]+'">'+esc2(L('st_'+a[0],a[1]))+'</button>').join('')+'</div>'
