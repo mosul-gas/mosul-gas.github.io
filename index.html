@@ -1677,6 +1677,25 @@ body.daymode table.grid th:not(.nocol):not(.namecol):not(.daycell){width:calc(34
 #dirList tr.dpress td{background:#ffe0e0!important;transition:background .6s}
 #dirList tr[data-di]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .dlphint{font:700 12px Cairo,Arial;color:#8a6a12;text-align:center;margin:4px 0}
+/* v264 whatsapp alert + unit log */
+#uoOv .uwa{display:block;width:100%;margin-top:12px;background:#1fa855;color:#fff;border:2px solid #d4af37;border-radius:14px;font:900 16px Cairo,Arial;padding:11px}
+#uoWs{position:fixed;inset:0;background:rgba(5,15,35,.6);z-index:2147483000!important;display:flex;align-items:flex-end;justify-content:center}
+#uoWs .uoPb{max-height:88vh;overflow:auto;width:min(560px,100%)}
+#uoWs .uwmsg{background:#e9fbe9;color:#0b3a1c;border-radius:12px;padding:10px;font:700 13.5px/1.7 Cairo,Arial;margin:8px 0;border:1.5px solid #1fa855}
+#uoWs .uwh{color:#ffd24a;font:900 14px Cairo,Arial;margin:10px 0 6px}
+#uoWs .uwr{display:flex;gap:6px;margin-bottom:6px}
+#uoWs .uwgo{flex:1;text-align:right;background:#1fa855;color:#fff;border:0;border-radius:12px;padding:10px;font:800 15px Cairo,Arial}
+#uoWs .uwgo small{display:block;font-size:12px;opacity:.85;direction:ltr;text-align:right}
+#uoWs .uwdel{background:#5b1a1a;color:#ffb3b3;border:1.5px solid #ff8a8a;border-radius:12px;width:44px}
+#uoWs .uwe,#uoWs .uwn{color:#dbe5ff;font:700 12.5px Cairo,Arial}
+#uoWs select,#uoWs input{width:100%;margin:4px 0;border-radius:10px;padding:9px;font:700 14px Cairo,Arial;border:1.5px solid #d4af37}
+#uoWs .uwadd button{width:100%;margin-top:4px;background:#12315a;color:#ffe9a6;border:2px solid #d4af37;border-radius:12px;padding:9px;font:900 14px Cairo,Arial}
+#uoOv .ulog .ulr{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px 0;border-bottom:1px dashed rgba(212,175,55,.35);font:700 12.5px Cairo,Arial;color:#dbe5ff}
+#uoOv .ulog .ulr b{color:#ffe9a6}#uoOv .ulog .ulr i{font-style:normal;color:#fff}
+#uoWs .uoPb{background:linear-gradient(180deg,#12315a,#0b2447)!important;border-top:3px solid #d4af37;border-radius:22px 22px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.5);color:#fff}
+#uoWs .uoPh{display:flex;align-items:center;gap:10px;margin-bottom:8px;direction:rtl}
+#uoWs .uname{color:#ffd24a!important;font:900 18px Cairo,Arial!important;opacity:1!important}
+#uoWs .uoPx{border:2px solid #ff8a8a;background:#fff;color:#b91c1c;font:800 16px Cairo;width:38px;height:38px;border-radius:50%}
 </style>
 </head>
 <body>
@@ -1877,7 +1896,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 263 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 264 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3498,13 +3517,13 @@ function viewU(){const U=S.units,cap=S.cap;let load=0,run=0,mnt=0,bad=0;U.forEac
  +'<div class="ustats usf">'+[['run','شغالة',run],['res','احتياط',U.length-run-mnt-bad],['mnt','صيانة',mnt],['bad','عطل',bad]].map(a=>'<button type="button" class="us usb s-'+a[0]+(ufil===a[0]?' on':'')+'" data-sf="'+a[0]+'" data-lk="sf_'+a[0]+'" data-d="'+a[1]+'"><b>'+a[2]+'</b><span>'+esc2(L('sf_'+a[0],a[1]))+'</span></button>').join('')+'</div>'
  +(ufil?'<div class="uflt"><div class="ufh">'+esc2(L('st_'+ufil,(ST.find(x=>x[0]===ufil)||[])[1]))+' — اضغط أي وحدة لتغيير حالتها</div>'+(U.map((u,i)=>u.st===ufil?'<button type="button" class="uar a-'+u.st+'" data-al="'+i+'"><span class="ubadge '+(ST.find(x=>x[0]===u.st)||[])[2]+'">'+esc2((ST.find(x=>x[0]===u.st)||[])[1])+'</span><b>'+esc2(UN(i))+'</b></button>':'').join('')||'<div class="uemp">لا توجد وحدات بهذه الحالة</div>')+'</div>':'')
  +'</div><div class="utB"><div class="utn"><div class="utnh">تنبيهات</div>'+(U.map((u,i)=>u.st==='bad'?'<button type="button" class="uar a-bad" data-al="'+i+'"><span class="ubadge b-bad">'+esc2(L('sf_bad','عطل'))+'</span><b>'+esc2(UN(i))+' '+esc2(L('al_bad','خارج الخدمة بسبب عطل'))+'</b></button>':u.st==='mnt'?'<button type="button" class="uar a-mnt" data-al="'+i+'"><span class="ubadge b-mnt">'+esc2(L('sf_mnt','صيانة'))+'</span><b>'+esc2(UN(i))+' '+esc2(L('st_mnt','في الصيانة'))+'</b></button>':'').join('')||'<div class="uemp">لا توجد تنبيهات — كل الوحدات سليمة</div>')+'</div></div></div>'
- +'<div class="uhint2">✎ لتغيير أي كلمة (قيد التشغيل، احتياط، اسم الوحدة…): اضغط عليها ضغطة مطوّلة</div><div class="ucard ucap"><span class="uname" style="font-size:17px" data-lk="cap" data-d="السعة الاسمية للوحدة (م.و)">'+esc2(L('cap','السعة الاسمية للوحدة (م.و)'))+'</span><input type="number" inputmode="numeric" id="uoCap" min="1" value="'+cap+'"></div>';
+ +ulogHTML()+'<div class="uhint2">✎ لتغيير أي كلمة (قيد التشغيل، احتياط، اسم الوحدة…): اضغط عليها ضغطة مطوّلة</div><div class="ucard ucap"><span class="uname" style="font-size:17px" data-lk="cap" data-d="السعة الاسمية للوحدة (م.و)">'+esc2(L('cap','السعة الاسمية للوحدة (م.و)'))+'</span><input type="number" inputmode="numeric" id="uoCap" min="1" value="'+cap+'"></div>';
  U.forEach((u,i)=>{const run=u.st==='run',ld=Math.min(cap,Math.max(0,+u.load||0));
   h+='<div class="ucard" data-u="'+i+'"><div class="urow"><span class="uname" data-lk="un:'+i+'" data-d="الوحدة '+(i+1)+'">'+esc2(UN(i))+'</span>'+badge(u.st)+'</div>'
   +'<div class="ubar"><i style="width:'+(cap?Math.round(ld/cap*100):0)+'%"></i></div><div class="uload">'+LK('l_load','الحمل')+': <span class="ulv">'+ld+'</span> من '+cap+' م.و</div>'
   +(run?'<input type="range" class="uo-rg" min="0" max="'+cap+'" value="'+ld+'">':'')
   +'<div class="ustg">'+ST.map(a=>'<button type="button" class="ust '+a[2]+(a[0]===u.st?' on':'')+'" data-st="'+a[0]+'" data-lk="st_'+a[0]+'" data-d="'+a[1]+'">'+esc2(L('st_'+a[0],a[1]))+'</button>').join('')+'</div><div class="ucols">'+(run?'<input type="number" inputmode="numeric" class="uo-ld" min="0" max="'+cap+'" value="'+ld+'">':'')+'</div>'
-  +'<div class="uts">'+(u.ts?LK('l_last','آخر تغيير')+': '+stamp(u.ts):LK('l_none','لم تُسجَّل حالة بعد'))+'</div></div>'});
+  +((u.st==='bad'||u.st==='mnt')?'<button type="button" class="uwa" id="uoWa">📲 إبلاغ عبر واتساب</button>':'')+'<div class="uts">'+(u.ts?LK('l_last','آخر تغيير')+': '+stamp(u.ts):LK('l_none','لم تُسجَّل حالة بعد'))+'</div></div>'});
  return h}
 function mEdit(k){const m=S.mnt[k];let o=$('uoMe');if(o)o.remove();o=document.createElement('div');o.id='uoMe';
  o.innerHTML='<div class="uoPb"><div class="uoPh"><button type="button" class="uoPx" id="uoMx">✕</button><span class="uname">تعديل الصيانة</span></div>'
@@ -3659,13 +3678,32 @@ $('uoBody').addEventListener('click',e=>{const b=e.target.closest('button');if(!
  else if(b.id==='rpS'){navigator.share({title:L('r_title','تقرير الوضع التشغيلي'),text:repText()}).catch(()=>{})}
  else if(b.id==='rpP'){const w=window.open('','_blank');if(!w){toast('اسمح بالنوافذ المنبثقة للطباعة');return}w.document.write('<!doctype html><meta charset=utf-8><title>تقرير</title><body dir=rtl style="font-family:Arial;font-size:16px;line-height:1.9;padding:24px"><pre style="font-family:inherit;white-space:pre-wrap">'+esc2(repText())+'</pre>');w.document.close();w.focus();setTimeout(()=>w.print(),300)}});
 /* v207 unit picker */
+
+function waNum(p){let d=String(p||'').replace(/[^\d]/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.startsWith('0'))d='964'+d.slice(1);if(d.length===10&&d.startsWith('7'))d='964'+d;return d}
+function waMsg(i){const u=S.units[i];const st=u.st==='bad'?'خارج الخدمة بسبب عطل':u.st==='mnt'?'في الصيانة':L('st_'+u.st,u.st);return 'تنبيه — محطة كهرباء الموصل الغازية / قسم السيطرة الذاتية\n'+UN(i)+' '+st+'\nالوقت: '+stamp(u.ts||Date.now())+'\nيرجى المتابعة.'}
+function waSheet(i){let m=$('uoWs');if(m)m.remove();m=document.createElement('div');m.id='uoWs';
+ const C=(S.waC||[]);const ppl=(S.dir||[]).filter(v=>v.phone&&String(v.phone).replace(/\D/g,'').length>=10);
+ m.innerHTML='<div class="uoPb"><div class="uoPh"><button type="button" class="uoPx" id="uoWx">✕</button><span class="uname">📲 إبلاغ عبر واتساب</span></div>'
+  +'<div class="uwmsg">'+esc2(waMsg(i)).replace(/\n/g,'<br>')+'</div>'
+  +'<div class="uwh">جهات التبليغ</div>'+(C.length?C.map((c,k)=>'<div class="uwr"><button type="button" class="uwgo" data-wn="'+k+'">📲 '+esc2(c.n)+'<small>'+esc2(c.p)+'</small></button><button type="button" class="uwdel" data-wd="'+k+'">✕</button></div>').join(''):'<div class="uwe">لا توجد جهات بعد — أضف من دليل المنتسبين أو اكتب رقماً.</div>')
+  +'<div class="uwh">إضافة جهة</div><select id="uoWsel"><option value="">— اختر من دليل المنتسبين ('+ppl.length+') —</option>'+ppl.map(v=>'<option value="'+esc2(v.id)+'">'+esc2(v.name)+' · '+esc2(v.phone)+'</option>').join('')+'</select>'
+  +'<div class="uwadd"><input type="text" id="uoWn" placeholder="الاسم أو الصفة (المناوب، الورشة…)"><input type="tel" id="uoWp" placeholder="رقم الواتساب 07…" dir="ltr"><button type="button" id="uoWadd">＋ إضافة</button></div>'
+  +'<div class="uwn">الإرسال يتم من واتساب نفسه: يفتح المحادثة والرسالة جاهزة، وتضغط «إرسال».</div></div>';
+ $('uoOv').appendChild(m);m.onclick=e=>{if(e.target===m)m.remove()};$('uoWx').onclick=()=>m.remove();
+ $('uoWsel').onchange=e=>{const v=(S.dir||[]).find(x=>x.id===e.target.value);if(v){$('uoWn').value=v.name;$('uoWp').value=v.phone}};
+ $('uoWadd').onclick=()=>{const n=$('uoWn').value.trim(),p=$('uoWp').value.trim();if(!n||waNum(p).length<11){toast('اكتب الاسم ورقماً صحيحاً');return}S.waC=(S.waC||[]).concat([{n,p}]);save();waSheet(i);toast('أُضيفت الجهة')};
+ m.querySelectorAll('[data-wd]').forEach(b=>b.onclick=()=>{const k=+b.dataset.wd;if(!confirm('حذف «'+S.waC[k].n+'» من جهات التبليغ؟'))return;S.waC.splice(k,1);save();waSheet(i)});
+ m.querySelectorAll('[data-wn]').forEach(b=>b.onclick=()=>{const c=S.waC[+b.dataset.wn];const url='https://wa.me/'+waNum(c.p)+'?text='+encodeURIComponent(waMsg(i));S.ulog=(S.ulog||[]);S.ulog.unshift({t:Date.now(),u:i,wa:c.n});save();window.open(url,'_blank')||(location.href=url)})}
+function ulogHTML(){const G=(S.ulog||[]).slice(0,8);if(!G.length)return '';const nm=k=>L('st_'+k,(ST.find(x=>x[0]===k)||[0,k])[1]);
+ return '<div class="ucard ulog"><div class="uh2">🕘 سجل الوحدات</div>'+G.map(g=>'<div class="ulr"><span>'+stamp(g.t)+'</span><b>'+esc2(UN(g.u))+'</b>'+(g.wa?'<i>📲 أُبلغ: '+esc2(g.wa)+'</i>':'<i>'+esc2(nm(g.f||'res'))+' ← '+esc2(nm(g.s))+'</i>')+'</div>').join('')+'</div>'}
 function pick(i){const u=S.units[i],ld=Math.min(S.cap,Math.max(0,+u.load||0));let m=$('uoPk');if(m)m.remove();m=document.createElement('div');m.id='uoPk';
  m.innerHTML='<div class="uoPb" data-i="'+i+'"><div class="uoPh"><button type="button" class="uoPx" id="uoPx" aria-label="إغلاق">✕</button><span class="uname" data-lk="un:'+i+'" data-d="الوحدة '+(i+1)+'">'+esc2(UN(i))+'</span>'+badge(u.st)+'</div>'
  +'<div class="ustg c4">'+ST.map(a=>'<button type="button" class="ust '+a[2]+(a[0]===u.st?' on':'')+'" data-pk="'+a[0]+'" data-lk="st_'+a[0]+'" data-d="'+a[1]+'">'+esc2(L('st_'+a[0],a[1]))+'</button>').join('')+'</div>'
  +(u.st==='run'?'<div class="uload" style="margin-top:12px">'+LK('l_load','الحمل')+': <span class="ulv">'+ld+'</span> / '+S.cap+' م.و</div><input type="range" id="uoPr" min="0" max="'+S.cap+'" value="'+ld+'">':'')
  +'<div class="uts">'+(u.ts?LK('l_last','آخر تغيير')+': '+stamp(u.ts):LK('l_none','لم تُسجَّل حالة بعد'))+'</div></div>';
  $('uoOv').appendChild(m);m.onclick=e=>{if(e.target===m)m.remove()};$('uoPx').onclick=()=>m.remove();
- m.querySelectorAll('[data-pk]').forEach(b=>b.onclick=()=>{if(Date.now()-(window.__lpT||0)<900)return;const k=b.dataset.pk;if(u.st!==k){u.st=k;if(k!=='run')u.load=0;u.ts=Date.now();save();draw(true)}pick(i)});
+ m.querySelectorAll('[data-pk]').forEach(b=>b.onclick=()=>{if(Date.now()-(window.__lpT||0)<900)return;const k=b.dataset.pk;if(u.st!==k){const old=u.st;u.st=k;if(k!=='run')u.load=0;u.ts=Date.now();S.ulog=(S.ulog||[]);S.ulog.unshift({t:u.ts,u:i,f:old,s:k});S.ulog=S.ulog.slice(0,300);save();draw(true);if(k==='bad'||k==='mnt'){pick(i);waSheet(i);return}}pick(i)});
+ const wb=$('uoWa');if(wb)wb.onclick=()=>waSheet(i);
  const r=$('uoPr');if(r){r.oninput=()=>{m.querySelector('.ulv').textContent=r.value};r.onchange=()=>{setLoad(i,r.value);draw(true);pick(i)}}}
 function draw(keep){const y=keep?$('uoOv').scrollTop:0;$('uoTU').classList.toggle('on',tab==='u');$('uoTM').classList.toggle('on',tab==='m');$('uoTU').textContent=L('tabU','تشغيل الوحدات');$('uoTM').textContent=L('tabM','جدولة الصيانة');$('uoTU').dataset.lk='tabU';$('uoTU').dataset.d='تشغيل الوحدات';$('uoTM').dataset.lk='tabM';$('uoTM').dataset.d='جدولة الصيانة';{const TT={u:'تشغيل الوحدات',m:'صيانة الوحدات',w:'أوامر العمل',f:'استمارة الصيانة',r:'التقارير'},k='tTitle'+tab,d=TT[tab];$('uoT').textContent=L(k,d);$('uoT').dataset.lk=k;$('uoT').dataset.d=d}$('uoBody').innerHTML=tab==='u'?viewU():tab==='m'?viewM():tab==='w'?viewW():tab==='f'?viewF():viewR();$('uoOv').scrollTop=y}
 function open(t){init();tab=t;$('uoOv').classList.add('show');$('uoOv').setAttribute('aria-hidden','false');draw(false);document.body.style.overflow='hidden'}
