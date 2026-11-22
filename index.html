@@ -1658,10 +1658,21 @@ body.dirpriv #dirList tr[data-di]{cursor:default}
 #splash .spb{display:none!important}
 /* v259 subpage header fit */
 body.subpage .bpill #appTitle .bco,body.tbl .bpill #appTitle .bco{white-space:normal!important}
+/* v260 daily big on laptop */
+#dPrev.dbig{max-height:calc(100vh - 260px);overflow:auto!important;display:block!important}
+#dPrev.dbig #dPage{margin:0 auto}
+@media(min-width:900px){#sheet:has(#dPrev){max-width:min(1100px,96vw)!important;width:min(1100px,96vw)!important}}
+/* v260 name/day col follow size setting */
+body.tbl #grid th.namecol,body.tbl #grid td.namecol{width:calc(150px*var(--gnw,1))!important;min-width:calc(150px*var(--gnw,1))!important;max-width:calc(150px*var(--gnw,1))!important}
+body.tbl.daymode #grid th.namecol,body.tbl.daymode #grid td.namecol{width:calc(112px*var(--gnw,1))!important;min-width:calc(112px*var(--gnw,1))!important;max-width:calc(112px*var(--gnw,1))!important}
+body.tbl table.grid th:not(.nocol):not(.namecol):not(.daycell){width:calc(38px*var(--gcw,1))!important}
+body.daymode table.grid th:not(.nocol):not(.namecol):not(.daycell){width:calc(34px*var(--gcw,1))!important}
+#sheet .dprt{width:100%;margin-top:8px;background:linear-gradient(180deg,#ffe9a6,#d4af37)!important;color:#12315a!important;border:2px solid #8a6a12!important;font-weight:900!important;font-size:16px!important;min-height:46px}
 </style>
 </head>
 <body>
 <div id="splash" aria-hidden="true"><div class="spg"></div><div class="spc"><div class="spl"><svg class="spr" viewBox="0 0 200 200"><defs><linearGradient id="spgd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2b8"/><stop offset=".5" stop-color="#d4af37"/><stop offset="1" stop-color="#8a6a12"/></linearGradient></defs><circle cx="100" cy="100" r="92" fill="none" stroke="rgba(212,175,55,.25)" stroke-width="2"/><circle class="spa" cx="100" cy="100" r="92" fill="none" stroke="url(#spgd)" stroke-width="5" stroke-linecap="round" stroke-dasharray="578" stroke-dashoffset="578" transform="rotate(-90 100 100)"/></svg><div class="spd"><img src="logo-gold3d.png" alt=""></div></div><div class="spco">الشركة العامة لإنتاج الطاقة الكهربائية الشمالية</div><div class="spt">محطة كهرباء الموصل الغازية</div><div class="sps">قسم السيطرة الذاتية</div><div class="spb"><i></i></div><div class="spcr"><div class="spk">إعداد وتصميم</div><span class="rcred">المهندسة ريم هيثم جمال</span></div></div></div>
+<script>window.__MOB=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);</script>
 <script>(function(){var s=document.getElementById('splash');if(!s)return;var d=false;function go(){if(d)return;d=true;s.classList.add('out');setTimeout(function(){s.remove()},800)}s.addEventListener('click',go);setTimeout(go,1800)})();</script>
 <div id="scOv" class="hide"><div class="scbar"><span id="scT">المسح الضوئي</span><button id="scLib" type="button">🖼️ من المكتبة</button><button id="scX" type="button"><span class="xb">✕</span><span>إغلاق</span></button></div><div id="scStage"><video id="scVid" playsinline muted autoplay></video><canvas id="scCv"></canvas></div><div class="scfoot" id="scFoot"></div><input type="file" id="scFile" accept="image/*" class="hide"><input type="file" id="scCap" accept="image/*" capture="environment" class="hide"></div>
 <div id="gate" style="display:none;position:fixed;inset:0;z-index:99999;background:linear-gradient(160deg,#0f2a5c,#1F3864 60%,#2c4f94);color:#fff;font-family:Cairo,Arial,sans-serif;direction:rtl;align-items:center;justify-content:center;text-align:center;padding:24px"><div style="max-width:330px;width:100%"><img src="logo-moe-t.png" alt="" style="width:92px;filter:drop-shadow(0 2px 6px #0006)"><div style="margin:14px 0 16px;font-size:14.5px;opacity:.9">أدخل رمز الدخول للمتابعة</div><input id="gateIn" type="password" inputmode="numeric" autocomplete="off" placeholder="رمز الدخول" style="width:100%;box-sizing:border-box;padding:13px;border-radius:12px;border:0;font-size:20px;text-align:center;letter-spacing:6px"><div id="gateErr" style="min-height:22px;margin:8px 0;color:#ffd0d0;font-size:13px"></div><button id="gateBtn" style="width:100%;padding:13px;border-radius:12px;border:0;font-size:17px;font-weight:800;background:#fff;color:#1F3864">دخول</button></div></div>
@@ -1856,7 +1867,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 259 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 260 — 21/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2258,7 +2269,7 @@ $('btnReady').onclick=()=>{
   $('ov').classList.add('show');
   $('sheet').onclick=ev=>{const b=ev.target.closest('[data-r]');if(!b)return;if(b.dataset.r==='x'){$('sheet').onclick=null;closeSheet();return}
     if(b.dataset.r==='go'){const F=window._rdyF;if(!F)return;let f=null;try{f=new File([F.blob],F.name,{type:F.type})}catch(e){}
-      if(f&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(e=>{if(e&&e.name!=='AbortError'){download(F.name,F.blob);toast('تم تنزيل الملف')}})}else{download(F.name,F.blob);toast('تم تنزيل الملف')}return}
+      if(f&&window.__MOB&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(e=>{if(e&&e.name!=='AbortError'){download(F.name,F.blob);toast('تم تنزيل الملف')}})}else{download(F.name,F.blob);toast('تم تنزيل الملف')}return}
     const [k,f]=b.dataset.r.split('|');const box=$('rdyOut');box.innerHTML='<div class="sub" style="text-align:center;margin-top:12px">⏳ جارٍ تحضير الملف…</div>';
     const fail=e=>{box.innerHTML='<div class="sub" style="color:#c62828;text-align:center;margin-top:12px">تعذّر تحضير الملف: '+String(e&&e.message||e).slice(0,140)+'</div>';toast('تعذّر تحضير الملف')};
     const done=(name,blob,type)=>{window._rdyF={name,blob,type};box.innerHTML='<button class="btn pri" style="width:100%;margin-top:12px;font-size:17px;padding:14px" data-r="go">📤 الملف جاهز — اضغط للحفظ أو الطباعة</button><div class="sub" style="text-align:center;margin-top:6px">'+name+'</div>'};
@@ -2426,7 +2437,7 @@ function savePDF(pages,land,name){
   const pdf=new window.jspdf.jsPDF({orientation:land?'l':'p',unit:'mm',format:'a4',compress:true});
   pages.forEach((c,i)=>{if(i)pdf.addPage('a4',land?'l':'p');pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',0,0,land?297:210,land?210:297)});
   const blob=pdf.output('blob');let f=null;try{f=new File([blob],name,{type:'application/pdf'})}catch(e){}
-  if(f&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(e=>{if(e&&e.name!=='AbortError')download(name,blob)});return}
+  if(f&&window.__MOB&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(e=>{if(e&&e.name!=='AbortError')download(name,blob)});return}
   download(name,blob);toast('تم تنزيل ملف PDF');
 }
 function wordFrame(sp){const D=window.docx;const b={style:D.BorderStyle.DOUBLE,size:12,color:'1F3864',space:sp};
@@ -2493,7 +2504,7 @@ $('btnCopy').onclick=()=>{
   <div id="dPrev" style="overflow:hidden;background:#f6f8fb;border-radius:8px;padding:2px;margin:3px 0 4px;display:flex;justify-content:center"></div>
   <div class="dadd"><button class="btn" data-add="0">＋ سطر في الموقف</button><button class="btn" data-add="1">＋ سطر في المناوبين</button><button class="btn" data-rm="1">− حذف آخر سطر</button></div>
   <div class="pfmt dfmt"><button data-d="word"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1F4E9A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1F4E9A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1F4E9A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">W</text></svg><span>Word</span></button><button data-d="pdf"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#B71C1C" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#B71C1C" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#B71C1C"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PDF</text></svg><span>PDF</span></button><button data-d="xl"><svg width="30" height="34" viewBox="0 0 30 34"><path d="M4 1h15l8 8v23a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="#fff" stroke="#1B6B3A" stroke-width="1.6"/><path d="M19 1v8h8" fill="none" stroke="#1B6B3A" stroke-width="1.6"/><rect x="1" y="14" width="20" height="13" rx="2" fill="#1B6B3A"/><text x="11" y="24.3" font-family="Arial" font-weight="700" font-size="11" fill="#fff" text-anchor="middle">X</text></svg><span>Excel</span></button></div>
-  <button class="btn dwa dwa2" data-d="copy" title="نسخ الورقة كصورة لواتساب"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#25D366"/><path d="M8.6 6.8c.3-.3.8-.3 1 .1l1 2c.2.3.1.7-.1 1l-.6.6c.5 1.2 1.5 2.2 2.7 2.8l.6-.6c.3-.3.7-.3 1-.1l2 1c.4.2.4.7.1 1l-.9.9c-.6.6-1.6.7-2.4.3-2.3-1.1-4.1-2.9-5.2-5.2-.4-.8-.3-1.8.3-2.4z" fill="#fff"/></svg><span>نسخ لواتساب</span></button>
+  <button class="btn dprt" data-d="print" title="فتح الورقة للطباعة مباشرة">🖨️ طباعة مباشرة</button><button class="btn dwa dwa2" data-d="copy" title="نسخ الورقة كصورة لواتساب"><svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#25D366"/><path d="M8.6 6.8c.3-.3.8-.3 1 .1l1 2c.2.3.1.7-.1 1l-.6.6c.5 1.2 1.5 2.2 2.7 2.8l.6-.6c.3-.3.7-.3 1-.1l2 1c.4.2.4.7.1 1l-.9.9c-.6.6-1.6.7-2.4.3-2.3-1.1-4.1-2.9-5.2-5.2-.4-.8-.3-1.8.3-2.4z" fill="#fff"/></svg><span>نسخ لواتساب</span></button>
   <button class="btn gh" data-d="x" style="display:none">إغلاق</button>`;
   $('ov').classList.add('show');
   let dM=null,dLast=null;const prev=keep=>{const v=$('dDate').value;if(!v)return;const dd=dailyData(v);const w=[];if(keep&&dM){dd.morning=dM[0];dd.duty=dM[1]}else dM=[dd.morning,dd.duty];
@@ -2504,10 +2515,11 @@ $('btnCopy').onclick=()=>{
     if(!w.length)w.push('✅ تم التأشير على الجميع، والموقف جاهز للطباعة.');
     {const dt=new Date(utc(v));$('dDateLbl').textContent=DAYS[dt.getUTCDay()]+' '+dt.getUTCDate()+'/'+(dt.getUTCMonth()+1)+'/'+dt.getUTCFullYear()}
     const pv=$('dPrev');pv.innerHTML='<div id="dPage" style="background:#fff;border:1px solid #ccc;border-radius:4px;padding:12mm 10mm;width:210mm;height:297mm;box-sizing:border-box;overflow:hidden">'+dailyHTML(dd,true)+'</div>';
-    requestAnimationFrame(()=>{const pg=$('dPage');if(!pg)return;const sh=$('sheet');const avail=window.innerHeight*0.97-(sh.scrollHeight-pv.clientHeight)-46;const W=pv.clientWidth-4;const k=Math.max(.25,Math.min(W/pg.offsetWidth,avail/pg.offsetHeight));pg.style.zoom=k})};prev();$('dDate').onchange=()=>prev(false);
-  $('sheet').onclick=ev=>{const ad=ev.target.closest('[data-add],[data-rm]');if(ad&&dM){applyEdits({morning:dM[0],duty:dM[1]});let k=ad.dataset.add;if(ad.dataset.rm){k=dLast;if(k==null||!dM[k].length||!dM[k][dM[k].length-1].x){toast('لا توجد أسطر مضافة');return}dM[k].pop()}else{k=+k;dM[k].push({name:'',st:'',x:1});dLast=k}
+    requestAnimationFrame(()=>{const pg=$('dPage');if(!pg)return;const sh=$('sheet');const avail=window.innerHeight*0.97-(sh.scrollHeight-pv.clientHeight)-46;const W=pv.clientWidth-4;const big=window.innerWidth>=900;const k=big?Math.max(.5,Math.min(1.25,W/pg.offsetWidth)):Math.max(.25,Math.min(W/pg.offsetWidth,avail/pg.offsetHeight));pg.style.zoom=k;pv.classList.toggle('dbig',big)})};prev();$('dDate').onchange=()=>prev(false);
+  $('sheet').onclick=ev=>{const ad=ev.target.closest('[data-add],[data-rm]');if(ad&&dM){applyEdits({morning:dM[0],duty:dM[1]});let k=ad.dataset.add;if(ad.dataset.rm){k=dLast;if(k==null||!dM[k].length)k=dM[1].length?1:0;if(!dM[k].length){toast('لا توجد أسطر');return}const lr=dM[k][dM[k].length-1];if(!lr.x&&(lr.name||lr.st)&&!confirm('حذف السطر «'+(lr.name||lr.st)+'» من الموقف؟'))return;dM[k].pop();if(!dM[k].length)dLast=null}else{k=+k;dM[k].push({name:'',st:'',x:1});dLast=k}
       prev(true);if(ad.dataset.add!=null)setTimeout(()=>{const c=document.querySelectorAll('#dPrev [data-t="'+k+'"][data-f="name"]');const l=c[c.length-1];if(l)l.focus()},60);return}
     const b=ev.target.closest('[data-d]');if(!b)return;const v=$('dDate').value;if(!v)return;const dd=dailyData(v);if(dM){dd.morning=dM[0];dd.duty=dM[1]}applyEdits(dd);dd.morning=dd.morning.filter(r=>r.name||r.st);dd.duty=dd.duty.filter(r=>r.name||r.st);const nm='الموقف اليومي '+v;
+    if(b.dataset.d==='print'){if(!window.jspdf){toast('حدّث الصفحة');return}const cs=dailyCanvases(dd);const pdf=new window.jspdf.jsPDF({orientation:'p',unit:'mm',format:'a4'});cs.forEach((c,i)=>{if(i)pdf.addPage('a4','p');pdf.addImage(c.toDataURL('image/jpeg',.92),'JPEG',0,0,210,297)});pdf.autoPrint();const u=URL.createObjectURL(pdf.output('blob'));const w=window.open(u,'_blank');if(!w){download(nm+'.pdf',pdf.output('blob'));toast('افتح الملف واطبعه')}return}
     if(b.dataset.d==='pdf'){savePDF(dailyCanvases(dd),false,nm+'.pdf')}
     else if(b.dataset.d==='word'){if(!window.docx){toast('يُرجى تحديث الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل ملف Word')})}
     else if(b.dataset.d==='xl'){if(!window.ExcelJS){toast('يُرجى تحديث الصفحة');return}buildDailyXlsx(dd).then(x=>{download(nm+'.xlsx',x);toast('تم تنزيل ملف Excel')})}
@@ -2518,7 +2530,7 @@ function cvBlob(c){return new Promise(r=>c.toBlob(r,'image/png'))}
 async function copyDailyImage(dd,nm){
   let cs;try{cs=dailyCanvases(dd)}catch(e){toast('تعذّر إنشاء الصورة');return}
   const shareOrSave=async()=>{const bl=await Promise.all(cs.map(cvBlob));const files=bl.map((x,i)=>new File([x],nm+(bl.length>1?' ص'+(i+1):'')+'.png',{type:'image/png'}));
-    try{if(navigator.canShare&&navigator.canShare({files})){await navigator.share({files});return}}catch(e){if(e&&e.name==='AbortError')return}
+    try{if(window.__MOB&&navigator.canShare&&navigator.canShare({files})){await navigator.share({files});return}}catch(e){if(e&&e.name==='AbortError')return}
     files.forEach(f=>download(f.name,f));toast('تم حفظ الصورة')};
   if(cs.length===1&&navigator.clipboard&&window.ClipboardItem){
     try{await navigator.clipboard.write([new ClipboardItem({'image/png':cvBlob(cs[0])})]);toast('تم نسخ الورقة كصورة — الصقها في واتساب');return}catch(e){}}
@@ -3085,7 +3097,7 @@ async function buildLetterDocx(L){
 $('btnSettings').onclick=()=>showSettings(true);
 $('doneSettings').onclick=()=>showSettings(false);$('backTop').onclick=()=>showSettings(false);
 $('backup').onclick=()=>{const name='نسخة احتياطية السيطرة الذاتية '+ymd(new Date())+'.json';const blob=new Blob([JSON.stringify(S)],{type:'application/json'});let f=null;try{f=new File([blob],name,{type:'application/json'})}catch(e){}
-  if(f&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).then(()=>toast('تم حفظ النسخة')).catch(e=>{if(e&&e.name!=='AbortError')download(name,blob)});return}
+  if(f&&window.__MOB&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).then(()=>toast('تم حفظ النسخة')).catch(e=>{if(e&&e.name!=='AbortError')download(name,blob)});return}
   download(name,blob);toast('تم تنزيل النسخة')};
 $('restoreBtn').onclick=()=>$('restoreFile').click();
 /* ملف أسماء = يدمج الأسماء الجديدة بدون ما يمسح التأشير. نسخة احتياطية (بيها تأشير) = تسترجع كل شي */
@@ -3242,7 +3254,7 @@ async function scPdf(){
     if(i)pdf.addPage('a4',land?'l':'p');else if(land){pdf.deletePage(1);pdf.addPage('a4','l')}
     const k=Math.min(pw/im.width,ph/im.height),w=im.width*k,h=im.height*k;pdf.addImage(SC.pages[i],'JPEG',(pw-w)/2,(ph-h)/2,w,h,undefined,'FAST')}
   const n=new Date(),p=v=>String(v).padStart(2,'0'),name='scan-'+n.getFullYear()+p(n.getMonth()+1)+p(n.getDate())+'-'+p(n.getHours())+p(n.getMinutes())+'.pdf',blob=pdf.output('blob'),file=new File([blob],name,{type:'application/pdf'});
-  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});toast('تم');return}}catch(e){if(e&&e.name==='AbortError')return}
+  try{if(window.__MOB&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});toast('تم');return}}catch(e){if(e&&e.name==='AbortError')return}
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000);toast('تم حفظ الملف')}
 async function scReadIt(){
   if(!gkey()){toast('يُرجى إدخال مفتاح Gemini في الإعدادات أولاً');return}
@@ -3414,6 +3426,18 @@ render();
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});setInterval(chk,120000);setTimeout(chk,4000)})();
 if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{})}
 /* v191 unit operation + maintenance */
+
+/* v260 drag-resize table columns/rows with mouse */
+(function(){let D=null;const near=(e,el,side)=>{const r=el.getBoundingClientRect();return side==='x'?Math.min(Math.abs(e.clientX-r.left),Math.abs(e.clientX-r.right))<7:Math.abs(e.clientY-r.bottom)<6};
+ document.addEventListener('mousemove',e=>{if(D){const g=Object.assign({},GSV());if(D.k==='rh'){g.rh=Math.max(.6,Math.min(2.5,D.v+(e.clientY-D.y)/D.base))}else{const dx=Math.abs(e.clientX-D.x)*(e.clientX<D.x===D.left?1:-1);g[D.k]=Math.max(.6,Math.min(2.5,D.v+dx/D.base))}S.gs=g;window.gsApply&&gsApply();e.preventDefault();return}
+  const t=e.target.closest&&e.target.closest('.grid th,.grid td');document.body.style.cursor='';if(!t||e.buttons)return;
+  if(t.tagName==='TH'&&near(e,t,'x'))document.body.style.cursor='col-resize';else if(t.tagName==='TD'&&near(e,t,'y'))document.body.style.cursor='row-resize'},true);
+ document.addEventListener('mousedown',e=>{if(e.button!==0)return;const t=e.target.closest&&e.target.closest('.grid th,.grid td');if(!t)return;
+  if(t.tagName==='TH'&&near(e,t,'x')){const k=t.classList.contains('namecol')?'nw':'cw',r=t.getBoundingClientRect();D={k,x:e.clientX,v:GSV()[k],base:r.width/GSV()[k],left:Math.abs(e.clientX-r.left)<Math.abs(e.clientX-r.right)}}
+  else if(t.tagName==='TD'&&near(e,t,'y')){const r=t.getBoundingClientRect();D={k:'rh',y:e.clientY,v:GSV().rh,base:r.height/GSV().rh}}
+  if(D){e.preventDefault();e.stopPropagation();window.__dragT=Date.now()}},true);
+ document.addEventListener('mouseup',()=>{if(D){D=null;document.body.style.cursor='';save();window.__dragT=Date.now()}},true);
+ document.addEventListener('click',e=>{if(Date.now()-(window.__dragT||0)<250&&e.target.closest&&e.target.closest('.grid')){e.stopPropagation();e.preventDefault()}},true)})();
 /* v229 table size control (long-press on a table) */
 (function(){
  const ap=()=>{const g=GSV(),r=document.documentElement.style;r.setProperty('--gnw',g.nw);r.setProperty('--gcw',g.cw);r.setProperty('--grh',g.rh);r.setProperty('--ghh',g.hh)};
@@ -3510,7 +3534,7 @@ function acad(){let o=document.getElementById('acadOv');if(o)o.remove();o=docume
  +'<div class="gc"><span class="rcred">المهندسة ريم هيثم جمال</span></div></div>';
  document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove();
  const BL=window._acBl=window._acBl||{};
- o.addEventListener('click',e=>{const a=e.target.closest('a.acbtn');if(!a||!navigator.canShare||!window.File)return;let ok=false;try{ok=navigator.canShare({files:[new File([''],'a.pdf',{type:'application/pdf'})]})}catch(_){}if(!ok)return;
+ o.addEventListener('click',e=>{const a=e.target.closest('a.acbtn');if(!a||!window.__MOB||!navigator.canShare||!window.File)return;let ok=false;try{ok=navigator.canShare({files:[new File([''],'a.pdf',{type:'application/pdf'})]})}catch(_){}if(!ok)return;
   e.preventDefault();const u=a.getAttribute('href'),nm=(a.getAttribute('download')||a.closest('.acc2').querySelector('a[download]').getAttribute('download'));
   const share=()=>{const f=new File([BL[u]],nm,{type:'application/pdf'});navigator.share({files:[f]}).catch(er=>{if(er&&er.name!=='AbortError'){location.href=u}})};
   if(BL[u]){share();return}if(a.dataset.busy)return;a.dataset.busy='1';const t0=a.textContent;a.textContent='⏳ 0%';
@@ -3544,7 +3568,7 @@ function devInfo(){let o=document.getElementById('acadOv');if(o)o.remove();o=doc
  +'<div class="dvn2">لا يمكن فتح التطبيق إلا برمز الدخول.</div></div></div></div>';
  document.body.appendChild(o);document.getElementById('acX').onclick=()=>o.remove();
  document.getElementById('apCp').onclick=()=>{const t='https://mosul-gas.github.io/';(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('تم نسخ الرابط'),()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast('تم نسخ الرابط')}catch(_){toast(t)}a.remove()})};
- document.getElementById('apSv').onclick=e=>{if(navigator.canShare){e.preventDefault();fetch('mosul-gas-qr.png').then(r=>r.blob()).then(b=>{const f=new File([b],'mosul-gas-qr.png',{type:'image/png'});if(navigator.canShare({files:[f]}))return navigator.share({files:[f]});const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='mosul-gas-qr.png';a.click()}).catch(()=>{})}}}
+ document.getElementById('apSv').onclick=e=>{if(window.__MOB&&navigator.canShare){e.preventDefault();fetch('mosul-gas-qr.png').then(r=>r.blob()).then(b=>{const f=new File([b],'mosul-gas-qr.png',{type:'image/png'});if(navigator.canShare({files:[f]}))return navigator.share({files:[f]});const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='mosul-gas-qr.png';a.click()}).catch(()=>{})}}}
 window.devInfo=devInfo;
 
 function devLadder(){let o=document.getElementById('acadOv');if(o)o.remove();o=document.createElement('div');o.id='acadOv';
