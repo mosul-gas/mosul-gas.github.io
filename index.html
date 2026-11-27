@@ -1752,6 +1752,7 @@ body.daymode table.grid th:not(.nocol):not(.namecol):not(.daycell){width:calc(34
 #uoEd textarea{width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:10px;border:2px solid #1F4E9A;border-radius:12px;color:#0b2447;background:#fff;resize:vertical}
 #uoEd .qamsg{font-size:14px;color:#5a6b8c;text-align:center;margin-bottom:8px}
 #uoEd .qasel{width:100%;font:inherit;font-size:16px;font-weight:700;padding:10px;border:2px solid #1F4E9A;border-radius:12px;margin-bottom:8px;color:#0b2447;background:#fff}
+#cvGo .icp{display:inline-grid;vertical-align:middle;margin-left:8px;background:#fff;border-radius:50%;padding:2px}#cvGo .icp svg{display:block}
 </style>
 </head>
 <body>
@@ -1956,7 +1957,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 313 — 24/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 314 — 24/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2331,18 +2332,18 @@ function periodName(){
 }
 
 /* v272 direct print (laptop + phone): print page images from inside the app */
-function printCanvases(cs,land){if(!cs||!cs.length){toast('لا توجد صفحات');return}let a=document.getElementById('printArea');if(a)a.remove();a=document.createElement('div');a.id='printArea';
+function printCanvases(cs,land,wordFn){if(!cs||!cs.length){toast('لا توجد صفحات');return}let a=document.getElementById('printArea');if(a)a.remove();a=document.createElement('div');a.id='printArea';
  let st=document.getElementById('printCss');if(!st){st=document.createElement('style');st.id='printCss';document.head.appendChild(st)}
  const H=land?'190mm':'262mm';
  st.textContent='#printArea{display:none}@media print{@page{size:A4 '+(land?'landscape':'portrait')+';margin:6mm}html,body{background:#fff!important;margin:0!important;padding:0!important;height:auto!important;min-height:0!important;overflow:visible!important}body.printing>*:not(#printArea),body.printing::before,body.printing::after{display:none!important;content:none!important}body.printing #printArea{display:block!important}#printArea .pp{page-break-after:always;break-after:page;page-break-inside:avoid;break-inside:avoid;text-align:center;margin:0;padding:0}#printArea .pp:last-child{page-break-after:auto;break-after:auto}#printArea canvas{display:inline-block;height:'+H+'!important;width:auto!important;max-width:100%!important}}';
  cs.forEach(c=>{const d=document.createElement('div');d.className='pp';d.appendChild(c);a.appendChild(d)});document.body.appendChild(a);
  let o=document.getElementById('cvPv');if(o)o.remove();o=document.createElement('div');o.id='cvPv';
- o.innerHTML='<div class="cvbar"><div class="cvt"><b>🖨️ جاهز للطباعة</b><small>'+cs.length+' '+(cs.length===1?'صفحة':'صفحات')+'</small></div><button type="button" id="cvGo">🖨️ اطبع الآن</button><button type="button" id="cvX">✕ إغلاق</button></div><div class="cvl"></div>';
+ o.innerHTML='<div class="cvbar"><div class="cvt"><b>🖨️ جاهز للطباعة</b><small>'+cs.length+' '+(cs.length===1?'صفحة':'صفحات')+'</small></div><button type="button" id="cvGo">'+(wordFn?'<i class="icp"><svg viewBox="0 0 48 48" width="30" height="30"><rect x="12" y="4" width="24" height="16" rx="2" fill="#fff" stroke="#2B579A" stroke-width="2"/><rect x="4" y="16" width="40" height="18" rx="4" fill="#2B579A"/><circle cx="38" cy="22" r="2" fill="#fff"/><rect x="11" y="27" width="26" height="17" rx="2" fill="#fff" stroke="#2B579A" stroke-width="2"/><text x="24" y="40" text-anchor="middle" font-family="Arial" font-weight="900" font-size="11" fill="#2B579A">W</text></svg></i><span>طباعة Word</span>':'🖨️ طباعة')+'</button><button type="button" id="cvX">✕ إغلاق</button></div><div class="cvl"></div>';
  const L=o.querySelector('.cvl');cs.forEach((c,k)=>{const im=new Image();try{im.src=c.toDataURL('image/jpeg',.7)}catch(e){}const w=document.createElement('div');w.className='cvp';w.appendChild(im);const n=document.createElement('span');n.textContent='صفحة '+(k+1);w.appendChild(n);L.appendChild(w)});
  document.body.appendChild(o);
  const close=()=>{o.remove();document.body.classList.remove('printing');const x=document.getElementById('printArea');if(x)x.remove()};
  document.getElementById('cvX').onclick=close;
- document.getElementById('cvGo').onclick=()=>{document.body.classList.add('printing');try{window.print()}catch(e){toast('تعذّرت الطباعة')}setTimeout(()=>document.body.classList.remove('printing'),1500)};
+ document.getElementById('cvGo').onclick=()=>{if(wordFn){wordFn();return}document.body.classList.add('printing');try{window.print()}catch(e){toast('تعذّرت الطباعة')}setTimeout(()=>document.body.classList.remove('printing'),1500)};
 }
 function chooseScope(cb){
   edit=null;
@@ -2414,7 +2415,7 @@ function buildDocx(specs){
       new D.Table({visuallyRightToLeft:true,layout:D.TableLayoutType.FIXED,columnWidths:[wNo,wName,...sp.heads.map(()=>wDay),...sp.tail.map(()=>wT)],width:{size:total,type:D.WidthType.DXA},rows:[head,...rows]})];
     if(sp.note)ch.push(P('*'+sp.note,{sz:20,before:80}));
     if(!sp.plain)ch.push(sig);
-    return {properties:{page:{size:{orientation:D.PageOrientation.LANDSCAPE},margin:{top:600,bottom:400,left:700,right:700}}},children:ch};
+    return {properties:{page:{size:{width:11906,height:16838,orientation:D.PageOrientation.LANDSCAPE},margin:{top:600,bottom:400,left:700,right:700}}},children:ch};
   });
   return D.Packer.toBlob(new D.Document({creator:'موقف المناوبين',sections}));
 }
@@ -2584,7 +2585,7 @@ function buildDailyDocx(dd){
     ch.push(P('',{after:k?0:300}))});
   const foot=new D.Footer({children:sigLines().map(t=>P(t,{sz:26,before:30,al:D.AlignmentType.LEFT,ltr:1}))});
   let head;if(WM_BYTES){const wmw=400,wmh=Math.round(400*(WM_IMG.height/WM_IMG.width));head=new D.Header({children:[new D.Paragraph({children:[new D.ImageRun({data:WM_BYTES,transformation:{width:wmw,height:wmh},floating:{horizontalPosition:{relative:D.HorizontalPositionRelativeFrom.PAGE,align:D.HorizontalPositionAlign.CENTER},verticalPosition:{relative:D.VerticalPositionRelativeFrom.PAGE,align:D.VerticalPositionAlign.CENTER},wrap:{type:D.TextWrappingType.NONE},behindDocument:false,allowOverlap:true}})]})]})}
-  return D.Packer.toBlob(new D.Document({sections:[{properties:{page:{size:{orientation:D.PageOrientation.PORTRAIT},margin:{top:1000,bottom:2700,left:1000,right:1000,footer:650},borders:wordFrame(24)}},headers:head?{default:head}:undefined,footers:{default:foot},children:ch}]}));
+  return D.Packer.toBlob(new D.Document({sections:[{properties:{page:{size:{width:11906,height:16838,orientation:D.PageOrientation.PORTRAIT},margin:{top:1000,bottom:2700,left:1000,right:1000,footer:650},borders:wordFrame(24)}},headers:head?{default:head}:undefined,footers:{default:foot},children:ch}]}));
 }
 async function buildDailyXlsx(dd){
   const E=window.ExcelJS;const wb=new E.Workbook();const ws=wb.addWorksheet('الموقف اليومي',{views:[{rightToLeft:true}],pageSetup:{orientation:'portrait',paperSize:9,fitToPage:true,fitToWidth:1,fitToHeight:0,horizontalCentered:true}});
@@ -2626,7 +2627,7 @@ $('btnCopy').onclick=()=>{
     if(ev.target.closest('#dPrTog')){const o=$('dPrOpts');o.classList.toggle('hide');$('dPrTog').classList.toggle('on',!o.classList.contains('hide'));if(!o.classList.contains('hide'))setTimeout(()=>o.scrollIntoView({block:'nearest',behavior:'smooth'}),30);return}
     if(ev.target.closest('#dArcB')){dArcOpen();return}
     const b=ev.target.closest('[data-d]');if(!b)return;const v=$('dDate').value;if(!v)return;const dd=dailyData(v);if(dM){dd.morning=dM[0];dd.duty=dM[1]}applyEdits(dd);dd.morning=dd.morning.filter(r=>r.name||r.st);dd.duty=dd.duty.filter(r=>r.name||r.st);const nm='الموقف اليومي '+v;if(['print','pdf','word','xl'].includes(b.dataset.d))dArcSave(v,dd);
-    if(b.dataset.d==='print'){printCanvases(dailyCanvases(dd),false);return}
+    if(b.dataset.d==='print'){printCanvases(dailyCanvases(dd),false,()=>{if(!window.docx){toast('يُرجى تحديث الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل ملف Word — افتحه واطبعه بـ Ctrl+P')}).catch(()=>toast('تعذّر إنشاء ملف Word'))});return}
     if(b.dataset.d==='pdf'){savePDF(dailyCanvases(dd),false,nm+'.pdf')}
     else if(b.dataset.d==='word'){if(!window.docx){toast('يُرجى تحديث الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل ملف Word')})}
     else if(b.dataset.d==='xl'){if(!window.ExcelJS){toast('يُرجى تحديث الصفحة');return}buildDailyXlsx(dd).then(x=>{download(nm+'.xlsx',x);toast('تم تنزيل ملف Excel')})}
@@ -2651,7 +2652,7 @@ function dArcOpen(mk){let o=document.getElementById('dArcOv');if(o)o.remove();o=
   if(t.dataset.m){dArcOpen(t.dataset.m);return}
   if(t.dataset.del){if(!confirm('حذف موقف '+dn(t.dataset.del)+' من الأرشيف؟'))return;delete S.dArc[t.dataset.del];save();const m=t.dataset.del.slice(0,7);dArcOpen(Object.keys(S.dArc).some(k=>k.startsWith(m))?m:undefined);return}
   const v=t.dataset.aw||t.dataset.ap||t.dataset.af;if(!v)return;const dd=dArcDD(v);if(!dd)return;const nm='الموقف اليومي '+v;
-  if(t.dataset.ap){printCanvases(dailyCanvases(dd),false)}
+  if(t.dataset.ap){printCanvases(dailyCanvases(dd),false,()=>{if(!window.docx){toast('يُرجى تحديث الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل ملف Word — افتحه واطبعه بـ Ctrl+P')}).catch(()=>toast('تعذّر إنشاء ملف Word'))})}
   else if(t.dataset.af){savePDF(dailyCanvases(dd),false,nm+'.pdf')}
   else{if(!window.docx){toast('يُرجى تحديث الصفحة');return}buildDailyDocx(dd).then(x=>{download(nm+'.docx',x);toast('تم تنزيل ملف Word')})}}}
 window.dArcOpen=dArcOpen;
