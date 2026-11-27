@@ -1,30 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="hj" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfe7f6"/><stop offset="1" stop-color="#9fb3d9"/></linearGradient>
-    <linearGradient id="hat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6d6"/><stop offset=".55" stop-color="#e9c75a"/><stop offset="1" stop-color="#b8901f"/></linearGradient>
-    <linearGradient id="suit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c5ea8"/><stop offset="1" stop-color="#12315a"/></linearGradient>
-    <linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6d3b3"/><stop offset="1" stop-color="#eab995"/></linearGradient>
+    <linearGradient id="hj" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fdfaf3"/><stop offset=".6" stop-color="#ece3d0"/><stop offset="1" stop-color="#d6c8a8"/></linearGradient>
+    <linearGradient id="hat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset=".45" stop-color="#e6c457"/><stop offset="1" stop-color="#a8821a"/></linearGradient>
+    <linearGradient id="brim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9c75a"/><stop offset="1" stop-color="#9a7614"/></linearGradient>
+    <linearGradient id="suit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#25508f"/><stop offset="1" stop-color="#0b2447"/></linearGradient>
+    <linearGradient id="sk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f4d4b6"/><stop offset=".7" stop-color="#ecc29d"/><stop offset="1" stop-color="#dcab84"/></linearGradient>
   </defs>
-  <!-- jacket -->
-  <path d="M5 64c1-10 8-16.5 18-18.5h18c10 2 17 8.5 18 18.5z" fill="url(#suit)" stroke="#0b2447" stroke-width="1.2"/>
-  <!-- gold reflective straps -->
-  <path d="M18.5 49.5l4 14.5M45.5 49.5l-4 14.5" stroke="#d4af37" stroke-width="3.2" stroke-linecap="round"/>
-  <!-- hijab: wraps head, neck and drapes on shoulders -->
-  <path d="M32 12c-10.5 0-17.5 8-17.5 18.5 0 6 1.4 10.6 3.3 14 1.6 2.9 3.6 5 5.2 7.5 2.2 3.3 5 4.5 9 4.5s6.8-1.2 9-4.5c1.6-2.5 3.6-4.6 5.2-7.5 1.9-3.4 3.3-8 3.3-14C49.5 20 42.5 12 32 12z" fill="url(#hj)" stroke="#12315a" stroke-width="1.2"/>
-  <!-- soft fold lines of the scarf -->
-  <path d="M23 47q5 4.5 13 3.2M41.5 45.5q-2.8 4.4-7 7.2" stroke="#6f85b8" stroke-width="1" fill="none" stroke-linecap="round"/>
-  <!-- face -->
-  <path d="M32 22c-6.2 0-9.8 4.6-9.8 10.4 0 6.4 4.3 11.3 9.8 11.3s9.8-4.9 9.8-11.3C41.8 26.6 38.2 22 32 22z" fill="url(#sk)" stroke="#c9946c" stroke-width=".6"/>
-  <!-- eyes, brows, smile -->
-  <ellipse cx="28.3" cy="32.8" rx="1.3" ry="1.55" fill="#0b2447"/>
-  <ellipse cx="35.7" cy="32.8" rx="1.3" ry="1.55" fill="#0b2447"/>
-  <path d="M26.2 30.1q2.1-1.2 4.2 0M33.6 30.1q2.1-1.2 4.2 0" stroke="#5a3d22" stroke-width="1" fill="none" stroke-linecap="round"/>
-  <path d="M29.3 38q2.7 2 5.4 0" stroke="#b5534a" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-  <circle cx="26" cy="36.2" r="1.5" fill="#f0a08a" opacity=".45"/>
-  <circle cx="38" cy="36.2" r="1.5" fill="#f0a08a" opacity=".45"/>
-  <!-- hard hat -->
-  <path d="M15 24.5c0-9.6 7.6-16.5 17-16.5s17 6.9 17 16.5z" fill="url(#hat)" stroke="#6b4f0c" stroke-width="1.2"/>
-  <path d="M29.5 8.3h5l.8 16.2h-6.6z" fill="#fff2b8" stroke="#6b4f0c" stroke-width=".9"/>
-  <rect x="11" y="23.5" width="42" height="4" rx="2" fill="#d4af37" stroke="#6b4f0c" stroke-width="1.1"/>
-  <path d="M19 15.5q3-4 7.5-5.6" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".8"/>
+  <!-- blazer -->
+  <path d="M7 64c1.2-9.6 7.4-14.8 17-16.4h16c9.6 1.6 15.8 6.8 17 16.4z" fill="url(#suit)" stroke="#d4af37" stroke-width=".9"/>
+  <!-- gold lapels -->
+  <path d="M23.5 55.2 29.4 64M40.5 55.2 34.6 64" stroke="#d4af37" stroke-width="1.7" stroke-linecap="round"/>
+  <!-- hijab: head wrap draping over the shoulders -->
+  <path d="M32 12.4c-10.4 0-16.7 8-16.7 18.4 0 5.6 1.4 10.1 3.6 13.6-3.5 2-6 4.6-7 7.6 5 3.4 12 5 20.1 5s15.1-1.6 20.1-5c-1-3-3.5-5.6-7-7.6 2.2-3.5 3.6-8 3.6-13.6 0-10.4-6.3-18.4-16.7-18.4z" fill="url(#hj)" stroke="#a8821a" stroke-width=".9"/>
+  <!-- face (minimal) -->
+  <path d="M32 21.3c-6 0-9.9 4.7-9.9 10.6 0 6.6 4.4 11.8 9.9 11.8s9.9-5.2 9.9-11.8c0-5.9-3.9-10.6-9.9-10.6z" fill="url(#sk)" stroke="#e3d6ba" stroke-width="1"/>
+  <!-- drape folds -->
+  <path d="M21.6 45.2c3.3 3.4 6.8 5 10.4 5.3M42.4 45.2c-3.3 3.4-6.8 5-10.4 5.3M15.6 50.6c5.2 2.7 10.6 3.8 16.4 3.8s11.2-1.1 16.4-3.8" stroke="#c4b38e" stroke-width=".9" fill="none" stroke-linecap="round"/>
+  <!-- hard hat dome -->
+  <path d="M14.6 25.2c0-9.8 7.7-16.7 17.4-16.7s17.4 6.9 17.4 16.7z" fill="url(#hat)" stroke="#7a5c0e" stroke-width="1"/>
+  <!-- center ridge -->
+  <path d="M29.8 8.7h4.4l.7 16.5h-5.8z" fill="#f7df8c" stroke="#7a5c0e" stroke-width=".7"/>
+  <!-- brim -->
+  <path d="M10.6 25h42.8c.9 0 1.6.7 1.6 1.6v.6c0 .9-.7 1.6-1.6 1.6H10.6c-.9 0-1.6-.7-1.6-1.6v-.6c0-.9.7-1.6 1.6-1.6z" fill="url(#brim)" stroke="#7a5c0e" stroke-width=".8"/>
+  <!-- lightning emblem -->
+  <circle cx="32" cy="18.6" r="3.9" fill="#0b2447" stroke="#fff3c4" stroke-width=".7"/>
+  <path d="M32.9 15.9l-2.6 3.3h1.7l-.8 2.7 2.7-3.5h-1.8z" fill="#ffd86b"/>
+  <!-- sheen -->
+  <path d="M19.2 16.8c1.6-2.8 4.2-4.9 7.4-6" stroke="#fff" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".75"/>
 </svg>
