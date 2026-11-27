@@ -1753,6 +1753,21 @@ body.daymode table.grid th:not(.nocol):not(.namecol):not(.daycell){width:calc(34
 #uoEd .qamsg{font-size:14px;color:#5a6b8c;text-align:center;margin-bottom:8px}
 #uoEd .qasel{width:100%;font:inherit;font-size:16px;font-weight:700;padding:10px;border:2px solid #1F4E9A;border-radius:12px;margin-bottom:8px;color:#0b2447;background:#fff}
 #cvGo .icp{display:inline-grid;vertical-align:middle;margin-left:8px;background:#fff;border-radius:50%;padding:2px}#cvGo .icp svg{display:block}
+
+/* v316 تطوير ذكي */
+#uoOv .qsmart{border:2px solid #d4af37;background:linear-gradient(160deg,#fffdf5,#f6ecd0)!important}
+#uoOv .qsh{font-weight:900;font-size:17px;color:#0b2447;margin-bottom:4px}
+#uoOv .qsn{font-size:14px;color:#5a6b8c;line-height:1.7}
+#uoOv .mab.rec{border-color:#b91c1c!important;color:#fff!important;background:#b91c1c!important;animation:qpl 1s infinite}
+@keyframes qpl{50%{opacity:.6}}
+#uoOv .qfill{box-shadow:0 0 0 4px rgba(212,175,55,.75)!important;transition:box-shadow .3s}
+#uoOv .qalert{background:linear-gradient(135deg,#7f1d1d,#b91c1c);color:#fff;border:2px solid #fca5a5;border-radius:16px;padding:10px 14px;margin:0 0 12px;font-size:15px;line-height:1.8}#uoOv .qalert small{display:block;opacity:.85;font-size:12.5px}
+#uoOv .qlate{font-style:normal;font-weight:800;color:#b91c1c;font-size:13px}
+#uoOv .qai{margin-top:10px;border:1.5px solid #d4af37;border-radius:14px;padding:10px 12px;background:#fffbea;color:#24365c;font-size:14.5px;line-height:1.75}#uoOv .qai>b{display:block;color:#8a6a12;margin-bottom:4px}
+#uoOv .qsp{margin-top:12px;border-top:1.5px dashed #d4af37;padding-top:8px}#uoOv .qsp>b{color:#0b2447;font-size:15px}
+#uoOv .qspr{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #eadfc2}#uoOv .qspr>span:nth-child(2){flex:1}#uoOv .qspr b{display:block;color:#0b2447}#uoOv .qspr small{color:#5a6b8c;font-size:13px}
+#uoOv .qbar{display:grid;grid-template-columns:minmax(70px,34%) 1fr 30px;align-items:center;gap:8px;margin:7px 0;font-size:14px;color:#0b2447}#uoOv .qbar i{height:12px;background:#e4e9f4;border-radius:8px;overflow:hidden}#uoOv .qbar em{display:block;height:100%;background:linear-gradient(90deg,#1F4E9A,#d4af37);border-radius:8px}#uoOv .qbar b{text-align:left}
+#hGrid .hg[data-hg="wf"]{position:relative}.qbdg{position:absolute;top:6px;left:8px;min-width:24px;height:24px;padding:0 6px;border-radius:12px;background:#1F4E9A;color:#fff;font:900 14px/24px Arial;font-style:normal;text-align:center;border:2px solid #fff;box-shadow:0 2px 6px #0006}.qbdg.late{background:#c62828;animation:qpl 1.2s infinite}
 </style>
 </head>
 <body>
@@ -1957,7 +1972,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 315 — 24/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 316 — 24/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3739,10 +3754,10 @@ function aiLev(a,b){if(Math.abs(a.length-b.length)>1)return 9;let p=Array.from({
 async function aiTxt(i,onStage){const B=window._aiTx=window._aiTx||{};if(B[i])return B[i];onStage&&onStage('⏳ تحميل نص الفصل…');const r=await fetch('academy/txt/c'+(i+1)+'.json');if(!r.ok)throw new Error('txt');const j=await r.json();
  const docs=j.p.map(t=>{const tf={};aiTok(t).forEach(w=>tf[w]=(tf[w]||0)+1);return tf}),df={};docs.forEach(tf=>Object.keys(tf).forEach(w=>df[w]=(df[w]||0)+1));
  B[i]={a:j.a,p:j.p,docs,df,voc:Object.keys(df)};return B[i]}
-function aiPick(D,q,n){const N=D.p.length,qs=[...new Set(aiTok(q))],terms=[];
+function aiPick(D,q,n){const N=D.p.length,sc=aiScore(D,q);const sel=new Set();sc.slice(0,n).forEach(([s,k])=>{sel.add(k);if(k+1<N&&sel.size<n+3)sel.add(k+1)});return [...sel].sort((a,b)=>a-b)}
+function aiScore(D,q){const N=D.p.length,qs=[...new Set(aiTok(q))],terms=[];
  qs.forEach(w=>{if(D.df[w])terms.push([w,1]);if(w.length>=4){D.voc.forEach(v=>{if(v!==w&&(v.length>=4)&&(v.indexOf(w)===0||w.indexOf(v)===0||aiLev(w,v)===1))terms.push([v,.7])})}});
- const sc=D.docs.map((tf,k)=>{let s=0;terms.forEach(([w,wt])=>{const f=tf[w];if(f)s+=wt*Math.log(1+N/D.df[w])*(1+Math.log(f))});return [s,k]}).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]);
- const sel=new Set();sc.slice(0,n).forEach(([s,k])=>{sel.add(k);if(k+1<N&&sel.size<n+3)sel.add(k+1)});return [...sel].sort((a,b)=>a-b)}
+ const sc=D.docs.map((tf,k)=>{let s=0;terms.forEach(([w,wt])=>{const f=tf[w];if(f)s+=wt*Math.log(1+N/D.df[w])*(1+Math.log(f))});return [s,k]}).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]);return sc}
 async function aiPdf(f,onStage){const B=window._aiBl=window._aiBl||{};if(B[f])return B[f];const r=await fetch(f);if(!r.ok)throw new Error('تعذّر تحميل الفصل');const tot=+r.headers.get('content-length')||0,rd=r.body&&r.body.getReader?r.body.getReader():null;let b;if(!rd)b=await r.blob();else{const ch=[];let got=0;for(;;){const {done,value}=await rd.read();if(done)break;ch.push(value);got+=value.length;onStage&&onStage('⏳ تحميل الفصل '+(tot?Math.round(got*100/tot)+'%':Math.round(got/1048576)+' م.ب'))}b=new Blob(ch,{type:'application/pdf'})}B[f]=await aiB64(b);return B[f]}
 function aiOpen(){let o=document.getElementById('aiOv');if(o){o.style.display='flex';return}o=document.createElement('div');o.id='aiOv';
  const H=window._aiH=window._aiH||[];let sel=-1;
@@ -4105,7 +4120,7 @@ function qAsk(o,cb){let m=$('uoEd');if(m)m.remove();m=document.createElement('di
 function qNav(){const u=qMe(),c=(k,ic,l)=>'<button type="button" class="mnav2'+(qv===k?' on':'')+'" data-qn="'+k+'"><i>'+ic+'</i><span>'+l+'</span></button>';
  const L=[c('in','📥','الوارد'),c('all','🗂️','كل البلاغات')];
  if(u&&(u.r==='g'||u.r==='d'))L.push(c('new','➕',u.r==='g'?'بلاغ جديد':'إسناد مهمة'));
- L.push(c('org','🏛️','الهيكل'));if(u&&(u.r==='a'||u.r==='h'))L.push(c('users','👥','الحسابات'));
+ L.push(c('org','🏛️','الهيكل'));if(u&&(u.r==='a'||u.r==='h'))L.push(c('users','👥','الحسابات'));if(u&&u.r!=='g')L.push(c('rep','📊','التقرير'));
  return '<div class="mnavs2 qnav n'+L.length+'">'+L.join('')+'</div>'}
 function qMeCard(u){return '<div class="ucard qme"><div class="qav">'+(u.r==='a'?'🛡️':u.r==='h'?'🏛️':u.r==='d'?'🧭':'👷')+'</div><div class="qmi"><b>'+esc2(u.n)+'</b><small>'+WR[u.r]+(qScope(u)?' · '+esc2(qScope(u)):'')+'</small></div><button type="button" class="mab" data-qa="out">تبديل الحساب</button></div>'}
 function qLogin(){const w=WF();let h='<div class="ucard qintro"><b>سير العمل والصلاحيات</b><div>المجموعة تُنشئ البلاغ ← الشعبة تراجع وتصادق فنياً ← القسم يعتمد نهائياً أو يحيل إلى قسم آخر. كل مستخدم يرى ما يخصه فقط، وكل خطوة تُسجَّل بالاسم والوقت.</div></div><div class="uh2">اختر حسابك</div>';
@@ -4120,21 +4135,23 @@ function qActs(u,x){const B=(k,l,c)=>'<button type="button" class="mab'+(c?' '+c
  if(u.r==='d'&&qSee(u,x)&&x.st==='sub')h+=B('dok','✓ مصادقة فنية ورفع للقسم')+B('dret','↩ إعادة للمجموعة','dl');
  if(u.r==='h'&&x.st==='div'&&x.sec===u.sec)h+=B('hok','✓ اعتماد نهائي')+B('href','⇄ إحالة لقسم آخر','ed')+B('hret','↩ إعادة للشعبة','dl');
  if(u.r==='h'&&x.st==='ref'&&x.to===u.sec)h+=B('rok','✓ اعتماد')+B('rret','↩ إعادة للقسم المُحيل','dl');
+ if(u.r!=='g')h+=B('ai',x.ai&&!x.ai.busy?'✨ تحديث التحليل':'✨ تحليل ذكي','ed');
  h+=B('log',qOpen===x.id?'إخفاء السجل':'🕘 السجل','ed')+B('wa','💬 واتساب','ed')+B('pr','🖨️ طباعة','ed');
  if(u.r==='a'||(x.by===u.id&&(x.st==='sub'||x.st==='task')&&(x.log||[]).length<2))h+=B('del','حذف','dl');
  return '<div class="mact">'+h+'</div>'}
 function qCard(u,x){const st=WSTT[x.st]||WSTT.sub,pi=Math.max(0,WPRI.indexOf(x.pr)),last=(x.log||[])[x.log.length-1];
  let h='<div class="ucard qitem" data-qi="'+esc2(x.id)+'"><div class="urow"><span class="uname">'+esc2(x.ty)+' · '+x.no+'</span><span class="ubadge '+st[1]+'">'+st[0]+(x.st==='ref'?' ('+esc2(x.to)+')':'')+'</span></div>'
  +'<div class="wtt">'+(pi?'<em class="qpr p'+pi+'">'+WPRI[pi]+'</em> ':'')+esc2(x.ti)+'</div>'+(x.ds?'<div class="qds">'+esc2(x.ds)+'</div>':'')
- +'<div class="uts">'+esc2(qScope(x))+(x.u?' · '+esc2(UN(x.u-1)):'')+'</div>'+qStage(x)
+ +'<div class="uts">'+esc2(qScope(x))+(x.u?' · '+esc2(UN(x.u-1)):'')+(qLate(x)?' <em class="qlate">⏰ متأخر '+qAgo(qLate(x))+'</em>':'')+'</div>'+qStage(x)
  +(last?'<div class="uts">آخر إجراء: '+esc2(last.a)+' — '+esc2(last.bn)+' · '+stamp(last.t)+(last.nt?'<br>«'+esc2(last.nt)+'»':'')+'</div>':'');
+ if(x.ai)h+='<div class="qai"><b>✨ التحليل الذكي</b><div>'+aiMd(x.ai.txt)+'</div></div>';
  if(qOpen===x.id)h+='<div class="qlog">'+(x.log||[]).map(l=>'<div><b>'+esc2(l.a)+'</b><span>'+esc2(l.bn)+' · '+stamp(l.t)+'</span>'+(l.nt?'<em>'+esc2(l.nt)+'</em>':'')+'</div>').join('')+'</div>';
  return h+qActs(u,x)+'</div>'}
 function qList(u,need){const w=WF();let L=w.items.filter(x=>qSee(u,x));if(need)L=L.filter(x=>qNeed(u,x));else if(qfl!=='all')L=L.filter(x=>qfl==='open'?!['ok','rej'].includes(x.st):x.st===qfl);
- return L.slice().sort((a,b)=>(b.ts||0)-(a.ts||0))}
-function qNew(u){const today=iso(new Date());if(u.r==='g')return '<div class="uh2">بلاغ / تقرير جديد</div><div class="ucard"><div class="qlb">النوع</div><select id="qT">'+WTY.map(t=>'<option>'+t+'</option>').join('')+'</select><div class="qlb">الوحدة</div><select id="qU"><option value="0">غير مرتبط بوحدة</option>'+Array.from({length:NU},(_,i)=>'<option value="'+(i+1)+'">'+esc2(UN(i))+'</option>').join('')+'</select><div class="qlb">الأولوية</div><select id="qP">'+WPRI.map(t=>'<option>'+t+'</option>').join('')+'</select><input type="text" id="qTi" maxlength="120" placeholder="العنوان (مثال: ارتفاع حرارة المحمل رقم 2)"><textarea id="qDs" rows="4" placeholder="التفاصيل والقراءات"></textarea><div class="unote">يُرفع إلى مسؤول الشعبة: '+esc2(u.div)+'</div><button class="uadd" type="button" data-qa="create">رفع إلى مسؤول الشعبة</button></div>';
+ return L.slice().sort((a,b)=>need?((b.pr==='عاجل')-(a.pr==='عاجل'))||(qLate(b)-qLate(a))||((a.ts||0)-(b.ts||0)):(b.ts||0)-(a.ts||0))}
+function qNew(u){const today=iso(new Date());if(u.r==='g')return '<div class="ucard qsmart"><div class="qsh">✨ بلاغ ذكي</div><div class="qsn">اكتب أو تكلّم بكلامك العادي، والذكاء الاصطناعي يحدد النوع والوحدة والأولوية ويصيغ البلاغ رسمياً.</div><textarea id="qFree" rows="3" placeholder="مثال: وحدة 3 حرارة المحمل الثاني وصلت 92 الساعة 6 الصبح وبيها صوت غريب"></textarea><div class="mact"><button type="button" class="mab" data-qa="mic">🎤 تكلّم</button><button type="button" class="mab" data-qa="smart">✨ تعبئة ذكية</button></div></div>'+'<div class="uh2">بلاغ / تقرير جديد</div><div class="ucard"><div class="qlb">النوع</div><select id="qT">'+WTY.map(t=>'<option>'+t+'</option>').join('')+'</select><div class="qlb">الوحدة</div><select id="qU"><option value="0">غير مرتبط بوحدة</option>'+Array.from({length:NU},(_,i)=>'<option value="'+(i+1)+'">'+esc2(UN(i))+'</option>').join('')+'</select><div class="qlb">الأولوية</div><select id="qP">'+WPRI.map(t=>'<option>'+t+'</option>').join('')+'</select><input type="text" id="qTi" maxlength="120" placeholder="العنوان (مثال: ارتفاع حرارة المحمل رقم 2)"><textarea id="qDs" rows="4" placeholder="التفاصيل والقراءات"></textarea><div class="unote">يُرفع إلى مسؤول الشعبة: '+esc2(u.div)+'</div><button class="uadd" type="button" data-qa="create">رفع إلى مسؤول الشعبة</button></div>';
  const G=qVals('grp',x=>x.r==='g'&&x.sec===u.sec&&x.div===u.div);
- return '<div class="uh2">إسناد مهمة لمجموعة</div><div class="ucard"><div class="qlb">المجموعة</div>'+(G.length?'<select id="qG">'+G.map(g=>'<option>'+esc2(g)+'</option>').join('')+'</select>':'<div class="unote">لا توجد مجموعات مسجّلة في شعبتك — يضيفها رئيس القسم أو مسؤول النظام من «الحسابات».</div>')+'<div class="qlb">الوحدة</div><select id="qU"><option value="0">غير مرتبط بوحدة</option>'+Array.from({length:NU},(_,i)=>'<option value="'+(i+1)+'">'+esc2(UN(i))+'</option>').join('')+'</select><div class="qlb">الأولوية</div><select id="qP">'+WPRI.map(t=>'<option>'+t+'</option>').join('')+'</select><input type="text" id="qTi" maxlength="120" placeholder="عنوان المهمة"><textarea id="qDs" rows="4" placeholder="تفاصيل المهمة"></textarea>'+(G.length?'<button class="uadd" type="button" data-qa="task">إسناد المهمة</button>':'')+'</div>'}
+ return '<div class="ucard qsmart"><div class="qsh">✨ مهمة ذكية</div><div class="qsn">اكتب أو تكلّم بكلامك العادي، والذكاء الاصطناعي يحدد النوع والوحدة والأولوية ويصيغ المهمة رسمياً.</div><textarea id="qFree" rows="3" placeholder="مثال: وحدة 3 حرارة المحمل الثاني وصلت 92 الساعة 6 الصبح وبيها صوت غريب"></textarea><div class="mact"><button type="button" class="mab" data-qa="mic">🎤 تكلّم</button><button type="button" class="mab" data-qa="smart">✨ تعبئة ذكية</button></div></div>'+'<div class="uh2">إسناد مهمة لمجموعة</div><div class="ucard"><div class="qlb">المجموعة</div>'+(G.length?'<select id="qG">'+G.map(g=>'<option>'+esc2(g)+'</option>').join('')+'</select>':'<div class="unote">لا توجد مجموعات مسجّلة في شعبتك — يضيفها رئيس القسم أو مسؤول النظام من «الحسابات».</div>')+'<div class="qlb">الوحدة</div><select id="qU"><option value="0">غير مرتبط بوحدة</option>'+Array.from({length:NU},(_,i)=>'<option value="'+(i+1)+'">'+esc2(UN(i))+'</option>').join('')+'</select><div class="qlb">الأولوية</div><select id="qP">'+WPRI.map(t=>'<option>'+t+'</option>').join('')+'</select><input type="text" id="qTi" maxlength="120" placeholder="عنوان المهمة"><textarea id="qDs" rows="4" placeholder="تفاصيل المهمة"></textarea>'+(G.length?'<button class="uadd" type="button" data-qa="task">إسناد المهمة</button>':'')+'</div>'}
 function qOrg(){const U=WF().users.filter(u=>u.r!=='a'),S2=[...new Set(U.map(u=>u.sec).filter(Boolean))];
  let h='<div class="ucard qintro"><b>آلية الربط والتسلسل</b><div><b>١. مسؤول المجموعة / الوجبة:</b> المستوى التنفيذي الميداني؛ يتابع العمل اليومي، يسجّل القراءات والأعطال فور حدوثها، ويرفعها إلى مسؤول الشعبة.</div><div><b>٢. مسؤول الشعبة:</b> المستوى الإشرافي التخصصي؛ يوزّع المهام على المجموعات، يدقّق البلاغات ويصادق عليها فنياً قبل رفعها إلى رئيس القسم.</div><div><b>٣. رئيس القسم:</b> المستوى الإداري الأعلى؛ يعتمد القرار النهائي أو يحيله إلى قسم آخر، ويوزّع الصلاحيات على الشعب.</div></div>';
  if(!S2.length)h+='<div class="unote">لم تُضف حسابات بعد. أضفها من «الحسابات» ليظهر الهيكل هنا.</div>';
@@ -4160,7 +4177,7 @@ function qUsers(u){const w=WF(),mine=x=>u.r==='a'||(x.sec===u.sec&&(x.r==='d'||x
 function viewQ(){const u=qMe();if(!u)return qLogin();const w=WF();let h=qMeCard(u);
  if(u.r==='a'&&!u.pin)h+='<div class="unote qwarn">⚠️ ضع رمز دخول لحساب «مسؤول النظام» من «الحسابات» حتى لا يدخل به غيرك.</div>';
  h+=qNav();
- if(qv==='in'||qv==='all'){const V=w.items.filter(x=>qSee(u,x)),c=k=>V.filter(x=>k.includes(x.st)).length,need=V.filter(x=>qNeed(u,x)).length;
+ if(qv==='in'||qv==='all'){const NL=w.items.filter(x=>qNeed(u,x)),lt=NL.filter(qLate),ur=NL.filter(x=>x.pr==='عاجل');if(lt.length||ur.length)h+='<div class="qalert">'+(ur.length?'<div>🚨 <b>'+ur.length+'</b> بلاغ عاجل بانتظار إجرائك</div>':'')+(lt.length?'<div>⏰ <b>'+lt.length+'</b> متأخر عن الوقت المحدد — أقدمها منذ '+qAgo(Math.max(...lt.map(qLate)))+'</div>':'')+'<small>الوقت المحدد: عاجل ساعتان · مهم 12 ساعة · عادي 24 ساعة</small></div>';const V=w.items.filter(x=>qSee(u,x)),c=k=>V.filter(x=>k.includes(x.st)).length,need=V.filter(x=>qNeed(u,x)).length;
   h+='<div class="ustats"><div class="us"><b style="color:#b91c1c">'+need+'</b><span>بانتظاري</span></div><div class="us"><b>'+c(['task','sub','div','ref'])+'</b><span>قيد المتابعة</span></div><div class="us"><b>'+c(['ok'])+'</b><span>معتمد</span></div><div class="us"><b>'+c(['ret','rej'])+'</b><span>مُعاد</span></div></div>';
   if(qv==='all')h+='<div class="ustg c4 qfl">'+[['all','الكل'],['open','المفتوحة'],['ok','المعتمدة'],['ret','المُعادة']].map(a=>'<button type="button" class="ust b-res'+(qfl===a[0]?' on':'')+'" data-qf="'+a[0]+'">'+a[1]+'</button>').join('')+'</div>';
   const L=qList(u,qv==='in');
@@ -4168,13 +4185,14 @@ function viewQ(){const u=qMe();if(!u)return qLogin();const w=WF();let h=qMeCard(
   L.forEach(x=>h+=qCard(u,x))}
  else if(qv==='new')h+=qNew(u);
  else if(qv==='org')h+=qOrg();
- else if(qv==='users'&&(u.r==='a'||u.r==='h'))h+=qUsers(u);
+ else if(qv==='users'&&(u.r==='a'||u.r==='h'))h+=qSetupView(u)+qUsers(u);
+ else if(qv==='rep'&&u.r!=='g')h+=qRep(u);
  return h}
 function qItem(id){return WF().items.find(x=>x.id===id)}
 function qPrint(x){const row=(a,b)=>'<tr><th>'+a+'</th><td>'+b+'</td></tr>';
  pvShow('<h1>محطة كهرباء الموصل الغازية</h1><h2>'+esc2(x.ty)+' — رقم '+x.no+'</h2><table>'+row('القسم / الشعبة / المجموعة',esc2(qScope(x)))+row('الوحدة',x.u?esc2(UN(x.u-1)):'—')+row('الأولوية',esc2(x.pr||'عادي'))+row('العنوان',esc2(x.ti))+row('التفاصيل',esc2(x.ds||'').replace(/\n/g,'<br>')+'<br>')+row('الحالة',WSTT[x.st][0]+(x.st==='ref'?' — '+esc2(x.to):''))+'</table>'
  +'<h3>سجل الإجراءات</h3><table class="lg"><tr><th>التاريخ</th><th>الإجراء</th><th>بواسطة</th><th>الملاحظة</th></tr>'+(x.log||[]).map(l=>'<tr><td>'+stamp(l.t)+'</td><td>'+esc2(l.a)+'</td><td>'+esc2(l.bn)+'</td><td>'+esc2(l.nt||'')+'</td></tr>').join('')+'</table>'
- +'<div class="sg"><div>مسؤول المجموعة</div><div>مسؤول الشعبة</div><div>رئيس القسم</div></div>',
+ +(x.ai&&!x.ai.busy?'<h3>التحليل الذكي</h3><div style="font-size:14px;line-height:1.75">'+aiMd(x.ai.txt)+'</div>':'')+'<div class="sg"><div>مسؤول المجموعة</div><div>مسؤول الشعبة</div><div>رئيس القسم</div></div>',
  '#fmPv .pvd{font-family:Arial,Tahoma;direction:rtl;color:#111}#fmPv h1{text-align:center;font-size:22px;margin:4px 0}#fmPv h2{text-align:center;font-size:17px;margin:2px 0 14px}#fmPv h3{font-size:16px;margin:16px 0 6px}#fmPv table{width:100%;border-collapse:collapse;font-size:15px}#fmPv th,#fmPv td{border:1.5px solid #222;padding:8px 10px;text-align:right;vertical-align:top}#fmPv th{background:#eee}#fmPv table:not(.lg) th{width:30%}#fmPv .lg td,#fmPv .lg th{font-size:13px;padding:6px}#fmPv .sg{display:flex;justify-content:space-between;margin-top:50px;font-size:15px}#fmPv .sg div{width:30%;text-align:center;border-top:1.5px solid #222;padding-top:6px}',{name:x.ty+' '+x.no})}
 function qOrgPrint(){const U=WF().users.filter(u=>u.r!=='a'),S2=[...new Set(U.map(u=>u.sec).filter(Boolean))];
  let t='<table><tr><th>القسم</th><th>رئيس القسم</th><th>الشعبة</th><th>مسؤول الشعبة</th><th>المجموعة / الوجبة</th><th>مسؤول المجموعة</th></tr>';
@@ -4228,6 +4246,79 @@ $('uoBody').addEventListener('click',e=>{if(tab!=='q')return;const w=WF(),u=qMe(
  else if(a==='rret')qAsk({t:'إعادة للقسم المُحيل',ph:'الملاحظة',req:1,ok:'إعادة'},nt=>{x.st='div';const t0=x.to;x.to='';qLog(x,'إعادة من قسم '+t0+' إلى القسم المُحيل',nt);save();draw(true);toast('أُعيد البلاغ')});
 });
 $('uoBody').addEventListener('change',e=>{if(tab!=='q'||e.target.id!=='quR')return;const r=e.target.value;document.querySelectorAll('#uoBody .qfd').forEach(el=>el.style.display=(r==='d'||r==='g')?'':'none');document.querySelectorAll('#uoBody .qfg').forEach(el=>el.style.display=r==='g'?'':'none')});
+/* v316 تطوير ذكي لسير العمل: بلاغ صوتي/حر، تحليل وتوصية من المنهاج، إعداد سريع، تنبيهات وتقرير */
+const QSLA={'عاجل':2,'مهم':12,'عادي':24};
+function qLate(x){if(['ok','rej'].includes(x.st))return 0;const h=(Date.now()-(x.ts||0))/36e5,lim=QSLA[x.pr]||24;return h>lim?Math.floor(h):0}
+function qAgo(h){return h>=48?Math.floor(h/24)+' يوم':h+' ساعة'}
+function qJson(t){const m=String(t).replace(/```json|```/g,'').match(/[\[{][\s\S]*[\]}]/);if(!m)throw new Error('رد غير مفهوم');return JSON.parse(m[0])}
+async function qRefs(q,n,st){const out=[];for(let i=0;i<AC.length;i++){let D;try{D=await aiTxt(i,st)}catch(_){continue}aiScore(D,q).slice(0,3).forEach(([s,k])=>out.push({s,i,pg:D.a+k,t:D.p[k]}))}return out.sort((a,b)=>b.s-a.s).slice(0,n||4)}
+function qBadge(){const t=document.querySelector('#hGrid [data-hg="wf"]');if(!t)return;let b=t.querySelector('.qbdg');const w=S.wf,u=w&&w.users&&w.users.find(x=>x.id===w.cur);const n=u?(w.items||[]).filter(x=>qNeed(u,x)).length:0,late=u?(w.items||[]).filter(x=>qNeed(u,x)&&qLate(x)).length:0;
+ if(!n){if(b)b.remove();return}if(!b){b=document.createElement('i');b.className='qbdg';t.appendChild(b)}b.textContent=n;b.classList.toggle('late',!!late)}
+let qRec=null;
+function qMic(btn){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){toast('الإملاء الصوتي غير مدعوم هنا — استخدم زر المايك بكيبورد الموبايل');return}
+ if(qRec){try{qRec.stop()}catch(_){}return}const ta=$('qFree'),base=ta.value?ta.value.trim()+' ':'';const r=new SR();r.lang='ar-IQ';r.interimResults=true;r.continuous=true;
+ r.onresult=e=>{let t='';for(let i=0;i<e.results.length;i++)t+=e.results[i][0].transcript;ta.value=base+t};
+ r.onend=()=>{qRec=null;btn.innerHTML='🎤 تكلّم';btn.classList.remove('rec')};r.onerror=e=>{if(e.error==='not-allowed')toast('اسمح للتطبيق باستخدام المايك')};
+ try{r.start();qRec=r;btn.innerHTML='⏹ إيقاف التسجيل';btn.classList.add('rec')}catch(_){toast('تعذّر تشغيل المايك')}}
+async function qSmartFill(btn){const t=($('qFree').value||'').trim();if(!t){toast('اكتب أو سجّل البلاغ أولاً');return}if(!gkey()){toast('أضف مفتاح Gemini من الإعدادات');return}
+ const o=btn.innerHTML;btn.disabled=true;btn.innerHTML='⏳ جاري التحليل…';
+ try{const r=await aiCall([{text:'أنت مساعد في محطة كهرباء الموصل الغازية (14 وحدة توربين غازي). حوّل نص البلاغ الميداني التالي (قد يكون باللهجة العراقية أو منقولاً صوتياً) إلى بلاغ رسمي. أعد JSON فقط بلا أي نص آخر بهذا الشكل:\n{"ty":"أحد: '+WTY.join(' | ')+'","u":رقم الوحدة من 1 إلى 14 أو 0 إذا لم تُذكر,"pr":"عادي | مهم | عاجل","ti":"عنوان رسمي قصير لا يتجاوز 70 حرفاً","ds":"التفاصيل بصياغة رسمية مختصرة مع كل القراءات والأوقات والأرقام كما وردت، بنقاط تبدأ بـ - "}\nالأولوية عاجل عند: حريق، تسرب وقود أو غاز، خطر على الأشخاص، توقف وحدة (Trip)، ارتفاع حرارة أو اهتزاز خطير. مهم عند: عطل يؤثر على التشغيل أو قراءة غير طبيعية. غير ذلك عادي.\n\nالنص: '+t}]);
+  const j=qJson(r);if(j.ty&&$('qT')&&WTY.includes(j.ty))$('qT').value=j.ty;const un=Math.max(0,Math.min(NU,parseInt(j.u)||0));$('qU').value=String(un);if(WPRI.includes(j.pr))$('qP').value=j.pr;if(j.ti)$('qTi').value=String(j.ti).slice(0,120);if(j.ds)$('qDs').value=String(j.ds);
+  document.querySelectorAll('#uoBody #qTi,#uoBody #qDs,#uoBody #qU,#uoBody #qP,#uoBody #qT').forEach(e=>{e.classList.add('qfill');setTimeout(()=>e.classList.remove('qfill'),1600)});toast('✨ عُبّئت الحقول — راجعها ثم ارفع');setTimeout(()=>$('qTi').scrollIntoView({behavior:'smooth',block:'center'}),100)}
+ catch(e){toast(/503|429|demand|UNAVAILABLE/i.test(String(e&&e.message))?'خوادم Google مزدحمة — أعد المحاولة':'تعذّر التحليل الذكي')}
+ btn.disabled=false;btn.innerHTML=o}
+async function qAnalyze(x){if(!gkey()){toast('أضف مفتاح Gemini من الإعدادات');return}const u=qMe();x.ai={t:Date.now(),txt:'⏳ جاري البحث في المنهاج…',busy:1};draw(true);
+ const el=()=>document.querySelector('#uoBody [data-qi="'+x.id+'"] .qai div');const set=t=>{const e=el();if(e)e.innerHTML=aiMd(t)};
+ try{const q=x.ti+' '+(x.ds||'');const R=await qRefs(q,4,t=>set(t));set('⏳ جاري التحليل…');
+  const ref=R.map(r=>'[ص '+r.pg+' — الفصل '+AC[r.i][0]+' '+AC[r.i][1]+']\n'+r.t.slice(0,1800)).join('\n\n');
+  const lg=(x.log||[]).map(l=>'- '+l.a+' ('+l.bn+')'+(l.nt?': '+l.nt:'')).join('\n');
+  const txt=await aiCall([{text:'أنت مستشار فني لمحطة كهرباء الموصل الغازية. المستخدم: '+WR[u.r]+'. حلّل البلاغ التالي وأجب بالعربية باختصار شديد بهذا الترتيب:\n**الخلاصة:** سطر أو سطران.\n**درجة الخطورة:** منخفضة/متوسطة/عالية مع السبب بجملة.\n**الإجراء المقترح:** من 2 إلى 4 خطوات مرقّمة مناسبة لـ'+WR[u.r]+'.\n**مراجع المنهاج:** أرقام الصفحات بصيغة (ص 123) من المقتطفات أدناه فقط إن كانت ذات صلة، وإلا اكتب: لا توجد صفحة مطابقة.\nالمقتطفات مستخرجة بالقراءة الضوئية وقد تحوي أخطاء بسيطة.\n\nالبلاغ: '+x.ty+' رقم '+x.no+'\nالوحدة: '+(x.u?UN(x.u-1):'غير محددة')+'\nالأولوية: '+(x.pr||'عادي')+'\nالعنوان: '+x.ti+'\nالتفاصيل: '+(x.ds||'')+'\nالسجل:\n'+lg+'\n\nمقتطفات من المنهاج التدريبي:\n'+ref}],t=>set(t),t=>set(t));
+  x.ai={t:Date.now(),txt};save();draw(true)}
+ catch(e){x.ai=null;draw(true);toast(/503|429|demand|UNAVAILABLE/i.test(String(e&&e.message))?'خوادم Google مزدحمة — أعد المحاولة':'تعذّر التحليل')}}
+let qSetup=null;
+function qSetupView(u){const ex=u.r==='h'?'مثال: شعبة الأجهزة الدقيقة مسؤولها علي حسن، وجباتها: الأولى سعد محمود، الثانية حسين علي':'مثال: قسم السيطرة الذاتية رئيسه أحمد خالد، بيه شعبة الأجهزة الدقيقة مسؤولها علي حسن، والوجبات الأولى سعد محمود والثانية حسين علي. قسم الصيانة رئيسه محمد صالح…';
+ let h='<div class="ucard qsmart"><div class="qsh">⚡ إعداد سريع بالذكاء الاصطناعي</div><div class="qsn">اكتب الهيكل بكلامك العادي (أو تكلّم)، وينشئ التطبيق كل الحسابات مرة وحدة. الأسماء تُطابَق تلقائياً مع دليل المنتسبين.</div><textarea id="qFree" rows="4" placeholder="'+esc2(ex)+'"></textarea><div class="mact"><button type="button" class="mab" data-qa="mic">🎤 تكلّم</button><button type="button" class="mab" data-qa="setup">✨ تحليل الهيكل</button></div>';
+ if(qSetup&&qSetup.length){h+='<div class="qsp"><b>سيتم إنشاء '+qSetup.length+' حساب — راجعها:</b>'+qSetup.map((x,i)=>'<div class="qspr"><span>'+(x.r==='h'?'🏛️':x.r==='d'?'🧭':'👷')+'</span><span><b>'+esc2(x.n)+'</b><small>'+WR[x.r]+' · '+esc2(qScope(x))+'</small></span><button type="button" class="udel" data-qsd="'+i+'">✕</button></div>').join('')+'<div class="mact"><button type="button" class="mab" data-qa="setupok">✓ إنشاء الحسابات</button><button type="button" class="mab dl" data-qa="setupno">إلغاء</button></div></div>'}
+ return h+'</div>'}
+async function qSetupRun(btn){const u=qMe(),t=($('qFree').value||'').trim();if(!t){toast('اكتب الهيكل أولاً');return}if(!gkey()){toast('أضف مفتاح Gemini من الإعدادات');return}
+ const o=btn.innerHTML;btn.disabled=true;btn.innerHTML='⏳ جاري التحليل…';
+ const names=(S.emps||[]).map(e=>e.name).filter(Boolean).slice(0,400);
+ try{const r=await aiCall([{text:'حوّل وصف الهيكل الإداري التالي لمحطة كهرباء إلى قائمة حسابات. أعد JSON فقط: مصفوفة عناصر بالشكل {"n":"الاسم","r":"h لرئيس قسم | d لمسؤول شعبة | g لمسؤول مجموعة أو وجبة","sec":"اسم القسم بدون كلمة قسم","div":"اسم الشعبة بدون كلمة شعبة أو فارغ","grp":"اسم المجموعة/الوجبة مثل: الوجبة الأولى، أو فارغ"}.\nقواعد: رئيس القسم div و grp فارغان. مسؤول الشعبة grp فارغ. مسؤول المجموعة يحتاج sec و div و grp؛ إذا لم تُذكر الشعبة للمجموعة فاستخدم نفس اسم القسم كشعبة.'+(u.r==='h'?' كل الحسابات ضمن قسم «'+u.sec+'» وأدوارها d أو g فقط.':'')+(names.length?'\nإذا كان الاسم مطابقاً أو قريباً من اسم في قائمة المنتسبين التالية فاكتبه كما هو في القائمة: '+names.join('، '):'')+'\n\nالوصف: '+t}]);
+  let L=qJson(r);if(!Array.isArray(L))L=[L];L=L.filter(x=>x&&x.n&&['h','d','g'].includes(x.r)).map(x=>({n:String(x.n).trim(),r:x.r,sec:u.r==='h'?u.sec:String(x.sec||'').replace(/^قسم\s*/,'').trim(),div:x.r==='h'?'':String(x.div||'').replace(/^شعبة\s*/,'').trim(),grp:x.r==='g'?String(x.grp||'').trim():''})).filter(x=>x.sec&&(x.r==='h'||x.div)&&(x.r!=='g'||x.grp)&&(u.r!=='h'||x.r!=='h'));
+  if(!L.length){toast('ما قدرت أفهم الهيكل — وضّح الأسماء والأدوار أكثر')}qSetup=L;draw(true)}
+ catch(e){toast(/503|429|demand|UNAVAILABLE/i.test(String(e&&e.message))?'خوادم Google مزدحمة — أعد المحاولة':'تعذّر التحليل')}
+ btn.disabled=false;btn.innerHTML=o}
+let qRepAi=null;
+function qRepData(u){const V=WF().items.filter(x=>qSee(u,x)),since=Date.now()-7*864e5,W=V.filter(x=>(x.log&&x.log[0]&&x.log[0].t||x.ts)>=since);
+ const c=k=>V.filter(x=>k.includes(x.st)).length,ok=W.filter(x=>x.st==='ok'),tm=ok.map(x=>{const a=x.log[0].t,b=(x.log.find(l=>/اعتماد/.test(l.a))||x.log[x.log.length-1]).t;return (b-a)/36e5}).filter(h=>h>=0);
+ const units={},types={};W.forEach(x=>{if(x.u)units[UN(x.u-1)]=(units[UN(x.u-1)]||0)+1;types[x.ty]=(types[x.ty]||0)+1});
+ return {V,W,nw:W.length,ok:ok.length,ret:W.filter(x=>(x.log||[]).some(l=>/إعادة/.test(l.a))).length,late:V.filter(qLate).length,urg:V.filter(x=>x.pr==='عاجل'&&!['ok','rej'].includes(x.st)).length,avg:tm.length?(tm.reduce((a,b)=>a+b,0)/tm.length):null,stg:{g:c(['task','ret']),d:c(['sub']),h:c(['div','ref'])},units,types}}
+function qRep(u){const R=qRepData(u),bars=o=>{const e=Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,6),mx=Math.max(1,...e.map(x=>x[1]));return e.length?e.map(([k,v])=>'<div class="qbar"><span>'+esc2(k)+'</span><i><em style="width:'+Math.round(v/mx*100)+'%"></em></i><b>'+v+'</b></div>').join(''):'<div class="qsn">لا توجد بيانات</div>'};
+ let h='<div class="uh2">📊 تقرير آخر 7 أيام</div><div class="ustats"><div class="us"><b>'+R.nw+'</b><span>بلاغ جديد</span></div><div class="us"><b style="color:#15803d">'+R.ok+'</b><span>معتمد</span></div><div class="us"><b style="color:#a16207">'+R.ret+'</b><span>أُعيد</span></div><div class="us"><b style="color:#b91c1c">'+R.late+'</b><span>متأخر</span></div></div>';
+ h+='<div class="ucard"><div class="qsh">⏱️ سرعة الإنجاز</div><div class="qsn">متوسط وقت الاعتماد: <b>'+(R.avg==null?'—':R.avg<1?'أقل من ساعة':R.avg.toFixed(1)+' ساعة')+'</b> · عاجل مفتوح: <b>'+R.urg+'</b></div><div class="qsn">بانتظار المجموعات: <b>'+R.stg.g+'</b> · الشعب: <b>'+R.stg.d+'</b> · الأقسام: <b>'+R.stg.h+'</b></div></div>';
+ h+='<div class="ucard"><div class="qsh">⚡ أكثر الوحدات بلاغات</div>'+bars(R.units)+'</div><div class="ucard"><div class="qsh">🗂️ أنواع البلاغات</div>'+bars(R.types)+'</div>';
+ h+='<div class="ucard qai"><b>✨ القراءة الذكية للتقرير</b><div>'+(qRepAi?aiMd(qRepAi):'<span class="qsn">اضغط الزر حتى يكتب الذكاء الاصطناعي خلاصة وتوصيات للإدارة.</span>')+'</div></div>';
+ return h+'<div class="mact"><button type="button" class="mab" data-qa="repai">✨ قراءة ذكية</button><button type="button" class="mab ed" data-qa="reppr">🖨️ طباعة / Word</button></div>'}
+async function qRepAiRun(btn){const u=qMe(),R=qRepData(u);if(!gkey()){toast('أضف مفتاح Gemini من الإعدادات');return}btn.disabled=true;qRepAi='⏳ جاري الكتابة…';draw(true);
+ const set=t=>{const e=document.querySelector('#uoBody .qai div');if(e)e.innerHTML=aiMd(t)};
+ const list=R.W.slice(0,40).map(x=>'- '+x.ty+' | '+(x.u?UN(x.u-1):'—')+' | '+(x.pr||'عادي')+' | '+WSTT[x.st][0]+' | '+x.ti).join('\n');
+ try{qRepAi=await aiCall([{text:'اكتب خلاصة إدارية قصيرة بالعربية الرسمية لتقرير أسبوعي عن بلاغات سير العمل في محطة كهرباء الموصل الغازية، موجّهة إلى '+(u.r==='a'?'إدارة المحطة':WR[u.r])+'. التنسيق: **الوضع العام** (سطران)، **الملاحظات** (3 نقاط كحد أقصى: الوحدات المتكررة، التأخير، الأنماط)، **التوصيات** (3 نقاط عملية). لا تخترع أرقاماً غير موجودة.\nالأرقام: بلاغات جديدة '+R.nw+'، معتمدة '+R.ok+'، أعيدت '+R.ret+'، متأخرة '+R.late+'، عاجلة مفتوحة '+R.urg+'، متوسط وقت الاعتماد '+(R.avg==null?'غير متاح':R.avg.toFixed(1)+' ساعة')+'، بانتظار المجموعات '+R.stg.g+' والشعب '+R.stg.d+' والأقسام '+R.stg.h+'.\nالبلاغات:\n'+(list||'لا توجد')}],t=>set(t),t=>set(t))}
+ catch(e){qRepAi=null;toast(/503|429|demand|UNAVAILABLE/i.test(String(e&&e.message))?'خوادم Google مزدحمة — أعد المحاولة':'تعذّرت الكتابة')}
+ btn.disabled=false;draw(true)}
+function qRepPrint(){const u=qMe(),R=qRepData(u),row=(a,b)=>'<tr><th>'+a+'</th><td>'+b+'</td></tr>',ls=o=>Object.entries(o).sort((a,b)=>b[1]-a[1]).map(([k,v])=>esc2(k)+': '+v).join('، ')||'—';
+ pvShow('<h1>محطة كهرباء الموصل الغازية</h1><h2>تقرير سير العمل — آخر 7 أيام ('+stamp(Date.now()).split('،')[0]+')</h2><table>'+row('بلاغات جديدة',R.nw)+row('معتمدة',R.ok)+row('أُعيدت للتصحيح',R.ret)+row('متأخرة عن الوقت المحدد',R.late)+row('عاجلة مفتوحة',R.urg)+row('متوسط وقت الاعتماد',R.avg==null?'—':R.avg.toFixed(1)+' ساعة')+row('بانتظار (مجموعات / شعب / أقسام)',R.stg.g+' / '+R.stg.d+' / '+R.stg.h)+row('أكثر الوحدات بلاغات',ls(R.units))+row('أنواع البلاغات',ls(R.types))+'</table>'+(qRepAi&&!/^⏳/.test(qRepAi)?'<h3>الخلاصة والتوصيات</h3><div class="ai">'+aiMd(qRepAi)+'</div>':'')+'<div class="sg"><div>المُعِد</div><div>رئيس القسم</div><div>مدير المحطة</div></div>',
+ '#fmPv .pvd{font-family:Arial,Tahoma;direction:rtl;color:#111}#fmPv h1{text-align:center;font-size:22px;margin:4px 0}#fmPv h2{text-align:center;font-size:16px;margin:2px 0 14px}#fmPv h3{font-size:16px;margin:16px 0 6px}#fmPv table{width:100%;border-collapse:collapse;font-size:15px}#fmPv th,#fmPv td{border:1.5px solid #222;padding:8px 10px;text-align:right}#fmPv th{background:#eee;width:38%}#fmPv .ai{font-size:14.5px;line-height:1.8}#fmPv .sg{display:flex;justify-content:space-between;margin-top:50px;font-size:15px}#fmPv .sg div{width:30%;text-align:center;border-top:1.5px solid #222;padding-top:6px}',{name:'تقرير سير العمل الأسبوعي'})}
+$('uoBody').addEventListener('click',e=>{if(tab!=='q')return;const b=e.target.closest('[data-qa],[data-qsd]');if(!b)return;const a=b.dataset.qa;
+ if(b.dataset.qsd!=null){qSetup.splice(+b.dataset.qsd,1);draw(true);return}
+ if(a==='mic'){qMic(b);return}if(a==='smart'){qSmartFill(b);return}if(a==='setup'){qSetupRun(b);return}
+ if(a==='setupno'){qSetup=null;draw(true);return}
+ if(a==='setupok'&&qSetup){const w=WF();let n=0;qSetup.forEach(x=>{if(w.users.some(y=>y.n===x.n&&y.r===x.r&&y.sec===x.sec&&y.div===x.div&&y.grp===x.grp))return;w.users.push(Object.assign({id:'u'+Date.now()+'_'+(n++),ph:'',pin:''},x))});qSetup=null;save();draw(false);toast('أُنشئ '+n+' حساب ✓');return}
+ if(a==='repai'){qRepAiRun(b);return}if(a==='reppr'){qRepPrint();return}
+ if(a==='ai'){const c=b.closest('[data-qi]'),x=c&&qItem(c.dataset.qi);if(x&&!(x.ai&&x.ai.busy))qAnalyze(x);return}},true);
+$('uoBody').addEventListener('click',()=>{if(tab==='q')setTimeout(qBadge,50)});
+$('uoBk').addEventListener('click',()=>setTimeout(qBadge,50));
+setTimeout(qBadge,800);
+
 })();
 
 })();
