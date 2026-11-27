@@ -1957,7 +1957,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 314 — 24/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 315 — 24/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3717,9 +3717,32 @@ const AC=[['الأول','فكرة عامة','5','87',83,'7.6'],['الثاني','
 const AIP=[[{"f": "academy/ch1.pdf", "a": 5, "b": 87}], [{"f": "academy/ai/c2-1.pdf", "a": 88, "b": 169}, {"f": "academy/ai/c2-2.pdf", "a": 170, "b": 251}, {"f": "academy/ai/c2-3.pdf", "a": 252, "b": 331}], [{"f": "academy/ai/c3-1.pdf", "a": 332, "b": 392}, {"f": "academy/ai/c3-2.pdf", "a": 393, "b": 452}], [{"f": "academy/ai/c4-1.pdf", "a": 453, "b": 525}, {"f": "academy/ai/c4-2.pdf", "a": 526, "b": 598}], [{"f": "academy/ch5.pdf", "a": 599, "b": 644}], [{"f": "academy/ch6.pdf", "a": 645, "b": 687}], [{"f": "academy/ch7.pdf", "a": 688, "b": 752}]];
 function aiMd(t){return esc2(t).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/^#+\s*(.+)$/gm,'<b>$1</b>').replace(/^\s*[-*]\s+/gm,'• ').replace(/\n/g,'<br>')}
 function aiB64(b){return new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=no;r.readAsDataURL(b)})}
-async function aiCall(parts,onStage){const errs=[];for(const m of ['gemini-3.8-flash','gemini-flash-latest']){try{onStage&&onStage('جاري التفكير…');const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+m+':generateContent?key='+encodeURIComponent(gkey()),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts}],generationConfig:{temperature:.2}})});
+async function aiCall(parts,onStage,onText){const errs=[];const MS=['gemini-3.8-flash','gemini-3.5-flash','gemini-3.1-flash-lite','gemini-flash-latest'];for(let mi=0;mi<MS.length;mi++){const m=MS[mi];try{onStage&&onStage(mi?'الخادم مزدحم — تجربة نموذج بديل…':'جاري التفكير…');
+  const body=JSON.stringify({contents:[{parts}],generationConfig:{temperature:.2,thinkingConfig:{thinkingLevel:'low'}}});
+  const base='https://generativelanguage.googleapis.com/v1beta/models/'+m;
+  if(onText&&window.ReadableStream&&window.TextDecoder){const r=await fetch(base+':streamGenerateContent?alt=sse&key='+encodeURIComponent(gkey()),{method:'POST',headers:{'Content-Type':'application/json'},body});
+   if(!r.ok){const t=(await r.text()).slice(0,200);errs.push(r.status+' '+t);if(/API key|API_KEY_INVALID|PERMISSION_DENIED/i.test(t))break;continue}
+   const rd=r.body.getReader(),dec=new TextDecoder();let buf='',acc='';
+   for(;;){const {done,value}=await rd.read();if(done)break;buf+=dec.decode(value,{stream:true});let k;
+    while((k=buf.indexOf('\n'))>=0){const ln=buf.slice(0,k).trim();buf=buf.slice(k+1);if(ln.indexOf('data:')!==0)continue;
+     try{const j=JSON.parse(ln.slice(5));const t=((j.candidates||[])[0]?.content?.parts||[]).filter(p=>!p.thought).map(p=>p.text||'').join('');if(t){acc+=t;onText(acc)}}catch(_){}}}
+   if(acc.trim())return acc.trim();errs.push(m+': empty');continue}
+  const r=await fetch(base+':generateContent?key='+encodeURIComponent(gkey()),{method:'POST',headers:{'Content-Type':'application/json'},body});
   if(!r.ok){const t=(await r.text()).slice(0,200);errs.push(r.status+' '+t);if(/API key|API_KEY_INVALID|PERMISSION_DENIED/i.test(t))break;continue}
-  const j=await r.json();const tx=((j.candidates||[])[0]?.content?.parts||[]).map(p=>p.text||'').join('').trim();if(tx)return tx;errs.push(m+': empty')}catch(e){errs.push(String(e&&e.message||e))}}throw new Error(errs.join(' | ').slice(0,300))}
+  const j=await r.json();const tx=((j.candidates||[])[0]?.content?.parts||[]).filter(p=>!p.thought).map(p=>p.text||'').join('').trim();if(tx)return tx;errs.push(m+': empty')}catch(e){errs.push(String(e&&e.message||e))}}throw new Error(errs.join(' | ').slice(0,300))}
+/* v315 بحث محلي سريع في نص المنهاج (مستخرج بالقراءة الضوئية) بدل إرسال ملف الفصل كاملاً */
+const AISW=new Set('ما ماذا لماذا كيف هل هي هو هم في من الى إلى على عن مع او أو و ثم اذا إذا التي الذي الذين هذا هذه ذلك تلك كل بعض اي أي عند بين قبل بعد لكن لا نعم انا انت اشرح وضح اذكر عدد عرف تكلم اعطني اريد ممكن يتم تتم يكون تكون لها له بها به فيها فيه منها منه عليها عليه'.split(' ').map(w=>aiN(w)));
+function aiN(t){return String(t).replace(/[ً-ْـٰ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي').toLowerCase()}
+function aiStem(w){if(w.length>4)w=w.replace(/^(وال|بال|فال|كال|لل|ال)/,'');if(w.length>4)w=w.replace(/(ات|ون|ين|يه|ها|هم|ان)$/,'');if(w.length>3)w=w.replace(/[هي]$/,'');return w}
+function aiTok(t){return (aiN(t).match(/[ء-يa-z0-9]{2,}/g)||[]).filter(w=>!AISW.has(w)).map(aiStem).filter(w=>w.length>1)}
+function aiLev(a,b){if(Math.abs(a.length-b.length)>1)return 9;let p=Array.from({length:b.length+1},(_,i)=>i);for(let i=1;i<=a.length;i++){const c=[i];for(let j=1;j<=b.length;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[b.length]}
+async function aiTxt(i,onStage){const B=window._aiTx=window._aiTx||{};if(B[i])return B[i];onStage&&onStage('⏳ تحميل نص الفصل…');const r=await fetch('academy/txt/c'+(i+1)+'.json');if(!r.ok)throw new Error('txt');const j=await r.json();
+ const docs=j.p.map(t=>{const tf={};aiTok(t).forEach(w=>tf[w]=(tf[w]||0)+1);return tf}),df={};docs.forEach(tf=>Object.keys(tf).forEach(w=>df[w]=(df[w]||0)+1));
+ B[i]={a:j.a,p:j.p,docs,df,voc:Object.keys(df)};return B[i]}
+function aiPick(D,q,n){const N=D.p.length,qs=[...new Set(aiTok(q))],terms=[];
+ qs.forEach(w=>{if(D.df[w])terms.push([w,1]);if(w.length>=4){D.voc.forEach(v=>{if(v!==w&&(v.length>=4)&&(v.indexOf(w)===0||w.indexOf(v)===0||aiLev(w,v)===1))terms.push([v,.7])})}});
+ const sc=D.docs.map((tf,k)=>{let s=0;terms.forEach(([w,wt])=>{const f=tf[w];if(f)s+=wt*Math.log(1+N/D.df[w])*(1+Math.log(f))});return [s,k]}).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]);
+ const sel=new Set();sc.slice(0,n).forEach(([s,k])=>{sel.add(k);if(k+1<N&&sel.size<n+3)sel.add(k+1)});return [...sel].sort((a,b)=>a-b)}
 async function aiPdf(f,onStage){const B=window._aiBl=window._aiBl||{};if(B[f])return B[f];const r=await fetch(f);if(!r.ok)throw new Error('تعذّر تحميل الفصل');const tot=+r.headers.get('content-length')||0,rd=r.body&&r.body.getReader?r.body.getReader():null;let b;if(!rd)b=await r.blob();else{const ch=[];let got=0;for(;;){const {done,value}=await rd.read();if(done)break;ch.push(value);got+=value.length;onStage&&onStage('⏳ تحميل الفصل '+(tot?Math.round(got*100/tot)+'%':Math.round(got/1048576)+' م.ب'))}b=new Blob(ch,{type:'application/pdf'})}B[f]=await aiB64(b);return B[f]}
 function aiOpen(){let o=document.getElementById('aiOv');if(o){o.style.display='flex';return}o=document.createElement('div');o.id='aiOv';
  const H=window._aiH=window._aiH||[];let sel=-1;
@@ -3734,11 +3757,15 @@ function aiOpen(){let o=document.getElementById('aiOv');if(o){o.style.display='f
  const send=async()=>{const q=$('aiQ').value.trim();if(!q)return;if(!gkey()){toast('أضف مفتاح Gemini من الإعدادات');return}$('aiQ').value='';add('u',esc2(q));const w=add('b','<span class="aisp"></span> <i>جاري التحضير…</i>');const st=t=>{w.querySelector('i').textContent=t};$('aiS').disabled=true;
   const ctx=H.slice(-4).map(h=>(h.r==='u'?'سؤال سابق: ':'جواب سابق: ')+h.t).join('\n');
   try{let ans;
-   if(sel<0){ans=await aiCall([{text:'أنت مساعد تدريبي لمهندسي وفنيي محطة كهرباء الموصل الغازية (وحدات توربينات غازية) في وزارة الكهرباء العراقية. أجب بالعربية بوضوح واختصار ودقة، بنقاط عند الحاجة. إذا لم تكن متأكداً قل ذلك. في آخر الجواب اقترح الفصل الأنسب من المنهاج من هذه القائمة: '+AC.map(c=>'الفصل '+c[0]+': '+c[1]).join('، ')+'.\n'+(ctx?ctx+'\n':'')+'السؤال: '+q}],st)}
-   else{const P=AIP[sel],c=AC[sel];const res=await Promise.all(P.map(async(p,k)=>{const b64=await aiPdf(p.f,t=>st(t+(P.length>1?' (جزء '+(k+1)+' من '+P.length+')':'')));st('جاري البحث في صفحات الفصل…');return aiCall([{text:'أنت مساعد تدريبي لمهندسي محطة كهرباء الموصل الغازية. المرفق جزء من الفصل '+c[0]+' ('+c[1]+') من المنهاج التدريبي، صفحاته في الكتاب من '+p.a+' إلى '+p.b+' (أول صفحة في الملف = صفحة '+p.a+'). أجب عن السؤال بالعربية اعتماداً على هذا الجزء فقط، باختصار ووضوح وبنقاط عند الحاجة، واذكر أرقام صفحات الكتاب التي اعتمدت عليها بصيغة (ص 123). إذا لم يكن الجواب موجوداً في هذا الجزء أجب بكلمة NONE فقط.\n'+(ctx?ctx+'\n':'')+'السؤال: '+q},{inline_data:{mime_type:'application/pdf',data:b64}}])}));
-    const ok=res.filter(t=>t&&!/^\s*NONE\s*\.?\s*$/i.test(t));ans=ok.length?ok.join('\n\n'):'لم أجد جواب هذا السؤال في الفصل '+c[0]+'. جرّب فصلاً آخر أو «سؤال عام».'}
+   if(sel<0){ans=await aiCall([{text:'أنت مساعد تدريبي لمهندسي وفنيي محطة كهرباء الموصل الغازية (وحدات توربينات غازية) في وزارة الكهرباء العراقية. أجب بالعربية بوضوح واختصار ودقة، بنقاط عند الحاجة. إذا لم تكن متأكداً قل ذلك. في آخر الجواب اقترح الفصل الأنسب من المنهاج من هذه القائمة: '+AC.map(c=>'الفصل '+c[0]+': '+c[1]).join('، ')+'.\n'+(ctx?ctx+'\n':'')+'السؤال: '+q}],st,t=>{w.innerHTML=aiMd(t);L.scrollTop=L.scrollHeight})}
+   else{const c=AC[sel];let D=null;try{D=await aiTxt(sel,st)}catch(_){}
+   if(D){const ks=aiPick(D,q,6),pg=ks.length?ks:[];st(pg.length?'جاري القراءة من '+pg.length+' صفحات…':'جاري التفكير…');
+    const tx=pg.map(k=>'[ص '+(D.a+k)+']\n'+D.p[k]).join('\n\n');
+    ans=await aiCall([{text:'أنت مساعد تدريبي لمهندسي وفنيي محطة كهرباء الموصل الغازية. '+(pg.length?'فيما يلي صفحات مختارة من الفصل '+c[0]+' ('+c[1]+') من المنهاج التدريبي للمحطة، كل صفحة تبدأ برقمها في الكتاب بصيغة [ص 123]. النص مستخرج بالقراءة الضوئية وقد يحوي أخطاء إملائية بسيطة فصحّحها ضمنياً. أجب عن السؤال بالعربية اعتماداً على هذه الصفحات، باختصار ووضوح وبنقاط مرقّمة عند الحاجة، واذكر أرقام الصفحات التي اعتمدت عليها بصيغة (ص 123). إذا لم تجد الجواب فيها فقل ذلك بجملة واحدة ثم أجب من معرفتك العامة مع التنبيه أنه ليس من المنهاج.\n\n'+tx:'لم يُعثر على كلمات السؤال في الفصل '+c[0]+' ('+c[1]+') من المنهاج. ابدأ بجملة تقول إن الجواب ليس من صفحات المنهاج، ثم أجب باختصار من معرفتك العامة عن محطات التوربينات الغازية.')+'\n\n'+(ctx?ctx+'\n':'')+'السؤال: '+q}],st,t=>{w.innerHTML=aiMd(t);L.scrollTop=L.scrollHeight})}
+   else{const P=AIP[sel];const res=await Promise.all(P.map(async(p,k)=>{const b64=await aiPdf(p.f,t=>st(t+(P.length>1?' (جزء '+(k+1)+' من '+P.length+')':'')));st('جاري البحث في صفحات الفصل…');return aiCall([{text:'أنت مساعد تدريبي لمهندسي محطة كهرباء الموصل الغازية. المرفق جزء من الفصل '+c[0]+' ('+c[1]+') من المنهاج التدريبي، صفحاته في الكتاب من '+p.a+' إلى '+p.b+' (أول صفحة في الملف = صفحة '+p.a+'). أجب عن السؤال بالعربية اعتماداً على هذا الجزء فقط، باختصار ووضوح وبنقاط عند الحاجة، واذكر أرقام صفحات الكتاب التي اعتمدت عليها بصيغة (ص 123). إذا لم يكن الجواب موجوداً في هذا الجزء أجب بكلمة NONE فقط.\n'+(ctx?ctx+'\n':'')+'السؤال: '+q},{inline_data:{mime_type:'application/pdf',data:b64}}])}));
+    const ok=res.filter(t=>t&&!/^\s*NONE\s*\.?\s*$/i.test(t));ans=ok.length?ok.join('\n\n'):'لم أجد جواب هذا السؤال في الفصل '+c[0]+'. جرّب فصلاً آخر أو «سؤال عام».'}}
    w.innerHTML=aiMd(ans);H.push({r:'u',t:q},{r:'b',t:ans.slice(0,800)})}
-  catch(e){w.innerHTML='⚠️ تعذّر الجواب: '+esc2(String(e&&e.message||e)).slice(0,200)+'<br><small>تأكد من الإنترنت ومفتاح Gemini.</small>'}
+  catch(e){const em=String(e&&e.message||e);w.innerHTML=/\b(503|429|UNAVAILABLE|high demand|RESOURCE_EXHAUSTED|overloaded)/i.test(em)?'⚠️ خوادم Google مزدحمة الآن على كل النماذج. أعد إرسال السؤال بعد دقيقة.':/API key|API_KEY_INVALID|PERMISSION_DENIED/i.test(em)?'⚠️ مفتاح Gemini غير صالح. تأكد منه من الإعدادات.':/Failed to fetch|NetworkError|Load failed/i.test(em)?'⚠️ لا يوجد اتصال بالإنترنت.':'⚠️ تعذّر الجواب، أعد المحاولة.<br><small dir="ltr">'+esc2(em).slice(0,120)+'</small>'}
   $('aiS').disabled=false;L.scrollTop=L.scrollHeight};
  $('aiS').onclick=send;$('aiQ').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}})}
 window.aiOpen=aiOpen;
