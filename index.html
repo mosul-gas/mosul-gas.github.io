@@ -1768,6 +1768,17 @@ body.daymode table.grid th:not(.nocol):not(.namecol):not(.daycell){width:calc(34
 #uoOv .qspr{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #eadfc2}#uoOv .qspr>span:nth-child(2){flex:1}#uoOv .qspr b{display:block;color:#0b2447}#uoOv .qspr small{color:#5a6b8c;font-size:13px}
 #uoOv .qbar{display:grid;grid-template-columns:minmax(70px,34%) 1fr 30px;align-items:center;gap:8px;margin:7px 0;font-size:14px;color:#0b2447}#uoOv .qbar i{height:12px;background:#e4e9f4;border-radius:8px;overflow:hidden}#uoOv .qbar em{display:block;height:100%;background:linear-gradient(90deg,#1F4E9A,#d4af37);border-radius:8px}#uoOv .qbar b{text-align:left}
 #hGrid .hg[data-hg="wf"]{position:relative}.qbdg{position:absolute;top:6px;left:8px;min-width:24px;height:24px;padding:0 6px;border-radius:12px;background:#1F4E9A;color:#fff;font:900 14px/24px Arial;font-style:normal;text-align:center;border:2px solid #fff;box-shadow:0 2px 6px #0006}.qbdg.late{background:#c62828;animation:qpl 1.2s infinite}
+
+/* v321 الموقف من الكروب */
+.mwt.gp{background:linear-gradient(180deg,#eafbf0,#c9f0d6)!important;border-color:#15803d!important;box-shadow:0 4px 0 #15803d,0 8px 14px rgba(11,36,71,.18)!important}
+.grid.rev td.c{white-space:nowrap;min-width:92px}
+.gpsub{font-size:14px;color:#43546b;font-weight:700;line-height:1.7;margin:6px 2px 10px}
+.gpdate{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:13.5px;font-weight:800;color:#12315a}.gpdate input{flex:1;font:inherit;padding:8px;border:2px solid #1F4E9A;border-radius:10px}
+#gpT{width:100%;box-sizing:border-box;font:inherit;font-size:15.5px;padding:12px;border:2px solid #1F4E9A;border-radius:14px;resize:vertical;direction:rtl;line-height:1.7}
+.gpbtns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.gpbtns .btn{margin:0;padding:11px 4px;font-size:14px}
+.gpth{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.gpth span{position:relative}.gpth img{width:64px;height:96px;object-fit:cover;border-radius:8px;border:2px solid #d4af37}.gpth button{position:absolute;top:-6px;left:-6px;width:24px;height:24px;border-radius:50%;border:0;background:#c62828;color:#fff;font-weight:900;cursor:pointer}
+.gpgo{width:100%;font-size:18px!important;padding:14px!important}
+.gphow{margin-top:12px;font-size:14px;color:#12315a;line-height:1.8}.gphow summary{font-weight:900;cursor:pointer}
 </style>
 </head>
 <body>
@@ -1972,7 +1983,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 320 — 24/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 321 — 24/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -3114,7 +3125,7 @@ $('btnLetters').onclick=()=>showLetters(true);
  const sb=$('hEditS');if(sb)sb.onclick=()=>{try{$('btnMawqif').click()}catch(_){}setTimeout(()=>setEdit(true),80)};
  apply();window.hApply=apply})();
 $('hGrid').addEventListener('click',e=>{const b=e.target.closest('[data-hg]');if(!b)return;const g=b.dataset.hg;
- if(g==='m'){edit=null;$('sheet').innerHTML=`<div class="edhead"><div class="edsub">الموقف الرسمي للحضور</div><div class="edtop"><button class="xtop" type="button" id="mwX"><span class="xb">✕</span><span>إغلاق</span></button></div></div><div class="mwsub">اختر نوع الموقف المطلوب</div><div class="mwgrid"><button class="mwt hero" id="mwR"><span class="mwic"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6v3H9zM7 5.5H5v15h14v-15h-2"/><path d="M8.5 13.5l2.5 2.5 4.5-5"/></svg></span><b>تحضير الموقف</b><small>موقف شهري وأسبوعي جاهز للطباعة</small></button><button class="mwt" id="mwD"><span class="mwic"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/><circle cx="12" cy="15" r="1.4"/></svg></span><b>الموقف اليومي</b><small>حضور المنتسبين لليوم</small></button><button class="mwt" id="mwT"><span class="mwic"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 10h17M3.5 15h17M9.5 4.5v15"/></svg></span><b>جدول الموقف</b><small>جدول المناوبين والصباحي</small></button></div></div>`;$('ov').classList.add('show');$('mwX').onclick=closeSheet;$('mwT').onclick=()=>{closeSheet();$('btnMawqif').click();showTable(true)};$('mwD').onclick=()=>{closeSheet();setTimeout(()=>$('btnCopy').click(),80)};$('mwR').onclick=()=>{closeSheet();setTimeout(()=>$('btnReady').click(),80)}}
+ if(g==='m'){edit=null;$('sheet').innerHTML=`<div class="edhead"><div class="edsub">الموقف الرسمي للحضور</div><div class="edtop"><button class="xtop" type="button" id="mwX"><span class="xb">✕</span><span>إغلاق</span></button></div></div><div class="mwsub">اختر مباشرة — كل شي بمكان واحد</div><div class="mwgrid"><button class="mwt hero" id="mwD"><span class="mwic"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/><circle cx="12" cy="15" r="1.4"/></svg></span><b>الموقف اليومي</b><small>حضور المنتسبين لليوم وطباعته</small></button><button class="mwt" id="mwM"><span class="mwic"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span><b>الدوام الصباحي</b><small>جدول الصباحي مباشرة</small></button><button class="mwt" id="mwN"><span class="mwic"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></span><b>المناوبين</b><small>جدول الوجبات مباشرة</small></button><button class="mwt" id="mwR"><span class="mwic"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6v3H9zM7 5.5H5v15h14v-15h-2"/><path d="M8.5 13.5l2.5 2.5 4.5-5"/></svg></span><b>الموقف الجاهز</b><small>أسبوعي وشهري للتوقيع</small></button><button class="mwt gp" id="mwG"><span class="mwic"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H8z"/><path d="M8 9h8M8 12.5h5"/></svg></span><b>من الكروب</b><small>تعبئة ذكية من رسائل واتساب وماسنجر</small></button></div></div>`;$('ov').classList.add('show');$('mwX').onclick=closeSheet;const mwTab=md=>{closeSheet();$('btnMawqif').click();setTimeout(()=>{const m=document.querySelector('#modeSeg [data-mode="'+md+'"]');m&&m.click();showTable(true)},60)};$('mwM').onclick=()=>mwTab('day');$('mwN').onclick=()=>mwTab('duty');$('mwG').onclick=()=>{closeSheet();setTimeout(()=>grpOpen(''),80)};$('mwD').onclick=()=>{closeSheet();setTimeout(()=>$('btnCopy').click(),80)};$('mwR').onclick=()=>{closeSheet();setTimeout(()=>$('btnReady').click(),80)}}
  else if(g==='duty'||g==='day'){const m=document.querySelector('#modeSeg [data-mode="'+g+'"]');m&&m.click()}
  else if(g==='l')$('btnLetters').click();
  else if(g==='s')$('btnSettings').click();
@@ -3596,6 +3607,47 @@ function drawReview(thumbs,fails){
   };
 }
 
+/* v321 قراءة الموقف من رسائل كروبات واتساب وماسنجر */
+let GRP={imgs:[],txt:''};
+function grpOpen(pre){edit=null;if(pre!=null)GRP={imgs:[],txt:pre};
+ $('sheet').innerHTML=`<div class="edhead"><div class="edsub">📲 تعبئة الموقف من الكروب</div><div class="edtop"><button class="xtop" type="button" id="gpX"><span class="xb">✕</span><span>إغلاق</span></button></div></div>
+ <div class="gpsub">انسخ رسائل الموقف من كروب واتساب أو ماسنجر والصقها هنا، أو أضف لقطات شاشة للمحادثة، والتطبيق يقرأ الإجازات والغيابات ويعبّي الموقف. تراجع النتيجة قبل الاعتماد.</div>
+ <div class="gpdate"><label>تاريخ الموقف (إذا ما مذكور بالرسائل)</label><input type="date" id="gpD" value="${ymd(today)}"></div>
+ <textarea id="gpT" rows="7" placeholder="الصق الرسائل هنا…&#10;مثال:&#10;موقف الوجبة الثانية&#10;اجازات: علي حسن اعتيادية، سعد محمود مرضية&#10;غياب: حسين علي">${esc(GRP.txt||'')}</textarea>
+ <div class="gpbtns"><button type="button" class="btn" id="gpPaste">📋 لصق</button><button type="button" class="btn" id="gpImg">🖼️ لقطات شاشة${GRP.imgs.length?' ('+GRP.imgs.length+')':''}</button><button type="button" class="btn" id="gpFile">📄 ملف محادثة</button></div>
+ ${GRP.imgs.length?`<div class="gpth">${GRP.imgs.map((u,i)=>`<span><img src="${u.url}" alt=""><button type="button" data-gpd="${i}">✕</button></span>`).join('')}</div>`:''}
+ <button type="button" class="btn pri gpgo" id="gpGo">✨ قراءة وتعبئة الموقف</button>
+ <input type="file" id="gpImgF" accept="image/*" multiple class="hide"><input type="file" id="gpTxtF" accept=".txt,text/plain" class="hide">
+ <details class="gphow"><summary>شلون أنسخ الرسائل؟</summary><div><b>واتساب:</b> اضغط مطولاً على رسالة الموقف ← اختر باقي الرسائل ← نسخ، ثم «📋 لصق».<br><b>ماسنجر:</b> اضغط مطولاً على الرسالة ← نسخ. أو صوّر الشاشة وأضفها من «🖼️ لقطات شاشة».<br><b>المحادثة كاملة (واتساب):</b> من الكروب ← ⋮ ← المزيد ← تصدير الدردشة ← بدون وسائط، ثم «📄 ملف محادثة».${/Android/i.test(navigator.userAgent)?'<br><b>أسرع طريقة بالأندرويد:</b> من واتساب اختر الرسالة ← مشاركة ← اختر تطبيق المحطة، فتنفتح هنا مباشرة.':''}</div></details>`;
+ $('ov').classList.add('show');
+ const keep=()=>{GRP.txt=$('gpT').value};
+ $('gpX').onclick=()=>{keep();closeSheet()};
+ $('gpPaste').onclick=async()=>{try{const t=await navigator.clipboard.readText();if(t){const a=$('gpT');a.value=(a.value?a.value+'\n':'')+t;keep();toast('تم اللصق')}else toast('الحافظة فارغة')}catch(e){$('gpT').focus();toast('اضغط مطولاً بالمربع واختر «لصق»')}};
+ $('gpImg').onclick=()=>{keep();$('gpImgF').click()};$('gpFile').onclick=()=>{keep();$('gpTxtF').click()};
+ $('gpImgF').onchange=async e=>{const F=[...e.target.files];e.target.value='';for(const f of F.slice(0,8)){try{GRP.imgs.push(await shrink(f))}catch(_){}}grpOpen()};
+ $('gpTxtF').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const r=new FileReader();r.onload=()=>{let t=String(r.result||'');const L=t.split(/\r?\n/);t=L.slice(-400).join('\n');GRP.txt=(GRP.txt?GRP.txt+'\n':'')+t;grpOpen();toast('أُضيف ملف المحادثة (آخر '+Math.min(400,L.length)+' سطر)')};r.readAsText(f)};
+ $('sheet').querySelectorAll('[data-gpd]').forEach(b=>b.onclick=()=>{keep();GRP.imgs.splice(+b.dataset.gpd,1);grpOpen()});
+ $('gpGo').onclick=()=>{keep();grpRun($('gpD').value)}}
+async function grpRun(defD){const txt=(GRP.txt||'').trim();if(!txt&&!GRP.imgs.length){toast('الصق الرسائل أو أضف لقطة شاشة');return}
+ if(!gkey()){toast('يُرجى إدخال مفتاح Gemini في الإعدادات أولاً');return}if(!window.aiCall){toast('يُرجى تحديث الصفحة');return}
+ const d0=defD||ymd(today),dd=new Date(d0+'T12:00:00');
+ edit=null;$('sheet').innerHTML='<h3>جارٍ قراءة رسائل الكروب…</h3><div class="sub" id="gpSt">يُرجى الانتظار</div><div class="spin"></div>';
+ const names=S.emps.map(e=>e.name).filter(Boolean);
+ const prompt='أنت تقرأ رسائل موقف الحضور اليومي من كروبات واتساب أو ماسنجر في محطة كهرباء الموصل الغازية (عربي، لهجة عراقية). التاريخ الافتراضي: '+d0+' ('+DAYS[dd.getDay()]+').\nاستخرج كل منتسب ذُكرت له حالة. أعد JSON فقط بلا أي نص آخر:\n{"date":"YYYY-MM-DD","items":[{"name":"الاسم","s":"l أو a أو p","t":"نوع الإجازة"}]}\nالقواعد:\n- s="l" للإجازة، و t واحد من: '+TYPES.join('، ')+'. «إجازة» أو «مجاز» بدون نوع = اعتيادية. «ارسال» = إرسال. «ايفاد» = إيفاد.\n- s="a" للغياب أو «غ». s="p" فقط إذا ذُكر صراحة أنه حاضر أو دوام أو التحق.\n- إذا كتب شخص عن نفسه (مثل: «اني مجاز اليوم» أو «ما اكدر اجي») فالاسم هو اسم المرسل.\n- date: تاريخ الموقف المقصود؛ «اليوم» = التاريخ الافتراضي، «باچر/غداً» = اليوم التالي، وإذا كتب تاريخاً صريحاً فاستخدمه. إذا تعددت الأيام فاختر الأحدث.\n- تجاهل التحيات والكلام العام.\n- إذا طابق الاسم أو قارب اسماً في قائمة المنتسبين فاكتبه كما هو في القائمة.\nقائمة المنتسبين: '+names.join('، ')+(txt?'\n\nالرسائل:\n'+txt.slice(-12000):'');
+ const parts=[{text:prompt}].concat(GRP.imgs.map(i=>({inline_data:{mime_type:'image/jpeg',data:i.b64}})));
+ let res;try{const r=await window.aiCall(parts,t=>{const e=$('gpSt');if(e)e.textContent=t});const m=String(r).replace(/```json|```/g,'').match(/\{[\s\S]*\}/);res=JSON.parse(m[0])}
+ catch(e){const em=String(e&&e.message||e);toast(/503|429|demand|UNAVAILABLE/i.test(em)?'خوادم Google مزدحمة — أعد المحاولة بعد دقيقة':'تعذّرت القراءة — أعد المحاولة');grpOpen();return}
+ const ds=parseDate(res.date)||dd,day={s:ymd(ds),d:ds.getDate(),m:ds.getMonth(),y:ds.getFullYear(),w:ds.getDay()};
+ const G={},unk=[];(res.items||[]).forEach(it=>{if(!it||!it.name)return;let best=null,bs=0;S.emps.forEach(e=>{const sc=nameScore(it.name,e.name);if(sc>bs){bs=sc;best=e}});
+  if(!best||bs<0.5){unk.push(it.name);return}const g=best.shift?{mode:'duty',key:best.shift}:{mode:'day',key:best.sec},k=g.mode+'|'+g.key;
+  G[k]=G[k]||{g,days:[day],rows:[],unknown:[],title:''};if(G[k].rows.some(r=>r.emp.id===best.id))return;
+  const s=['l','a','p'].includes(it.s)?it.s:'l';G[k].rows.push({emp:best,cells:[{s,t:s==='l'?(TYPES.includes(it.t)?it.t:'اعتيادية'):'',c:.9}],weak:bs<0.75})});
+ const sheets=Object.values(G);
+ if(!sheets.length){toast(unk.length?'ما لقيت هالأسماء بدليل المنتسبين: '+unk.slice(0,4).join('، '):'ما لقيت إجازات أو غيابات بالرسائل');grpOpen();return}
+ sheets[0].unknown=unk;GRP={imgs:[],txt:''};openReview(sheets,[],0)}
+window.grpOpen=grpOpen;
+(function(){try{const q=new URLSearchParams(location.search);if(q.has('text')||q.has('title')||q.has('share')){const t=[q.get('title'),q.get('text'),q.get('url')].filter(Boolean).join('\n');history.replaceState(null,'',location.pathname);if(t)setTimeout(()=>grpOpen(t),2200)}}catch(e){}})();
+
 render();
 (function(){const ua=navigator.userAgent||'';const inApp=/FBAN|FBAV|Instagram|WhatsApp|Messenger|Line\//i.test(ua);
  const standalone=window.navigator.standalone||matchMedia('(display-mode: standalone)').matches;
@@ -3783,7 +3835,7 @@ function aiOpen(){let o=document.getElementById('aiOv');if(o){o.style.display='f
   catch(e){const em=String(e&&e.message||e);w.innerHTML=/\b(503|429|UNAVAILABLE|high demand|RESOURCE_EXHAUSTED|overloaded)/i.test(em)?'⚠️ خوادم Google مزدحمة الآن على كل النماذج. أعد إرسال السؤال بعد دقيقة.':/API key|API_KEY_INVALID|PERMISSION_DENIED/i.test(em)?'⚠️ مفتاح Gemini غير صالح. تأكد منه من الإعدادات.':/Failed to fetch|NetworkError|Load failed/i.test(em)?'⚠️ لا يوجد اتصال بالإنترنت.':'⚠️ تعذّر الجواب، أعد المحاولة.<br><small dir="ltr">'+esc2(em).slice(0,120)+'</small>'}
   $('aiS').disabled=false;L.scrollTop=L.scrollHeight};
  $('aiS').onclick=send;$('aiQ').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}})}
-window.aiOpen=aiOpen;
+window.aiOpen=aiOpen;window.aiCall=aiCall;
 
 /* v310 الإحصائيات والتقرير الشهري */
 let STM=null;const stUN=i=>{const v=(S.uL||{})['un:'+i];return v&&String(v).trim()?v:'الوحدة '+(i+1)};
