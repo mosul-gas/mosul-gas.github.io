@@ -1803,6 +1803,50 @@ body .mnav2 i i.ic3.icx svg,body .segb i i.ic3.icx svg,body .rci i.ic3.icx svg,b
 .ddav .ddp{display:grid;place-items:center;width:100%;height:100%;color:#d4af37}.ddav .ddp{overflow:hidden;border-radius:50%}.ddav .ddp svg{width:100%;height:100%;filter:drop-shadow(0 3px 5px rgba(0,0,0,.45))}
 body .mnav2.on i i.ic3.icx,body .mnav.on i i.ic3.icx{color:#ffd86b!important}
 #acadOv .dvr i.dvp{padding:0!important;overflow:hidden}#acadOv .dvr i.dvp svg{width:100%!important;height:100%!important;max-width:none!important;max-height:none!important}
+/* v329 تحضير: أيقونة مضاعفة + بطاقات ثلاثية الأبعاد + نافذة الأسبوعي/الشهري مع معاينة */
+#sheet .rdyw{perspective:1000px}
+#sheet .rdyw .rdyh{flex-direction:column!important;justify-content:center;text-align:center;gap:10px!important;margin:4px 0 16px!important}
+#sheet .rdyw .rdyi{width:100px!important;height:100px!important;font-size:48px!important;border:0!important;position:relative;background:radial-gradient(circle at 32% 26%,#5f8fe0 0%,#21468a 34%,#0b2447 72%,#050f22 100%)!important;box-shadow:0 0 0 5px #d4af37,0 0 0 8px #8a6a12,0 0 0 9px rgba(255,233,166,.6),0 12px 0 1px #5a420a,0 18px 26px rgba(0,0,0,.55),0 0 38px rgba(212,175,55,.6),inset 0 -10px 18px rgba(0,0,0,.55),inset 0 8px 14px rgba(255,255,255,.28)!important;animation:rdySpin .9s cubic-bezier(.2,1.25,.35,1) .05s both,rdyGlow 2.6s ease-in-out 1s infinite}
+#sheet .rdyw .rdyi::after{content:'';position:absolute;top:9%;left:20%;width:46%;height:26%;border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));pointer-events:none}
+#sheet .rdyw .rdyi i.ic3.icx{color:#ffd86b!important;filter:drop-shadow(0 2px 0 #6b4f0a) drop-shadow(0 4px 6px rgba(0,0,0,.5))!important}
+#sheet .rdyw .rdyi i.ic3.icx svg{width:56%!important;height:56%!important;stroke-width:2.2}
+@keyframes rdySpin{0%{opacity:0;transform:rotateY(-200deg) scale(.3)}100%{opacity:1;transform:none}}
+@keyframes rdyGlow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.2)}}
+#sheet .rdyw .rdyh b{font-size:36px!important;filter:drop-shadow(0 3px 0 #5a420a) drop-shadow(0 6px 8px rgba(0,0,0,.45))}
+#sheet .rdyw .rdyh em{font-size:17px!important;color:#ffe9a6!important}
+.rtg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:4px 0 8px}
+.rt{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 6px 16px;border-radius:22px;border:1.5px solid #d4af37;background:linear-gradient(165deg,#2a5aa8 0%,#163a73 45%,#0b2447 100%);color:#fff;font-family:Cairo,Arial,sans-serif;cursor:pointer;box-shadow:0 8px 0 #061630,0 16px 26px rgba(0,0,0,.5),inset 0 2px 0 rgba(255,255,255,.25),inset 0 -3px 0 rgba(0,0,0,.3);transition:transform .1s,box-shadow .1s;animation:rtIn .6s cubic-bezier(.2,1.25,.4,1) .15s both;-webkit-tap-highlight-color:transparent}
+.rt.rt-month{background:linear-gradient(165deg,#4a4fb8 0%,#26307e 45%,#0f1a4d 100%);animation-delay:.27s}
+.rt::before{content:'';position:absolute;left:0;right:0;top:0;height:45%;border-radius:22px 22px 40% 40%;background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,0));pointer-events:none}
+.rt:active{transform:translateY(6px);box-shadow:0 2px 0 #061630,0 6px 10px rgba(0,0,0,.4),inset 0 2px 0 rgba(255,255,255,.25)}
+.rti{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;font-size:36px;flex:none;background:radial-gradient(circle at 32% 26%,#fffbe8 0%,#ffe08a 38%,#d4af37 70%,#8a6a12 100%);box-shadow:0 6px 0 #6b4f0a,0 10px 16px rgba(0,0,0,.5),inset 0 -6px 10px rgba(110,80,10,.45),inset 0 5px 8px rgba(255,255,255,.75)}
+.rti i.ic3.icx{width:100%!important;height:100%!important;background:none!important;border:0!important;box-shadow:none!important;margin:0!important;color:#0b2447!important;filter:drop-shadow(0 1px 0 rgba(255,255,255,.7))}
+.rti i.ic3.icx svg{width:58%!important;height:58%!important;stroke-width:2.3}
+.rt b{font-size:19px;color:#ffd86b;text-shadow:0 2px 0 rgba(0,0,0,.5);margin-top:4px}.rt small{font-size:14px;color:#eef3ff;font-weight:800}
+.rt em,.rdh em{font-style:normal;font-size:12.5px;color:#0b2447;background:#ffe9a6;border-radius:10px;padding:1px 10px;font-weight:800}
+@keyframes rtIn{0%{opacity:0;transform:translateY(30px) rotateX(-30deg)}100%{opacity:1;transform:none}}
+.rdh{display:flex;align-items:center;gap:14px;padding:14px;margin:0 0 12px;border-radius:22px;border:1.5px solid #d4af37;color:#fff;background:linear-gradient(165deg,#2a5aa8,#0b2447);box-shadow:0 6px 0 #061630,0 12px 22px rgba(0,0,0,.45),inset 0 2px 0 rgba(255,255,255,.22);animation:rdhIn .5s cubic-bezier(.2,1.3,.4,1) both}
+.rdh.rt-month{background:linear-gradient(165deg,#4a4fb8,#0f1a4d)}
+.rdh .rti{width:84px;height:84px;animation:rdySpin .8s cubic-bezier(.2,1.25,.35,1) both}
+.rdh b{display:block;font-size:23px;color:#ffd86b;text-shadow:0 2px 0 rgba(0,0,0,.5)}.rdh small{display:block;color:#eef3ff;font-weight:800;font-size:14px;margin:2px 0 6px}
+@keyframes rdhIn{0%{opacity:0;transform:scale(.85) rotateX(20deg)}100%{opacity:1;transform:none}}
+.rpv{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.rpg{position:relative;flex:0 0 74%;scroll-snap-align:center;aspect-ratio:1.414;background:#fff;border-radius:10px;border:2px solid #d4af37;box-shadow:0 5px 0 #061630,0 8px 14px rgba(0,0,0,.4);overflow:hidden;display:grid;place-items:center;cursor:zoom-in;transition:flex-basis .25s}
+.rpg.big{flex-basis:100%;cursor:zoom-out}
+.rpg img{width:100%;height:100%;object-fit:contain;display:block}
+.rpg b{position:absolute;bottom:6px;left:6px;background:#0b2447;color:#ffd86b;border-radius:10px;font-size:12px;padding:1px 8px}
+.rpg .spin0{width:26px;height:26px;border:3px solid #cfd8ea;border-top-color:#21468a;border-radius:50%;animation:spin0 .8s linear infinite}@keyframes spin0{to{transform:rotate(360deg)}}
+.rfl{display:grid;gap:12px;margin:4px 0 6px}
+.rf{display:grid;grid-template-columns:76px 1fr 1fr;align-items:center;gap:10px;padding:10px;border-radius:18px;background:linear-gradient(165deg,#1d4686,#0b2447);border:1.5px solid rgba(212,175,55,.85);box-shadow:0 5px 0 #061630,0 10px 16px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.2);animation:rtIn .5s cubic-bezier(.2,1.25,.4,1) .2s both}
+.rf-xl{animation-delay:.28s}.rf-pdf{animation-delay:.36s}
+.rfi{height:52px;border-radius:14px;display:grid;place-items:center;color:#fff;font:900 17px Arial,sans-serif;box-shadow:0 5px 0 rgba(0,0,0,.45),0 8px 12px rgba(0,0,0,.4),inset 0 2px 0 rgba(255,255,255,.45),inset 0 -4px 0 rgba(0,0,0,.25);text-shadow:0 1px 1px rgba(0,0,0,.4)}
+.rf-word .rfi{background:linear-gradient(160deg,#5b8be0,#2B579A 55%,#1a3a6e)}.rf-xl .rfi{background:linear-gradient(160deg,#3fae6e,#1D6F42 55%,#0f4428)}.rf-pdf .rfi{background:linear-gradient(160deg,#ff6b6b,#C62828 55%,#7f1414)}
+.rf button{height:48px;padding:0 6px;border-radius:14px;border:0;font:900 15px Cairo,Arial,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 4px 0 rgba(0,0,0,.45),inset 0 2px 0 rgba(255,255,255,.55);transition:transform .08s,box-shadow .08s;-webkit-tap-highlight-color:transparent}
+.rf button:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.45)}
+.rfp{background:linear-gradient(180deg,#fffbea,#ffe08a 50%,#d4af37);color:#0b2447}.rfs{background:linear-gradient(180deg,#f7fcff,#c4e4f6);color:#0b2447}
+.rf button i.ic3{width:22px!important;height:22px!important;background:none!important;border:0!important;box-shadow:none!important;margin:0!important;color:#0b2447!important}
+@media (min-width:700px){.rpg{flex-basis:44%}.rpg.big{flex-basis:92%}}
+@media (prefers-reduced-motion:reduce){#sheet .rdyw,#sheet .rdyw *{animation:none!important}}
 #fxClr{position:fixed;z-index:9999;display:none;align-items:center;justify-content:center;gap:3px;height:28px;min-width:28px;padding:0 8px;border:1.5px solid #d4af37;border-radius:14px;background:#0b2447;color:#ffe9a6;font:900 13px Cairo,Arial,sans-serif;box-shadow:0 2px 6px rgba(0,0,0,.35);cursor:pointer;-webkit-tap-highlight-color:transparent}#fxClr.on{display:flex}#fxClr.un{background:#1a7a3f;border-color:#bfe8c9;color:#fff}
 @media print{#fxClr{display:none!important}}
 </style>
@@ -2009,7 +2053,7 @@ document.getElementById('gateBtn').onclick=go;document.getElementById('gateIn').
     <input type="file" id="restoreFile" accept=".json,application/json" class="hide">
   </div>
   <button class="btn pri" style="width:100%" id="doneSettings">إغلاق</button>
-  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 328 — 28/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
+  <p class="hint" style="text-align:center;margin-top:10px">نسخة الأداة: 329 — 28/11/2026</p><p class="hint" style="text-align:center;margin-top:2px;font-weight:800;color:#8a6a12"><span class="rcred">المهندسة ريم هيثم جمال</span></p>
 </main>
 
 <div class="actions" id="actionBar">
@@ -2414,29 +2458,45 @@ function readySpecs(kind){
     MODE='duty';M=today.getMonth()+1;Y=today.getFullYear();if(M>11){M=0;Y++}RNG={a:new Date(Y,M,1),b:new Date(Y,M+1,0)};return {specs:curSpecs(true),name:'موقف المناوبين '+periodName()}}
   finally{MODE=sv.MODE;WK=sv.WK;Y=sv.Y;M=sv.M;RNG=sv.RNG}
 }
-$('btnReady').onclick=()=>{
-  edit=null;const n=new Date(sundayOf(today));n.setDate(n.getDate()+7);const nm=new Date(today.getFullYear(),today.getMonth()+1,1);
-  $('sheet').innerHTML=`<div class="rdyw"><button type="button" class="hubbk" data-r="bk"><span>→</span> رجوع إلى الموقف</button><div class="rdyh"><span class="rdyi">📅</span><div><b>تحضير</b><em>الموقف الجاهز</em></div></div>
-  ${[['week','🗓️','موقف أسبوعي','الدوام الصباحي — أسبوع '+n.getDate()+'/'+(n.getMonth()+1)],['month','📆','موقف شهري','المناوبين — شهر '+MONTHS[nm.getMonth()]+' '+nm.getFullYear()]].map(([k,ic,t,d])=>`<div class="rcard"><div class="rch"><span class="rci">${ic}</span><div><b>${t}</b><small>${d}</small></div></div><div class="segb s4"><button type="button" class="sw" data-r="${k}|word"><i class="icp"><svg viewBox="0 0 48 48" width="34" height="34"><rect x="12" y="4" width="24" height="16" rx="2" fill="#fff" stroke="#2B579A" stroke-width="2"/><rect x="4" y="16" width="40" height="18" rx="4" fill="#2B579A"/><circle cx="38" cy="22" r="2" fill="#fff"/><rect x="11" y="27" width="26" height="17" rx="2" fill="#fff" stroke="#2B579A" stroke-width="2"/><text x="24" y="40" text-anchor="middle" font-family="Arial" font-weight="900" font-size="11" fill="#2B579A">W</text></svg></i><span>Word</span></button><button type="button" class="sp" data-rp="${k}"><i>🖨️</i><span>طباعة</span></button><button type="button" class="sf" data-r="${k}|pdf"><i class="icp"><svg viewBox="0 0 48 48" width="34" height="34"><rect x="12" y="4" width="24" height="16" rx="2" fill="#fff" stroke="#C62828" stroke-width="2"/><rect x="4" y="16" width="40" height="18" rx="4" fill="#C62828"/><circle cx="38" cy="22" r="2" fill="#fff"/><rect x="11" y="27" width="26" height="17" rx="2" fill="#fff" stroke="#C62828" stroke-width="2"/><text x="24" y="40" text-anchor="middle" font-family="Arial" font-weight="900" font-size="8.5" fill="#C62828">PDF</text></svg></i><span>PDF</span></button><button type="button" class="sx" data-r="${k}|xl"><i>📊</i><span>Excel</span></button></div></div>`).join('')}
+function rdyInfo(){const n=new Date(sundayOf(today));n.setDate(n.getDate()+7);const nm=new Date(today.getFullYear(),today.getMonth()+1,1);
+  const G=(k,e)=>window.ICO?'<i class="ic3 icx">'+ICO(k)+'</i>':e;
+  return {week:{ic:G('sun','☀️'),t:'موقف أسبوعي',d:'الدوام الصباحي',p:'أسبوع '+n.getDate()+'/'+(n.getMonth()+1)},month:{ic:G('moon','🌙'),t:'موقف شهري',d:'المناوبين',p:MONTHS[nm.getMonth()]+' '+nm.getFullYear()}}}
+function rdyOpen(k){edit=null;const I=rdyInfo(),sh=$('sheet');let R=null;
+  if(!k){sh.innerHTML=`<div class="rdyw"><button type="button" class="hubbk" data-r="bk"><span>→</span> رجوع إلى الموقف</button>
+  <div class="rdyh"><span class="rdyi">📅</span><div><b>تحضير</b><em>الموقف الجاهز</em></div></div>
+  <div class="rtg">${['week','month'].map(x=>`<button type="button" class="rt rt-${x}" data-open="${x}"><span class="rti">${I[x].ic}</span><b>${I[x].t}</b><small>${I[x].d}</small><em>${I[x].p}</em></button>`).join('')}</div>
+  <button class="btn rbx" type="button" data-r="x">✕ إغلاق</button></div>`}
+  else{R=readySpecs(k);const X=I[k];sh.innerHTML=`<div class="rdyw rdyd"><button type="button" class="hubbk" data-r="up"><span>→</span> رجوع إلى التحضير</button>
+  <div class="rdh rt-${k}"><span class="rti">${X.ic}</span><div><b>${X.t}</b><small>${X.d} — ${X.p}</small><em>${R.specs.length} صفحة</em></div></div>
+  <div class="rpv" id="rdyPv">${R.specs.length?R.specs.map((_,i)=>`<span class="rpg" data-pg="${i}"><i class="spin0"></i></span>`).join(''):'<div class="sub" style="color:#ffe9a6">لا توجد أسماء</div>'}</div>
+  <div class="rfl">${[['word','Word'],['xl','Excel'],['pdf','PDF']].map(([f,n])=>`<div class="rf rf-${f}"><span class="rfi">${n}</span><button type="button" class="rfp" data-r="${k}|${f}|p">🖨️ طباعة</button><button type="button" class="rfs" data-r="${k}|${f}">📤 حفظ</button></div>`).join('')}</div>
   <div id="rdyOut"></div>
   <button class="btn rbx" type="button" data-r="x">✕ إغلاق</button></div>`;
-  $('ov').classList.add('show');
-  $('sheet').onclick=ev=>{const rp=ev.target.closest('[data-rp]');if(rp){const R=readySpecs(rp.dataset.rp);if(!R.specs.length){toast('لا توجد أسماء');return}const box=$('rdyOut');try{printCanvases(R.specs.map(sheetCanvas),true);box.innerHTML=''}catch(e){box.innerHTML='<div class="sub" style="color:#c62828">تعذّرت الطباعة: '+esc(String(e&&e.message||e))+'</div>'}return}const tg=ev.target.closest('[data-rt]');if(tg){const o=$('ro_'+tg.dataset.rt);const op=o.classList.contains('hide');document.querySelectorAll('#sheet .ropts').forEach(x=>x.classList.add('hide'));document.querySelectorAll('#sheet .rtog').forEach(x=>x.classList.remove('on'));if(op){o.classList.remove('hide');tg.classList.add('on')}return}const b=ev.target.closest('[data-r]');if(!b)return;if(b.dataset.r==='x'){$('sheet').onclick=null;closeSheet();return}if(b.dataset.r==='bk'){$('sheet').onclick=null;if(window.__hub&&window.toHub)toHub();else closeSheet();return}
-    if(b.dataset.r==='go'){const F=window._rdyF;if(!F)return;let f=null;try{f=new File([F.blob],F.name,{type:F.type})}catch(e){}
+    let i=0;const step=()=>{const box=$('rdyPv');if(!box||!R||i>=R.specs.length||!box.isConnected)return;const el=box.querySelector('[data-pg="'+i+'"]');
+      try{const c=sheetCanvas(R.specs[i]),t=document.createElement('canvas');t.width=640;t.height=Math.round(c.height*640/c.width);t.getContext('2d').drawImage(c,0,0,t.width,t.height);c.width=c.height=1;el.innerHTML='<img src="'+t.toDataURL('image/jpeg',.82)+'" alt=""><b>'+(i+1)+' / '+R.specs.length+'</b>'}catch(e){el&&el.remove()}i++;setTimeout(step,40)};setTimeout(step,300)}
+  $('ov').classList.add('show');sh.scrollTop=0;
+  sh.onclick=ev=>{const o=ev.target.closest('[data-open]');if(o){rdyOpen(o.dataset.open);return}
+    const pg=ev.target.closest('[data-pg]');if(pg){pg.classList.toggle('big');return}
+    const b=ev.target.closest('[data-r]');if(!b)return;const r=b.dataset.r;
+    if(r==='x'){sh.onclick=null;closeSheet();return}
+    if(r==='bk'){sh.onclick=null;if(window.__hub&&window.toHub)toHub();else closeSheet();return}
+    if(r==='up'){rdyOpen();return}
+    if(r==='go'){const F=window._rdyF;if(!F)return;let f=null;try{f=new File([F.blob],F.name,{type:F.type})}catch(e){}
       if(f&&window.__MOB&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(e=>{if(e&&e.name!=='AbortError'){download(F.name,F.blob);toast('تم تنزيل الملف')}})}else{download(F.name,F.blob);toast('تم تنزيل الملف')}return}
-    const [k,f0]=b.dataset.r.split('|');let f=f0,pw=null;if(f0==='print'){f='pdf';if(!window.__MOB){pw=window.open('','_blank');if(pw)try{pw.document.write('<p style="font:20px Arial;text-align:center;margin-top:40px" dir="rtl">⏳ جارٍ تحضير الورقة للطباعة…</p>')}catch(_){}}}const box=$('rdyOut');box.innerHTML='<div class="sub" style="text-align:center;margin-top:12px">⏳ جارٍ تحضير الملف…</div>';
-    const fail=e=>{if(pw)try{pw.close()}catch(_){}box.innerHTML='<div class="sub" style="color:#c62828;text-align:center;margin-top:12px">تعذّر تحضير الملف: '+String(e&&e.message||e).slice(0,140)+'</div>';toast('تعذّر تحضير الملف')};
-    const done=(name,blob,type)=>{window._rdyF={name,blob,type};if(pw){try{pw.location.href=URL.createObjectURL(blob)}catch(_){download(name,blob)}box.innerHTML='<div class="sub" style="text-align:center;margin-top:12px;color:#1a7a3f;font-weight:800">✅ فُتحت الورقة بنافذة جديدة — اطبعها من هناك (Ctrl+P)</div>';return}
-      {download(name,blob);toast('تم حفظ الملف');box.innerHTML='<div class="sub" style="text-align:center;margin-top:12px;color:#1a7a3f;font-weight:800">✅ تم تنزيل «'+esc(name)+'»</div><button class="btn" style="width:100%;margin-top:8px" data-r="go">📤 مشاركة أو حفظ مرة ثانية</button>';return}
-      box.innerHTML='<button class="btn pri" style="width:100%;margin-top:12px;font-size:17px;padding:14px" data-r="go">📤 الملف جاهز — اضغط للحفظ أو الطباعة</button><div class="sub" style="text-align:center;margin-top:6px">'+name+'</div>'};
-    setTimeout(()=>{try{const R=readySpecs(k);if(!R.specs.length){box.innerHTML='';toast('لا توجد أسماء');return}
+    const [k2,f,pr]=r.split('|'),box=$('rdyOut');
+    if(pr){const P=readySpecs(k2);if(!P.specs.length){toast('لا توجد أسماء');return}try{printCanvases(P.specs.map(sheetCanvas),true);box.innerHTML=''}catch(e){box.innerHTML='<div class="sub" style="color:#ff8a8a;text-align:center">تعذّرت الطباعة: '+esc(String(e&&e.message||e))+'</div>'}return}
+    box.innerHTML='<div class="sub" style="text-align:center;margin-top:12px;color:#ffe9a6">⏳ جارٍ تحضير الملف…</div>';
+    const fail=e=>{box.innerHTML='<div class="sub" style="color:#ff8a8a;text-align:center;margin-top:12px">تعذّر تحضير الملف: '+String(e&&e.message||e).slice(0,140)+'</div>';toast('تعذّر تحضير الملف')};
+    const done=(name,blob,type)=>{window._rdyF={name,blob,type};download(name,blob);toast('تم حفظ الملف');box.innerHTML='<div class="sub" style="text-align:center;margin-top:12px;color:#8ff0b0;font-weight:800">✅ تم تنزيل «'+esc(name)+'»</div><button class="btn" style="width:100%;margin-top:8px" data-r="go">📤 مشاركة أو حفظ مرة ثانية</button>'};
+    setTimeout(()=>{try{const P=readySpecs(k2);if(!P.specs.length){box.innerHTML='';toast('لا توجد أسماء');return}
       if(f==='pdf'){if(!window.jspdf){fail('مكتبة PDF لم تُحمَّل — حدّث الصفحة');return}const pdf=new window.jspdf.jsPDF({orientation:'l',unit:'mm',format:'a4',compress:true});
-        R.specs.forEach((sp,i)=>{const c=sheetCanvas(sp);if(i)pdf.addPage('a4','l');pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',0,0,297,210);c.width=c.height=1});if(pw)try{pdf.autoPrint()}catch(_){}
-        done(R.name+'.pdf',pdf.output('blob'),'application/pdf')}
-      else if(f==='xl'){if(!window.ExcelJS){fail('مكتبة Excel لم تُحمَّل — حدّث الصفحة');return}buildXlsx(R.specs).then(x=>done(R.name+'.xlsx',x,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),fail)}
-      else{if(!window.docx){fail('مكتبة Word لم تُحمَّل — حدّث الصفحة');return}buildDocx(R.specs).then(x=>done(R.name+'.docx',x,'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),fail)}
+        P.specs.forEach((sp,i)=>{const c=sheetCanvas(sp);if(i)pdf.addPage('a4','l');pdf.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',0,0,297,210);c.width=c.height=1});
+        done(P.name+'.pdf',pdf.output('blob'),'application/pdf')}
+      else if(f==='xl'){if(!window.ExcelJS){fail('مكتبة Excel لم تُحمَّل — حدّث الصفحة');return}buildXlsx(P.specs).then(x=>done(P.name+'.xlsx',x,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),fail)}
+      else{if(!window.docx){fail('مكتبة Word لم تُحمَّل — حدّث الصفحة');return}buildDocx(P.specs).then(x=>done(P.name+'.docx',x,'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),fail)}
     }catch(e){fail(e)}},60)};
-};
+}
+$('btnReady').onclick=()=>rdyOpen();
 $('btnPrint').onclick=()=>chooseScope(all=>{
   const specs=curSpecs(all);if(!specs.length){toast('لا توجد أسماء');return}
   savePDF(specs.map(sheetCanvas),true,(MODE==='duty'?'موقف ':'دوام صباحي ')+scopeName(all)+' '+periodName()+'.pdf');
